@@ -6,6 +6,8 @@ public class ClientMain
 {
 	public static void main(String[] args)
 	{
-		new MainGui();
+		MainGui gui = new MainGui();
+		
+		gui.show();
 	}
 }
