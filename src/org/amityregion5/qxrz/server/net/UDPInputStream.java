@@ -9,24 +9,23 @@ import java.net.DatagramSocket;
 public class UDPInputStream
 {
 
-	private DatagramSocket ds = null;
+	private DatagramSocket sock = null;
 	private DatagramPacket dp = null;
 	private byte[] buf = null;
 
 	public UDPInputStream(DatagramSocket ds)
 	{
-		this.ds = ds;
+		this.sock = ds;
 		buf = new byte[1024 * 5];
 		dp = new DatagramPacket(buf, buf.length);
 	}
 
 	public Object recvObject() throws IOException, ClassNotFoundException
 	{
-		ds.receive(dp);
-		ByteArrayInputStream bis = new ByteArrayInputStream(buf, 0,
-				dp.getLength());
-		ObjectInputStream ois = new ObjectInputStream(bis);
-		return ois.readObject();
+		sock.receive(dp);
+		ByteArrayInputStream byteStream = new ByteArrayInputStream(buf, 0, dp.getLength());
+		ObjectInputStream outStream = new ObjectInputStream(byteStream);
+		return outStream.readObject();
 	}
 
 }

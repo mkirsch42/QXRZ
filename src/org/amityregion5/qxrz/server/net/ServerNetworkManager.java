@@ -6,13 +6,12 @@ import java.net.DatagramSocket;
 import java.net.InetAddress;
 import java.util.ArrayList;
 
-public class ServerNetworkManager implements Runnable
+public class ServerNetworkManager extends Thread
 {
 	private Thread recvThread;
-	private boolean pause = false;
-	private ArrayList<ServerEventListener> list = new ArrayList<ServerEventListener>();
-	private UDPInputStream is;
-	private UDPOutputStream os;
+	private ArrayList<ServerEventListener> listenerList = new ArrayList<ServerEventListener>();
+	private UDPInputStream inStream;
+	private UDPOutputStream outStream;
 
 	/**
 	 * This will initialize a socket that listen on a port
@@ -24,8 +23,8 @@ public class ServerNetworkManager implements Runnable
 	public ServerNetworkManager(int port) throws IOException
 	{
 		DatagramSocket ds = new DatagramSocket(port);
-		is = new UDPInputStream(ds);
-		os = new UDPOutputStream(ds);
+		inStream = new UDPInputStream(ds);
+		outStream = new UDPOutputStream(ds);
 		recvThread = new Thread(this);
 		recvThread.start();
 	}
@@ -37,33 +36,17 @@ public class ServerNetworkManager implements Runnable
 	 */
 	public void addServerEventListener(ServerEventListener sel)
 	{
-		list.add(sel);
-	}
-
-	/**
-	 * start the service
-	 */
-	public void start()
-	{
-		pause = false;
-	}
-
-	/**
-	 * stop the service
-	 */
-	public void stop()
-	{
-		pause = true;
+		listenerList.add(sel);
 	}
 
 	/**
 	 * Send an Object over the network
-	 * @param no Object that will be sent to all clients
+	 * @param netObj Object that will be sent to all clients
 	 * @throws IOException
 	 */
-	public void sendNetworkObject(NetworkObject no) throws IOException
+	public void sendNetworkObject(NetworkObject netObj) throws IOException
 	{
-		os.sendObject(no);
+		outStream.sendObject(netObj);
 	}
 
 	@Override
@@ -71,27 +54,15 @@ public class ServerNetworkManager implements Runnable
 	{
 		while (true)
 		{
-			if (pause)
-			{
-				try
-				{
-					Thread.sleep(1000);
-				} catch (InterruptedException e)
-				{
-				}
-				continue;
-			}
-
 			try
 			{
-				Object obj = is.recvObject();
-				NetworkObject no = (NetworkObject) obj;
-				for (ServerEventListener sel : list)
+				NetworkObject netObj = (NetworkObject) inStream.recvObject();
+				for (ServerEventListener sel : listenerList)
 				{
-					sel.dataReceived(no);
+					sel.dataReceived(netObj);
 				}
 				System.out.println("Object Received!");
-				System.out.println(no);
+				System.out.println(netObj);
 			} catch (ClassNotFoundException | IOException e)
 			{
 				e.printStackTrace();
