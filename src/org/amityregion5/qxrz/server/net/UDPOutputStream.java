@@ -41,7 +41,8 @@ public class UDPOutputStream extends OutputStream
 	
 	public void sendObject(Object o) throws IOException
 	{
-		ObjectOutputStream outStream = new ObjectOutputStream(new ByteArrayOutputStream());
+		ByteArrayOutputStream baos = new ByteArrayOutputStream();
+		ObjectOutputStream outStream = new ObjectOutputStream(baos);
 		outStream.writeObject(o);
 	}
 	
