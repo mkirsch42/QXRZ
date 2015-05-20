@@ -1,7 +1,6 @@
 package org.amityregion5.qxrz.server.net;
 
 import java.io.IOException;
-import java.io.ObjectOutputStream;
 import java.net.DatagramSocket;
 import java.net.InetAddress;
 import java.util.ArrayList;
@@ -84,9 +83,7 @@ public class ServerNetworkManager extends Thread
 		DatagramSocket ds = new DatagramSocket();
 		ds.connect(InetAddress.getByName("127.0.0.1"), 8000);
 		UDPOutputStream uos = new UDPOutputStream(ds);
-		ObjectOutputStream oos = new ObjectOutputStream(uos);
-		oos.writeObject(no);
-		oos.close();
+		uos.sendObject(no);
 		System.out.println("object sended!");
 	}
 
