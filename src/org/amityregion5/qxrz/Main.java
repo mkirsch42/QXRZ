@@ -1,4 +1,4 @@
-package org.amityregion5.qrxz;
+package org.amityregion5.qxrz;
 
 public class Main
 {

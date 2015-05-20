@@ -1,2 +1,2 @@
-# QRXZ
-Pronounced kew ar ecks zed
+# QXRZ
+Pronounced kew ecks ar zed
