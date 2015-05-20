@@ -22,10 +22,12 @@ public class ServerNetworkManager extends Thread
 	 */
 	public ServerNetworkManager(int port) throws IOException
 	{
-		DatagramSocket ds = new DatagramSocket(port);
-		inStream = new UDPInputStream(ds);
-		outStream = new UDPOutputStream(ds);
-		recvThread = new Thread(this);
+		super("servermanager");
+		
+		DatagramSocket sock = new DatagramSocket(port);
+		inStream = new UDPInputStream(sock);
+		outStream = new UDPOutputStream(sock);
+		recvThread = new Thread();
 		recvThread.start();
 	}
 

@@ -12,6 +12,7 @@ public class NetworkObject implements Serializable
 	String type;
 	Serializable payload;
 	private long timeStamp;
+	
 	public NetworkObject()
 	{
 		timeStamp = System.currentTimeMillis();

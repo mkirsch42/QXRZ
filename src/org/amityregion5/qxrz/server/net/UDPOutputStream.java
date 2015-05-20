@@ -16,7 +16,7 @@ public class UDPOutputStream extends OutputStream
 	
 	public UDPOutputStream(DatagramSocket ds)
 	{
-		this.sock = ds;
+		sock = ds;
 	}
 	
 	@Override
@@ -33,7 +33,7 @@ public class UDPOutputStream extends OutputStream
 		for(Byte b : data)
 		{
 			buf[index] = b;
-			index ++;
+			index++;
 		}
 		
 		sock.send(new DatagramPacket(buf, buf.length));
