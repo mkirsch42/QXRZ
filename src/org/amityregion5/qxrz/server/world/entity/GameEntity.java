@@ -1,6 +1,6 @@
 package org.amityregion5.qxrz.server.world.entity;
 
-public abstract class GameEntity
+public abstract class GameEntity implements Hitboxed
 {
 
 	protected double x;
@@ -9,6 +9,8 @@ public abstract class GameEntity
 	protected double vY;
 	
 	public abstract boolean update(double tSinceUpdate);
+	
+	public abstract Hitbox getHitbox();
 	
 	public GameEntity()
 	{

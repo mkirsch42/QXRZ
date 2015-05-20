@@ -1,5 +1,7 @@
 package org.amityregion5.qxrz.server.world.entity;
 
+import java.awt.Rectangle;
+
 public class PlayerEntity extends GameEntity
 {
 	
@@ -11,13 +13,17 @@ public class PlayerEntity extends GameEntity
 		vY = 1;
 	}
 
-	@Override
 	public boolean update(double tSinceUpdate)
 	{
 		x += vX * tSinceUpdate;
 		y += vY * tSinceUpdate;
 		System.out.println(x + "," + y);
 		return false;
+	}
+	
+	public Hitbox getHitbox()
+	{
+		return new RectangleHitbox(new Rectangle((int)x-1, (int)y-1, 2, 2));
 	}
 
 }

@@ -8,10 +8,12 @@ public class World
 {
 
 	private ArrayList<GameEntity> entities;
+	private Landscape l;	
 	
 	public World()
 	{
 		entities = new ArrayList<GameEntity>();
+		l = new Landscape();
 	}
 
 	public void add(GameEntity e)
@@ -19,11 +21,20 @@ public class World
 		entities.add(e);
 	}
 	
+	public void addObstacle(Obstacle o)
+	{
+		l.add(o);
+	}
+	
 	public void update(double tSinceUpdate)
 	{
 		for (GameEntity t : entities)
 		{
 			t.update(tSinceUpdate);
+			if (l.checkCollisions(t))
+			{
+				System.out.println("Collision!");
+			}
 		}
 	}
 	

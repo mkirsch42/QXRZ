@@ -1,11 +1,34 @@
 package org.amityregion5.qxrz.server.world;
 
+import java.util.ArrayList;
+
+import org.amityregion5.qxrz.server.world.entity.Hitboxed;
+
 public class Landscape
 {
 
+	ArrayList<Obstacle> obstacles;
+	
 	public Landscape()
 	{
-		// TODO Auto-generated constructor stub
+		obstacles = new ArrayList<Obstacle>();
+	}
+	
+	public void add(Obstacle o)
+	{
+		obstacles.add(o);
+	}
+	
+	public boolean checkCollisions(Hitboxed e)
+	{
+		for(Obstacle o : obstacles)
+		{
+			if(o.getHitbox().intersects(e.getHitbox()))
+			{
+				return true;
+			}
+		}
+		return false;
 	}
 
 }

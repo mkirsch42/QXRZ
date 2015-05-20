@@ -1,11 +1,21 @@
 package org.amityregion5.qxrz.server.world;
 
-public class Obstacle
+import org.amityregion5.qxrz.server.world.entity.Hitbox;
+import org.amityregion5.qxrz.server.world.entity.Hitboxed;
+
+public class Obstacle implements Hitboxed
 {
 
-	public Obstacle()
+	Hitbox hb;
+	
+	public Hitbox getHitbox()
 	{
-		
+		return hb;
+	}
+	
+	public Obstacle(Hitbox h)
+	{
+		hb = h;
 	}
 
 }
