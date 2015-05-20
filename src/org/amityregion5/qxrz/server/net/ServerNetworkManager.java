@@ -13,7 +13,14 @@ public class ServerNetworkManager implements Runnable
 	private ArrayList<ServerEventListener> list = new ArrayList<ServerEventListener>();
 	private UDPInputStream is;
 	private UDPOutputStream os;
-	
+
+	/**
+	 * This will initialize a socket that listen on a port
+	 * 
+	 * @param port
+	 *            port that listen to
+	 * @throws IOException
+	 */
 	public ServerNetworkManager(int port) throws IOException
 	{
 		DatagramSocket ds = new DatagramSocket(port);
@@ -22,34 +29,49 @@ public class ServerNetworkManager implements Runnable
 		recvThread = new Thread(this);
 		recvThread.start();
 	}
-	
+
+	/**
+	 * 
+	 * @param sel
+	 *            Listener that will be called each time an Object was received
+	 */
 	public void addServerEventListener(ServerEventListener sel)
 	{
 		list.add(sel);
 	}
-	
+
+	/**
+	 * start the service
+	 */
 	public void start()
 	{
 		pause = false;
 	}
-	
-	
+
+	/**
+	 * stop the service
+	 */
 	public void stop()
 	{
 		pause = true;
 	}
 
+	/**
+	 * Send an Object over the network
+	 * @param no Object that will be sent to all clients
+	 * @throws IOException
+	 */
 	public void sendNetworkObject(NetworkObject no) throws IOException
 	{
 		os.sendObject(no);
 	}
-	
+
 	@Override
 	public void run()
 	{
-		while(true)
+		while (true)
 		{
-			if(pause)
+			if (pause)
 			{
 				try
 				{
@@ -59,12 +81,12 @@ public class ServerNetworkManager implements Runnable
 				}
 				continue;
 			}
-			
+
 			try
 			{
 				Object obj = is.recvObject();
-				NetworkObject no = (NetworkObject)obj;
-				for(ServerEventListener sel : list)
+				NetworkObject no = (NetworkObject) obj;
+				for (ServerEventListener sel : list)
 				{
 					sel.dataReceived(no);
 				}
@@ -76,9 +98,8 @@ public class ServerNetworkManager implements Runnable
 			}
 		}
 	}
-	
-	
-	//This method is for testing purpose
+
+	// This method is for testing purpose
 	public static void main(String[] args) throws Exception
 	{
 		ServerNetworkManager snm = new ServerNetworkManager(8000);
@@ -86,7 +107,7 @@ public class ServerNetworkManager implements Runnable
 		NetworkObject no = new NetworkObject();
 		no.type = "Object";
 		no.payload = new ArrayList<Integer>();
-		
+
 		DatagramSocket ds = new DatagramSocket();
 		ds.connect(InetAddress.getByName("127.0.0.1"), 8000);
 		UDPOutputStream uos = new UDPOutputStream(ds);
