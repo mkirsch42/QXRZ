@@ -70,7 +70,7 @@ public class ServerNetworkManager extends Thread
 		}
 	}
 
-	// This method is for testing purpose
+	// for testing
 	public static void main(String[] args) throws Exception
 	{
 		ServerNetworkManager snm = new ServerNetworkManager(8000);
