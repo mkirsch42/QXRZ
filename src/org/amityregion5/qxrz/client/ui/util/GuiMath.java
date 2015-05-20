@@ -1,7 +1,6 @@
 package org.amityregion5.qxrz.client.ui.util;
 
 import java.awt.Color;
-import java.awt.Font;
 import java.awt.Graphics2D;
 import java.awt.Rectangle;
 import java.awt.font.FontRenderContext;
@@ -23,39 +22,7 @@ public class GuiMath {
 	public static Rectangle getStringBounds(Graphics2D g2, String str, float x, float y) {
 		FontRenderContext frc = g2.getFontRenderContext();
 		GlyphVector gv = g2.getFont().createGlyphVector(frc, str);
-		return gv.getPixelBounds(null, x, y);
-	}
-	
-	public static Font scaleFont(String text, java.awt.Rectangle rect, Graphics2D g) {
-		float newSize = 1000f;
-
-		Font tempFont = g.getFont().deriveFont(newSize);
-
-		g.setFont(tempFont);
-
-		newSize *= rect.getWidth() / getStringBounds(g, text, 0, 0).getWidth();
-
-		tempFont = g.getFont().deriveFont(newSize);
-		g.setFont(tempFont);
-
-		if (getStringBounds(g, text, 0, 0).getHeight() > rect.getHeight()) {
-			newSize *= rect.getHeight() / getStringBounds(g, text, 0, 0).getHeight();
-			tempFont = g.getFont().deriveFont(newSize);
-			g.setFont(tempFont);
-		}
-
-		return g.getFont().deriveFont(newSize);
-	}
-
-	public static Font scaleFont(String text, Rectangle rect, Graphics2D g, float maxSize) {
-		Font fnt = scaleFont(text,
-				new java.awt.Rectangle((int) rect.getX(), (int) rect.getY(), (int) rect.getSize().getWidth(), (int) rect.getSize().getHeight()), g);
-
-		if (fnt.getSize2D() > maxSize) {
-			fnt = fnt.deriveFont(maxSize);
-		}
-
-		return fnt;
+		return gv.getPixelBounds(frc, x, y);
 	}
 
 	public static float[] getHSBArray(int rgb) {
