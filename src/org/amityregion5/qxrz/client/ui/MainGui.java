@@ -8,7 +8,7 @@ import org.amityregion5.qxrz.client.ui.screen.LoadingScreen;
 public class MainGui
 {
 	private JFrame frame;
-	
+	private double fps;
 	private IScreen currentScreen;
 	
 	public MainGui()
@@ -27,9 +27,20 @@ public class MainGui
 	public void show()
 	{
 		frame.setVisible(true);
+		new Thread(()->{
+			while (frame.isVisible()) {
+				frame.repaint();
+				try
+				{
+					Thread.sleep(1000/60);
+				}
+				catch (Exception e){}
+			}
+		}).run();
 	}
 	public void hide()
 	{
+		frame.setVisible(false);
 	}
 	
 	public IScreen getCurrentScreen()
@@ -41,4 +52,21 @@ public class MainGui
 	{
 		this.currentScreen = currentScreen;
 	}
+
+	/**
+	 * @return the fps
+	 */
+	public double getFps()
+	{
+		return fps;
+	}
+
+	/**
+	 * @param fps the fps to set
+	 */
+	public void setFps(double fps)
+	{
+		this.fps = fps;
+	}
+	
 }
