@@ -1,7 +1,6 @@
 package org.amityregion5.qxrz.server.net;
 
 import java.io.IOException;
-import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.DatagramSocket;
 import java.net.InetAddress;
@@ -42,6 +41,7 @@ public class ServerNetworkManager implements Runnable
 
 	public void sendNetworkObject(NetworkObject no) throws IOException
 	{
+		os.sendObject(no);
 	}
 	
 	@Override
