@@ -31,6 +31,8 @@ public class World
 		for (GameEntity t : entities)
 		{
 			t.update(tSinceUpdate);
+			// print for debug purposes
+			// TODO deal  with collisions (likely handled by entity object)
 			if (l.checkCollisions(t))
 			{
 				System.out.println("Collision!");

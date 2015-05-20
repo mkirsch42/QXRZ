@@ -16,15 +16,21 @@ public final class Main
 	public static void main(String[] args) throws InterruptedException
 	{
 		new MainGui().show();
+		
+		// Main game loop, to be moved to separate class
 		long lastMs = System.currentTimeMillis();
+		// Create world and add test objects
 		World w = new World();
 		w.add(new PlayerEntity());
 		w.addObstacle(new Obstacle(new RectangleHitbox(new Rectangle(4,2,5,10))));
 		
 		while(true)
 		{
+			// Update world entities with proportional time
 			w.update( (double)( System.currentTimeMillis()-lastMs ) / (1000/UPDATE_RATE) );
+			// Set current time for next update
 			lastMs = System.currentTimeMillis();
+			// Sleep for next update
 			Thread.sleep(1000/UPDATE_RATE);
 		}
 	}

@@ -2,7 +2,7 @@ package org.amityregion5.qxrz.server.world.entity;
 
 public abstract class GameEntity implements Hitboxed
 {
-
+	// Coordinates and velocities
 	protected double x;
 	protected double y;
 	protected double vX;

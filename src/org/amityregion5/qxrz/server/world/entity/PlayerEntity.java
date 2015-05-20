@@ -23,6 +23,7 @@ public class PlayerEntity extends GameEntity
 	
 	public Hitbox getHitbox()
 	{
+		// Create 2x2 square around player
 		return new RectangleHitbox(new Rectangle((int)x-1, (int)y-1, 2, 2));
 	}
 

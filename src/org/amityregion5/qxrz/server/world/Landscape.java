@@ -21,6 +21,7 @@ public class Landscape
 	
 	public boolean checkCollisions(Hitboxed e)
 	{
+		// Check each obstacle for collision
 		for(Obstacle o : obstacles)
 		{
 			if(o.getHitbox().intersects(e.getHitbox()))
