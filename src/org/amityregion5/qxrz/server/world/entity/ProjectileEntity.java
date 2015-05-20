@@ -1,6 +1,6 @@
 package org.amityregion5.qxrz.server.world.entity;
 
-public abstract class ProjectileEntity
+public abstract class ProjectileEntity extends GameEntity
 {
 
 	public ProjectileEntity()
