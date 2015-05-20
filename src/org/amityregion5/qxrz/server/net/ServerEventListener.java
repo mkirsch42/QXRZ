@@ -1,12 +1,14 @@
 package org.amityregion5.qxrz.server.net;
 
+import java.net.InetSocketAddress;
+
 public interface ServerEventListener
 {
-	public void dataReceived(NetworkObject nObj);
+	public void dataReceived(NetworkObject netObj);
 	
-	public void clientConnected(ClientInfo pi);
+	public void clientConnected(InetSocketAddress clientSock);
 	
-	public void clientDisconnected(ClientInfo pi);
+	public void clientDisconnected(InetSocketAddress clientSock);
 	
 	
 }

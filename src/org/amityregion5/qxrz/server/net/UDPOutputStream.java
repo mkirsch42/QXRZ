@@ -12,11 +12,11 @@ public class UDPOutputStream extends OutputStream
 {
 
 	private ArrayList<Byte> data = new ArrayList<Byte>();
-	private DatagramSocket ds;
+	private DatagramSocket sock;
 	
 	public UDPOutputStream(DatagramSocket ds)
 	{
-		this.ds = ds;
+		this.sock = ds;
 	}
 	
 	@Override
@@ -36,14 +36,13 @@ public class UDPOutputStream extends OutputStream
 			index ++;
 		}
 		
-		ds.send(new DatagramPacket(buf, buf.length));
+		sock.send(new DatagramPacket(buf, buf.length));
 	}
 	
 	public void sendObject(Object o) throws IOException
 	{
-		ByteArrayOutputStream bos = new ByteArrayOutputStream();
-		ObjectOutputStream oos = new ObjectOutputStream(bos);
-		oos.writeObject(o);
+		ObjectOutputStream outStream = new ObjectOutputStream(new ByteArrayOutputStream());
+		outStream.writeObject(o);
 	}
 	
 }
