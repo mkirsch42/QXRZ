@@ -7,6 +7,7 @@ public class Main
 	{
 		// spawn
 		// game loop
+		// end game
 	}
 
 }
