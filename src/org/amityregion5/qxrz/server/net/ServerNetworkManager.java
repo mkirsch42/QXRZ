@@ -100,9 +100,12 @@ public class ServerNetworkManager extends Thread
 				}
 				clients.add(ds);
 				
+				sendNetworkObject(netObj);
+				
+				
 				System.out.println("Object Received from:");
 				System.out.println(netObj);
-				sendNetworkObject(netObj);
+
 			} catch (ClassNotFoundException | IOException e)
 			{
 				e.printStackTrace();

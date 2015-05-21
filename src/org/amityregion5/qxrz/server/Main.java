@@ -24,6 +24,13 @@ public final class Main
 		w.add(new PlayerEntity());
 		w.addObstacle(new Obstacle(new RectangleHitbox(new Rectangle(4,2,5,10))));
 		
+		/* TODO instantiate server stuff and register event listeners with anonymous class
+		 * 
+		 * snm.addServerEventListener(new ServerEventListener() {
+		 * 	methods go here
+		 * });
+		 */
+		
 		while(true)
 		{
 			// Update world entities with proportional time

@@ -11,6 +11,4 @@ public interface ServerEventListener
 	public void clientConnected(DatagramSocket clientSock);
 	
 	public void clientDisconnected(DatagramSocket clientSock);
-	
-	
 }

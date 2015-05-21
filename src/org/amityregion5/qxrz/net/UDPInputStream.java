@@ -47,7 +47,7 @@ public class UDPInputStream
 		sock.receive(packet);
 		ByteArrayInputStream byteStream = new ByteArrayInputStream(buf, 0, packet.getLength());
 		ObjectInputStream outStream = new ObjectInputStream(byteStream);
-		return (NetworkObject)outStream.readObject();
+		return (NetworkObject) outStream.readObject();
 	}
 
 }
