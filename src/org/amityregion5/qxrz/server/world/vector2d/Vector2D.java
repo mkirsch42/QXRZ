@@ -63,6 +63,16 @@ public class Vector2D
 		return y;
 	}
 	
+	public boolean isVert()
+	{
+		return x==0;
+	}
+	
+	public boolean isHor()
+	{
+		return y==0;
+	}
+	
 	public String toString()
 	{
 		return String.format("(%3.3f , %3.3f) | (%3.3f , %3.3f)", x, y, length(), angle());

@@ -1,6 +1,8 @@
 package org.amityregion5.qxrz.server.world.entity;
 
+import java.awt.Polygon;
 import java.awt.Rectangle;
+import java.awt.geom.Path2D;
 
 import org.amityregion5.qxrz.server.world.Landscape;
 import org.amityregion5.qxrz.server.world.vector2d.Vector2D;
@@ -17,8 +19,10 @@ public class PlayerEntity extends GameEntity
 	public boolean update(double tSinceUpdate, Landscape surroundings)
 	{
 		Vector2D bak = pos;
+		Path2D.Double path = new Path2D.Double(getHitbox().getBounds());
 		pos = pos.add(vel.multiply(tSinceUpdate));
-		Object o = surroundings.checkCollisions(this);
+		path.append(getHitbox().getBounds(), true);
+		Object o = surroundings.checkCollisions(new ShapeHitbox(path));
 		if (o!=null)
 		{
 			pos = bak;
@@ -28,7 +32,7 @@ public class PlayerEntity extends GameEntity
 		return false;
 	}
 	
-	public Hitbox getHitbox()
+	public RectangleHitbox getHitbox()
 	{
 		// Create 2x2 square around player
 		return new RectangleHitbox(new Rectangle((int)pos.getX()-1, (int)pos.getY()-1, 2, 2));

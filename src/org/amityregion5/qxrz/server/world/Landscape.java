@@ -3,6 +3,7 @@ package org.amityregion5.qxrz.server.world;
 import java.awt.Graphics2D;
 import java.util.ArrayList;
 
+import org.amityregion5.qxrz.server.world.entity.Hitbox;
 import org.amityregion5.qxrz.server.world.entity.Hitboxed;
 
 public class Landscape
@@ -20,12 +21,12 @@ public class Landscape
 		obstacles.add(o);
 	}
 	
-	public Obstacle checkCollisions(Hitboxed e)
+	public Obstacle checkCollisions(Hitbox e)
 	{
 		// Check each obstacle for collision
 		for(Obstacle o : obstacles)
 		{
-			if(o.getHitbox().intersects(e.getHitbox()))
+			if(e.intersects(o.getHitbox()))
 			{
 				return o;
 			}
