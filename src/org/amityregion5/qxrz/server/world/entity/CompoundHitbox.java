@@ -1,5 +1,6 @@
 package org.amityregion5.qxrz.server.world.entity;
 
+import java.awt.Graphics2D;
 import java.util.ArrayList;
 
 public class CompoundHitbox extends Hitbox
@@ -28,6 +29,15 @@ public class CompoundHitbox extends Hitbox
 			}
 		}
 		return false;
+	}
+
+	@Override
+	public void debugDraw(Graphics2D g)
+	{
+		for (Hitbox h : hbs)
+		{
+			h.debugDraw(g);
+		}
 	}
 	
 }

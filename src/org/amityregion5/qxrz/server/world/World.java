@@ -1,5 +1,6 @@
 package org.amityregion5.qxrz.server.world;
 
+import java.awt.Graphics2D;
 import java.util.ArrayList;
 
 import org.amityregion5.qxrz.server.world.entity.GameEntity;
@@ -32,6 +33,15 @@ public class World
 		{
 			t.update(tSinceUpdate, l);
 		}
+	}
+
+	public void draw(Graphics2D g2)
+	{
+		for (GameEntity t : entities)
+		{
+			t.getHitbox().debugDraw(g2);
+		}
+		l.draw(g2);
 	}
 	
 }

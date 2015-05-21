@@ -1,5 +1,6 @@
 package org.amityregion5.qxrz.server.world.entity;
 
+import java.awt.Graphics2D;
 import java.awt.Rectangle;
 
 public class RectangleHitbox extends Hitbox
@@ -27,6 +28,12 @@ public class RectangleHitbox extends Hitbox
 		// Cast and use built in functions to check intersection
 		RectangleHitbox rhb = (RectangleHitbox)h2;
 		return bounds.intersects(rhb.getBounds());
+	}
+
+	@Override
+	public void debugDraw(Graphics2D g)
+	{
+		g.draw(bounds);
 	}
 	
 }
