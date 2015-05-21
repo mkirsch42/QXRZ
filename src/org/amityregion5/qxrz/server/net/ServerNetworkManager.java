@@ -12,9 +12,10 @@ import org.amityregion5.qxrz.net.UDPOutputStream;
 public class ServerNetworkManager extends Thread
 {
 	private Thread recvThread;
-	private ArrayList<ServerEventListener> listenerList = new ArrayList<ServerEventListener>();
 	private UDPInputStream inStream;
 	private UDPOutputStream outStream;
+	// Callback functions
+	private ArrayList<ServerEventListener> listenerList = new ArrayList<ServerEventListener>();
 	private ArrayList<DatagramSocket> clients = new ArrayList<DatagramSocket>();
 
 	/**
@@ -26,7 +27,7 @@ public class ServerNetworkManager extends Thread
 	 */
 	public ServerNetworkManager(int port) throws IOException
 	{
-		super("Server Manager");
+		super("servermanager");
 
 		DatagramSocket sock = new DatagramSocket(port);
 		inStream = new UDPInputStream(sock);
@@ -73,9 +74,9 @@ public class ServerNetworkManager extends Thread
 				{
 					sel.dataReceived(netObj);
 				}
-				DatagramSocket ds = new DatagramSocket(inStream.getDp()
-						.getSocketAddress());
+				DatagramSocket ds = new DatagramSocket(inStream.getDp().getSocketAddress());
 				clients.add(ds);
+				
 				System.out.println("Object Received from:");
 				System.out.println(netObj);
 				sendNetworkObject(netObj);

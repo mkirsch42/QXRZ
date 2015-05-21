@@ -25,19 +25,19 @@ public class UDPInputStream
 
 	public UDPInputStream(DatagramSocket ds)
 	{
-		this.sock = ds;
+		sock = ds;
 		buf = new byte[1024 * 5];
 		dp = new DatagramPacket(buf, buf.length);
 	}
 
 	public void setSocket(DatagramSocket ds)
 	{
-		this.sock = ds;
+		sock = ds;
 	}
 	
 	public DatagramSocket getSocket()
 	{
-		return this.sock;
+		return sock;
 	}
 	
 	public NetworkObject recvObject() throws IOException, ClassNotFoundException
