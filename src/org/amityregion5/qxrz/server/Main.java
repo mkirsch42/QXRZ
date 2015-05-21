@@ -22,7 +22,7 @@ public final class Main
 		// Create world and add test objects
 		World w = new World();
 		w.add(new PlayerEntity());
-		w.addObstacle(new Obstacle(new RectangleHitbox(new Rectangle(4,2,5,10))));
+		w.addObstacle(new Obstacle(new RectangleHitbox(new Rectangle(14,7,5,10))));
 		
 		/* TODO instantiate server stuff and register event listeners with anonymous class
 		 * 

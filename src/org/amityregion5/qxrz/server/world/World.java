@@ -30,14 +30,7 @@ public class World
 	{
 		for (GameEntity t : entities)
 		{
-			t.update(tSinceUpdate);
-			// print for debug purposes
-			// TODO deal  with collisions (likely handled by entity object)
-			Obstacle collide = l.checkCollisions(t);
-			if (collide!=null)
-			{
-				
-			}
+			t.update(tSinceUpdate, l);
 		}
 	}
 	
