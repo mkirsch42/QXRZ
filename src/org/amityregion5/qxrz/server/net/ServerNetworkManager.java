@@ -33,7 +33,8 @@ public class ServerNetworkManager extends Thread
 	public ServerNetworkManager(int port) throws IOException
 	{
 		super("Server Manager");
-		timeOffset = NetworkObject.getNetworkTime() - System.currentTimeMillis();
+		timeOffset = NetworkObject.getNetworkTime()
+				- System.currentTimeMillis();
 		DatagramSocket sock = new DatagramSocket(port);
 		inStream = new UDPInputStream(sock);
 		outStream = new UDPOutputStream();
@@ -41,7 +42,6 @@ public class ServerNetworkManager extends Thread
 		recvThread.start();
 	}
 
-	
 	/**
 	 * 
 	 * @param sel
@@ -87,14 +87,15 @@ public class ServerNetworkManager extends Thread
 			try
 			{
 				NetworkObject netObj = (NetworkObject) inStream.recvObject();
-				
-				//Time stamp verification
-				if(Math.abs(netObj.getTimeStamp() - System.currentTimeMillis() - timeOffset) > 1000 * 30)
+
+				// Time stamp verification
+				if (Math.abs(netObj.getTimeStamp() - System.currentTimeMillis()
+						- timeOffset) > 1000 * 30)
 				{
-					
+
 				}
-				DatagramSocket ds = new DatagramSocket(inStream.getPacket()
-						.getSocketAddress());
+				DatagramSocket ds = new DatagramSocket();
+				ds.connect(inStream.getPacket().getSocketAddress());
 				if (!clients.contains(ds))
 				{
 					for (ServerEventListener sel : listenerList)
