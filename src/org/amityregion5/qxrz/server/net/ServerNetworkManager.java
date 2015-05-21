@@ -4,7 +4,6 @@ import java.io.IOException;
 import java.net.DatagramSocket;
 import java.net.InetAddress;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.HashSet;
 
 import org.amityregion5.qxrz.net.NetworkObject;
@@ -16,10 +15,12 @@ public class ServerNetworkManager extends Thread
 	private Thread recvThread;
 	private UDPInputStream inStream;
 	private UDPOutputStream outStream;
-	private long timeOffset;
+	//private long timeOffset;
+	
 	// Callback functions
-	private HashSet<ServerEventListener> listenerList = new HashSet<ServerEventListener>();
-
+	//private HashSet<ServerEventListener> listenerList = new HashSet<ServerEventListener>();
+	private ServerEventListener callback;
+	
 	// List of client sockets
 	private HashSet<DatagramSocket> clients = new HashSet<DatagramSocket>();
 
@@ -33,8 +34,8 @@ public class ServerNetworkManager extends Thread
 	public ServerNetworkManager(int port) throws IOException
 	{
 		super("Server Manager");
-		timeOffset = NetworkObject.getNetworkTime()
-				- System.currentTimeMillis();
+//		timeOffset = NetworkObject.getNetworkTime()
+//				- System.currentTimeMillis();
 		DatagramSocket sock = new DatagramSocket(port);
 		inStream = new UDPInputStream(sock);
 		outStream = new UDPOutputStream();
@@ -49,7 +50,8 @@ public class ServerNetworkManager extends Thread
 	 */
 	public void addServerEventListener(ServerEventListener sel)
 	{
-		listenerList.add(sel);
+		//listenerList.add(sel);
+		callback = sel;
 	}
 
 	/**
@@ -61,7 +63,7 @@ public class ServerNetworkManager extends Thread
 	 */
 	public void sendNetworkObject(NetworkObject netObj)
 	{
-		netObj.setTimeStamp(System.currentTimeMillis() + timeOffset);
+		//netObj.setTimeStamp(System.currentTimeMillis() + timeOffset);
 		for (DatagramSocket ds : clients)
 		{
 			outStream.setSocket(ds);
@@ -71,10 +73,12 @@ public class ServerNetworkManager extends Thread
 			} catch (IOException e)
 			{
 				// client disconnected! uh oh.
-				for (ServerEventListener sel : listenerList)
-				{
-					sel.clientDisconnected(ds);
-				}
+//				for (ServerEventListener sel : listenerList)
+//				{
+//					sel.clientDisconnected(ds);
+//				}
+				// TODO: kelvin points out that this isn't actually possible with UDP.
+				callback.clientDisconnected(ds);
 			}
 		}
 	}
@@ -89,25 +93,24 @@ public class ServerNetworkManager extends Thread
 				NetworkObject netObj = (NetworkObject) inStream.recvObject();
 
 				// Time stamp verification
-				if (Math.abs(netObj.getTimeStamp() - System.currentTimeMillis()
-						- timeOffset) > 1000 * 30)
-				{
-
-				}
+//				if (Math.abs(netObj.getTimeStamp() - System.currentTimeMillis()
+//						- timeOffset) > 1000 * 30)
 				DatagramSocket ds = new DatagramSocket();
 				ds.connect(inStream.getPacket().getSocketAddress());
 				if (!clients.contains(ds))
 				{
-					for (ServerEventListener sel : listenerList)
-					{
-						sel.clientConnected(ds);
-					}
+//					for (ServerEventListener sel : listenerList)
+//					{
+//						sel.clientConnected(ds);
+//					}
+					callback.clientConnected(ds);
 					clients.add(ds);
 				}
-				for (ServerEventListener sel : listenerList)
-				{
-					sel.dataReceived(netObj);
-				}
+//				for (ServerEventListener sel : listenerList)
+//				{
+//					sel.dataReceived(netObj);
+//				}
+				callback.dataReceived(netObj);
 				sendNetworkObject(netObj);
 
 				System.out.println("Object Received from:");
@@ -124,7 +127,7 @@ public class ServerNetworkManager extends Thread
 	public static void main(String[] args) throws Exception
 	{
 		NetworkObject no = new NetworkObject();
-		System.out.println(new Date(NetworkObject.getNetworkTime()));
+		//System.out.println(new Date(NetworkObject.getNetworkTime()));
 		ServerNetworkManager snm = new ServerNetworkManager(8000);
 		snm.start();
 		no.type = "Object";
