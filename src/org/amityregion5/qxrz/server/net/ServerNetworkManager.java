@@ -35,7 +35,7 @@ public class ServerNetworkManager extends Thread
 
 		DatagramSocket sock = new DatagramSocket(port);
 		inStream = new UDPInputStream(sock);
-		outStream = new UDPOutputStream(sock);
+		outStream = new UDPOutputStream();
 		recvThread = new Thread();
 		recvThread.start();
 	}
@@ -57,12 +57,23 @@ public class ServerNetworkManager extends Thread
 	 *            Object that will be sent to all clients
 	 * @throws IOException
 	 */
-	public void sendNetworkObject(NetworkObject netObj) throws IOException
+	public void sendNetworkObject(NetworkObject netObj)
 	{
 		for (DatagramSocket ds : clients)
 		{
 			outStream.setSocket(ds);
-			outStream.sendObject(netObj);
+			try
+			{
+				outStream.sendObject(netObj);
+			}
+			catch (IOException e)
+			{
+				// client disconnected! uh oh.
+				for(ServerEventListener sel : listenerList)
+				{
+					sel.clientDisconnected(ds);
+				}
+			}
 		}
 	}
 
@@ -78,7 +89,15 @@ public class ServerNetworkManager extends Thread
 				{
 					sel.dataReceived(netObj);
 				}
-				DatagramSocket ds = new DatagramSocket(inStream.getDp().getSocketAddress());
+				
+				DatagramSocket ds = new DatagramSocket(inStream.getPacket().getSocketAddress());
+				if(clients.contains(ds))
+				{
+					for (ServerEventListener sel : listenerList)
+					{
+						sel.clientConnected(ds);
+					}
+				}
 				clients.add(ds);
 				
 				System.out.println("Object Received from:");
@@ -104,7 +123,8 @@ public class ServerNetworkManager extends Thread
 
 		System.out.println(ds.isConnected());
 		ds.connect(InetAddress.getByName("127.0.0.1"), 8000);
-		UDPOutputStream uos = new UDPOutputStream(ds);
+		UDPOutputStream uos = new UDPOutputStream();
+		uos.setSocket(ds);
 		uos.sendObject(no);
 		UDPInputStream uis = new UDPInputStream(ds);
 		NetworkObject recv = uis.recvObject();

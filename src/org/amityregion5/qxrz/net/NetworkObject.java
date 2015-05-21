@@ -4,9 +4,6 @@ import java.io.Serializable;
 
 public class NetworkObject implements Serializable
 {
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = 1L;
 	
 	public String type;
@@ -15,8 +12,12 @@ public class NetworkObject implements Serializable
 	
 	public NetworkObject()
 	{
+		// can't do it this way, NEEDS to be synchronized clock time
 		timeStamp = System.currentTimeMillis();
 	}
+	
+	
+	// MAYBE will be implemented.
 	public long getTimeStamp()
 	{
 		return timeStamp;
