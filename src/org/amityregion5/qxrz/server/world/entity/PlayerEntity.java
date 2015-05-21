@@ -27,4 +27,11 @@ public class PlayerEntity extends GameEntity
 		return new RectangleHitbox(new Rectangle((int)x-1, (int)y-1, 2, 2));
 	}
 
+	@Override
+	public boolean collide()
+	{
+		// TODO Auto-generated method stub
+		return false;
+	}
+
 }

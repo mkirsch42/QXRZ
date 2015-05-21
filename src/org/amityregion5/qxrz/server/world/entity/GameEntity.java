@@ -12,6 +12,8 @@ public abstract class GameEntity implements Hitboxed
 	
 	public abstract Hitbox getHitbox();
 	
+	public abstract boolean collide(/*PVector normal*/);
+	
 	public GameEntity()
 	{
 		// TODO Auto-generated constructor stub

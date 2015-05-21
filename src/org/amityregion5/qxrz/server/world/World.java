@@ -33,9 +33,10 @@ public class World
 			t.update(tSinceUpdate);
 			// print for debug purposes
 			// TODO deal  with collisions (likely handled by entity object)
-			if (l.checkCollisions(t))
+			Obstacle collide = l.checkCollisions(t);
+			if (collide!=null)
 			{
-				System.out.println("Collision!");
+				
 			}
 		}
 	}

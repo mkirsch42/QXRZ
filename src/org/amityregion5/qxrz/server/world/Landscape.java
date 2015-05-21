@@ -19,17 +19,17 @@ public class Landscape
 		obstacles.add(o);
 	}
 	
-	public boolean checkCollisions(Hitboxed e)
+	public Obstacle checkCollisions(Hitboxed e)
 	{
 		// Check each obstacle for collision
 		for(Obstacle o : obstacles)
 		{
 			if(o.getHitbox().intersects(e.getHitbox()))
 			{
-				return true;
+				return o;
 			}
 		}
-		return false;
+		return null;
 	}
 
 }
