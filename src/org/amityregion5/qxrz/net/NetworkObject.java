@@ -17,8 +17,12 @@ public class NetworkObject implements Serializable
 	public static long getNetworkTime() throws IOException
 	{
 		URL timeAPI = new URL("http://elibaum.com");
+		
+		long start = System.currentTimeMillis();
 		URLConnection connection = timeAPI.openConnection();
-		return connection.getDate();
+		long ends = System.currentTimeMillis();
+		
+		return connection.getDate() - (ends - start) >> 1;
 	}
 	
 	public NetworkObject()
