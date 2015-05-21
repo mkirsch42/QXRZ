@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.net.DatagramSocket;
 import java.net.InetAddress;
 import java.util.ArrayList;
+import java.util.HashSet;
 
 import org.amityregion5.qxrz.net.NetworkObject;
 import org.amityregion5.qxrz.net.UDPInputStream;
@@ -14,15 +15,18 @@ public class ServerNetworkManager extends Thread
 	private Thread recvThread;
 	private UDPInputStream inStream;
 	private UDPOutputStream outStream;
+	
 	// Callback functions
-	private ArrayList<ServerEventListener> listenerList = new ArrayList<ServerEventListener>();
-	private ArrayList<DatagramSocket> clients = new ArrayList<DatagramSocket>();
+	private HashSet<ServerEventListener> listenerList = new HashSet<ServerEventListener>();
+	
+	// List of client sockets
+	private HashSet<DatagramSocket> clients = new HashSet<DatagramSocket>();
 
 	/**
-	 * This will initialize a socket that listen on a port
+	 * This will initialize a socket that listens on a port
 	 * 
 	 * @param port
-	 *            port that listen to
+	 *            port to listen on
 	 * @throws IOException
 	 */
 	public ServerNetworkManager(int port) throws IOException

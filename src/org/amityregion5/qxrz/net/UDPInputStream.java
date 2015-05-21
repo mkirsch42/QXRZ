@@ -13,6 +13,13 @@ public class UDPInputStream
 	private DatagramPacket dp = null;
 	private byte[] buf = null;
 
+	public UDPInputStream(DatagramSocket ds)
+	{
+		sock = ds;
+		buf = new byte[1024 * 5];
+		dp = new DatagramPacket(buf, buf.length);
+	}
+	
 	public DatagramPacket getDp()
 	{
 		return dp;
@@ -21,13 +28,6 @@ public class UDPInputStream
 	public void setDp(DatagramPacket dp)
 	{
 		this.dp = dp;
-	}
-
-	public UDPInputStream(DatagramSocket ds)
-	{
-		sock = ds;
-		buf = new byte[1024 * 5];
-		dp = new DatagramPacket(buf, buf.length);
 	}
 
 	public void setSocket(DatagramSocket ds)
