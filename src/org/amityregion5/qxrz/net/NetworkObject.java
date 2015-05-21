@@ -14,10 +14,9 @@ public class NetworkObject implements Serializable
 	public String type;
 	public Serializable payload;
 	private long timeStamp;
-	
 	public static long getNetworkTime() throws IOException
 	{
-		URL timeAPI = new URL("https://www.google.com");
+		URL timeAPI = new URL("http://elibaum.com");
 		URLConnection connection = timeAPI.openConnection();
 		return connection.getDate();
 	}
@@ -33,6 +32,11 @@ public class NetworkObject implements Serializable
 	public long getTimeStamp()
 	{
 		return timeStamp;
+	}
+	
+	public void setTimeStamp(long l)
+	{
+		this.timeStamp = l;
 	}
 	
 	public String toString()
