@@ -15,10 +15,10 @@ public class ServerNetworkManager extends Thread
 	private Thread recvThread;
 	private UDPInputStream inStream;
 	private UDPOutputStream outStream;
-	
+
 	// Callback functions
 	private HashSet<ServerEventListener> listenerList = new HashSet<ServerEventListener>();
-	
+
 	// List of client sockets
 	private HashSet<DatagramSocket> clients = new HashSet<DatagramSocket>();
 
@@ -65,11 +65,10 @@ public class ServerNetworkManager extends Thread
 			try
 			{
 				outStream.sendObject(netObj);
-			}
-			catch (IOException e)
+			} catch (IOException e)
 			{
 				// client disconnected! uh oh.
-				for(ServerEventListener sel : listenerList)
+				for (ServerEventListener sel : listenerList)
 				{
 					sel.clientDisconnected(ds);
 				}
@@ -85,24 +84,23 @@ public class ServerNetworkManager extends Thread
 			try
 			{
 				NetworkObject netObj = (NetworkObject) inStream.recvObject();
-				for (ServerEventListener sel : listenerList)
-				{
-					sel.dataReceived(netObj);
-				}
-				
-				DatagramSocket ds = new DatagramSocket(inStream.getPacket().getSocketAddress());
-				if(!clients.contains(ds))
+
+				DatagramSocket ds = new DatagramSocket(inStream.getPacket()
+						.getSocketAddress());
+				if (!clients.contains(ds))
 				{
 					for (ServerEventListener sel : listenerList)
 					{
 						sel.clientConnected(ds);
 					}
+					clients.add(ds);
 				}
-				clients.add(ds);
-				
+				for (ServerEventListener sel : listenerList)
+				{
+					sel.dataReceived(netObj);
+				}
 				sendNetworkObject(netObj);
-				
-				
+
 				System.out.println("Object Received from:");
 				System.out.println(netObj);
 
