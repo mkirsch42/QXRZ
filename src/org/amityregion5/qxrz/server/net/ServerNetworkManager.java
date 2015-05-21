@@ -91,7 +91,7 @@ public class ServerNetworkManager extends Thread
 				}
 				
 				DatagramSocket ds = new DatagramSocket(inStream.getPacket().getSocketAddress());
-				if(clients.contains(ds))
+				if(!clients.contains(ds))
 				{
 					for (ServerEventListener sel : listenerList)
 					{
