@@ -16,7 +16,7 @@ public class NetworkObject implements Serializable
 	private long timeStamp;
 	public static long getNetworkTime() throws IOException
 	{
-		URL timeAPI = new URL("http://elibaum.com");
+		URL timeAPI = new URL("http://www.google.com");
 		
 		long start = System.currentTimeMillis();
 		URLConnection connection = timeAPI.openConnection();
