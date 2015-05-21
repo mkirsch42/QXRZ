@@ -40,6 +40,7 @@ public class ServerNetworkManager extends Thread
 		recvThread.start();
 	}
 
+	
 	/**
 	 * 
 	 * @param sel
@@ -114,9 +115,10 @@ public class ServerNetworkManager extends Thread
 	// for testing
 	public static void main(String[] args) throws Exception
 	{
+		NetworkObject no = new NetworkObject();
+		System.out.println(NetworkObject.getNetworkTime());
 		ServerNetworkManager snm = new ServerNetworkManager(8000);
 		snm.start();
-		NetworkObject no = new NetworkObject();
 		no.type = "Object";
 		no.payload = new ArrayList<Integer>();
 

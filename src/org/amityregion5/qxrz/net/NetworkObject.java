@@ -1,6 +1,9 @@
 package org.amityregion5.qxrz.net;
 
+import java.io.IOException;
 import java.io.Serializable;
+import java.net.URL;
+import java.net.URLConnection;
 
 // TODO we have to write object casting methods... enums?
 
@@ -11,6 +14,13 @@ public class NetworkObject implements Serializable
 	public String type;
 	public Serializable payload;
 	private long timeStamp;
+	
+	public static long getNetworkTime() throws IOException
+	{
+		URL timeAPI = new URL("https://www.google.com");
+		URLConnection connection = timeAPI.openConnection();
+		return connection.getDate();
+	}
 	
 	public NetworkObject()
 	{
@@ -29,4 +39,6 @@ public class NetworkObject implements Serializable
 	{
 		return "type=" + type + ", " + "payload=" + payload;
 	}
+	
+	
 }
