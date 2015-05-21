@@ -13,6 +13,16 @@ public class UDPInputStream
 	private DatagramPacket dp = null;
 	private byte[] buf = null;
 
+	public DatagramPacket getDp()
+	{
+		return dp;
+	}
+
+	public void setDp(DatagramPacket dp)
+	{
+		this.dp = dp;
+	}
+
 	public UDPInputStream(DatagramSocket ds)
 	{
 		this.sock = ds;
@@ -20,12 +30,22 @@ public class UDPInputStream
 		dp = new DatagramPacket(buf, buf.length);
 	}
 
-	public Object recvObject() throws IOException, ClassNotFoundException
+	public void setSocket(DatagramSocket ds)
+	{
+		this.sock = ds;
+	}
+	
+	public DatagramSocket getSocket()
+	{
+		return this.sock;
+	}
+	
+	public NetworkObject recvObject() throws IOException, ClassNotFoundException
 	{
 		sock.receive(dp);
 		ByteArrayInputStream byteStream = new ByteArrayInputStream(buf, 0, dp.getLength());
 		ObjectInputStream outStream = new ObjectInputStream(byteStream);
-		return outStream.readObject();
+		return (NetworkObject)outStream.readObject();
 	}
 
 }

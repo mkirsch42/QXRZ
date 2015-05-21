@@ -15,7 +15,15 @@ public class UDPOutputStream
 	{
 		sock = ds;
 	}
+	public void setSocket(DatagramSocket ds)
+	{
+		this.sock = ds;
+	}
 	
+	public DatagramSocket getSocket()
+	{
+		return this.sock;
+	}
 	public void sendObject(Object o) throws IOException
 	{
 		ByteArrayOutputStream baos = new ByteArrayOutputStream();
