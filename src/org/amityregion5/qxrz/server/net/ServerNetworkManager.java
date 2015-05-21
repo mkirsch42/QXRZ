@@ -11,7 +11,7 @@ public class ServerNetworkManager extends Thread
 	private ArrayList<ServerEventListener> listenerList = new ArrayList<ServerEventListener>();
 	private UDPInputStream inStream;
 	private UDPOutputStream outStream;
-
+	private ArrayList<DatagramSocket> clients = new ArrayList<DatagramSocket>();
 	/**
 	 * This will initialize a socket that listen on a port
 	 * 
@@ -21,7 +21,7 @@ public class ServerNetworkManager extends Thread
 	 */
 	public ServerNetworkManager(int port) throws IOException
 	{
-		super("servermanager");
+		super("Server Manager");
 		
 		DatagramSocket sock = new DatagramSocket(port);
 		inStream = new UDPInputStream(sock);
@@ -47,7 +47,11 @@ public class ServerNetworkManager extends Thread
 	 */
 	public void sendNetworkObject(NetworkObject netObj) throws IOException
 	{
-		outStream.sendObject(netObj);
+		for(DatagramSocket ds : clients)
+		{
+			outStream.setSocket(ds);
+			outStream.sendObject(netObj);
+		}
 	}
 
 	@Override
@@ -62,8 +66,11 @@ public class ServerNetworkManager extends Thread
 				{
 					sel.dataReceived(netObj);
 				}
-				System.out.println("Object Received!");
+				DatagramSocket ds = new DatagramSocket(inStream.getDp().getSocketAddress());
+				clients.add(ds);
+				System.out.println("Object Received from:");
 				System.out.println(netObj);
+				sendNetworkObject(netObj);
 			} catch (ClassNotFoundException | IOException e)
 			{
 				e.printStackTrace();
@@ -79,11 +86,16 @@ public class ServerNetworkManager extends Thread
 		NetworkObject no = new NetworkObject();
 		no.type = "Object";
 		no.payload = new ArrayList<Integer>();
-
+		
 		DatagramSocket ds = new DatagramSocket();
+		
+		System.out.println(ds.isConnected());
 		ds.connect(InetAddress.getByName("127.0.0.1"), 8000);
 		UDPOutputStream uos = new UDPOutputStream(ds);
 		uos.sendObject(no);
+		UDPInputStream uis = new UDPInputStream(ds);
+		NetworkObject recv = uis.recvObject();
+		System.out.println("Client received:" + recv);
 		System.out.println("object sended!");
 	}
 
