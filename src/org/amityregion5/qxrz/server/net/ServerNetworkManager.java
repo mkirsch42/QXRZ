@@ -5,6 +5,10 @@ import java.net.DatagramSocket;
 import java.net.InetAddress;
 import java.util.ArrayList;
 
+import org.amityregion5.qxrz.net.NetworkObject;
+import org.amityregion5.qxrz.net.UDPInputStream;
+import org.amityregion5.qxrz.net.UDPOutputStream;
+
 public class ServerNetworkManager extends Thread
 {
 	private Thread recvThread;
@@ -12,6 +16,7 @@ public class ServerNetworkManager extends Thread
 	private UDPInputStream inStream;
 	private UDPOutputStream outStream;
 	private ArrayList<DatagramSocket> clients = new ArrayList<DatagramSocket>();
+
 	/**
 	 * This will initialize a socket that listen on a port
 	 * 
@@ -22,7 +27,7 @@ public class ServerNetworkManager extends Thread
 	public ServerNetworkManager(int port) throws IOException
 	{
 		super("Server Manager");
-		
+
 		DatagramSocket sock = new DatagramSocket(port);
 		inStream = new UDPInputStream(sock);
 		outStream = new UDPOutputStream(sock);
@@ -42,12 +47,14 @@ public class ServerNetworkManager extends Thread
 
 	/**
 	 * Send an Object over the network
-	 * @param netObj Object that will be sent to all clients
+	 * 
+	 * @param netObj
+	 *            Object that will be sent to all clients
 	 * @throws IOException
 	 */
 	public void sendNetworkObject(NetworkObject netObj) throws IOException
 	{
-		for(DatagramSocket ds : clients)
+		for (DatagramSocket ds : clients)
 		{
 			outStream.setSocket(ds);
 			outStream.sendObject(netObj);
@@ -66,7 +73,8 @@ public class ServerNetworkManager extends Thread
 				{
 					sel.dataReceived(netObj);
 				}
-				DatagramSocket ds = new DatagramSocket(inStream.getDp().getSocketAddress());
+				DatagramSocket ds = new DatagramSocket(inStream.getDp()
+						.getSocketAddress());
 				clients.add(ds);
 				System.out.println("Object Received from:");
 				System.out.println(netObj);
@@ -86,9 +94,9 @@ public class ServerNetworkManager extends Thread
 		NetworkObject no = new NetworkObject();
 		no.type = "Object";
 		no.payload = new ArrayList<Integer>();
-		
+
 		DatagramSocket ds = new DatagramSocket();
-		
+
 		System.out.println(ds.isConnected());
 		ds.connect(InetAddress.getByName("127.0.0.1"), 8000);
 		UDPOutputStream uos = new UDPOutputStream(ds);
