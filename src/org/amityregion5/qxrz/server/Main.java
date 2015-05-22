@@ -44,14 +44,16 @@ public final class Main
 			@Override
 			public void dataReceived(Client c, NetworkObject netObj)
 			{
-				if(netObj.getPayload() instanceof PlayerEntity)
+				if(netObj.getPayload() instanceof PlayerEntity) 
 				{
-					// etc.
+					PlayerEntity u = (PlayerEntity) netObj.getPayload();
+					netManager.sendObject(u);
 				}
 				
 				else if(netObj.getPayload() instanceof ProjectileEntity)
 				{
-					
+					ProjectileEntity u = (ProjectileEntity) netObj.getPayload();
+					netManager.sendObject(u);
 				}
 				
 				else if(netObj.getPayload() instanceof DisconnectNotification)
