@@ -23,8 +23,6 @@ public class ServerNetworkManager extends Thread
 	// List of client sockets
 	private HashSet<Client> clients = new HashSet<Client>();
 
-	//packe tnumber
-	private int packetNumber = 0;
 	
 	/**
 	 * This will initialize a socket that listens on a port

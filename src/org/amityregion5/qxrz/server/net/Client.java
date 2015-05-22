@@ -6,6 +6,8 @@ import java.net.DatagramSocket;
 import org.amityregion5.qxrz.common.net.NetworkObject;
 import org.amityregion5.qxrz.common.net.UDPOutputStream;
 
+// TODO move to common, with new name (NetworkNode)
+
 public class Client
 {
 	private DatagramSocket sock;
