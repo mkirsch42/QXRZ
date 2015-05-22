@@ -10,6 +10,11 @@ public class UDPOutputStream
 
 	private DatagramSocket sock;
 	
+	public UDPOutputStream(DatagramSocket ds)
+	{
+		this.sock = ds;
+	}
+	
 	public void setSocket(DatagramSocket ds)
 	{
 		sock = ds;
