@@ -21,7 +21,7 @@ public class UDPOutputStream
 		return sock;
 	}
 	
-	public void sendObject(Object o) throws IOException
+	public void sendObject(Object o) throws Exception
 	{
 		ByteArrayOutputStream byteArrayStream = new ByteArrayOutputStream();
 		
@@ -29,6 +29,10 @@ public class UDPOutputStream
 		new ObjectOutputStream(byteArrayStream).writeObject(o);
 		
 		byte[] data = byteArrayStream.toByteArray();
+		
+		// This shouldn't ever happen...
+		if(data.length > NetworkObject.BUFFER_SIZE) throw new Exception("Object is too large!");
+		
 		sock.send(new DatagramPacket(data, data.length));
 	}
 	

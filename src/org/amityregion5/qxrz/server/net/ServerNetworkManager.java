@@ -5,6 +5,7 @@ import java.net.DatagramSocket;
 import java.net.InetAddress;
 import java.util.ArrayList;
 import java.util.HashSet;
+
 import org.amityregion5.qxrz.common.net.NetworkObject;
 import org.amityregion5.qxrz.common.net.UDPInputStream;
 import org.amityregion5.qxrz.common.net.UDPOutputStream;
@@ -65,7 +66,7 @@ public class ServerNetworkManager extends Thread
 			try
 			{
 				outStream.sendObject(netObj);
-			} catch (IOException e)
+			} catch (Exception e)
 			{
 				e.printStackTrace();
 			}
