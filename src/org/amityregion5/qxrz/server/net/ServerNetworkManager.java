@@ -22,6 +22,9 @@ public class ServerNetworkManager extends Thread
 	// List of client sockets
 	private HashSet<Client> clients = new HashSet<Client>();
 
+	//packe tnumber
+	private int packetNumber = 0;
+	
 	/**
 	 * This will initialize a socket that listens on a port
 	 * 
@@ -60,6 +63,8 @@ public class ServerNetworkManager extends Thread
 	 */
 	public void sendObject(NetworkObject netObj)
 	{
+		netObj.setPacketNumber(packetNumber);
+		packetNumber ++;
 		for (Client c : clients)
 		{
 			outStream.setSocket(c.getSocket());
@@ -119,7 +124,7 @@ public class ServerNetworkManager extends Thread
 	// for testing
 	public static void main(String[] args) throws Exception
 	{
-		NetworkObject no = new NetworkObject(new ArrayList<Integer>(), 0);
+		NetworkObject no = new NetworkObject(new ArrayList<Integer>());
 		ServerNetworkManager snm = new ServerNetworkManager(8000);
 		snm.start();
 
