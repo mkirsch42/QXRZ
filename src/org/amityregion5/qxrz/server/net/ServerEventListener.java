@@ -1,13 +1,11 @@
 package org.amityregion5.qxrz.server.net;
 
-import org.amityregion5.qxrz.common.net.NetworkObject;
+import java.io.Serializable;
 
 public interface ServerEventListener
 {
-	public void dataReceived(Client c, NetworkObject netObj);
+	public void dataReceived(Client c, Serializable payload);
 	
 	public void newClient(Client c);
-	
-	public void clientRemoved(Client c);
 	
 }
