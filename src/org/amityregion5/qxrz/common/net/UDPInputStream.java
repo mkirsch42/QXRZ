@@ -16,7 +16,7 @@ public class UDPInputStream
 	public UDPInputStream(DatagramSocket ds)
 	{
 		sock = ds;
-		buf = new byte[1024 * 5]; // TODO decide on a good size here, and make a final int.
+		buf = new byte[NetworkObject.BUFFER_SIZE];
 		packet = new DatagramPacket(buf, buf.length);
 	}
 	
