@@ -1,5 +1,9 @@
 package org.amityregion5.qxrz.server.world.entity;
 
+import java.awt.geom.Rectangle2D;
+
+import org.amityregion5.qxrz.server.world.Landscape;
+
 public abstract class ProjectileEntity extends GameEntity
 {
 	private final int PROJECTILE_SIZE = 1;
@@ -10,6 +14,7 @@ public abstract class ProjectileEntity extends GameEntity
 	
 	public boolean update(double tSinceUpdate, Landscape surroundings)
 	{
+		return false;
 		
 	}
 	public RectangleHitbox getHitBox()
