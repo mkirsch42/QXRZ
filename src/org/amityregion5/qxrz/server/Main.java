@@ -61,6 +61,9 @@ public final class Main
 				
 			}
 		});
+		// How to send things to all clients:
+		// netManager.sendObject(whatever);
+		
 		
 		JApplet debug = DebugDraw.setup(w);
 		

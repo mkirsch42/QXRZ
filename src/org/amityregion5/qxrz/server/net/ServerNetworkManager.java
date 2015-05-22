@@ -57,7 +57,7 @@ public class ServerNetworkManager extends Thread
 	 *            Object that will be sent to all clients
 	 * @throws IOException
 	 */
-	public void sendNetworkObject(NetworkObject netObj)
+	public void sendObject(NetworkObject netObj)
 	{
 		for (Client c : clients)
 		{
@@ -94,7 +94,7 @@ public class ServerNetworkManager extends Thread
 				}
 
 				callback.dataReceived(c, netObj);
-				sendNetworkObject(netObj);
+				sendObject(netObj);
 //				for (ServerEventListener sel : listenerList)
 //				{
 //					sel.dataReceived(netObj);
@@ -127,7 +127,7 @@ public class ServerNetworkManager extends Thread
 		UDPInputStream uis = new UDPInputStream(ds);
 		NetworkObject recv = uis.recvObject();
 		System.out.println("Client received:" + recv);
-		snm.sendNetworkObject(recv);
+		snm.sendObject(recv);
 		System.out.println("object sended!");
 	}
 
