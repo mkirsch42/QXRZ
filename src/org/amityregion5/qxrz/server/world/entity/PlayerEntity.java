@@ -20,7 +20,7 @@ public class PlayerEntity extends GameEntity
 	public PlayerEntity() //creates player vector
 	{
 		pos = new Vector2D(0,0);
-		vel = new Vector2D(2,1).multiply(1);
+		vel = new Vector2D(2,1).multiply(3);
 		health = 100;
 		speed = 100;
 	}

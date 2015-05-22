@@ -7,14 +7,18 @@ public class Main
 {
 	public static void main(String[] args)
 	{
+		//Create a gui object
 		MainGui gui = new MainGui();
 		
+		//Show the gui
 		gui.show();
 		
+		//Do loading stuffs
 		{
 			//TODO: Loading?
 		}
 
+		//Set the screen to the main menu screen
 		gui.setCurrentScreen(new MainMenuScreen(gui));
 	}
 }

@@ -13,8 +13,8 @@ import org.amityregion5.qxrz.server.world.entity.RectangleHitbox;
 public class Game
 {
 
-	private static final int UPDATE_RATE = 120;
-	private static final int DEBUG_FPS = 120;
+	private static final int UPDATE_RATE = 10;
+	private static final int DEBUG_FPS = 10;
 	
 	public static final double GAME_UNIT = 0.01;
 	
