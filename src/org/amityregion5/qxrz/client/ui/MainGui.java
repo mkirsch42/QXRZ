@@ -36,7 +36,7 @@ public class MainGui
 				}
 				catch (Exception e){}
 			}
-		}).run();
+		}).start();
 	}
 	public void hide()
 	{
