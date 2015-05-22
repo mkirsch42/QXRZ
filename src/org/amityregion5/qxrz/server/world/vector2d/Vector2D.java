@@ -2,7 +2,7 @@ package org.amityregion5.qxrz.server.world.vector2d;
 
 public class Vector2D
 {
-
+	//coordinates
 	private double x;
 	private double y;
 	

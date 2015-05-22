@@ -15,11 +15,16 @@ public class PlayerEntity extends GameEntity
 {
 	
 	private final double PLAYER_SIZE = 4;
+	private Weapon[] guns = new Weapon[2];
+	private int health;
+	private int speed;
 	
 	public PlayerEntity()
 	{
 		pos = new Vector2D(0,0);
 		vel = new Vector2D(4,2);
+		health = 100;
+		speed = 100;
 	}
 
 	public boolean update(double tSinceUpdate, Landscape surroundings)
@@ -70,8 +75,13 @@ public class PlayerEntity extends GameEntity
 	@Override
 	public boolean collide()
 	{
-		// TODO Auto-generated method stub
+		
 		return false;
+	}
+	
+	public void increaseStat()
+	{
+		
 	}
 
 }
