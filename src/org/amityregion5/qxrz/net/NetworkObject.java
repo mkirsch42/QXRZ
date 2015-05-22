@@ -10,15 +10,17 @@ public class NetworkObject implements Serializable
 {
 	private static final long serialVersionUID = 1L;
 	
-	public String type;
-	public Serializable payload;
-	public int packetNumber;
+	private Class type;
+	private Serializable payload;
+	private int packetNumber;
 	
-	/*public NetworkObject(Serializable obj, int packetNum)
+	public NetworkObject(Serializable obj, int packetNum)
 	{
 		payload = obj;
+		type = obj.getClass();
 		packetNumber = packetNum;
-	}*/
+	}
+	//TODO on the receiving end we can use type.cast(payload)
 	
 	public String toString()
 	{

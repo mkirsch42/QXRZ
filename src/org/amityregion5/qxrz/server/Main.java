@@ -14,7 +14,7 @@ import org.amityregion5.qxrz.server.world.entity.RectangleHitbox;
 public final class Main
 {
 
-	private static final int UPDATE_RATE = 240;
+	private static final int UPDATE_RATE = 20;
 	
 	public static void main(String[] args) throws InterruptedException
 	{

@@ -112,11 +112,9 @@ public class ServerNetworkManager extends Thread
 	// for testing
 	public static void main(String[] args) throws Exception
 	{
-		NetworkObject no = new NetworkObject();
+		NetworkObject no = new NetworkObject(new ArrayList<Integer>(), 0);
 		ServerNetworkManager snm = new ServerNetworkManager(8000);
 		snm.start();
-		no.type = "Object";
-		no.payload = new ArrayList<Integer>();
 
 		DatagramSocket ds = new DatagramSocket();
 
