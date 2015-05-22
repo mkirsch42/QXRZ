@@ -1,20 +1,18 @@
 package org.amityregion5.qxrz.server;
 
-import java.awt.Rectangle;
 import java.io.IOException;
 
 import javax.swing.JApplet;
 
+import org.amityregion5.qxrz.common.net.DisconnectNotification;
 import org.amityregion5.qxrz.common.net.NetworkObject;
 import org.amityregion5.qxrz.server.net.Client;
 import org.amityregion5.qxrz.server.net.ServerEventListener;
 import org.amityregion5.qxrz.server.net.ServerNetworkManager;
 import org.amityregion5.qxrz.server.ui.MainGui;
 import org.amityregion5.qxrz.server.world.DebugDraw;
-import org.amityregion5.qxrz.server.world.Obstacle;
 import org.amityregion5.qxrz.server.world.World;
 import org.amityregion5.qxrz.server.world.entity.PlayerEntity;
-import org.amityregion5.qxrz.server.world.entity.RectangleHitbox;
 
 public final class Main
 {
@@ -50,11 +48,11 @@ public final class Main
 					// etc.
 				}
 				
-				/*
+				
 				else if(netObj.getPayload() instanceof DisconnectNotification)
 				{
 					// Remove c from client set
-				}*/
+				}
 				
 			}
 		});
