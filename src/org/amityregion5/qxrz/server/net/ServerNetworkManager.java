@@ -98,7 +98,6 @@ public class ServerNetworkManager extends Thread
 				{
 					sel.dataReceived(netObj);
 				}
-				sendNetworkObject(netObj);
 
 				System.out.println("Object Received from:");
 				System.out.println(netObj);
@@ -129,6 +128,7 @@ public class ServerNetworkManager extends Thread
 		UDPInputStream uis = new UDPInputStream(ds);
 		NetworkObject recv = uis.recvObject();
 		System.out.println("Client received:" + recv);
+		snm.sendNetworkObject(recv);
 		System.out.println("object sended!");
 	}
 
