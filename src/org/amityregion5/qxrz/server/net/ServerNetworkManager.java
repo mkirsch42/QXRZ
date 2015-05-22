@@ -3,8 +3,6 @@ package org.amityregion5.qxrz.server.net;
 import java.io.IOException;
 import java.io.Serializable;
 import java.net.DatagramSocket;
-import java.net.InetAddress;
-import java.util.ArrayList;
 import java.util.HashSet;
 
 import org.amityregion5.qxrz.common.net.NetworkObject;
@@ -77,6 +75,7 @@ public class ServerNetworkManager extends Thread
 	public void removeClient(Client c)
 	{
 		clients.remove(c);
+		callback.clientRemoved(c);
 	}
 	
 	@Override
