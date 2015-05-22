@@ -13,9 +13,10 @@ public class NetworkObject implements Serializable
 	private Serializable payload;
 	private int packetNumber;
 	
-	public NetworkObject(Serializable obj)
+	public NetworkObject(Serializable obj, int pn)
 	{
 		payload = obj;
+		packetNumber = pn;
 	}
 	
 	public Serializable getPayload()
@@ -26,11 +27,6 @@ public class NetworkObject implements Serializable
 	public int getPacketNumber()
 	{
 		return packetNumber;
-	}
-	
-	public void setPacketNumber(int pn)
-	{
-		packetNumber = pn;
 	}
 
 	

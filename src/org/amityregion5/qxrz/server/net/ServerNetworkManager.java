@@ -64,16 +64,11 @@ public class ServerNetworkManager extends Thread
 	 */
 	public void sendObject(Serializable obj)
 	{
-		NetworkObject netObj = new NetworkObject(obj);
 		for (Client c : clients)
 		{
-			outStream.setSocket(c.getSocket());
 			try
 			{
-				netObj.setPacketNumber(c.getPacketCount());
-				outStream.sendObject(netObj);
-				
-				c.incrementPacketCount();
+				c.send(outStream, obj);
 			} catch (Exception e)
 			{
 				e.printStackTrace();
@@ -125,24 +120,24 @@ public class ServerNetworkManager extends Thread
 	}
 
 	// for testing
-	public static void main(String[] args) throws Exception
-	{
-		NetworkObject no = new NetworkObject(new ArrayList<Integer>());
-		ServerNetworkManager snm = new ServerNetworkManager(8000);
-		snm.start();
-
-		DatagramSocket ds = new DatagramSocket();
-
-		System.out.println(ds.isConnected());
-		ds.connect(InetAddress.getByName("127.0.0.1"), 8000);
-		UDPOutputStream uos = new UDPOutputStream();
-		uos.setSocket(ds);
-		uos.sendObject(no);
-		UDPInputStream uis = new UDPInputStream(ds);
-		NetworkObject recv = uis.recvObject();
-		System.out.println("Client received:" + recv);
-		snm.sendObject(recv);
-		System.out.println("object sended!");
-	}
+//	public static void main(String[] args) throws Exception
+//	{
+//		NetworkObject no = new NetworkObject(new ArrayList<Integer>());
+//		ServerNetworkManager snm = new ServerNetworkManager(8000);
+//		snm.start();
+//
+//		DatagramSocket ds = new DatagramSocket();
+//
+//		System.out.println(ds.isConnected());
+//		ds.connect(InetAddress.getByName("127.0.0.1"), 8000);
+//		UDPOutputStream uos = new UDPOutputStream();
+//		uos.setSocket(ds);
+//		uos.sendObject(no);
+//		UDPInputStream uis = new UDPInputStream(ds);
+//		NetworkObject recv = uis.recvObject();
+//		System.out.println("Client received:" + recv);
+//		snm.sendObject(recv);
+//		System.out.println("object sended!");
+//	}
 
 }

@@ -1,6 +1,10 @@
 package org.amityregion5.qxrz.server.net;
 
+import java.io.Serializable;
 import java.net.DatagramSocket;
+
+import org.amityregion5.qxrz.common.net.NetworkObject;
+import org.amityregion5.qxrz.common.net.UDPOutputStream;
 
 public class Client
 {
@@ -23,8 +27,10 @@ public class Client
 		return packetCount;
 	}
 	
-	public void incrementPacketCount()
+	public void send(UDPOutputStream outStream, Serializable obj) throws Exception
 	{
+		outStream.setSocket(sock);
+		outStream.sendObject(new NetworkObject(obj, packetCount));
 		packetCount++;
 	}
 	
