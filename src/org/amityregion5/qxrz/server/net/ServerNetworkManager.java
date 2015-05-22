@@ -1,6 +1,7 @@
 package org.amityregion5.qxrz.server.net;
 
 import java.io.IOException;
+import java.io.Serializable;
 import java.net.DatagramSocket;
 import java.net.InetAddress;
 import java.util.ArrayList;
@@ -61,16 +62,18 @@ public class ServerNetworkManager extends Thread
 	 *            Object that will be sent to all clients
 	 * @throws IOException
 	 */
-	public void sendObject(NetworkObject netObj)
+	public void sendObject(Serializable obj)
 	{
-		netObj.setPacketNumber(packetNumber);
-		packetNumber ++;
+		NetworkObject netObj = new NetworkObject(obj);
 		for (Client c : clients)
 		{
 			outStream.setSocket(c.getSocket());
 			try
 			{
+				netObj.setPacketNumber(c.getPacketCount());
 				outStream.sendObject(netObj);
+				
+				c.incrementPacketCount();
 			} catch (Exception e)
 			{
 				e.printStackTrace();

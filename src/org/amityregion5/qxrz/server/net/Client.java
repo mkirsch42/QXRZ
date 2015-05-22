@@ -23,6 +23,11 @@ public class Client
 		return packetCount;
 	}
 	
+	public void incrementPacketCount()
+	{
+		packetCount++;
+	}
+	
 	@Override
 	public boolean equals(Object obj)
 	{

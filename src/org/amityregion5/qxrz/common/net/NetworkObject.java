@@ -28,10 +28,11 @@ public class NetworkObject implements Serializable
 		return packetNumber;
 	}
 	
-	public void setPacketNumber(int n)
+	public void setPacketNumber(int pn)
 	{
-		this.packetNumber = n;
+		packetNumber = pn;
 	}
+
 	
 	public String toString()
 	{
