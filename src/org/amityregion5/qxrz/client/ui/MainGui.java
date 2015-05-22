@@ -1,5 +1,7 @@
 package org.amityregion5.qxrz.client.ui;
 
+import java.awt.event.WindowEvent;
+import java.awt.event.WindowListener;
 import javax.swing.JFrame;
 import javax.swing.WindowConstants;
 import org.amityregion5.qxrz.client.ui.screen.IScreen;
@@ -10,6 +12,7 @@ public class MainGui
 	private JFrame frame;
 	private double fps;
 	private IScreen currentScreen;
+	private long lastRepaint;
 	
 	public MainGui()
 	{
@@ -21,14 +24,40 @@ public class MainGui
 		
 		frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
 		
+		frame.addWindowListener(new WindowListener() {
+			@Override
+			public void windowOpened(WindowEvent e) {}
+			@Override
+			public void windowClosing(WindowEvent e) {}
+			@Override
+			public void windowClosed(WindowEvent e) {
+				closeGame();
+			}
+			@Override
+			public void windowIconified(WindowEvent e) {}
+			@Override
+			public void windowDeiconified(WindowEvent e) {}
+			@Override
+			public void windowActivated(WindowEvent e) {}
+			@Override
+			public void windowDeactivated(WindowEvent e) {}
+		});
+		
 		setCurrentScreen(new LoadingScreen());
 	}
 
 	public void show()
 	{
+		lastRepaint = System.currentTimeMillis();
+		
 		frame.setVisible(true);
 		new Thread(()->{
 			while (frame.isVisible()) {
+				long elapsed = System.currentTimeMillis() - lastRepaint;
+				fps = 1000.0/elapsed;
+				
+				lastRepaint = System.currentTimeMillis();
+				
 				frame.repaint();
 				try
 				{
@@ -68,5 +97,8 @@ public class MainGui
 	{
 		this.fps = fps;
 	}
-	
+	public void closeGame() {
+		hide();
+		System.exit(0);
+	}
 }

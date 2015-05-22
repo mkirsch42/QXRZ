@@ -15,6 +15,6 @@ public class Main
 			//TODO: Loading?
 		}
 
-		gui.setCurrentScreen(new MainMenuScreen());
+		gui.setCurrentScreen(new MainMenuScreen(gui));
 	}
 }
