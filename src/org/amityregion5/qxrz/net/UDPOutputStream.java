@@ -23,12 +23,10 @@ public class UDPOutputStream
 	
 	public void sendObject(Object o) throws IOException
 	{
-		ByteArrayOutputStream byteArrayStream = new ByteArrayOutputStream();
-		
-		// I *think* this should work. ~ Eli
-		new ObjectOutputStream(byteArrayStream).writeObject(o);
-		
-		byte[] data = byteArrayStream.toByteArray();
+		ByteArrayOutputStream baos = new ByteArrayOutputStream();
+		ObjectOutputStream outStream = new ObjectOutputStream(baos);
+		outStream.writeObject(o);
+		byte[] data = baos.toByteArray();
 		sock.send(new DatagramPacket(data, data.length));
 	}
 	
