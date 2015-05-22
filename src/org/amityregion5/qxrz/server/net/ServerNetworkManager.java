@@ -72,6 +72,11 @@ public class ServerNetworkManager extends Thread
 		}
 	}
 
+	public void removeClient(Client c)
+	{
+		clients.remove(c);
+	}
+	
 	@Override
 	public void run()
 	{

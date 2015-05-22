@@ -22,4 +22,12 @@ public class Client
 	{
 		return packetCount;
 	}
+	
+	@Override
+	public boolean equals(Object obj)
+	{
+		if(!(obj instanceof Client)) return false;
+		
+		return sock.getInetAddress().equals(((Client) obj).getSocket().getInetAddress());
+	}
 }

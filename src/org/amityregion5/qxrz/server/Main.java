@@ -56,7 +56,8 @@ public final class Main
 				
 				else if(netObj.getPayload() instanceof DisconnectNotification)
 				{
-					// Remove c from client set
+					// also stop drawing player and stuff
+					netManager.removeClient(c);
 				}
 				
 			}
