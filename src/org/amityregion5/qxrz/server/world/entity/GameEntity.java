@@ -1,5 +1,7 @@
 package org.amityregion5.qxrz.server.world.entity;
 
+import java.io.Serializable;
+
 import org.amityregion5.qxrz.server.world.Landscape;
 import org.amityregion5.qxrz.server.world.vector2d.Vector2D;
 
@@ -13,7 +15,7 @@ public abstract class GameEntity implements Hitboxed
 	
 	public abstract Hitbox getHitbox();
 	
-	public abstract boolean collide(Hitboxed h);
+	protected abstract boolean collide(Hitboxed h, Landscape l);
 	
 	public GameEntity()
 	{

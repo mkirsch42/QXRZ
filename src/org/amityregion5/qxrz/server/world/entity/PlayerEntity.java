@@ -3,6 +3,7 @@ package org.amityregion5.qxrz.server.world.entity;
 import java.awt.geom.Path2D;
 import java.awt.geom.Rectangle2D;
 
+import org.amityregion5.qxrz.server.Game;
 import org.amityregion5.qxrz.server.world.DebugDraw;
 import org.amityregion5.qxrz.server.world.Landscape;
 import org.amityregion5.qxrz.server.world.Obstacle;
@@ -26,11 +27,31 @@ public class PlayerEntity extends GameEntity
 
 	public boolean update(double tSinceUpdate, Landscape surroundings) 
 	{
+		Obstacle o = checkCollisions(vel.multiply(tSinceUpdate),surroundings);
+		if (o!=null)
+		{
+			//System.out.println("Collision!");
+			collide(o, surroundings);
+		}
+		else
+		{
+			pos = pos.add(vel);
+		}
+		//System.out.println(pos);
+		return false;
+	}
+	
+	public RectangleHitbox getHitbox()
+	{
+		// Create 2x2 square around player
+		return new RectangleHitbox(new Rectangle2D.Double((int)pos.getX()-PLAYER_SIZE/2.0, (int)pos.getY()-PLAYER_SIZE/2.0, PLAYER_SIZE, PLAYER_SIZE));
+	}
+
+	public Obstacle checkCollisions(Vector2D v, Landscape surroundings)
+	{
 		Vector2D bak = pos;
 		Path2D.Double path = new Path2D.Double();
 		Rectangle2D.Double hb = getHitbox().getBounds();
-		
-		Vector2D v = vel.multiply(tSinceUpdate);
 		
 		Vector2D p1 = new Vector2D(hb.getMinX(), hb.getMinY());
 		Vector2D p2 = new Vector2D(hb.getMinX(), hb.getMaxY());
@@ -54,25 +75,29 @@ public class PlayerEntity extends GameEntity
 		path.append(getHitbox().getBounds(), false);
 		DebugDraw.buffer.add(path);
 		Obstacle o = surroundings.checkCollisions(new ShapeHitbox(path));
-		if (o!=null)
-		{
-			pos = bak;
-			System.out.println("Collision!");
-			collide(o);
-		}
-		System.out.println(pos);
-		return false;
+		pos = bak;
+		return o;
 	}
 	
-	public RectangleHitbox getHitbox()
+	public boolean collide(Hitboxed h, Landscape l)
 	{
-		// Create 2x2 square around player
-		return new RectangleHitbox(new Rectangle2D.Double((int)pos.getX()-PLAYER_SIZE/2.0, (int)pos.getY()-PLAYER_SIZE/2.0, PLAYER_SIZE, PLAYER_SIZE));
-	}
-
-	public boolean collide(Hitboxed h)
-	{
-		
+		Vector2D path = vel.clone();
+		Vector2D pathTemp = path.multiply(0.5);
+		double accuracy = pathTemp.length()*0.5;
+		while(accuracy>Game.GAME_UNIT)
+		{
+			if(checkCollisions(pathTemp, l)!=null)
+			{
+				pathTemp = pathTemp.subtract(new Vector2D(path.angle()).multiply(accuracy));
+			}
+			else
+			{
+				pathTemp = pathTemp.add(new Vector2D(path.angle()).multiply(accuracy));
+			}
+			accuracy *= 0.5;
+		}
+		path = path.subtract(pathTemp);
+		pos = pos.add(pathTemp);
 		return false;
 	}
 	

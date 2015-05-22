@@ -77,4 +77,9 @@ public class Vector2D
 	{
 		return String.format("(%3.3f , %3.3f) | (%3.3f , %3.3f)", x, y, length(), angle());
 	}
+	
+	public Vector2D clone()
+	{
+		return new Vector2D(x,y);
+	}
 }
