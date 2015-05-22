@@ -13,10 +13,10 @@ import org.amityregion5.qxrz.server.world.entity.RectangleHitbox;
 public class Game
 {
 
-	private static final int UPDATE_RATE = 60;
-	private static final int DEBUG_FPS = 10;
+	private static final int UPDATE_RATE = 120;
+	private static final int DEBUG_FPS = 120;
 	
-	public static final double GAME_UNIT = 0.001;
+	public static final double GAME_UNIT = 0.01;
 	
 	public static DebugDraw debug;
 	
@@ -28,7 +28,7 @@ public class Game
 		World w = new World();
 		w.add(new PlayerEntity());
 		debug = DebugDraw.setup(w);
-		w.addObstacle(new Obstacle(new RectangleHitbox(new Rectangle2D.Double(200,90,5,10))));
+		w.addObstacle(new Obstacle(new RectangleHitbox(new Rectangle2D.Double(50,25,5,10))));
 
 		while (true)
 		{

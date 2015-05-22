@@ -38,6 +38,11 @@ public class Vector2D
 		return new Vector2D(x-v.getX(), y-v.getY());
 	}
 	
+	public Vector2D opposite()
+	{
+		return new Vector2D(-x,-y);
+	}
+	
 	public double length()
 	{
 		return Math.sqrt(x*x+y*y);

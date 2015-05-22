@@ -20,7 +20,7 @@ public class PlayerEntity extends GameEntity
 	public PlayerEntity() //creates player vector
 	{
 		pos = new Vector2D(0,0);
-		vel = new Vector2D(2,1).multiply(5);
+		vel = new Vector2D(2,1).multiply(1);
 		health = 100;
 		speed = 100;
 	}
@@ -82,37 +82,46 @@ public class PlayerEntity extends GameEntity
 	
 	public boolean collide(Hitboxed h, Landscape l)
 	{
-		Vector2D path = vel.clone();
-		Vector2D pathTemp = path.multiply(0.5);
+		fixCollisionWithVel(vel, h, l, false);
+		return false;
+	}
+
+	public Vector2D fixCollisionWithVel(Vector2D v, Hitboxed h, Landscape l, boolean unCollide)
+	{
+		if (v.length()<2*Game.GAME_UNIT)
+		{
+			return new Vector2D();
+		}
+		Vector2D pathTemp = v.multiply(0.5);
 		double accuracy = pathTemp.length()*0.5;
 		while(accuracy>Game.GAME_UNIT)
 		{
 			if(checkCollisions(pathTemp, l)!=null)
 			{
-				pathTemp = pathTemp.subtract(new Vector2D(path.angle()).multiply(accuracy));
+				pathTemp = pathTemp.subtract(new Vector2D(v.angle()).multiply(accuracy));
 			}
 			else
 			{
-				pathTemp = pathTemp.add(new Vector2D(path.angle()).multiply(accuracy));
+				pathTemp = pathTemp.add(new Vector2D(v.angle()).multiply(accuracy));
 			}
 			accuracy *= 0.5;
-			/*Game.debug.draw();
+			// debug drawing
+			Game.debug.draw();
 			try
 			{
-				Thread.sleep(1000);
+				Thread.sleep(500);
 			} catch (InterruptedException e)
 			{
-				// TODO Auto-generated catch block
 				e.printStackTrace();
-			}*/
+			}
 		}
 		if(pathTemp.length()<2*Game.GAME_UNIT)
 		{
 			pathTemp = new Vector2D();
 		}
-		path = path.subtract(pathTemp);
+		v = v.subtract(pathTemp);
 		pos = pos.add(pathTemp);
-		return false;
+		return v;
 	}
 	
 	public void increaseStat()

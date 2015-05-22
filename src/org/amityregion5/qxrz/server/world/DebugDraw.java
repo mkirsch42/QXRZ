@@ -20,6 +20,10 @@ public class DebugDraw extends JApplet
 	private World w;  
 	public static ArrayList<Shape> buffer = new ArrayList<Shape>();
 	
+	private static final double SCALE = 10;
+	private static final int WIDTH = 700;
+	private static final int HEIGHT = 700;
+	
 	public static DebugDraw setup(World W)
 	{
 		JFrame f = new JFrame("ShapesDemo2D");
@@ -34,7 +38,7 @@ public class DebugDraw extends JApplet
 		f.getContentPane().add("Center", applet);
 		((DebugDraw)applet).init(W);
 		f.pack();
-		f.setSize(new Dimension(500, 500));
+		f.setSize(new Dimension(WIDTH, HEIGHT));
 		f.setVisible(true);
 		return applet;
 	}
@@ -55,7 +59,7 @@ public class DebugDraw extends JApplet
 	public void paint(Graphics g)
 	{
 		Graphics2D g2 = (Graphics2D) g;
-		g2.scale(2,2);
+		g2.scale(SCALE, SCALE);
 		g2.translate(5, 5);
 		g2.clearRect(-5,-5,getWidth(),getHeight());
 		g2.setColor(Color.GREEN);
