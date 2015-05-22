@@ -4,7 +4,6 @@ import java.io.IOException;
 import java.net.DatagramSocket;
 import java.net.InetAddress;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.HashSet;
 
 import org.amityregion5.qxrz.net.NetworkObject;
@@ -16,7 +15,6 @@ public class ServerNetworkManager extends Thread
 	private Thread recvThread;
 	private UDPInputStream inStream;
 	private UDPOutputStream outStream;
-	private long timeOffset;
 	// Callback functions
 	//private HashSet<ServerEventListener> listenerList = new HashSet<ServerEventListener>();
 	private ServerEventListener callback;
@@ -34,8 +32,6 @@ public class ServerNetworkManager extends Thread
 	public ServerNetworkManager(int port) throws IOException
 	{
 		super("Server Manager");
-		timeOffset = NetworkObject.getNetworkTime()
-				- System.currentTimeMillis();
 		DatagramSocket sock = new DatagramSocket(port);
 		inStream = new UDPInputStream(sock);
 		outStream = new UDPOutputStream();
@@ -89,7 +85,6 @@ public class ServerNetworkManager extends Thread
 			try
 			{
 				NetworkObject netObj = (NetworkObject) inStream.recvObject();
-			
 				DatagramSocket ds = new DatagramSocket();
 				Client c = new Client(ds);
 				ds.connect(inStream.getPacket().getSocketAddress());
@@ -106,12 +101,13 @@ public class ServerNetworkManager extends Thread
 //						sel.clientConnected(ds);
 //					}
 				}
+
+				callback.dataReceived(netObj);
+				sendNetworkObject(netObj);
 //				for (ServerEventListener sel : listenerList)
 //				{
 //					sel.dataReceived(netObj);
 //				}
-				callback.dataReceived(netObj);
-				sendNetworkObject(netObj);
 
 				System.out.println("Object Received from:");
 				System.out.println(netObj);
@@ -127,7 +123,6 @@ public class ServerNetworkManager extends Thread
 	public static void main(String[] args) throws Exception
 	{
 		NetworkObject no = new NetworkObject();
-		System.out.println(new Date(NetworkObject.getNetworkTime()));
 		ServerNetworkManager snm = new ServerNetworkManager(8000);
 		snm.start();
 		no.type = "Object";
@@ -143,6 +138,7 @@ public class ServerNetworkManager extends Thread
 		UDPInputStream uis = new UDPInputStream(ds);
 		NetworkObject recv = uis.recvObject();
 		System.out.println("Client received:" + recv);
+		snm.sendNetworkObject(recv);
 		System.out.println("object sended!");
 	}
 
