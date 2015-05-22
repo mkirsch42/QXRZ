@@ -4,7 +4,6 @@ import java.io.IOException;
 import java.net.DatagramSocket;
 import java.net.InetAddress;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.HashSet;
 
 import org.amityregion5.qxrz.net.NetworkObject;
@@ -16,10 +15,10 @@ public class ServerNetworkManager extends Thread
 	private Thread recvThread;
 	private UDPInputStream inStream;
 	private UDPOutputStream outStream;
-	private long timeOffset;
 	// Callback functions
 	private HashSet<ServerEventListener> listenerList = new HashSet<ServerEventListener>();
 
+	
 	// List of client sockets
 	private HashSet<DatagramSocket> clients = new HashSet<DatagramSocket>();
 
@@ -33,8 +32,6 @@ public class ServerNetworkManager extends Thread
 	public ServerNetworkManager(int port) throws IOException
 	{
 		super("Server Manager");
-		timeOffset = NetworkObject.getNetworkTime()
-				- System.currentTimeMillis();
 		DatagramSocket sock = new DatagramSocket(port);
 		inStream = new UDPInputStream(sock);
 		outStream = new UDPOutputStream();
@@ -61,7 +58,6 @@ public class ServerNetworkManager extends Thread
 	 */
 	public void sendNetworkObject(NetworkObject netObj)
 	{
-		netObj.setTimeStamp(System.currentTimeMillis() + timeOffset);
 		for (DatagramSocket ds : clients)
 		{
 			outStream.setSocket(ds);
@@ -89,11 +85,6 @@ public class ServerNetworkManager extends Thread
 				NetworkObject netObj = (NetworkObject) inStream.recvObject();
 
 				// Time stamp verification
-				if (Math.abs(netObj.getTimeStamp() - System.currentTimeMillis()
-						- timeOffset) > 1000 * 30)
-				{
-
-				}
 				DatagramSocket ds = new DatagramSocket();
 				ds.connect(inStream.getPacket().getSocketAddress());
 				if (!clients.contains(ds))
@@ -124,7 +115,6 @@ public class ServerNetworkManager extends Thread
 	public static void main(String[] args) throws Exception
 	{
 		NetworkObject no = new NetworkObject();
-		System.out.println(new Date(NetworkObject.getNetworkTime()));
 		ServerNetworkManager snm = new ServerNetworkManager(8000);
 		snm.start();
 		no.type = "Object";
