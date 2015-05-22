@@ -19,7 +19,7 @@ public class PlayerEntity extends GameEntity
 	private int health;
 	private int speed;
 	
-	public PlayerEntity()
+	public PlayerEntity() //creates player vector
 	{
 		pos = new Vector2D(0,0);
 		vel = new Vector2D(4,2);
@@ -27,7 +27,7 @@ public class PlayerEntity extends GameEntity
 		speed = 100;
 	}
 
-	public boolean update(double tSinceUpdate, Landscape surroundings)
+	public boolean update(double tSinceUpdate, Landscape surroundings) 
 	{
 		Vector2D bak = pos;
 		Path2D.Double path = new Path2D.Double();
@@ -61,6 +61,7 @@ public class PlayerEntity extends GameEntity
 		{
 			pos = bak;
 			System.out.println("Collision!");
+			collide();
 		}
 		System.out.println(pos);
 		return false;

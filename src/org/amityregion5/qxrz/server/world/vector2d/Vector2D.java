@@ -28,12 +28,12 @@ public class Vector2D
 		return new Vector2D(x*scalar, y*scalar);
 	}
 	
-	public Vector2D add(Vector2D v)
+	public Vector2D add(Vector2D v) //shift coordinate
 	{
 		return new Vector2D(x+v.getX(), y+v.getY());
 	}
 	
-	public Vector2D subtract(Vector2D v)
+	public Vector2D subtract(Vector2D v) //shift coordinate
 	{
 		return new Vector2D(x-v.getX(), y-v.getY());
 	}

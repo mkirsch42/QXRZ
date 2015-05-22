@@ -1,4 +1,4 @@
-package org.amityregion5.qxrz.net;
+package org.amityregion5.qxrz.common.net;
 
 import java.io.Serializable;
 
@@ -10,21 +10,19 @@ public class NetworkObject implements Serializable
 {
 	private static final long serialVersionUID = 1L;
 	
-	private Class type;
 	private Serializable payload;
 	private int packetNumber;
 	
 	public NetworkObject(Serializable obj, int packetNum)
 	{
 		payload = obj;
-		type = obj.getClass();
 		packetNumber = packetNum;
 	}
 	//TODO on the receiving end we can use type.cast(payload)
 	
 	public String toString()
 	{
-		return "type=" + type + ", " + "payload=" + payload;
+		return "payload=" + payload;
 	}
 
 	
