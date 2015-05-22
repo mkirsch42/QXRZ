@@ -1,19 +1,19 @@
 package org.amityregion5.qxrz.server.world.entity;
 
 import java.awt.Graphics2D;
-import java.awt.Rectangle;
+import java.awt.geom.Rectangle2D;
 
 public class RectangleHitbox extends Hitbox
 {
 
-	private Rectangle bounds;
+	private Rectangle2D.Double bounds;
 	
-	public RectangleHitbox(Rectangle r)
+	public RectangleHitbox(Rectangle2D.Double r)
 	{
 		bounds = r;
 	}
 	
-	public Rectangle getBounds()
+	public Rectangle2D.Double getBounds()
 	{
 		return bounds;
 	}

@@ -1,27 +1,56 @@
 package org.amityregion5.qxrz.server.world.entity;
 
-import java.awt.Polygon;
 import java.awt.Rectangle;
+import java.awt.Shape;
 import java.awt.geom.Path2D;
+import java.awt.geom.Rectangle2D;
 
+import javafx.scene.shape.Path;
+
+import org.amityregion5.qxrz.server.world.DebugDraw;
 import org.amityregion5.qxrz.server.world.Landscape;
 import org.amityregion5.qxrz.server.world.vector2d.Vector2D;
 
 public class PlayerEntity extends GameEntity
 {
 	
+	private final double PLAYER_SIZE = 4;
+	
 	public PlayerEntity()
 	{
 		pos = new Vector2D(0,0);
-		vel = new Vector2D(2,1);
+		vel = new Vector2D(4,2);
 	}
 
 	public boolean update(double tSinceUpdate, Landscape surroundings)
 	{
 		Vector2D bak = pos;
-		Path2D.Double path = new Path2D.Double(getHitbox().getBounds());
-		pos = pos.add(vel.multiply(tSinceUpdate));
-		path.append(getHitbox().getBounds(), true);
+		Path2D.Double path = new Path2D.Double();
+		Rectangle2D.Double hb = getHitbox().getBounds();
+		
+		Vector2D v = vel.multiply(tSinceUpdate);
+		
+		Vector2D p1 = new Vector2D(hb.getMinX(), hb.getMinY());
+		Vector2D p2 = new Vector2D(hb.getMinX(), hb.getMaxY());
+		Vector2D p3 = new Vector2D(hb.getMaxX(), hb.getMinY());
+		Vector2D p4 = new Vector2D(hb.getMaxX(), hb.getMaxY());
+		
+		path.moveTo(p1.getX(),p1.getY());
+		path.lineTo(p1.add(v).getX(), p1.add(v).getY());
+		
+		path.moveTo(p2.getX(),p2.getY());
+		path.lineTo(p2.add(v).getX(), p2.add(v).getY());
+		
+		path.moveTo(p3.getX(),p3.getY());
+		path.lineTo(p3.add(v).getX(), p3.add(v).getY());
+		
+		path.moveTo(p4.getX(),p4.getY());
+		path.lineTo(p4.add(v).getX(), p4.add(v).getY());
+		
+		path.append(hb, false);
+		pos = pos.add(v);
+		path.append(getHitbox().getBounds(), false);
+		DebugDraw.buffer.add(path);
 		Object o = surroundings.checkCollisions(new ShapeHitbox(path));
 		if (o!=null)
 		{
@@ -35,7 +64,7 @@ public class PlayerEntity extends GameEntity
 	public RectangleHitbox getHitbox()
 	{
 		// Create 2x2 square around player
-		return new RectangleHitbox(new Rectangle((int)pos.getX()-1, (int)pos.getY()-1, 2, 2));
+		return new RectangleHitbox(new Rectangle2D.Double((int)pos.getX()-PLAYER_SIZE/2.0, (int)pos.getY()-PLAYER_SIZE/2.0, PLAYER_SIZE, PLAYER_SIZE));
 	}
 
 	@Override
