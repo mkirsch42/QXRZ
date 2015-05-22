@@ -11,6 +11,6 @@ public class MainGui
 	public void show()
 	{
 		// TODO Auto-generated method stub
-		
+		// TODO Server UI bleh
 	}
 }
