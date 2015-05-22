@@ -109,7 +109,7 @@ public class PlayerEntity extends GameEntity
 			Game.debug.draw();
 			try
 			{
-				Thread.sleep(500);
+				Thread.sleep(250);
 			} catch (InterruptedException e)
 			{
 				e.printStackTrace();
@@ -121,6 +121,12 @@ public class PlayerEntity extends GameEntity
 		}
 		v = v.subtract(pathTemp);
 		pos = pos.add(pathTemp);
+		if(getHitbox().intersects(h.getHitbox()))
+		{
+			Vector2D t = new Vector2D(v.angle()).multiply(Game.GAME_UNIT*2);
+			v = v.add(t);
+			pos = pos.subtract(t);
+		}
 		return v;
 	}
 	

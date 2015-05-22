@@ -28,7 +28,7 @@ public class Game
 		World w = new World();
 		w.add(new PlayerEntity());
 		debug = DebugDraw.setup(w);
-		w.addObstacle(new Obstacle(new RectangleHitbox(new Rectangle2D.Double(50,25,5,10))));
+		w.addObstacle(new Obstacle(new RectangleHitbox(new Rectangle2D.Double(50,13,5,10))));
 
 		while (true)
 		{
