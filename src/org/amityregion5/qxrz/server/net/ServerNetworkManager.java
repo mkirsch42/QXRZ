@@ -5,10 +5,9 @@ import java.net.DatagramSocket;
 import java.net.InetAddress;
 import java.util.ArrayList;
 import java.util.HashSet;
-
-import org.amityregion5.qxrz.net.NetworkObject;
-import org.amityregion5.qxrz.net.UDPInputStream;
-import org.amityregion5.qxrz.net.UDPOutputStream;
+import org.amityregion5.qxrz.common.net.NetworkObject;
+import org.amityregion5.qxrz.common.net.UDPInputStream;
+import org.amityregion5.qxrz.common.net.UDPOutputStream;
 
 public class ServerNetworkManager extends Thread
 {

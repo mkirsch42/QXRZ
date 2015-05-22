@@ -1,4 +1,4 @@
-package org.amityregion5.qxrz.net;
+package org.amityregion5.qxrz.common.net;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
