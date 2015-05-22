@@ -1,5 +1,6 @@
 package org.amityregion5.qxrz.server.world;
 
+import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
@@ -20,8 +21,8 @@ public class DebugDraw extends JApplet
 	private World w;  
 	public static ArrayList<Shape> buffer = new ArrayList<Shape>();
 	
-	private static final double SCALE = 10;
-	private static final int WIDTH = 700;
+	private static final double SCALE = 15;
+	private static final int WIDTH = 1000;
 	private static final int HEIGHT = 700;
 	
 	public static DebugDraw setup(World W)
@@ -62,6 +63,7 @@ public class DebugDraw extends JApplet
 		g2.scale(SCALE, SCALE);
 		g2.translate(5, 5);
 		g2.clearRect(-5,-5,getWidth(),getHeight());
+		g2.setStroke(new BasicStroke(1));
 		g2.setColor(Color.GREEN);
 		while(buffer.size()>0)
 		{

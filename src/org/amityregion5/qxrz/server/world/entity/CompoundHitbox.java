@@ -3,6 +3,8 @@ package org.amityregion5.qxrz.server.world.entity;
 import java.awt.Graphics2D;
 import java.util.ArrayList;
 
+import org.amityregion5.qxrz.server.world.vector2d.Vector2D;
+
 public class CompoundHitbox extends Hitbox
 {
 
@@ -38,6 +40,13 @@ public class CompoundHitbox extends Hitbox
 		{
 			h.debugDraw(g);
 		}
+	}
+
+	@Override
+	public Vector2D getNearestNormal(Hitbox h)
+	{
+		// TODO Auto-generated method stub
+		return null;
 	}
 	
 }

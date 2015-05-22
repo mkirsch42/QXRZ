@@ -3,6 +3,8 @@ package org.amityregion5.qxrz.server.world.entity;
 import java.awt.Graphics2D;
 import java.awt.Shape;
 
+import org.amityregion5.qxrz.server.world.vector2d.Vector2D;
+
 public class ShapeHitbox extends Hitbox
 {
 
@@ -36,6 +38,13 @@ public class ShapeHitbox extends Hitbox
 		// Cast and use built in functions to check intersection
 		RectangleHitbox rhb = (RectangleHitbox)h2;
 		return bounds.intersects(rhb.getBounds());
+	}
+
+	@Override
+	public Vector2D getNearestNormal(Hitbox h)
+	{
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 	

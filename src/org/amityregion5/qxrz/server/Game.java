@@ -13,8 +13,10 @@ import org.amityregion5.qxrz.server.world.entity.RectangleHitbox;
 public class Game
 {
 
-	private static final int UPDATE_RATE = 120;
-	private static final int DEBUG_FPS = 120;
+	private static final int UPDATE_RATE = 10;
+	private static final int DEBUG_FPS = 10;
+	public static final boolean DEBUG_PATH = true;
+	public static final double PATH_LEN = 1;
 	
 	public static final double GAME_UNIT = 0.01;
 	
@@ -28,15 +30,14 @@ public class Game
 		World w = new World();
 		w.add(new PlayerEntity());
 		debug = DebugDraw.setup(w);
-		w.addObstacle(new Obstacle(new RectangleHitbox(new Rectangle2D.Double(50,13,5,10))));
+		w.addObstacle(new Obstacle(new RectangleHitbox(new Rectangle2D.Double(50,17,5,10))));
 
 		while (true)
 		{
 			// Update world entities with proportional time
 			w.update((System.currentTimeMillis() - lastMs)
 					/ (1000.0 / UPDATE_RATE));
-			debug.invalidate();
-			debug.repaint();
+			debug.draw();
 
 			// Set current time for next update
 			lastMs = System.currentTimeMillis();
