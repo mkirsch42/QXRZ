@@ -13,6 +13,7 @@ import org.amityregion5.qxrz.server.ui.MainGui;
 import org.amityregion5.qxrz.server.world.DebugDraw;
 import org.amityregion5.qxrz.server.world.World;
 import org.amityregion5.qxrz.server.world.entity.PlayerEntity;
+import org.amityregion5.qxrz.server.world.entity.ProjectileEntity;
 
 public final class Main
 {
@@ -48,6 +49,10 @@ public final class Main
 					// etc.
 				}
 				
+				else if(netObj.getPayload() instanceof ProjectileEntity)
+				{
+					
+				}
 				
 				else if(netObj.getPayload() instanceof DisconnectNotification)
 				{
@@ -56,6 +61,7 @@ public final class Main
 				
 			}
 		});
+		
 		JApplet debug = DebugDraw.setup(w);
 		
 		while(true)
