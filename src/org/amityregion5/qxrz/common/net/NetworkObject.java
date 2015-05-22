@@ -18,7 +18,16 @@ public class NetworkObject implements Serializable
 		payload = obj;
 		packetNumber = packetNum;
 	}
-	//TODO on the receiving end we can use type.cast(payload)
+	
+	public Serializable getPayload()
+	{
+		return payload;
+	}
+	
+	public int getPacketNumber()
+	{
+		return packetNumber;
+	}
 	
 	public String toString()
 	{

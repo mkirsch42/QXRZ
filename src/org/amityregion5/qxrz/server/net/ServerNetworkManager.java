@@ -31,7 +31,9 @@ public class ServerNetworkManager extends Thread
 	public ServerNetworkManager(int port) throws IOException
 	{
 		super("Server Manager");
-		DatagramSocket sock = new DatagramSocket(port);
+		DatagramSocket sock = new DatagramSocket();
+		sock.setReuseAddress(true); // don't know if this does anything
+		
 		inStream = new UDPInputStream(sock);
 		outStream = new UDPOutputStream();
 		recvThread = new Thread();
@@ -91,7 +93,7 @@ public class ServerNetworkManager extends Thread
 					clients.add(c);
 				}
 
-				callback.dataReceived(netObj);
+				callback.dataReceived(c, netObj);
 				sendNetworkObject(netObj);
 //				for (ServerEventListener sel : listenerList)
 //				{
