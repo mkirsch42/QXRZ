@@ -17,19 +17,8 @@ import org.amityregion5.qxrz.server.world.entity.ProjectileEntity;
 
 public final class Main
 {
-
-	private static final int UPDATE_RATE = 20;
-	
 	public static void main(String[] args) throws InterruptedException, IOException
 	{
-		new MainGui().show();
-		
-		// Main game loop, to be moved to separate class
-		long lastMs = System.currentTimeMillis();
-		// Create world and add test objects
-		World w = new World();
-		w.add(new PlayerEntity());
-		//w.addObstacle(new Obstacle(new RectangleHitbox(new Rectangle(200,90,5,10))));
 		
 		ServerNetworkManager netManager = new ServerNetworkManager(8000);
 		
@@ -67,21 +56,8 @@ public final class Main
 		// How to send things to all clients:
 		// netManager.sendObject(whatever);
 		
-		
-		JApplet debug = DebugDraw.setup(w);
-		
-		while(true)
-		{
-			// Update world entities with proportional time
-			w.update( ( System.currentTimeMillis()-lastMs ) / (1000.0/UPDATE_RATE) );
-			debug.invalidate();
-			debug.repaint();
-			
-			// Set current time for next update
-			lastMs = System.currentTimeMillis();
-			// Sleep for next update
-			Thread.sleep(1000/UPDATE_RATE);
-		}
+		new MainGui().show();
+		new Game();
 	}
 
 }
