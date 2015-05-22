@@ -1,6 +1,7 @@
 package org.amityregion5.qxrz.server.world.entity;
 
 import java.awt.geom.Rectangle2D;
+
 import org.amityregion5.qxrz.server.world.Landscape;
 
 public abstract class ProjectileEntity extends GameEntity

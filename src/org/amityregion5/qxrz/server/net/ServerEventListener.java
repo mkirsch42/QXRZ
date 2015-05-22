@@ -1,6 +1,6 @@
 package org.amityregion5.qxrz.server.net;
 
-import org.amityregion5.qxrz.net.NetworkObject;
+import org.amityregion5.qxrz.common.net.NetworkObject;
 
 //TODO dataReceived handler will have to check for disconnected-notification
 public interface ServerEventListener
