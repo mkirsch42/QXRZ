@@ -1,6 +1,6 @@
 package org.amityregion5.qxrz.server;
 
-import java.awt.geom.Rectangle2D;
+import java.awt.Rectangle;
 
 import javax.swing.JApplet;
 
@@ -14,7 +14,7 @@ import org.amityregion5.qxrz.server.world.entity.RectangleHitbox;
 public final class Main
 {
 
-	private static final int UPDATE_RATE = 30;
+	private static final int UPDATE_RATE = 20;
 	
 	public static void main(String[] args) throws InterruptedException
 	{
@@ -25,7 +25,7 @@ public final class Main
 		// Create world and add test objects
 		World w = new World();
 		w.add(new PlayerEntity());
-		w.addObstacle(new Obstacle(new RectangleHitbox(new Rectangle2D.Double(200,90,5,10))));
+		//w.addObstacle(new Obstacle(new RectangleHitbox(new Rectangle(200,90,5,10))));
 		
 		/* TODO instantiate server stuff and register event listeners with anonymous class
 		 * 

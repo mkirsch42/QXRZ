@@ -1,52 +1,32 @@
 package org.amityregion5.qxrz.net;
 
-import java.io.IOException;
 import java.io.Serializable;
-import java.net.URL;
-import java.net.URLConnection;
 
 // TODO we have to write object casting methods... enums?
+// TODO needs methods for adding objects... auto type string (have a list of types -> strings)
+// TODO packet numbering stuff
 
 public class NetworkObject implements Serializable
 {
 	private static final long serialVersionUID = 1L;
 	
-	public String type;
-	public Serializable payload;
-	private long timeStamp;
-	public static long getNetworkTime() throws IOException
-	{
-		URL timeAPI = new URL("http://www.google.com");
-		
-		long start = System.currentTimeMillis();
-		URLConnection connection = timeAPI.openConnection();
-		long ends = System.currentTimeMillis();
-		
-		return connection.getDate() - (ends - start) >> 1;
-	}
+	private Class type;
+	private Serializable payload;
+	private int packetNumber;
 	
-	public NetworkObject()
+	public NetworkObject(Serializable obj, int packetNum)
 	{
-		// can't do it this way, NEEDS to be synchronized clock time
-		timeStamp = System.currentTimeMillis();
+		payload = obj;
+		type = obj.getClass();
+		packetNumber = packetNum;
 	}
-	
-	
-	// MAYBE will be implemented.
-	public long getTimeStamp()
-	{
-		return timeStamp;
-	}
-	
-	public void setTimeStamp(long l)
-	{
-		this.timeStamp = l;
-	}
+	//TODO on the receiving end we can use type.cast(payload)
 	
 	public String toString()
 	{
 		return "type=" + type + ", " + "payload=" + payload;
 	}
+
 	
 	
 }
