@@ -31,7 +31,9 @@ public class ServerNetworkManager extends Thread
 	public ServerNetworkManager(int port) throws IOException
 	{
 		super("Server Manager");
-		DatagramSocket sock = new DatagramSocket(port);
+		DatagramSocket sock = new DatagramSocket();
+		sock.setReuseAddress(true); // don't know if this does anything
+		
 		inStream = new UDPInputStream(sock);
 		outStream = new UDPOutputStream();
 		recvThread = new Thread();
@@ -55,7 +57,7 @@ public class ServerNetworkManager extends Thread
 	 *            Object that will be sent to all clients
 	 * @throws IOException
 	 */
-	public void sendNetworkObject(NetworkObject netObj)
+	public void sendObject(NetworkObject netObj)
 	{
 		for (Client c : clients)
 		{
@@ -70,6 +72,11 @@ public class ServerNetworkManager extends Thread
 		}
 	}
 
+	public void removeClient(Client c)
+	{
+		clients.remove(c);
+	}
+	
 	@Override
 	public void run()
 	{
@@ -91,8 +98,8 @@ public class ServerNetworkManager extends Thread
 					clients.add(c);
 				}
 
-				callback.dataReceived(netObj);
-				sendNetworkObject(netObj);
+				callback.dataReceived(c, netObj);
+				sendObject(netObj);
 //				for (ServerEventListener sel : listenerList)
 //				{
 //					sel.dataReceived(netObj);
@@ -125,7 +132,7 @@ public class ServerNetworkManager extends Thread
 		UDPInputStream uis = new UDPInputStream(ds);
 		NetworkObject recv = uis.recvObject();
 		System.out.println("Client received:" + recv);
-		snm.sendNetworkObject(recv);
+		snm.sendObject(recv);
 		System.out.println("object sended!");
 	}
 
