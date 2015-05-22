@@ -1,17 +1,13 @@
 package org.amityregion5.qxrz.server;
 
 import java.io.IOException;
-
-import javax.swing.JApplet;
+import java.io.Serializable;
 
 import org.amityregion5.qxrz.common.net.DisconnectNotification;
-import org.amityregion5.qxrz.common.net.NetworkObject;
 import org.amityregion5.qxrz.server.net.Client;
 import org.amityregion5.qxrz.server.net.ServerEventListener;
 import org.amityregion5.qxrz.server.net.ServerNetworkManager;
 import org.amityregion5.qxrz.server.ui.MainGui;
-import org.amityregion5.qxrz.server.world.DebugDraw;
-import org.amityregion5.qxrz.server.world.World;
 import org.amityregion5.qxrz.server.world.entity.PlayerEntity;
 import org.amityregion5.qxrz.server.world.entity.ProjectileEntity;
 
@@ -31,21 +27,21 @@ public final class Main
 			}
 			
 			@Override
-			public void dataReceived(Client c, NetworkObject netObj)
+			public void dataReceived(Client c, Serializable netObj)
 			{
-				if(netObj.getPayload() instanceof PlayerEntity) 
+				if(netObj instanceof PlayerEntity) 
 				{
-					PlayerEntity u = (PlayerEntity) netObj.getPayload();
-					netManager.sendObject(u);
+					PlayerEntity u = (PlayerEntity) netObj;
+//					netManager.sendObject(u);
 				}
 				
-				else if(netObj.getPayload() instanceof ProjectileEntity)
+				else if(netObj instanceof ProjectileEntity)
 				{
-					ProjectileEntity u = (ProjectileEntity) netObj.getPayload();
-					netManager.sendObject(u);
+					ProjectileEntity u = (ProjectileEntity) netObj;
+//					netManager.sendObject(u);
 				}
 				
-				else if(netObj.getPayload() instanceof DisconnectNotification)
+				else if(netObj instanceof DisconnectNotification)
 				{
 					// also stop drawing player and stuff
 					netManager.removeClient(c);
