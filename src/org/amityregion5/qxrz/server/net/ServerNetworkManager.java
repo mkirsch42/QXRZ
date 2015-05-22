@@ -66,13 +66,7 @@ public class ServerNetworkManager extends Thread
 				outStream.sendObject(netObj);
 			} catch (IOException e)
 			{
-				// client disconnected! uh oh.
-//				for (ServerEventListener sel : listenerList)
-//				{
-//					sel.clientDisconnected(ds);
-//				}
-				// TODO: kelvin points out that this isn't actually possible with UDP.
-				callback.clientDisconnected(c);
+				e.printStackTrace();
 			}
 		}
 	}
@@ -88,18 +82,14 @@ public class ServerNetworkManager extends Thread
 				DatagramSocket ds = new DatagramSocket();
 				Client c = new Client(ds);
 				ds.connect(inStream.getPacket().getSocketAddress());
-				if (!clients.contains(c))
+				if (! clients.contains(c))
 				{
 //					for (ServerEventListener sel : listenerList)
 //					{
 //						sel.clientConnected(ds);
 //					}
-					callback.clientConnected(c);
+					callback.newClient(c);
 					clients.add(c);
-//					for (ServerEventListener sel : listenerList)
-//					{
-//						sel.clientConnected(ds);
-//					}
 				}
 
 				callback.dataReceived(netObj);
