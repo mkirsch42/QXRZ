@@ -29,4 +29,8 @@ public class MainMenuScreen extends AbstractScreen
 	
 	@Override
 	public boolean setReturnScreen(IScreen s){return false;}
+
+	@Override
+	protected void cleanup() {
+	}
 }

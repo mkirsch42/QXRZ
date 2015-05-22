@@ -43,4 +43,11 @@ public abstract class AbstractScreen implements IScreen {
 		return true;
 	}
 
+	@Override
+	public final void onGameClose() {
+		if (returnScreen != null) returnScreen.onGameClose();
+		cleanup();
+	}
+	
+	protected abstract void cleanup();
 }

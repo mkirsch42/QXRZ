@@ -18,27 +18,35 @@ import org.amityregion5.qxrz.client.ui.screen.WindowData;
 import org.amityregion5.qxrz.client.ui.util.GuiUtil;
 import org.amityregion5.qxrz.client.ui.util.ImageModification;
 
-/**
- * @author savelyevse17
- *
- */
 public class MainPanel extends JPanel implements MouseListener, MouseMotionListener, KeyListener
 {
 	private static final long serialVersionUID = 4938517709138642833L;
 
+	//The gui object that we come from
 	private MainGui gui;
 	
+	//Keyboard buttons that are currently down
 	private List<Integer> keysDown;
+	//Mouse buttons that are currently down
 	private List<Integer> miceDown;
+	//X coordinate relative to the top right of this panel of the mouse
 	private int mouseX;
+	//Y coordinate relative to the top right of this panel of the mouse
 	private int mouseY;
 
+	/**
+	 * Create a Main Panel object
+	 * 
+	 * @param gui the MainGui object that created this panel
+	 */
 	public MainPanel(MainGui gui)
 	{
+		//Set instance variables
 		this.gui = gui;
 		keysDown = new ArrayList<Integer>();
 		miceDown = new ArrayList<Integer>();
 		
+		//Add event listeners
 		addMouseListener(this);
 		addMouseMotionListener(this);
 		addKeyListener(this);
@@ -47,19 +55,27 @@ public class MainPanel extends JPanel implements MouseListener, MouseMotionListe
 	@Override
 	public void paint(Graphics g)
 	{
-		
+		//Convert our graphics object to a Graphics2D object
 		Graphics2D g2 = (Graphics2D)g;
+		//Make everything look better
 		GuiUtil.applyRenderingHints(g2);
 		
+		//If we have something to draw
 		if (gui.getCurrentScreen() != null) {
+			//Create an image the size of the screen
 			BufferedImage scr = ImageModification.createBlankBufferedImage(getWidth(), getHeight());
+			//Get it's graphics object
 			Graphics2D screenGraphics = scr.createGraphics();
+			//Make it look better
 			GuiUtil.applyRenderingHints(screenGraphics);
 
+			//Get the current screen to draw on it
 			gui.getCurrentScreen().drawScreen(screenGraphics, new WindowData(getWidth(), getHeight(), keysDown, miceDown, mouseX, mouseY));
 			
+			//Get rid of the graphics object
 			screenGraphics.dispose();
 			
+			//Draw our image on our screen
 			g2.drawImage(scr, null, 0, 0);
 		}
 	}
