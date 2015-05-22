@@ -1,7 +1,6 @@
 package org.amityregion5.qxrz.common.net;
 
 import java.io.ByteArrayOutputStream;
-import java.io.IOException;
 import java.io.ObjectOutputStream;
 import java.net.DatagramPacket;
 import java.net.DatagramSocket;
