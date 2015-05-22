@@ -13,10 +13,12 @@ import org.amityregion5.qxrz.server.world.entity.RectangleHitbox;
 public class Game
 {
 
-	private static final int UPDATE_RATE = 30;
-	private static final int DEBUG_FPS = 60;
+	private static final int UPDATE_RATE = 60;
+	private static final int DEBUG_FPS = 10;
 	
 	public static final double GAME_UNIT = 0.001;
+	
+	public static DebugDraw debug;
 	
 	public Game() throws InterruptedException
 	{
@@ -25,7 +27,7 @@ public class Game
 		// Create world and add test objects
 		World w = new World();
 		w.add(new PlayerEntity());
-		JApplet debug = DebugDraw.setup(w);
+		debug = DebugDraw.setup(w);
 		w.addObstacle(new Obstacle(new RectangleHitbox(new Rectangle2D.Double(200,90,5,10))));
 
 		while (true)

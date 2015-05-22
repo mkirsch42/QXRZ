@@ -20,7 +20,7 @@ public class PlayerEntity extends GameEntity
 	public PlayerEntity() //creates player vector
 	{
 		pos = new Vector2D(0,0);
-		vel = new Vector2D(2,1).multiply(10);
+		vel = new Vector2D(2,1).multiply(5);
 		health = 100;
 		speed = 100;
 	}
@@ -30,7 +30,8 @@ public class PlayerEntity extends GameEntity
 		Obstacle o = checkCollisions(vel.multiply(tSinceUpdate),surroundings);
 		if (o!=null)
 		{
-			//System.out.println("Collision!");
+			System.out.println("Collision!");
+			System.out.println(((RectangleHitbox)o.getHitbox()).getBounds());
 			collide(o, surroundings);
 		}
 		else
@@ -95,6 +96,19 @@ public class PlayerEntity extends GameEntity
 				pathTemp = pathTemp.add(new Vector2D(path.angle()).multiply(accuracy));
 			}
 			accuracy *= 0.5;
+			/*Game.debug.draw();
+			try
+			{
+				Thread.sleep(1000);
+			} catch (InterruptedException e)
+			{
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}*/
+		}
+		if(pathTemp.length()<2*Game.GAME_UNIT)
+		{
+			pathTemp = new Vector2D();
 		}
 		path = path.subtract(pathTemp);
 		pos = pos.add(pathTemp);

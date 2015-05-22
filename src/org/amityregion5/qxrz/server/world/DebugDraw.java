@@ -20,7 +20,7 @@ public class DebugDraw extends JApplet
 	private World w;  
 	public static ArrayList<Shape> buffer = new ArrayList<Shape>();
 	
-	public static JApplet setup(World W)
+	public static DebugDraw setup(World W)
 	{
 		JFrame f = new JFrame("ShapesDemo2D");
 		f.addWindowListener(new WindowAdapter()
@@ -30,7 +30,7 @@ public class DebugDraw extends JApplet
 				System.exit(0);
 			}
 		});
-		JApplet applet = new DebugDraw();
+		DebugDraw applet = new DebugDraw();
 		f.getContentPane().add("Center", applet);
 		((DebugDraw)applet).init(W);
 		f.pack();
@@ -45,6 +45,12 @@ public class DebugDraw extends JApplet
         setBackground(bg);
         setForeground(fg);
     }
+	
+	public void draw()
+	{
+		invalidate();
+		repaint();
+	}
 	
 	public void paint(Graphics g)
 	{
