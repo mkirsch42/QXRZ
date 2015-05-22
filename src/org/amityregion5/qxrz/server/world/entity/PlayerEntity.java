@@ -1,14 +1,11 @@
 package org.amityregion5.qxrz.server.world.entity;
 
-import java.awt.Rectangle;
-import java.awt.Shape;
 import java.awt.geom.Path2D;
 import java.awt.geom.Rectangle2D;
 
-import javafx.scene.shape.Path;
-
 import org.amityregion5.qxrz.server.world.DebugDraw;
 import org.amityregion5.qxrz.server.world.Landscape;
+import org.amityregion5.qxrz.server.world.Obstacle;
 import org.amityregion5.qxrz.server.world.vector2d.Vector2D;
 
 public class PlayerEntity extends GameEntity
@@ -22,7 +19,7 @@ public class PlayerEntity extends GameEntity
 	public PlayerEntity() //creates player vector
 	{
 		pos = new Vector2D(0,0);
-		vel = new Vector2D(4,2);
+		vel = new Vector2D(2,1).multiply(10);
 		health = 100;
 		speed = 100;
 	}
@@ -56,12 +53,12 @@ public class PlayerEntity extends GameEntity
 		pos = pos.add(v);
 		path.append(getHitbox().getBounds(), false);
 		DebugDraw.buffer.add(path);
-		Object o = surroundings.checkCollisions(new ShapeHitbox(path));
+		Obstacle o = surroundings.checkCollisions(new ShapeHitbox(path));
 		if (o!=null)
 		{
 			pos = bak;
 			System.out.println("Collision!");
-			collide();
+			collide(o);
 		}
 		System.out.println(pos);
 		return false;
@@ -73,8 +70,7 @@ public class PlayerEntity extends GameEntity
 		return new RectangleHitbox(new Rectangle2D.Double((int)pos.getX()-PLAYER_SIZE/2.0, (int)pos.getY()-PLAYER_SIZE/2.0, PLAYER_SIZE, PLAYER_SIZE));
 	}
 
-	@Override
-	public boolean collide()
+	public boolean collide(Hitboxed h)
 	{
 		
 		return false;

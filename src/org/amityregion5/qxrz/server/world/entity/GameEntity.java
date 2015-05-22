@@ -13,7 +13,7 @@ public abstract class GameEntity implements Hitboxed
 	
 	public abstract Hitbox getHitbox();
 	
-	public abstract boolean collide(/*PVector normal*/);
+	public abstract boolean collide(Hitboxed h);
 	
 	public GameEntity()
 	{
