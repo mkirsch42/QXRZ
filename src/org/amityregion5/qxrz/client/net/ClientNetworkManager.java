@@ -21,6 +21,11 @@ public class ClientNetworkManager implements Runnable
 	boolean running = true;
 	private ClientEventListener callback;
 
+	/**
+	 * 
+	 * @param s Object to send
+	 * @throws Exception Exception will be thrown if having issue with network
+	 */
 	public void sendObject(Serializable s) throws Exception
 	{
 		NetworkObject netObj = new NetworkObject(s, packetNumber);
