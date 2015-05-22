@@ -18,10 +18,11 @@ public class ServerNetworkManager extends Thread
 	private UDPOutputStream outStream;
 	private long timeOffset;
 	// Callback functions
-	private HashSet<ServerEventListener> listenerList = new HashSet<ServerEventListener>();
-
+	//private HashSet<ServerEventListener> listenerList = new HashSet<ServerEventListener>();
+	private ServerEventListener callback;
+	
 	// List of client sockets
-	private HashSet<DatagramSocket> clients = new HashSet<DatagramSocket>();
+	private HashSet<Client> clients = new HashSet<Client>();
 
 	/**
 	 * This will initialize a socket that listens on a port
@@ -49,7 +50,7 @@ public class ServerNetworkManager extends Thread
 	 */
 	public void addServerEventListener(ServerEventListener sel)
 	{
-		listenerList.add(sel);
+		callback = sel;
 	}
 
 	/**
@@ -61,20 +62,21 @@ public class ServerNetworkManager extends Thread
 	 */
 	public void sendNetworkObject(NetworkObject netObj)
 	{
-		netObj.setTimeStamp(System.currentTimeMillis() + timeOffset);
-		for (DatagramSocket ds : clients)
+		for (Client c : clients)
 		{
-			outStream.setSocket(ds);
+			outStream.setSocket(c.getSocket());
 			try
 			{
 				outStream.sendObject(netObj);
 			} catch (IOException e)
 			{
 				// client disconnected! uh oh.
-				for (ServerEventListener sel : listenerList)
-				{
-					sel.clientDisconnected(ds);
-				}
+//				for (ServerEventListener sel : listenerList)
+//				{
+//					sel.clientDisconnected(ds);
+//				}
+				// TODO: kelvin points out that this isn't actually possible with UDP.
+				callback.clientDisconnected(c);
 			}
 		}
 	}
@@ -87,27 +89,28 @@ public class ServerNetworkManager extends Thread
 			try
 			{
 				NetworkObject netObj = (NetworkObject) inStream.recvObject();
-
-				// Time stamp verification
-				if (Math.abs(netObj.getTimeStamp() - System.currentTimeMillis()
-						- timeOffset) > 1000 * 30)
-				{
-
-				}
+			
 				DatagramSocket ds = new DatagramSocket();
+				Client c = new Client(ds);
 				ds.connect(inStream.getPacket().getSocketAddress());
-				if (!clients.contains(ds))
+				if (!clients.contains(c))
 				{
-					for (ServerEventListener sel : listenerList)
-					{
-						sel.clientConnected(ds);
-					}
-					clients.add(ds);
+//					for (ServerEventListener sel : listenerList)
+//					{
+//						sel.clientConnected(ds);
+//					}
+					callback.clientConnected(c);
+					clients.add(c);
+//					for (ServerEventListener sel : listenerList)
+//					{
+//						sel.clientConnected(ds);
+//					}
 				}
-				for (ServerEventListener sel : listenerList)
-				{
-					sel.dataReceived(netObj);
-				}
+//				for (ServerEventListener sel : listenerList)
+//				{
+//					sel.dataReceived(netObj);
+//				}
+				callback.dataReceived(netObj);
 				sendNetworkObject(netObj);
 
 				System.out.println("Object Received from:");
