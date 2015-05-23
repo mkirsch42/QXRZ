@@ -19,14 +19,14 @@ public class Game
 	
 	public Game() throws InterruptedException
 	{
-		// Main game loop, to be moved to separate class
-		long lastMs = System.currentTimeMillis();
 		// Create world and add test objects
 		World w = new World();
 		w.add(new PlayerEntity());
 		debug = DebugDraw.setup(w);
 		w.addObstacle(new Obstacle(new RectangleHitbox(new Rectangle2D.Double(50,17,5,11))));
 
+		long lastMs = System.currentTimeMillis();
+		
 		while (true)
 		{
 			// Update world entities with proportional time
