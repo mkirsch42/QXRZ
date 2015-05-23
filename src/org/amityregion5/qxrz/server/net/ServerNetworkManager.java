@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.io.Serializable;
 import java.net.DatagramSocket;
 import java.util.HashSet;
+import java.util.Iterator;
 
 import org.amityregion5.qxrz.common.net.NetworkObject;
 import org.amityregion5.qxrz.common.net.UDPInputStream;
@@ -76,6 +77,19 @@ public class ServerNetworkManager extends Thread
 	{
 		clients.remove(c);
 	}
+	
+	private Client getClientBySocket(DatagramSocket sock)
+	{
+		for(Iterator<Client> it = clients.iterator(); it.hasNext(); )
+		{
+			Client c = it.next();
+			if(c.hasSameSocket(sock))
+			{
+				return c;
+			}
+		}
+		return null;
+	}
 
 	@Override
 	public void run()
@@ -100,6 +114,19 @@ public class ServerNetworkManager extends Thread
 					}
 					clients.add(c);
 				}
+				int pn = netObj.getPacketNumber();
+				Client c2 = this.getClientBySocket(ds);
+				if(c2 == null)
+				{
+					//This should never happen!!
+					continue;
+				}
+				if(pn < c2.getReceivedPacketCount())
+				{
+					continue;
+				}
+				c2.setReceivedPacketCount(c2.getReceivedPacketCount() + 1);
+				
 				if (callback != null)
 				{
 					callback.dataReceived(c, netObj.getPayload());

@@ -77,6 +77,12 @@ public class ClientNetworkManager implements Runnable
 				NetworkObject obj = inStream.recvObject();
 				if (callback != null)
 				{
+					int pn = obj.getPacketNumber();
+					if(pn < packetNumber)
+					{
+						continue;
+					}
+					packetNumber = pn;
 					callback.dataReceived(obj.getPayload());
 				}
 			} catch (ClassNotFoundException | IOException e)
