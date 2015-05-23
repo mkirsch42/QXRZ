@@ -5,6 +5,7 @@ import java.io.Serializable;
 import java.net.DatagramSocket;
 import java.util.HashSet;
 import java.util.Iterator;
+import java.util.logging.Logger;
 
 import org.amityregion5.qxrz.common.net.NetworkObject;
 import org.amityregion5.qxrz.common.net.UDPInputStream;
@@ -15,6 +16,7 @@ public class ServerNetworkManager extends Thread
 	private Thread recvThread;
 	private UDPInputStream inStream;
 	private UDPOutputStream outStream;
+	private Logger l = Logger.getLogger("Global");
 	// Callback functions
 	// private HashSet<ServerEventListener> listenerList = new
 	// HashSet<ServerEventListener>();
@@ -137,8 +139,8 @@ public class ServerNetworkManager extends Thread
 				// sel.dataReceived(netObj);
 				// }
 
-				System.out.println("Object Received from:");
-				System.out.println(netObj);
+				l.info("Object Received from:");
+				l.info(netObj.toString());
 
 			} catch (ClassNotFoundException | IOException e)
 			{
@@ -156,16 +158,16 @@ public class ServerNetworkManager extends Thread
 	//
 	// DatagramSocket ds = new DatagramSocket();
 	//
-	// System.out.println(ds.isConnected());
+	// l.info(ds.isConnected());
 	// ds.connect(InetAddress.getByName("127.0.0.1"), 8000);
 	// UDPOutputStream uos = new UDPOutputStream();
 	// uos.setSocket(ds);
 	// uos.sendObject(no);
 	// UDPInputStream uis = new UDPInputStream(ds);
 	// NetworkObject recv = uis.recvObject();
-	// System.out.println("Client received:" + recv);
+	// l.info("Client received:" + recv);
 	// snm.sendObject(recv);
-	// System.out.println("object sended!");
+	// l.info("object sended!");
 	// }
 
 }
