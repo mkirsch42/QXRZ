@@ -79,7 +79,7 @@ public class ClientNetworkManager implements Runnable
 				if (callback != null)
 				{
 					int pn = obj.getPacketNumber();
-					if(pn < receivedPacket)
+					if(pn != receivedPacket + 1)
 					{
 						continue;
 					}
