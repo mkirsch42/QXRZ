@@ -18,8 +18,7 @@ public class ServerNetworkManager extends Thread
 	private UDPOutputStream outStream;
 	private Logger l = Logger.getLogger("Global");
 	// Callback functions
-	// private HashSet<ServerEventListener> listenerList = new
-	// HashSet<ServerEventListener>();
+	// private HashSet<ServerEventListener> listenerList = new HashSet<ServerEventListener>();
 	private ServerEventListener callback;
 
 	// List of client sockets
@@ -34,7 +33,8 @@ public class ServerNetworkManager extends Thread
 	 */
 	public ServerNetworkManager(int port) throws IOException
 	{
-		super("Server Manager");
+		// this should be lowercase
+		super("servermanager");
 		DatagramSocket sock = new DatagramSocket();
 		sock.setReuseAddress(true); // don't know if this does anything
 
@@ -82,10 +82,11 @@ public class ServerNetworkManager extends Thread
 	
 	private Client getClientBySocket(DatagramSocket sock)
 	{
+		Client c2 = new Client(sock);
 		for(Iterator<Client> it = clients.iterator(); it.hasNext(); )
 		{
 			Client c = it.next();
-			if(c.hasSameSocket(sock))
+			if(c.equals(c2))
 			{
 				return c;
 			}
@@ -104,12 +105,8 @@ public class ServerNetworkManager extends Thread
 				DatagramSocket ds = new DatagramSocket();
 				Client c = new Client(ds);
 				ds.connect(inStream.getPacket().getSocketAddress());
-				if (!clients.contains(c))
+				if (! clients.contains(c))
 				{
-					// for (ServerEventListener sel : listenerList)
-					// {
-					// sel.clientConnected(ds);
-					// }
 					if (callback != null)
 					{
 						callback.newClient(c);
@@ -117,27 +114,19 @@ public class ServerNetworkManager extends Thread
 					clients.add(c);
 				}
 				int pn = netObj.getPacketNumber();
-				Client c2 = this.getClientBySocket(ds);
-				if(c2 == null)
-				{
-					//This should never happen!!
-					continue;
-				}
+				
+				Client c2 = getClientBySocket(ds);
 				if(pn < c2.getReceivedPacketCount())
 				{
 					continue;
 				}
-				c2.setReceivedPacketCount(c2.getReceivedPacketCount() + 1);
+				c2.incrementReceivedPacketCount();
 				
 				if (callback != null)
 				{
 					callback.dataReceived(c, netObj.getPayload());
 				}
 				sendObject(netObj);
-				// for (ServerEventListener sel : listenerList)
-				// {
-				// sel.dataReceived(netObj);
-				// }
 
 				l.info("Object Received from:");
 				l.info(netObj.toString());
