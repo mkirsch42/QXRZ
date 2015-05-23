@@ -13,7 +13,8 @@ import org.amityregion5.qxrz.common.net.UDPOutputStream;
 
 public class ClientNetworkManager implements Runnable
 {
-	private int packetNumber = 0;
+	private int sendedPacket = 0;
+	private int receivedPacket = 0;
 	private UDPOutputStream outStream;
 	private UDPInputStream inStream;
 	boolean pause = false;
@@ -28,8 +29,8 @@ public class ClientNetworkManager implements Runnable
 	 */
 	public void sendObject(Serializable s) throws Exception
 	{
-		NetworkObject netObj = new NetworkObject(s, packetNumber);
-		packetNumber++;
+		NetworkObject netObj = new NetworkObject(s, sendedPacket);
+		sendedPacket++;
 		outStream.sendObject(netObj);
 	}
 
@@ -78,11 +79,11 @@ public class ClientNetworkManager implements Runnable
 				if (callback != null)
 				{
 					int pn = obj.getPacketNumber();
-					if(pn < packetNumber)
+					if(pn < receivedPacket)
 					{
 						continue;
 					}
-					packetNumber = pn;
+					receivedPacket = pn;
 					callback.dataReceived(obj.getPayload());
 				}
 			} catch (ClassNotFoundException | IOException e)
