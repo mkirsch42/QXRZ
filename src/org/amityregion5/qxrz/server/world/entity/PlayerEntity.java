@@ -32,11 +32,11 @@ public class PlayerEntity extends GameEntity
 		{
 			System.out.println("Collision!");
 			System.out.println(((RectangleHitbox) o.getHitbox()).getBounds());
-			collide(o, surroundings);
+			collide(o, surroundings, vel.multiply(tSinceUpdate));
 		}
 		else
 		{
-			pos = pos.add(vel);
+			pos = pos.add(vel.multiply(tSinceUpdate));
 		}
 		// System.out.println(pos);
 		return false;
@@ -45,8 +45,8 @@ public class PlayerEntity extends GameEntity
 	public RectangleHitbox getHitbox()
 	{
 		// Create 2x2 square around player
-		return new RectangleHitbox(new Rectangle2D.Double((int) pos.getX()
-				- PLAYER_SIZE / 2.0, (int) pos.getY() - PLAYER_SIZE / 2.0,
+		return new RectangleHitbox(new Rectangle2D.Double(pos.getX()
+				- PLAYER_SIZE / 2.0, pos.getY() - PLAYER_SIZE / 2.0,
 				PLAYER_SIZE, PLAYER_SIZE));
 	}
 
@@ -76,25 +76,59 @@ public class PlayerEntity extends GameEntity
 		path.append(hb, false);
 		pos = pos.add(v);
 		path.append(getHitbox().getBounds(), false);
-		if(Game.DEBUG_PATH)
+		if (Game.DEBUG_PATH)
 			DebugDraw.buffer.add(path);
 		Obstacle o = surroundings.checkCollisions(new ShapeHitbox(path));
 		pos = bak;
 		return o;
 	}
 
-	public boolean collide(Hitboxed h, Landscape l)
+	public boolean collide(Hitboxed h, Landscape l, Vector2D v)
 	{
-		Vector2D rem = fixCollisionWithVel(vel, h, l, false);
-		Vector2D norm = h.getHitbox().getNearestNormal(getHitbox()).rotateQuad(1);
-		Vector2D move = rem.project(norm);
-		pos = pos.add(move);
+		// The stuff left after fully reaching the obstacle
+		Vector2D rem = fixCollisionWithVel(v, h, l, false);
+		// Obstacle normal
+		Vector2D norm = h.getHitbox().getNearestNormal(getHitbox());
+		// Go a bit into the obstacle
+		pos = pos.subtract(norm.multiply(5 * Game.GAME_UNIT));
+		// Get the amount you can move along the side
+		Vector2D move = rem.project(norm.rotateQuad(1)).snap();
+		System.out.println(rem);
+		rem = fixCollisionWithVel(move, h, l, true);
+
+		// Get back out of obstacle
+		pos = pos.add(norm.multiply(5 * Game.GAME_UNIT));
+		// If no more velocity, don't try to spend any more
+		if (rem.equals(new Vector2D()))
+			return false;
+
+		// Backup velocity
+		Vector2D bak = vel;
+		// Use remaining velocity for this update in the usual direction
+		vel = new Vector2D(vel.angle()).multiply(rem.length());
+		// Recursively update until there is no more velocity
+		update(1, l);
+		// Restore velocity
+		vel = bak;
 		return false;
 	}
 
 	public Vector2D fixCollisionWithVel(Vector2D v, Hitboxed h, Landscape l,
 			boolean unCollide)
 	{
+		// if(unCollide)
+		// System.out.println(v);
+		pos = pos.add(v);
+		if (unCollide && getHitbox().intersects(h.getHitbox()))
+		{
+			return new Vector2D();
+		}
+		pos = pos.subtract(v);
+		if (unCollide)
+		{
+			// System.out.println("I can do it!");
+
+		}
 		if (v.length() < 2 * Game.GAME_UNIT)
 		{
 			return new Vector2D();
@@ -103,16 +137,38 @@ public class PlayerEntity extends GameEntity
 		double accuracy = pathTemp.length() * 0.5;
 		while (accuracy > Game.GAME_UNIT)
 		{
-			if ((!unCollide && checkCollisions(pathTemp, l) != null)
-					|| (unCollide && checkCollisions(pathTemp, l) == null))
+			if (unCollide)
 			{
-				pathTemp = pathTemp.subtract(new Vector2D(v.angle())
-						.multiply(accuracy));
+				if (Game.DEBUG_PATH)
+				{
+					checkCollisions(pathTemp, l);
+				}
+				Vector2D b = pos;
+				pos = pos.add(pathTemp);
+				if (getHitbox().intersects(h.getHitbox()))
+				{
+					pathTemp = pathTemp.add(new Vector2D(v.angle())
+							.multiply(accuracy));
+				}
+				else
+				{
+					pathTemp = pathTemp.subtract(new Vector2D(v.angle())
+							.multiply(accuracy));
+				}
+				pos = b;
 			}
 			else
 			{
-				pathTemp = pathTemp.add(new Vector2D(v.angle())
-						.multiply(accuracy));
+				if (!unCollide && checkCollisions(pathTemp, l) != null)
+				{
+					pathTemp = pathTemp.subtract(new Vector2D(v.angle())
+							.multiply(accuracy));
+				}
+				else
+				{
+					pathTemp = pathTemp.add(new Vector2D(v.angle())
+							.multiply(accuracy));
+				}
 			}
 			accuracy *= 0.5;
 			if (Game.DEBUG_PATH)
@@ -136,11 +192,32 @@ public class PlayerEntity extends GameEntity
 		pos = pos.add(pathTemp);
 		while (getHitbox().intersects(h.getHitbox()))
 		{
+			if (unCollide)
+			{
+				Vector2D t = new Vector2D(v.angle()).multiply(Game.GAME_UNIT);
+				v = v.subtract(t);
+				pos = pos.add(t);
+			}
+			else
+			{
+				Vector2D t = new Vector2D(v.angle()).multiply(Game.GAME_UNIT);
+				v = v.add(t);
+				pos = pos.subtract(t);
+			}
+		}
+		if (unCollide)
+		{
+			Vector2D t = new Vector2D(v.angle()).multiply(Game.GAME_UNIT);
+			v = v.subtract(t);
+			pos = pos.add(t);
+		}
+		else
+		{
 			Vector2D t = new Vector2D(v.angle()).multiply(Game.GAME_UNIT);
 			v = v.add(t);
 			pos = pos.subtract(t);
 		}
-		if(Game.DEBUG_PATH)
+		if (Game.DEBUG_PATH)
 			DebugDraw.buffer.add(getHitbox().getBounds());
 		return v;
 	}

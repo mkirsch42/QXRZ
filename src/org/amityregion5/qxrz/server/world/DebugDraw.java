@@ -63,12 +63,24 @@ public class DebugDraw extends JApplet
 		g2.scale(SCALE, SCALE);
 		g2.translate(5, 5);
 		g2.clearRect(-5,-5,getWidth(),getHeight());
-		g2.setStroke(new BasicStroke(1));
+		g2.setStroke(new BasicStroke(0.25F));
 		g2.setColor(Color.GREEN);
+		boolean green = true;
 		while(buffer.size()>0)
 		{
 			g2.draw(buffer.remove(0));
+			if(green)
+			{
+				g2.setColor(Color.RED);
+				green = false;
+			}
+			else
+			{
+				g2.setColor(Color.GREEN);
+				green = true;
+			}
 		}
+		g2.setStroke(new BasicStroke(0.1F));
 		g2.setColor(Color.BLACK);
 		if(w!=null)
 			w.draw(g2);

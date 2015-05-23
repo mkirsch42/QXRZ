@@ -14,8 +14,8 @@ public class Game
 {
 
 	private static final int UPDATE_RATE = 10;
-	private static final int DEBUG_FPS = 10;
-	public static final boolean DEBUG_PATH = true;
+	private static final int DEBUG_FPS = 60;
+	public static final boolean DEBUG_PATH = false;
 	public static final double PATH_LEN = 1;
 	
 	public static final double GAME_UNIT = 0.01;
@@ -30,7 +30,7 @@ public class Game
 		World w = new World();
 		w.add(new PlayerEntity());
 		debug = DebugDraw.setup(w);
-		w.addObstacle(new Obstacle(new RectangleHitbox(new Rectangle2D.Double(50,17,5,10))));
+		w.addObstacle(new Obstacle(new RectangleHitbox(new Rectangle2D.Double(50,17,5,11))));
 
 		while (true)
 		{

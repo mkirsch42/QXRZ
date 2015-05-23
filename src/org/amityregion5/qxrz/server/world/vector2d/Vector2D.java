@@ -2,6 +2,8 @@ package org.amityregion5.qxrz.server.world.vector2d;
 
 public class Vector2D
 {
+	private static final double EPSILON = 0.000001;
+	
 	//coordinates
 	private double x;
 	private double y;
@@ -117,5 +119,23 @@ public class Vector2D
 			r = new Vector2D(r.getY(), -r.getX());
 		}
 		return r;
+	}
+
+	public Vector2D snap()
+	{
+		if(Math.abs(getX())<EPSILON)
+		{
+			return new Vector2D(0, getY());
+		}
+		if(Math.abs(getY())<EPSILON)
+		{
+			return new Vector2D(getX(), 0);
+		}
+		
+		double quad = Math.round(angle()/(Math.PI/2));
+		
+		System.out.println(quad);
+		
+		return null;
 	}
 }

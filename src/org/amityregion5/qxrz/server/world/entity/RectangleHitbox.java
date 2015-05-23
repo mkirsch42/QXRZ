@@ -48,7 +48,6 @@ public class RectangleHitbox extends Hitbox
 				bounds.outcode(r.getMaxX(), r.getMinY()) &
 				bounds.outcode(r.getMinX(), r.getMaxY()) &
 				bounds.outcode(r.getMinX(), r.getMinY());
-		System.out.println(code);
 		if(code==1)
 		{
 			return new Vector2D(-1,0);
