@@ -12,11 +12,6 @@ import org.amityregion5.qxrz.server.world.entity.RectangleHitbox;
 
 public class Game
 {
-
-	private static final int UPDATE_RATE = 10;
-	private static final int DEBUG_FPS = 60;
-	public static final boolean DEBUG_PATH = false;
-	public static final double PATH_LEN = 1;
 	
 	public static final double GAME_UNIT = 0.01;
 	
@@ -36,13 +31,13 @@ public class Game
 		{
 			// Update world entities with proportional time
 			w.update((System.currentTimeMillis() - lastMs)
-					/ (1000.0 / UPDATE_RATE));
+					/ (1000.0 / DebugConstants.UPDATE_RATE));
 			debug.draw();
 
 			// Set current time for next update
 			lastMs = System.currentTimeMillis();
 			// Sleep for next update
-			Thread.sleep(1000 / DEBUG_FPS);
+			Thread.sleep(1000 / DebugConstants.DEBUG_FPS);
 		}
 	}
 

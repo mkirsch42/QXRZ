@@ -3,6 +3,7 @@ package org.amityregion5.qxrz.server.world.entity;
 import java.awt.geom.Path2D;
 import java.awt.geom.Rectangle2D;
 
+import org.amityregion5.qxrz.server.DebugConstants;
 import org.amityregion5.qxrz.server.Game;
 import org.amityregion5.qxrz.server.world.DebugDraw;
 import org.amityregion5.qxrz.server.world.Landscape;
@@ -20,7 +21,7 @@ public class PlayerEntity extends GameEntity
 	public PlayerEntity() // creates player vector
 	{
 		pos = new Vector2D(0, 0);
-		vel = new Vector2D(2, 1).multiply(Game.PATH_LEN);
+		vel = new Vector2D(2, 1).multiply(DebugConstants.PATH_LEN);
 		health = 100;
 		speed = 100;
 	}
@@ -76,7 +77,7 @@ public class PlayerEntity extends GameEntity
 		path.append(hb, false);
 		pos = pos.add(v);
 		path.append(getHitbox().getBounds(), false);
-		if (Game.DEBUG_PATH)
+		if (DebugConstants.DEBUG_PATH)
 			DebugDraw.buffer.add(path);
 		Obstacle o = surroundings.checkCollisions(new ShapeHitbox(path));
 		pos = bak;
@@ -139,7 +140,7 @@ public class PlayerEntity extends GameEntity
 		{
 			if (unCollide)
 			{
-				if (Game.DEBUG_PATH)
+				if (DebugConstants.DEBUG_PATH)
 				{
 					checkCollisions(pathTemp, l);
 				}
@@ -171,7 +172,7 @@ public class PlayerEntity extends GameEntity
 				}
 			}
 			accuracy *= 0.5;
-			if (Game.DEBUG_PATH)
+			if (DebugConstants.DEBUG_PATH)
 			{
 				// debug drawing
 				Game.debug.draw();
@@ -217,7 +218,7 @@ public class PlayerEntity extends GameEntity
 			v = v.add(t);
 			pos = pos.subtract(t);
 		}
-		if (Game.DEBUG_PATH)
+		if (DebugConstants.DEBUG_PATH)
 			DebugDraw.buffer.add(getHitbox().getBounds());
 		return v;
 	}
