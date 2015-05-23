@@ -116,7 +116,7 @@ public class ServerNetworkManager extends Thread
 				int pn = netObj.getPacketNumber();
 				
 				Client c2 = getClientBySocket(ds);
-				if(pn < c2.getReceivedPacketCount())
+				if(pn != c2.getReceivedPacketCount() + 1)
 				{
 					continue;
 				}
