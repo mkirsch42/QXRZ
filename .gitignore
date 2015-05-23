@@ -13,4 +13,4 @@ hs_err_pid*
 /bin/
 
 # Server-side debugging constants, cleans up useless clutter in commits
-/src/org/amityregion5/qxrz/server/DebugConstants.java
+#/src/org/amityregion5/qxrz/server/DebugConstants.java
