@@ -16,10 +16,5 @@ public abstract class GameEntity implements Hitboxed
 	public abstract Hitbox getHitbox();
 	
 	protected abstract boolean collide(Hitboxed h, Landscape l, Vector2D v);
-	
-	public GameEntity()
-	{
-		// TODO Auto-generated constructor stub
-	}
 
 }

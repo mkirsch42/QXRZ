@@ -26,7 +26,7 @@ public class Landscape
 		// Check each obstacle for collision
 		for(Obstacle o : obstacles)
 		{
-			if(e.intersects(o.getHitbox()))
+			if(o.getHitbox().intersects(e))
 			{
 				return o;
 			}

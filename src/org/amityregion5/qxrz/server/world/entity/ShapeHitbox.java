@@ -18,8 +18,7 @@ public class ShapeHitbox extends Hitbox
 	@Override
 	public void debugDraw(Graphics2D g)
 	{
-		// TODO Auto-generated method stub
-		
+		g.draw(bounds);		
 	}
 	
 	public Shape getBounds()

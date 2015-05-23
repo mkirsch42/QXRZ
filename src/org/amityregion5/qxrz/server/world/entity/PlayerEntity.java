@@ -31,8 +31,6 @@ public class PlayerEntity extends GameEntity
 		Obstacle o = checkCollisions(vel.multiply(tSinceUpdate), surroundings);
 		if (o != null)
 		{
-			System.out.println("Collision!");
-			System.out.println(((RectangleHitbox) o.getHitbox()).getBounds());
 			collide(o, surroundings, vel.multiply(tSinceUpdate));
 		}
 		else

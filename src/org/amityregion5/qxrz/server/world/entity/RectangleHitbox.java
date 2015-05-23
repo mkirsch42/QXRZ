@@ -22,10 +22,9 @@ public class RectangleHitbox extends Hitbox
 	
 	public boolean intersects(Hitbox h2)
 	{
-		// TODO get rid of this and stop being hitboxist
 		if(!(h2 instanceof RectangleHitbox))
 		{
-			return false;
+			return h2.intersects(this);
 		}
 		// Cast and use built in functions to check intersection
 		RectangleHitbox rhb = (RectangleHitbox)h2;

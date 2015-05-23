@@ -15,9 +15,10 @@ public class CompoundHitbox extends Hitbox
 		hbs = new ArrayList<Hitbox>();
 	}
 	
-	public void add(Hitbox h)
+	public CompoundHitbox add(Hitbox h)
 	{
 		hbs.add(h);
+		return this;
 	}
 
 	@Override
@@ -46,7 +47,7 @@ public class CompoundHitbox extends Hitbox
 	public Vector2D getNearestNormal(Hitbox h)
 	{
 		// TODO Auto-generated method stub
-		return null;
+		return new Vector2D();
 	}
 	
 }
