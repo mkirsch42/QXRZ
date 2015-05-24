@@ -116,7 +116,17 @@ public class ServerNetworkManager extends Thread
 				int pn = netObj.getPacketNumber();
 				
 				Client c2 = getClientBySocket(ds);
-				if(pn != c2.getReceivedPacketCount() + 1)
+				
+				/* The packet count should be always-increasing.
+				 * 
+				 * If we get an out of order packet (pn < packetCount)
+				 * or duplicate packet (pn == packetCount)
+				 * ignore the packet. Note that duplicate packets are quite rare.
+				 * 
+				 * Lost packets are ignored; hopefully communications are not drastically
+				 * affected by this rather rare occurrence.
+				 */
+				if(pn <= c2.getReceivedPacketCount())
 				{
 					continue;
 				}
