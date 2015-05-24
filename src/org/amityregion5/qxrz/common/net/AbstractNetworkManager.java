@@ -33,7 +33,7 @@ public abstract class AbstractNetworkManager extends Thread
 	public abstract void run();
 	
 	// subclasses will call this helper for each node
-	protected boolean runHelper(NetworkNode node) throws ClassNotFoundException, IOException
+	protected void runHelper(NetworkNode node) throws ClassNotFoundException, IOException
 	{
 		NetworkObject netObj = (NetworkObject) inStream.recvObject();
 		
@@ -42,18 +42,21 @@ public abstract class AbstractNetworkManager extends Thread
 		 * 
 		 * If we get an out of order packet (pn < packetCount) or duplicate
 		 * packet (pn == packetCount) ignore the packet. Note that duplicate
-		 * packets are quite rare.
+		 * packets are extremely rare.
 		 * 
 		 * Lost packets are ignored; hopefully communications are not
 		 * drastically affected by this rather rare occurrence.
+		 * 
+		 * If they are, we may need to work in some sort of handshake
 		 */
 		if(netObj.getPacketNumber() <= node.getReceivedPacketCount())
 		{
-			return false;	
+			throw new IOException("Out-of-order or duplicate packet received.");
 		}
+		
+		// We received an in-order packet!
 		node.setReceivedPacketCount(node.getReceivedPacketCount() + 1);
 		callback.dataReceived(node, netObj.getPayload());
-		return true;
 	}
 	
 }
