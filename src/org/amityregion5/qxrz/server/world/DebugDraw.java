@@ -19,6 +19,7 @@ public class DebugDraw extends JApplet
 	final static Color bg = Color.white;
     final static Color fg = Color.black;
 	private World w;  
+	private boolean dummy = true;
 	public static ArrayList<Shape> buffer = new ArrayList<Shape>();
 	
 	private static final double SCALE = 15;
@@ -27,6 +28,10 @@ public class DebugDraw extends JApplet
 	
 	public static DebugDraw setup(World W)
 	{
+		if(W==null)
+		{
+			return new DebugDraw();
+		}
 		JFrame f = new JFrame("ShapesDemo2D");
 		f.addWindowListener(new WindowAdapter()
 		{
@@ -48,12 +53,15 @@ public class DebugDraw extends JApplet
 	public void init(World W) {
         //Initialize drawing colors
 		w=W;
+		dummy=false;
         setBackground(bg);
         setForeground(fg);
     }
 	
 	public void draw()
 	{
+		if(dummy)
+			return;
 		invalidate();
 		repaint();
 	}

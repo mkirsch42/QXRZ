@@ -177,7 +177,7 @@ public class PlayerEntity extends GameEntity implements DrawableObject<PlayerEnt
 			if (DebugConstants.DEBUG_PATH)
 			{
 				// debug drawing
-				//Game.debug.draw();
+				Game.debug.draw();
 				try
 				{
 					Thread.sleep(250);
@@ -220,8 +220,6 @@ public class PlayerEntity extends GameEntity implements DrawableObject<PlayerEnt
 			v = v.add(t);
 			pos = pos.subtract(t);
 		}
-		if (DebugConstants.DEBUG_PATH)
-			DebugDraw.buffer.add(getHitbox().getBounds());
 		return v;
 	}
 

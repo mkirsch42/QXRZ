@@ -14,7 +14,7 @@ public class Game implements Runnable
 
 	public static final double GAME_UNIT = 0.01;
 
-	//public static DebugDraw debug;
+	public static DebugDraw debug = new DebugDraw();
 
 	private World w;
 
@@ -22,6 +22,11 @@ public class Game implements Runnable
 	{
 		// Create world and add test objects
 		w = new World();
+		if(DebugConstants.DEBUG_GUI)
+		{
+			debug = DebugDraw.setup(w);
+		}
+		
 		w.add(new PlayerEntity());
 		//debug = DebugDraw.setup(w);
 		w.addObstacle(new Obstacle(new RectangleHitbox(new Rectangle2D.Double(10,5,4,4))));
@@ -43,7 +48,7 @@ public class Game implements Runnable
 			// Update world entities with proportional time
 			w.update((System.currentTimeMillis() - lastMs)
 					/ (1000.0 / DebugConstants.UPDATE_RATE));
-			//debug.draw();
+			debug.draw();
 
 			// Set current time for next update
 			lastMs = System.currentTimeMillis();
@@ -57,5 +62,10 @@ public class Game implements Runnable
 
 	public World getWorld() {
 		return w;
+	}
+
+	public static void debugMode()
+	{
+		
 	}
 }
