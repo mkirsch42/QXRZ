@@ -32,7 +32,7 @@ public class NetworkObject implements Serializable
 	
 	public String toString()
 	{
-		return "payload=" + payload;
+		return "#" + packetNumber + "\tpayload=" + payload;
 	}
 
 	

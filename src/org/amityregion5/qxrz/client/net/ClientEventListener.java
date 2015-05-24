@@ -7,5 +7,4 @@ public interface ClientEventListener
 {
 	public void dataReceived(Serializable obj);
 
-	//public void disconnected();
 }

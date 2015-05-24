@@ -7,23 +7,22 @@ import java.util.HashSet;
 import java.util.Iterator;
 import java.util.logging.Logger;
 
+import org.amityregion5.qxrz.common.net.NetworkNode;
 import org.amityregion5.qxrz.common.net.NetworkObject;
 import org.amityregion5.qxrz.common.net.UDPInputStream;
 import org.amityregion5.qxrz.common.net.UDPOutputStream;
 
 public class ServerNetworkManager extends Thread
 {
-	private Thread recvThread;
 	private UDPInputStream inStream;
 	private UDPOutputStream outStream;
-	private Logger l = Logger.getLogger("Global");
-	// Callback functions
-	// private HashSet<ServerEventListener> listenerList = new HashSet<ServerEventListener>();
 	private ServerEventListener callback;
 
 	// List of client sockets
-	private HashSet<Client> clients = new HashSet<Client>();
+	private HashSet<NetworkNode> clients = new HashSet<NetworkNode>();
 
+	private Logger l = Logger.getLogger("Global");
+	
 	/**
 	 * This will initialize a socket that listens on a port
 	 * 
@@ -40,8 +39,6 @@ public class ServerNetworkManager extends Thread
 
 		inStream = new UDPInputStream(sock);
 		outStream = new UDPOutputStream(null);
-		recvThread = new Thread();
-		recvThread.start();
 	}
 
 	/**
@@ -49,7 +46,7 @@ public class ServerNetworkManager extends Thread
 	 * @param sel
 	 *            Listener that will be called each time an Object was received
 	 */
-	public void addServerEventListener(ServerEventListener sel)
+	public void attachServerEventListener(ServerEventListener sel)
 	{
 		callback = sel;
 	}
@@ -63,7 +60,7 @@ public class ServerNetworkManager extends Thread
 	 */
 	public void sendObject(Serializable obj)
 	{
-		for (Client c : clients)
+		for (NetworkNode c : clients)
 		{
 			try
 			{
@@ -75,17 +72,17 @@ public class ServerNetworkManager extends Thread
 		}
 	}
 
-	public void removeClient(Client c)
+	public void removeClient(NetworkNode c)
 	{
 		clients.remove(c);
 	}
 	
-	private Client getClientBySocket(DatagramSocket sock)
+	private NetworkNode getClientBySocket(DatagramSocket sock)
 	{
-		Client c2 = new Client(sock);
-		for(Iterator<Client> it = clients.iterator(); it.hasNext(); )
+		NetworkNode c2 = new NetworkNode(sock);
+		for(Iterator<NetworkNode> it = clients.iterator(); it.hasNext(); )
 		{
-			Client c = it.next();
+			NetworkNode c = it.next();
 			if(c.equals(c2))
 			{
 				return c;
@@ -103,7 +100,7 @@ public class ServerNetworkManager extends Thread
 			{
 				NetworkObject netObj = (NetworkObject) inStream.recvObject();
 				DatagramSocket ds = new DatagramSocket();
-				Client c = new Client(ds);
+				NetworkNode c = new NetworkNode(ds);
 				ds.connect(inStream.getPacket().getSocketAddress());
 				if (! clients.contains(c))
 				{
@@ -115,7 +112,7 @@ public class ServerNetworkManager extends Thread
 				}
 				int pn = netObj.getPacketNumber();
 				
-				Client c2 = getClientBySocket(ds);
+				NetworkNode c2 = getClientBySocket(ds);
 				
 				/* The packet count should be always-increasing.
 				 * 
@@ -130,7 +127,7 @@ public class ServerNetworkManager extends Thread
 				{
 					continue;
 				}
-				c2.incrementReceivedPacketCount();
+				c2.setReceivedPacketCount(c2.getReceivedPacketCount() + 1);
 				
 				if (callback != null)
 				{

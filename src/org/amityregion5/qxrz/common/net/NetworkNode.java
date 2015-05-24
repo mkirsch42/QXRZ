@@ -1,22 +1,19 @@
-package org.amityregion5.qxrz.server.net;
+package org.amityregion5.qxrz.common.net;
 
 import java.io.Serializable;
 import java.net.DatagramSocket;
 import java.net.InetAddress;
 import java.util.Arrays;
 
-import org.amityregion5.qxrz.common.net.NetworkObject;
-import org.amityregion5.qxrz.common.net.UDPOutputStream;
-
 // TODO move to common, with new name (NetworkNode)
 
-public class Client
+public class NetworkNode
 {
 	private DatagramSocket sock;
 	private int sentPacketCount;
 	private int receivedPacketCount;
 	
-	public Client(DatagramSocket ds)
+	public NetworkNode(DatagramSocket ds)
 	{
 		sock = ds;
 		sentPacketCount = 0;
@@ -33,9 +30,9 @@ public class Client
 		return receivedPacketCount;
 	}
 	
-	public void incrementReceivedPacketCount()
+	public void setReceivedPacketCount(int count)
 	{
-		receivedPacketCount++;
+		receivedPacketCount = count;
 	}
 	
 	public int getSentPacketCount()
@@ -52,9 +49,9 @@ public class Client
 	
 	public boolean equals(Object obj)
 	{
-		if(!(obj instanceof Client)) return false;
+		if(!(obj instanceof NetworkNode)) return false;
 		
-		DatagramSocket sock2 = ((Client) obj).getSocket();
+		DatagramSocket sock2 = ((NetworkNode) obj).getSocket();
 		
 		/* We want to check that they have the same socket... so IP/port. */
 		if(sock.getPort() != sock2.getPort()) return false;

@@ -12,17 +12,12 @@ public class UDPOutputStream
 	
 	public UDPOutputStream(DatagramSocket ds)
 	{
-		this.sock = ds;
+		sock = ds;
 	}
 	
 	public void setSocket(DatagramSocket ds)
 	{
 		sock = ds;
-	}
-	
-	public DatagramSocket getSocket()
-	{
-		return sock;
 	}
 	
 	public void sendObject(Object o) throws Exception
