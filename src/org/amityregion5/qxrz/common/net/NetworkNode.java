@@ -2,7 +2,6 @@ package org.amityregion5.qxrz.common.net;
 
 import java.io.Serializable;
 import java.net.DatagramSocket;
-import java.net.InetAddress;
 import java.util.Arrays;
 
 // TODO move to common, with new name (NetworkNode)
