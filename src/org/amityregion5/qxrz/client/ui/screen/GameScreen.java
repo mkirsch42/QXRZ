@@ -48,14 +48,14 @@ public class GameScreen extends AbstractScreen
 		if (windowData.getKeysDown().contains(KeyEvent.VK_Q)) {
 			vp.height+=(2/1.5);
 			vp.width+=2;
-			vp.xOff-=(1/1.5);
-			vp.yOff--;
+			vp.xOff--;
+			vp.yOff-=(1/1.5);
 		}			
 		if (windowData.getKeysDown().contains(KeyEvent.VK_E) && vp.height > 6) {
 			vp.height-=(2/1.5);
 			vp.width-=2;
-			vp.xOff+=(1/1.5);
-			vp.yOff++;
+			vp.xOff++;
+			vp.yOff+=(1/1.5);
 		}
 		
 		//g.setStroke(new BasicStr);
