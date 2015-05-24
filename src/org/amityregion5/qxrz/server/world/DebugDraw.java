@@ -40,6 +40,7 @@ public class DebugDraw extends JApplet
 		((DebugDraw)applet).init(W);
 		f.pack();
 		f.setSize(new Dimension(WIDTH, HEIGHT));
+		
 		f.setVisible(true);
 		return applet;
 	}

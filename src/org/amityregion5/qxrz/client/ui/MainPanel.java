@@ -49,7 +49,7 @@ public class MainPanel extends JPanel implements MouseListener, MouseMotionListe
 		//Add event listeners
 		addMouseListener(this);
 		addMouseMotionListener(this);
-		addKeyListener(this);
+		//addKeyListener(this);
 	}
 
 	@Override
@@ -81,7 +81,8 @@ public class MainPanel extends JPanel implements MouseListener, MouseMotionListe
 	}
 
 	@Override
-	public void keyTyped(KeyEvent e){}
+	public void keyTyped(KeyEvent e){
+	}
 
 	@Override
 	public void keyPressed(KeyEvent e)

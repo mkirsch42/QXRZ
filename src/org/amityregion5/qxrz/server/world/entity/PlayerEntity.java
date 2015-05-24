@@ -2,7 +2,9 @@ package org.amityregion5.qxrz.server.world.entity;
 
 import java.awt.geom.Path2D;
 import java.awt.geom.Rectangle2D;
-
+import org.amityregion5.qxrz.common.ui.AABBDrawer;
+import org.amityregion5.qxrz.common.ui.DrawableObject;
+import org.amityregion5.qxrz.common.ui.IObjectDrawer;
 import org.amityregion5.qxrz.server.DebugConstants;
 import org.amityregion5.qxrz.server.Game;
 import org.amityregion5.qxrz.server.world.DebugDraw;
@@ -10,8 +12,10 @@ import org.amityregion5.qxrz.server.world.Landscape;
 import org.amityregion5.qxrz.server.world.Obstacle;
 import org.amityregion5.qxrz.server.world.vector2d.Vector2D;
 
-public class PlayerEntity extends GameEntity
+public class PlayerEntity extends GameEntity implements DrawableObject<PlayerEntity>
 {
+
+	private static AABBDrawer<PlayerEntity> drawer;
 
 	private final double PLAYER_SIZE = 4;
 	private Weapon[] guns = new Weapon[2];
@@ -173,7 +177,7 @@ public class PlayerEntity extends GameEntity
 			if (DebugConstants.DEBUG_PATH)
 			{
 				// debug drawing
-				Game.debug.draw();
+				//Game.debug.draw();
 				try
 				{
 					Thread.sleep(250);
@@ -224,6 +228,14 @@ public class PlayerEntity extends GameEntity
 	public void increaseStat()
 	{
 
+	}
+
+	@Override
+	public IObjectDrawer<PlayerEntity> getDrawer() {
+		if (drawer == null) {
+			drawer = new AABBDrawer<PlayerEntity>();
+		}
+		return drawer;
 	}
 
 }

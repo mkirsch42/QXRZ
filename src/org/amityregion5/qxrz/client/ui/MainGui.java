@@ -12,6 +12,7 @@ public class MainGui
 {
 	//The frame
 	private JFrame frame;
+	private MainPanel panel;
 	//The previous few FPS values
 	private double[] fps;
 	//The current screen
@@ -31,7 +32,7 @@ public class MainGui
 		frame = new JFrame("QXRZ");
 		
 		//Add a main panel to the frame
-		frame.add(new MainPanel(this));
+		frame.add(panel = new MainPanel(this));
 		
 		//Set the size of the frame
 		frame.setSize(1200, 800);
@@ -58,6 +59,8 @@ public class MainGui
 			@Override
 			public void windowDeactivated(WindowEvent e) {}
 		});
+		
+		frame.addKeyListener(panel);
 		
 		//Set the screen to the loading screen
 		setCurrentScreen(new LoadingScreen());

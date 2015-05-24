@@ -2,9 +2,8 @@ package org.amityregion5.qxrz.server.world;
 
 import java.awt.Graphics2D;
 import java.util.ArrayList;
-
+import java.util.List;
 import org.amityregion5.qxrz.server.world.entity.Hitbox;
-import org.amityregion5.qxrz.server.world.entity.Hitboxed;
 
 public class Landscape
 {
@@ -42,4 +41,7 @@ public class Landscape
 		}
 	}
 
+	public List<Obstacle> getObstacles() {
+		return obstacles;
+	}
 }

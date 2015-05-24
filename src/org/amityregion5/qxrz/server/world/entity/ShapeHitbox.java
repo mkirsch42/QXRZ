@@ -2,7 +2,7 @@ package org.amityregion5.qxrz.server.world.entity;
 
 import java.awt.Graphics2D;
 import java.awt.Shape;
-
+import java.awt.geom.Rectangle2D;
 import org.amityregion5.qxrz.server.world.vector2d.Vector2D;
 
 public class ShapeHitbox extends Hitbox
@@ -44,6 +44,11 @@ public class ShapeHitbox extends Hitbox
 	{
 		// TODO Auto-generated method stub
 		return null;
+	}
+
+	@Override
+	public Rectangle2D getAABB() {
+		return bounds.getBounds2D();
 	}
 
 	

@@ -2,7 +2,7 @@ package org.amityregion5.qxrz.server.world;
 
 import java.awt.Graphics2D;
 import java.util.ArrayList;
-
+import java.util.List;
 import org.amityregion5.qxrz.server.world.entity.GameEntity;
 
 public class World
@@ -44,4 +44,11 @@ public class World
 		l.draw(g2);
 	}
 	
+	public Landscape getLandscape() {
+		return l;
+	}
+	
+	public List<GameEntity> getEntities() {
+		return entities;
+	}
 }

@@ -1,20 +1,20 @@
 package org.amityregion5.qxrz.server.world.entity;
 
 import java.awt.Graphics2D;
+import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
-
 import org.amityregion5.qxrz.server.world.vector2d.Vector2D;
 
 public class CompoundHitbox extends Hitbox
 {
 
 	private ArrayList<Hitbox> hbs;
-	
+
 	public CompoundHitbox()
 	{
 		hbs = new ArrayList<Hitbox>();
 	}
-	
+
 	public CompoundHitbox add(Hitbox h)
 	{
 		hbs.add(h);
@@ -49,5 +49,17 @@ public class CompoundHitbox extends Hitbox
 		// TODO Auto-generated method stub
 		return new Vector2D();
 	}
-	
+
+	@Override
+	public Rectangle2D getAABB() {
+		return hbs.stream().map((h)->h.getAABB())
+				.reduce(hbs.get(0).getAABB(),
+						(c, n)->{return new Rectangle2D.Double(Math.min(c.getX(), n.getX()),Math.min(c.getY(), n.getY()),
+								Math.max(c.getMaxX(), n.getMaxX()) - Math.min(c.getX(), n.getX()), 
+								Math.max(c.getMaxY(), n.getMaxY()) - Math.min(c.getY(), n.getY()));},
+						(c, n)->{return new Rectangle2D.Double(Math.min(c.getX(), n.getX()),Math.min(c.getY(), n.getY()),
+								Math.max(c.getMaxX(), n.getMaxX()) - Math.min(c.getX(), n.getX()), 
+								Math.max(c.getMaxY(), n.getMaxY()) - Math.min(c.getY(), n.getY()));});
+	}
+
 }

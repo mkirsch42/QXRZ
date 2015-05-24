@@ -65,5 +65,10 @@ public class RectangleHitbox extends Hitbox
 		}
 		return new Vector2D();
 	}
+
+	@Override
+	public Rectangle2D getAABB() {
+		return bounds;
+	}
 	
 }

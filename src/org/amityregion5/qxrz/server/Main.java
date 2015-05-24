@@ -53,7 +53,7 @@ public final class Main
 		// netManager.sendObject(whatever);
 		
 		new MainGui().show();
-		new Game();
+		new Game().run();;
 	}
 
 }
