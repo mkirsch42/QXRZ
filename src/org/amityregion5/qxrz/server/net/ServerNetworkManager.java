@@ -22,13 +22,14 @@ public class ServerNetworkManager extends Thread
 	// List of client sockets
 	private HashSet<NetworkNode> clients = new HashSet<NetworkNode>();
 
-	private Logger l = Logger.getLogger("Global");
-	
+	private Logger l = Logger.getLogger(this.getClass().getName());
+
+	// partially abstract
 	/**
 	 * This will initialize a socket that listens on a port
 	 * 
 	 * @param port
-	 *            port to listen on
+	 *           port to listen on
 	 * @throws IOException
 	 */
 	public ServerNetworkManager(int port) throws IOException
@@ -39,24 +40,26 @@ public class ServerNetworkManager extends Thread
 		sock.setReuseAddress(true); // don't know if this does anything
 
 		inStream = new UDPInputStream(sock);
-		outStream = new UDPOutputStream(null);
+		outStream = new UDPOutputStream(sock);
 	}
 
+	// abstract
 	/**
 	 * 
 	 * @param sel
-	 *            Listener that will be called each time an Object was received
+	 *           Listener that will be called each time an Object was received
 	 */
 	public void attachServerEventListener(NetEventListener sel)
 	{
 		callback = sel;
 	}
 
+	// no abstract
 	/**
 	 * Send an Object over the network
 	 * 
 	 * @param netObj
-	 *            Object that will be sent to all clients
+	 *           Object that will be sent to all clients
 	 * @throws IOException
 	 */
 	public void sendObject(Serializable obj)
@@ -66,25 +69,28 @@ public class ServerNetworkManager extends Thread
 			try
 			{
 				c.send(outStream, obj);
-			} catch (Exception e)
+			}
+			catch (Exception e)
 			{
 				e.printStackTrace();
 			}
 		}
 	}
 
+	// no abstract
 	public void removeClient(NetworkNode c)
 	{
 		clients.remove(c);
 	}
-	
+
+	// no abstract
 	private NetworkNode getClientBySocket(DatagramSocket sock)
 	{
 		NetworkNode c2 = new NetworkNode(sock);
-		for(Iterator<NetworkNode> it = clients.iterator(); it.hasNext(); )
+		for (Iterator<NetworkNode> it = clients.iterator(); it.hasNext();)
 		{
 			NetworkNode c = it.next();
-			if(c.equals(c2))
+			if (c.equals(c2))
 			{
 				return c;
 			}
@@ -92,6 +98,8 @@ public class ServerNetworkManager extends Thread
 		return null;
 	}
 
+	// partially abstract
+	// every except the client hash stuff can be replaced by runHelper
 	@Override
 	public void run()
 	{
@@ -103,7 +111,7 @@ public class ServerNetworkManager extends Thread
 				DatagramSocket ds = new DatagramSocket();
 				NetworkNode c = new NetworkNode(ds);
 				ds.connect(inStream.getPacket().getSocketAddress());
-				if (! clients.contains(c))
+				if (!clients.contains(c))
 				{
 					if (callback != null)
 					{
@@ -112,59 +120,39 @@ public class ServerNetworkManager extends Thread
 					clients.add(c);
 				}
 				int pn = netObj.getPacketNumber();
-				
+
 				NetworkNode c2 = getClientBySocket(ds);
-				
-				/* The packet count should be always-increasing.
+
+				/*
+				 * The packet count should be always-increasing.
 				 * 
-				 * If we get an out of order packet (pn < packetCount)
-				 * or duplicate packet (pn == packetCount)
-				 * ignore the packet. Note that duplicate packets are quite rare.
+				 * If we get an out of order packet (pn < packetCount) or duplicate
+				 * packet (pn == packetCount) ignore the packet. Note that duplicate
+				 * packets are quite rare.
 				 * 
-				 * Lost packets are ignored; hopefully communications are not drastically
-				 * affected by this rather rare occurrence.
+				 * Lost packets are ignored; hopefully communications are not
+				 * drastically affected by this rather rare occurrence.
 				 */
-				if(pn <= c2.getReceivedPacketCount())
+				if (pn <= c2.getReceivedPacketCount())
 				{
 					continue;
 				}
 				c2.setReceivedPacketCount(c2.getReceivedPacketCount() + 1);
-				
-				if (callback != null)
-				{
-					callback.dataReceived(c, netObj.getPayload());
-				}
+
+				callback.dataReceived(c, netObj.getPayload());
+
+				// eventually callback will do processing + sending
 				sendObject(netObj);
 
 				l.info("Object Received from:");
 				l.info(netObj.toString());
 
-			} catch (ClassNotFoundException | IOException e)
+			}
+			catch (ClassNotFoundException | IOException e)
 			{
 				e.printStackTrace();
 			}
 		}
 	}
-
-	// for testing
-	// public static void main(String[] args) throws Exception
-	// {
-	// NetworkObject no = new NetworkObject(new ArrayList<Integer>());
-	// ServerNetworkManager snm = new ServerNetworkManager(8000);
-	// snm.start();
-	//
-	// DatagramSocket ds = new DatagramSocket();
-	//
-	// l.info(ds.isConnected());
-	// ds.connect(InetAddress.getByName("127.0.0.1"), 8000);
-	// UDPOutputStream uos = new UDPOutputStream();
-	// uos.setSocket(ds);
-	// uos.sendObject(no);
-	// UDPInputStream uis = new UDPInputStream(ds);
-	// NetworkObject recv = uis.recvObject();
-	// l.info("Client received:" + recv);
-	// snm.sendObject(recv);
-	// l.info("object sended!");
-	// }
 
 }

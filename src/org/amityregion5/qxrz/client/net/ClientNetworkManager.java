@@ -18,7 +18,7 @@ public class ClientNetworkManager extends Thread
 	private UDPInputStream inStream;
 	private UDPOutputStream outStream;
 	private NetEventListener callback;
-	
+
 	private NetworkNode server;
 
 	public ClientNetworkManager(String host, int port) throws SocketException,
@@ -30,10 +30,10 @@ public class ClientNetworkManager extends Thread
 		sock.connect(InetAddress.getByName(host), port);
 		outStream = new UDPOutputStream(sock);
 		inStream = new UDPInputStream(sock);
-		
+
 		server = new NetworkNode(sock);
 	}
-	
+
 	/**
 	 * 
 	 * @param s
@@ -46,17 +46,19 @@ public class ClientNetworkManager extends Thread
 		try
 		{
 			server.send(outStream, s);
-		} catch (Exception e)
+		}
+		catch (Exception e)
 		{
 			e.printStackTrace();
 		}
 	}
-	
+
 	public void attachClientEventListener(NetEventListener cel)
 	{
 		callback = cel;
 	}
 
+	// This can be almost entirely replaced by the runHelper
 	@Override
 	public void run()
 	{
@@ -65,16 +67,14 @@ public class ClientNetworkManager extends Thread
 			try
 			{
 				NetworkObject obj = inStream.recvObject();
-				if (callback != null)
+
+				int pn = obj.getPacketNumber();
+				if (pn <= server.getReceivedPacketCount())
 				{
-					int pn = obj.getPacketNumber();
-					if (pn <= server.getReceivedPacketCount())
-					{
-						continue;
-					}
-					server.setReceivedPacketCount(server.getReceivedPacketCount() + 1);
-					callback.dataReceived(server, obj.getPayload());
+					continue;
 				}
+				server.setReceivedPacketCount(server.getReceivedPacketCount() + 1);
+				callback.dataReceived(server, obj.getPayload());
 			}
 			catch (ClassNotFoundException | IOException e)
 			{
