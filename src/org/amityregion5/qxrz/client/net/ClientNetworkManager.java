@@ -7,6 +7,7 @@ import java.net.InetAddress;
 import java.net.SocketException;
 import java.net.UnknownHostException;
 
+import org.amityregion5.qxrz.common.net.NetEventListener;
 import org.amityregion5.qxrz.common.net.NetworkNode;
 import org.amityregion5.qxrz.common.net.NetworkObject;
 import org.amityregion5.qxrz.common.net.UDPInputStream;
@@ -16,7 +17,7 @@ public class ClientNetworkManager extends Thread
 {
 	private UDPInputStream inStream;
 	private UDPOutputStream outStream;
-	private ClientEventListener callback;
+	private NetEventListener callback;
 	
 	private NetworkNode server;
 
@@ -51,7 +52,7 @@ public class ClientNetworkManager extends Thread
 		}
 	}
 	
-	public void attachClientEventListener(ClientEventListener cel)
+	public void attachClientEventListener(NetEventListener cel)
 	{
 		callback = cel;
 	}
@@ -72,7 +73,7 @@ public class ClientNetworkManager extends Thread
 						continue;
 					}
 					server.setReceivedPacketCount(server.getReceivedPacketCount() + 1);
-					callback.dataReceived(obj.getPayload());
+					callback.dataReceived(server, obj.getPayload());
 				}
 			}
 			catch (ClassNotFoundException | IOException e)

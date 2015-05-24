@@ -7,6 +7,7 @@ import java.util.HashSet;
 import java.util.Iterator;
 import java.util.logging.Logger;
 
+import org.amityregion5.qxrz.common.net.NetEventListener;
 import org.amityregion5.qxrz.common.net.NetworkNode;
 import org.amityregion5.qxrz.common.net.NetworkObject;
 import org.amityregion5.qxrz.common.net.UDPInputStream;
@@ -16,7 +17,7 @@ public class ServerNetworkManager extends Thread
 {
 	private UDPInputStream inStream;
 	private UDPOutputStream outStream;
-	private ServerEventListener callback;
+	private NetEventListener callback;
 
 	// List of client sockets
 	private HashSet<NetworkNode> clients = new HashSet<NetworkNode>();
@@ -46,7 +47,7 @@ public class ServerNetworkManager extends Thread
 	 * @param sel
 	 *            Listener that will be called each time an Object was received
 	 */
-	public void attachServerEventListener(ServerEventListener sel)
+	public void attachServerEventListener(NetEventListener sel)
 	{
 		callback = sel;
 	}
@@ -106,7 +107,7 @@ public class ServerNetworkManager extends Thread
 				{
 					if (callback != null)
 					{
-						callback.newClient(c);
+						callback.newNode(c);
 					}
 					clients.add(c);
 				}

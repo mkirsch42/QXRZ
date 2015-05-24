@@ -4,8 +4,8 @@ import java.io.IOException;
 import java.io.Serializable;
 
 import org.amityregion5.qxrz.common.net.DisconnectNotification;
+import org.amityregion5.qxrz.common.net.NetEventListener;
 import org.amityregion5.qxrz.common.net.NetworkNode;
-import org.amityregion5.qxrz.server.net.ServerEventListener;
 import org.amityregion5.qxrz.server.net.ServerNetworkManager;
 import org.amityregion5.qxrz.server.ui.MainGui;
 import org.amityregion5.qxrz.server.world.entity.PlayerEntity;
@@ -18,10 +18,10 @@ public final class Main
 		
 		ServerNetworkManager netManager = new ServerNetworkManager(8000);
 		
-		netManager.attachServerEventListener(new ServerEventListener()
+		netManager.attachServerEventListener(new NetEventListener()
 		{
 			@Override
-			public void newClient(NetworkNode c)
+			public void newNode(NetworkNode c)
 			{
 				// TODO do stuff for new client (drawing, inventory whatever)
 			}
