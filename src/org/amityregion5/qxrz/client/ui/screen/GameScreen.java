@@ -4,8 +4,8 @@ import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.event.KeyEvent;
 import org.amityregion5.qxrz.client.ui.MainGui;
-import org.amityregion5.qxrz.client.ui.Viewport;
 import org.amityregion5.qxrz.common.ui.DrawableObject;
+import org.amityregion5.qxrz.common.ui.Viewport;
 import org.amityregion5.qxrz.server.Game;
 import org.amityregion5.qxrz.server.world.Obstacle;
 import org.amityregion5.qxrz.server.world.entity.GameEntity;
@@ -55,16 +55,16 @@ public class GameScreen extends AbstractScreen
 		//g.setStroke(new BasicStr);
 		
 		for (Obstacle o : game.getWorld().getLandscape().getObstacles()) {
-			if (o.getDrawer() != null) {
-				o.getDrawer().draw(g, o, vp, windowData);
+			if (o.getDrawers() != null) {
+				o.getDrawers().forEach((d)->d.draw(g, o, vp, windowData));
 			}
 		}
 		for (GameEntity e : game.getWorld().getEntities()) {
 			if (e instanceof DrawableObject) {
 				@SuppressWarnings("unchecked") //Due to the way the DrawableObject interface should be used this should always work
 				DrawableObject<GameEntity> d = (DrawableObject<GameEntity>)e;
-				if (d.getDrawer() != null) {
-					d.getDrawer().draw(g, e, vp, windowData);
+				if (d.getDrawers() != null) {
+					d.getDrawers().forEach((d2)->d2.draw(g, e, vp, windowData));
 				}
 			}
 		}
