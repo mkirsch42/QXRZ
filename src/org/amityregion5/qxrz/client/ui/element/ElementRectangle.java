@@ -3,6 +3,7 @@ package org.amityregion5.qxrz.client.ui.element;
 import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.Point;
+import java.awt.geom.Rectangle2D;
 import java.util.function.Consumer;
 import java.util.function.Function;
 import org.amityregion5.qxrz.client.ui.screen.WindowData;
@@ -16,6 +17,7 @@ public class ElementRectangle extends AGuiElement
 	protected Color background, border, text;
 	protected String name;
 	protected WindowData wData;
+	protected float sizeOrPadding;
 
 	/**
 	 * @param topLeftFunction
@@ -28,7 +30,7 @@ public class ElementRectangle extends AGuiElement
 	 */
 	public ElementRectangle(Function<WindowData, Point> topLeftFunction,
 			Function<WindowData, Point> widthHeightFunction,
-			Color background, Color border,
+			Color background, Color border, float sizeOrPadding,
 			Color text, String name) {
 		this.topLeftFunction = topLeftFunction;
 		this.widthHeightFunction = widthHeightFunction;
@@ -36,6 +38,7 @@ public class ElementRectangle extends AGuiElement
 		this.border = border;
 		this.text = text;
 		this.name = name;
+		this.sizeOrPadding = sizeOrPadding;
 	}
 
 	/**
@@ -49,9 +52,9 @@ public class ElementRectangle extends AGuiElement
 	 */
 	public ElementRectangle(Function<WindowData, Point> topLeftFunction,
 			Function<WindowData, Point> widthHeightFunction,
-			Color background, Color border,
+			Color background, Color border, float sizeOrPadding,
 			Color text, String name, Consumer<WindowData> onClick) {
-		this(topLeftFunction, widthHeightFunction, background, border, text, name);
+		this(topLeftFunction, widthHeightFunction, background, border, sizeOrPadding, text, name);
 		setClickListener(onClick);
 	}
 
@@ -66,6 +69,11 @@ public class ElementRectangle extends AGuiElement
 		g.setColor(border);
 		g.drawRect(getX(), getY(), getWidth(), getHeight());
 		
+		if (sizeOrPadding > 0) {
+			g.setFont(g.getFont().deriveFont(sizeOrPadding));
+		} else {
+			GuiUtil.scaleFont(name, new Rectangle2D.Double(getX() - sizeOrPadding, getY() - sizeOrPadding, getWidth() + sizeOrPadding, getHeight() + sizeOrPadding), g);
+		}
 		g.setColor(text);
 		GuiUtil.drawString(g, name, CenterMode.CENTER, getX() + getWidth()/2, getY() + getHeight()/2);
 	}
