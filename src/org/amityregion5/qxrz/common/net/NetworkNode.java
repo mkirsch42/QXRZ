@@ -4,8 +4,6 @@ import java.io.Serializable;
 import java.net.DatagramSocket;
 import java.util.Arrays;
 
-// TODO move to common, with new name (NetworkNode)
-
 public class NetworkNode
 {
 	private DatagramSocket sock;

@@ -5,8 +5,6 @@ import java.io.Serializable;
 import java.net.DatagramSocket;
 import java.net.SocketException;
 
-
-// eventually Server/Client should just extend this
 public abstract class AbstractNetworkManager extends Thread
 {
 	protected UDPInputStream inStream;
@@ -15,7 +13,6 @@ public abstract class AbstractNetworkManager extends Thread
 	
 	protected DatagramSocket sock;
 	
-	// call super(sock) from subclasses
 	public AbstractNetworkManager() throws SocketException
 	{
 		this(0);
@@ -67,7 +64,7 @@ public abstract class AbstractNetworkManager extends Thread
 		}
 		
 		// We received an in-order packet!
-		node.setReceivedPacketCount(node.getReceivedPacketCount() + 1);
+		node.setReceivedPacketCount(netObj.getPacketNumber() + 1);
 		callback.dataReceived(node, netObj.getPayload());
 	}
 	

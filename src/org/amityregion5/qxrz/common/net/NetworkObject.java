@@ -2,8 +2,6 @@ package org.amityregion5.qxrz.common.net;
 
 import java.io.Serializable;
 
-// TODO packet numbering stuff
-
 public class NetworkObject implements Serializable
 {
 	private static final long serialVersionUID = 1L;
@@ -28,13 +26,10 @@ public class NetworkObject implements Serializable
 	{
 		return packetNumber;
 	}
-
 	
 	public String toString()
 	{
 		return "#" + packetNumber + "\tpayload=" + payload;
 	}
-
-	
 	
 }
