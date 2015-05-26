@@ -130,6 +130,7 @@ public class PlayerEntity extends GameEntity implements DrawableObject<PlayerEnt
 		if (unCollide)
 		{
 			// System.out.println("I can do it!");
+			//System.out.println("Yes you can!");
 
 		}
 		if (v.length() < 2 * Game.GAME_UNIT)
