@@ -9,9 +9,9 @@ import java.net.DatagramSocket;
 public class UDPInputStream
 {
 
-	private DatagramSocket sock = null;
-	private DatagramPacket packet = null;
-	private byte[] buf = null;
+	private DatagramSocket sock;
+	private DatagramPacket packet;
+	private byte[] buf;
 
 	public UDPInputStream(DatagramSocket ds)
 	{
@@ -24,23 +24,6 @@ public class UDPInputStream
 	{
 		return packet;
 	}
-
-	/* I don't think we need any of these functions... */
-	
-//	public void setDp(DatagramPacket dp)
-//	{
-//		this.dp = dp;
-//	}
-
-//	public void setSocket(DatagramSocket ds)
-//	{
-//		sock = ds;
-//	}
-	
-//	public DatagramSocket getSocket()
-//	{
-//		return sock;
-//	}
 	
 	public NetworkObject recvObject() throws IOException, ClassNotFoundException
 	{

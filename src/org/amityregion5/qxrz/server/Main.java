@@ -1,17 +1,13 @@
 package org.amityregion5.qxrz.server;
 
 import java.io.IOException;
-
-import javax.swing.JApplet;
+import java.io.Serializable;
 
 import org.amityregion5.qxrz.common.net.DisconnectNotification;
-import org.amityregion5.qxrz.common.net.NetworkObject;
-import org.amityregion5.qxrz.server.net.Client;
-import org.amityregion5.qxrz.server.net.ServerEventListener;
+import org.amityregion5.qxrz.common.net.NetEventListener;
+import org.amityregion5.qxrz.common.net.NetworkNode;
 import org.amityregion5.qxrz.server.net.ServerNetworkManager;
 import org.amityregion5.qxrz.server.ui.MainGui;
-import org.amityregion5.qxrz.server.world.DebugDraw;
-import org.amityregion5.qxrz.server.world.World;
 import org.amityregion5.qxrz.server.world.entity.PlayerEntity;
 import org.amityregion5.qxrz.server.world.entity.ProjectileEntity;
 
@@ -22,30 +18,30 @@ public final class Main
 		
 		ServerNetworkManager netManager = new ServerNetworkManager(8000);
 		
-		netManager.addServerEventListener(new ServerEventListener()
+		netManager.attachServerEventListener(new NetEventListener()
 		{
 			@Override
-			public void newClient(Client c)
+			public void newNode(NetworkNode c)
 			{
 				// TODO do stuff for new client (drawing, inventory whatever)
 			}
 			
 			@Override
-			public void dataReceived(Client c, NetworkObject netObj)
+			public void dataReceived(NetworkNode c, Serializable netObj)
 			{
-				if(netObj.getPayload() instanceof PlayerEntity) 
+				if(netObj instanceof PlayerEntity) 
 				{
-					PlayerEntity u = (PlayerEntity) netObj.getPayload();
-					netManager.sendObject(u);
+					PlayerEntity u = (PlayerEntity) netObj;
+//					netManager.sendObject(u);
 				}
 				
-				else if(netObj.getPayload() instanceof ProjectileEntity)
+				else if(netObj instanceof ProjectileEntity)
 				{
-					ProjectileEntity u = (ProjectileEntity) netObj.getPayload();
-					netManager.sendObject(u);
+					ProjectileEntity u = (ProjectileEntity) netObj;
+//					netManager.sendObject(u);
 				}
 				
-				else if(netObj.getPayload() instanceof DisconnectNotification)
+				else if(netObj instanceof DisconnectNotification)
 				{
 					// also stop drawing player and stuff
 					netManager.removeClient(c);
@@ -57,7 +53,7 @@ public final class Main
 		// netManager.sendObject(whatever);
 		
 		new MainGui().show();
-		new Game();
+		new Game().run();;
 	}
 
 }

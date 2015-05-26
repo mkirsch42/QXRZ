@@ -10,14 +10,14 @@ public class UDPOutputStream
 
 	private DatagramSocket sock;
 	
-	public void setSocket(DatagramSocket ds)
+	public UDPOutputStream(DatagramSocket ds)
 	{
 		sock = ds;
 	}
 	
-	public DatagramSocket getSocket()
+	public void setSocket(DatagramSocket ds)
 	{
-		return sock;
+		sock = ds;
 	}
 	
 	public void sendObject(Object o) throws Exception

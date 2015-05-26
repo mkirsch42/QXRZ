@@ -23,4 +23,6 @@ public interface IScreen
 	 * @return did it work?
 	 */
 	public boolean setReturnScreen(IScreen s);
+	
+	public void onGameClose();
 }

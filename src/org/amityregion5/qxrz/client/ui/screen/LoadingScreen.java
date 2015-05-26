@@ -31,4 +31,7 @@ public class LoadingScreen implements IScreen
 	{
 		return false;
 	}
+
+	@Override
+	public void onGameClose() {}
 }
