@@ -4,6 +4,7 @@ import java.awt.Font;
 import java.awt.Graphics2D;
 import java.awt.Rectangle;
 import java.awt.RenderingHints;
+import java.awt.geom.Rectangle2D;
 
 /**
  * 
@@ -54,7 +55,7 @@ public class GuiUtil
 	 * @param g the graphics object
 	 * @return the new Font to use
 	 */
-	public static Font scaleFont(String text, Rectangle rect, Graphics2D g)
+	public static Font scaleFont(String text, Rectangle2D rect, Graphics2D g)
 	{
 		//The size of our new font
 		float newSize = 1000f;
@@ -123,7 +124,7 @@ public class GuiUtil
 	 * @param maxSize
 	 * @return
 	 */
-	public static Font scaleFont(String text, Rectangle rect, Graphics2D g,
+	public static Font scaleFont(String text, Rectangle2D rect, Graphics2D g,
 			float maxSize)
 	{
 		Font fnt = scaleFont(text, rect, g);
