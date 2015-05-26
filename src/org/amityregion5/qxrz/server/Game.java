@@ -22,10 +22,6 @@ public class Game implements Runnable
 	{
 		// Create world and add test objects
 		w = new World();
-		if(DebugConstants.DEBUG_GUI)
-		{
-			debug = DebugDraw.setup(w);
-		}
 		
 		w.add(new PlayerEntity());
 		//debug = DebugDraw.setup(w);
