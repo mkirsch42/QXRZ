@@ -223,9 +223,9 @@ public class PlayerEntity extends GameEntity implements DrawableObject<PlayerEnt
 		return v;
 	}
 
-	public void increaseStat()
+	public int getHealth()
 	{
-
+		return health;
 	}
 
 	@Override
