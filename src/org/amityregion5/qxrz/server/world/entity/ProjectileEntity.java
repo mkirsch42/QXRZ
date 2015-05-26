@@ -3,11 +3,14 @@ package org.amityregion5.qxrz.server.world.entity;
 import java.awt.geom.Rectangle2D;
 
 import org.amityregion5.qxrz.server.world.Landscape;
+import org.amityregion5.qxrz.server.world.Obstacle;
+import org.amityregion5.qxrz.server.world.vector2d.Vector2D;
 
 public abstract class ProjectileEntity extends GameEntity
 {
 
 	private final int PROJECTILE_SIZE = 1;
+	private final int DAMAGE = 10;
 	public ProjectileEntity(PlayerEntity source)
 
 	{
@@ -24,6 +27,15 @@ public abstract class ProjectileEntity extends GameEntity
 	public RectangleHitbox getHitBox()
 	{
 		return new RectangleHitbox(new Rectangle2D.Double(pos.getX(),pos.getY(),PROJECTILE_SIZE,PROJECTILE_SIZE));
+	}
+	public int getDamage()
+	{
+		return DAMAGE;
+	}
+	public Obstacle checkCollisions(Vector2D v, Landscape surroundings)
+	{
+		//stuff will be added
+		return new Obstacle(null);
 	}
 
 }

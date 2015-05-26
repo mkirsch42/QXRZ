@@ -18,7 +18,7 @@ public class MainMenuScreen extends AbstractScreen
 			elements.add(new ElementRectangle(
 					(w)->{return new Point(100, 200);},
 					(w)->{return new Point(w.getWidth()-200, 50);},
-					Color.DARK_GRAY, Color.WHITE, Color.WHITE, "Debug game",
+					Color.DARK_GRAY, Color.WHITE, -20f, Color.WHITE, "Debug game",
 					(w)->gui.setCurrentScreen(new GameScreen(this, gui, g))));
 		} catch (InterruptedException e) {
 			e.printStackTrace();
@@ -28,7 +28,7 @@ public class MainMenuScreen extends AbstractScreen
 		elements.add(new ElementRectangle(
 				(w)->{return new Point(100, w.getHeight() - 100);},
 				(w)->{return new Point(w.getWidth()-200, 50);},
-				Color.DARK_GRAY, Color.WHITE, Color.WHITE, "Quit",
+				Color.DARK_GRAY, Color.WHITE, -20f, Color.WHITE, "Quit",
 				(w)->gui.closeGame()));
 	}
 	

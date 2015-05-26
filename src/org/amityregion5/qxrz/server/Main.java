@@ -8,8 +8,10 @@ import org.amityregion5.qxrz.common.net.NetEventListener;
 import org.amityregion5.qxrz.common.net.NetworkNode;
 import org.amityregion5.qxrz.server.net.ServerNetworkManager;
 import org.amityregion5.qxrz.server.ui.MainGui;
+import org.amityregion5.qxrz.server.world.DebugDraw;
 import org.amityregion5.qxrz.server.world.entity.PlayerEntity;
 import org.amityregion5.qxrz.server.world.entity.ProjectileEntity;
+import org.amityregion5.qxrz.server.world.entity.RectangleHitbox;
 
 public final class Main
 {
@@ -32,13 +34,14 @@ public final class Main
 				if(netObj instanceof PlayerEntity) 
 				{
 					PlayerEntity u = (PlayerEntity) netObj;
-//					netManager.sendObject(u);
+					RectangleHitbox uhb = u.getHitbox();
+					int health = u.getHealth();
 				}
 				
 				else if(netObj instanceof ProjectileEntity)
 				{
 					ProjectileEntity u = (ProjectileEntity) netObj;
-//					netManager.sendObject(u);
+					RectangleHitbox uhb = u.getHitBox();
 				}
 				
 				else if(netObj instanceof DisconnectNotification)
@@ -55,7 +58,12 @@ public final class Main
 		// netManager.sendObject(whatever);
 		
 		new MainGui().show();
-		new Game().run();;
+		Game g = new Game();
+		if(DebugConstants.DEBUG_GUI)
+		{
+			Game.debug = DebugDraw.setup(g.getWorld());
+		}
+		g.run();
 	}
 
 }

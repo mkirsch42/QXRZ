@@ -130,6 +130,7 @@ public class PlayerEntity extends GameEntity implements DrawableObject<PlayerEnt
 		if (unCollide)
 		{
 			// System.out.println("I can do it!");
+			//System.out.println("Yes you can!");
 
 		}
 		if (v.length() < 2 * Game.GAME_UNIT)
@@ -223,9 +224,14 @@ public class PlayerEntity extends GameEntity implements DrawableObject<PlayerEnt
 		return v;
 	}
 
-	public void increaseStat()
+	public int getHealth()
 	{
-
+		return health;
+	}
+	public void damaged(ProjectileEntity bullet)
+	{
+		if (this.getHitbox().intersects(bullet.getHitBox()))
+			health -= bullet.getDamage();
 	}
 
 	@Override

@@ -8,10 +8,12 @@ import java.awt.Graphics2D;
 import java.awt.Shape;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.awt.image.BufferedImage;
 import java.util.ArrayList;
-
 import javax.swing.JApplet;
 import javax.swing.JFrame;
+import org.amityregion5.qxrz.client.ui.util.GuiUtil;
+import org.amityregion5.qxrz.client.ui.util.ImageModification;
 
 public class DebugDraw extends JApplet
 {
@@ -68,10 +70,23 @@ public class DebugDraw extends JApplet
 	
 	public void paint(Graphics g)
 	{
-		Graphics2D g2 = (Graphics2D) g;
+		Graphics2D rg = (Graphics2D) g;
+		
+		GuiUtil.applyRenderingHints(rg);
+		
+		BufferedImage buff = ImageModification.createBlankBufferedImage(getWidth(), getHeight());
+		
+		Graphics2D g2 = buff.createGraphics();
+		
+		GuiUtil.applyRenderingHints(g2);
+		
 		g2.scale(SCALE, SCALE);
 		g2.translate(5, 5);
-		g2.clearRect(-5,-5,getWidth(),getHeight());
+		//g2.clearRect(-5,-5,getWidth(),getHeight());
+		
+		g2.setColor(Color.WHITE);
+		g2.fillRect(-5, -5, getWidth(), getHeight());
+
 		g2.setStroke(new BasicStroke(0.25F));
 		g2.setColor(Color.GREEN);
 		boolean green = true;
@@ -93,5 +108,9 @@ public class DebugDraw extends JApplet
 		g2.setColor(Color.BLACK);
 		if(w!=null)
 			w.draw(g2);
+		
+		g2.dispose();
+		
+		rg.drawImage(buff, null, 0, 0);
 	}
 }
