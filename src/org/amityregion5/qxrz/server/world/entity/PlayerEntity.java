@@ -228,6 +228,11 @@ public class PlayerEntity extends GameEntity implements DrawableObject<PlayerEnt
 	{
 		return health;
 	}
+	public void damaged(ProjectileEntity bullet)
+	{
+		if (this.getHitbox().intersects(bullet.getHitBox()))
+			health -= bullet.getDamage();
+	}
 
 	@Override
 	public IObjectDrawer<PlayerEntity> getDrawer() {

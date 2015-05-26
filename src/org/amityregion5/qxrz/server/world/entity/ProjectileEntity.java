@@ -8,6 +8,7 @@ public abstract class ProjectileEntity extends GameEntity
 {
 
 	private final int PROJECTILE_SIZE = 1;
+	private final int DAMAGE = 10;
 	public ProjectileEntity(PlayerEntity source)
 
 	{
@@ -24,6 +25,10 @@ public abstract class ProjectileEntity extends GameEntity
 	public RectangleHitbox getHitBox()
 	{
 		return new RectangleHitbox(new Rectangle2D.Double(pos.getX(),pos.getY(),PROJECTILE_SIZE,PROJECTILE_SIZE));
+	}
+	public int getDamage()
+	{
+		return DAMAGE;
 	}
 
 }
