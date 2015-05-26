@@ -25,6 +25,7 @@ public class Game
 		w.add(new PlayerEntity());
 		JApplet debug = DebugDraw.setup(w);
 		w.addObstacle(new Obstacle(new RectangleHitbox(new Rectangle2D.Double(200,90,5,10))));
+		if ()
 
 		while (true)
 		{
