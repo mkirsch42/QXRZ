@@ -8,6 +8,7 @@ import org.amityregion5.qxrz.common.net.NetEventListener;
 import org.amityregion5.qxrz.common.net.NetworkNode;
 import org.amityregion5.qxrz.server.net.ServerNetworkManager;
 import org.amityregion5.qxrz.server.ui.MainGui;
+import org.amityregion5.qxrz.server.world.DebugDraw;
 import org.amityregion5.qxrz.server.world.entity.PlayerEntity;
 import org.amityregion5.qxrz.server.world.entity.ProjectileEntity;
 
@@ -53,7 +54,12 @@ public final class Main
 		// netManager.sendObject(whatever);
 		
 		new MainGui().show();
-		new Game().run();;
+		Game g = new Game();
+		if(DebugConstants.DEBUG_GUI)
+		{
+			Game.debug = DebugDraw.setup(g.getWorld());
+		}
+		g.run();
 	}
 
 }
