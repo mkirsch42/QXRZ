@@ -3,10 +3,8 @@ package org.amityregion5.qxrz.client.ui.screen;
 import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.event.KeyEvent;
-import java.awt.image.BufferedImage;
 import org.amityregion5.qxrz.client.ui.MainGui;
-import org.amityregion5.qxrz.client.ui.ViewPort;
-import org.amityregion5.qxrz.client.ui.util.ImageModification;
+import org.amityregion5.qxrz.client.ui.Viewport;
 import org.amityregion5.qxrz.common.ui.DrawableObject;
 import org.amityregion5.qxrz.server.Game;
 import org.amityregion5.qxrz.server.world.Obstacle;
@@ -15,13 +13,13 @@ import org.amityregion5.qxrz.server.world.entity.GameEntity;
 public class GameScreen extends AbstractScreen
 {
 	private Game game;
-	ViewPort vp = new ViewPort();
+	Viewport vp = new Viewport();
 
 	public GameScreen(IScreen previous, MainGui gui, Game game) {
 		super(previous, gui);
 		this.game = game;
-		vp.xOff=-10;
-		vp.yOff=-10;
+		vp.xCenter=20;
+		vp.yCenter=20;
 		vp.height=40;
 		vp.width=60;
 		
@@ -34,28 +32,24 @@ public class GameScreen extends AbstractScreen
 		g.fillRect(0,0, windowData.getWidth(), windowData.getHeight());
 
 		if (windowData.getKeysDown().contains(KeyEvent.VK_W)) {
-			vp.yOff--;
+			vp.yCenter--;
 		}			
 		if (windowData.getKeysDown().contains(KeyEvent.VK_A)) {
-			vp.xOff--;
+			vp.xCenter--;
 		}
 		if (windowData.getKeysDown().contains(KeyEvent.VK_S)) {
-			vp.yOff++;
+			vp.yCenter++;
 		}			
 		if (windowData.getKeysDown().contains(KeyEvent.VK_D)) {
-			vp.xOff++;
+			vp.xCenter++;
 		}
 		if (windowData.getKeysDown().contains(KeyEvent.VK_Q)) {
 			vp.height+=(2/1.5);
 			vp.width+=2;
-			vp.xOff--;
-			vp.yOff-=(1/1.5);
 		}			
 		if (windowData.getKeysDown().contains(KeyEvent.VK_E) && vp.height > 6) {
 			vp.height-=(2/1.5);
 			vp.width-=2;
-			vp.xOff++;
-			vp.yOff+=(1/1.5);
 		}
 		
 		//g.setStroke(new BasicStr);
