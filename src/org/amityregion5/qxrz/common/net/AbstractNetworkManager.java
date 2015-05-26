@@ -3,6 +3,7 @@ package org.amityregion5.qxrz.common.net;
 import java.io.IOException;
 import java.io.Serializable;
 import java.net.DatagramSocket;
+import java.net.SocketException;
 
 
 // eventually Server/Client should just extend this
@@ -12,9 +13,21 @@ public abstract class AbstractNetworkManager extends Thread
 	protected UDPOutputStream outStream;
 	protected NetEventListener callback;
 	
+	protected DatagramSocket sock;
+	
 	// call super(sock) from subclasses
-	public AbstractNetworkManager(DatagramSocket sock)
+	public AbstractNetworkManager() throws SocketException
 	{
+		this(0);
+	}
+	
+	public AbstractNetworkManager(int port) throws SocketException
+	{
+		super("network manager");
+		
+		sock = new DatagramSocket(port);
+		sock.setReuseAddress(true); // Just in case
+		
 		outStream = new UDPOutputStream(sock);
 		inStream = new UDPInputStream(sock);
 	}
@@ -33,10 +46,8 @@ public abstract class AbstractNetworkManager extends Thread
 	public abstract void run();
 	
 	// subclasses will call this helper for each node
-	protected void runHelper(NetworkNode node) throws ClassNotFoundException, IOException
+	protected void runHelper(NetworkNode node, NetworkObject netObj) throws ClassNotFoundException, IOException
 	{
-		NetworkObject netObj = (NetworkObject) inStream.recvObject();
-		
 		/*
 		 * The packet count should be always-increasing.
 		 * 
@@ -51,6 +62,7 @@ public abstract class AbstractNetworkManager extends Thread
 		 */
 		if(netObj.getPacketNumber() <= node.getReceivedPacketCount())
 		{
+			// should this fail silently?
 			throw new IOException("Out-of-order or duplicate packet received.");
 		}
 		

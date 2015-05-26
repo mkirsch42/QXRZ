@@ -18,7 +18,7 @@ public final class Main
 		
 		ServerNetworkManager netManager = new ServerNetworkManager(8000);
 		
-		netManager.attachServerEventListener(new NetEventListener()
+		netManager.attachEventListener(new NetEventListener()
 		{
 			@Override
 			public void newNode(NetworkNode c)
@@ -49,6 +49,8 @@ public final class Main
 				
 			}
 		});
+		
+		netManager.start();
 		// How to send things to all clients:
 		// netManager.sendObject(whatever);
 		
