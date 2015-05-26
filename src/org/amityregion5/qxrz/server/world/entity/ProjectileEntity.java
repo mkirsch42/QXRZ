@@ -3,6 +3,8 @@ package org.amityregion5.qxrz.server.world.entity;
 import java.awt.geom.Rectangle2D;
 
 import org.amityregion5.qxrz.server.world.Landscape;
+import org.amityregion5.qxrz.server.world.Obstacle;
+import org.amityregion5.qxrz.server.world.vector2d.Vector2D;
 
 public abstract class ProjectileEntity extends GameEntity
 {
@@ -29,6 +31,11 @@ public abstract class ProjectileEntity extends GameEntity
 	public int getDamage()
 	{
 		return DAMAGE;
+	}
+	public Obstacle checkCollisions(Vector2D v, Landscape surroundings)
+	{
+		//stuff will be added
+		return new Obstacle(null);
 	}
 
 }
