@@ -18,7 +18,7 @@ public class AssetManager
 	{
 		try
 		{
-			imageAssets.put("weapons/flamethrower", ImageIO.read(FileUtil.getURLOfResource(Main.class, "weapons/flamethrower.png")));
+			imageAssets.put("weapons/flamethrower", ImageIO.read(FileUtil.getURLOfResource(Main.class, "/weapons/flamethrower.png")));
 		}
 		catch (IOException e)
 		{
@@ -27,6 +27,10 @@ public class AssetManager
 	}
 	
 	public static Image[] getImageAssets(String name) {
-		return imageAssets.keySet().stream().filter((s)->s.matches(name)).map((k)->imageAssets.get(k)).collect(Collectors.toList()).toArray(new Image[] {});
+		return imageAssets.keySet().stream().filter((s)->s.matches(regexify(name))).map((k)->imageAssets.get(k)).collect(Collectors.toList()).toArray(new Image[] {});
+	}
+	
+	private static String regexify(String str) {
+		return str.replace("*", "[^/]*").replace("?", "[^/]?");
 	}
 }

@@ -5,8 +5,8 @@ import java.awt.geom.Path2D;
 import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
 import java.util.List;
-
 import org.amityregion5.qxrz.common.ui.AABBDrawer;
+import org.amityregion5.qxrz.common.ui.AssetDrawer;
 import org.amityregion5.qxrz.common.ui.DrawableObject;
 import org.amityregion5.qxrz.common.ui.IObjectDrawer;
 import org.amityregion5.qxrz.server.DebugConstants;
@@ -20,7 +20,7 @@ public class PlayerEntity extends GameEntity implements
 		DrawableObject<PlayerEntity>
 {
 
-	private static AABBDrawer<PlayerEntity> drawer;
+	private static List<IObjectDrawer<PlayerEntity>> drawers;
 
 	private final int PLAYER_SIZE = 400;
 	private Weapon[] guns = new Weapon[2];
@@ -249,13 +249,13 @@ public class PlayerEntity extends GameEntity implements
 	@Override
 	public List<IObjectDrawer<PlayerEntity>> getDrawers()
 	{
-		if (drawer == null)
+		if (drawers == null)
 		{
-			drawer = new AABBDrawer<PlayerEntity>();
+			drawers = new ArrayList<IObjectDrawer<PlayerEntity>>();
+			drawers.add(new AssetDrawer<PlayerEntity>("weapons/*"));
+			drawers.add(new AABBDrawer<PlayerEntity>());
 		}
-		List<IObjectDrawer<PlayerEntity>> l = new ArrayList<IObjectDrawer<PlayerEntity>>();
-		l.add(drawer);
-		return l;
+		return drawers;
 	}
 
 }
