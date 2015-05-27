@@ -1,5 +1,6 @@
 package org.amityregion5.qxrz.server.world.entity;
 
+import java.awt.geom.Path2D;
 import java.awt.geom.Rectangle2D;
 
 import org.amityregion5.qxrz.server.world.Landscape;
@@ -35,6 +36,10 @@ public abstract class ProjectileEntity extends GameEntity
 	public Obstacle checkCollisions(Vector2D v, Landscape surroundings)
 	{
 		//stuff will be added
+		Vector2D back = pos;
+		Rectangle2D.Double hbox = this.getHitBox().getBounds();
+		Path2D.Double path = new Path2D.Double();
+		
 		return new Obstacle(null);
 	}
 
