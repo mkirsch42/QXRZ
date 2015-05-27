@@ -12,6 +12,13 @@ public class MainMenuScreen extends AbstractScreen
 	
 	public MainMenuScreen(MainGui gui) {
 		super(null, gui);
+		
+		elements.add(new ElementRectangle(
+				(w)->{return new Point(0, 10);},
+				(w)->{return new Point(w.getWidth(),190);},
+				Color.BLACK, Color.BLACK, -40f, Color.WHITE, "QXRZ"));
+		
+		
 		//Debug/Single player mode
 		try {
 			Game g = new Game();

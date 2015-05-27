@@ -6,6 +6,7 @@ import java.awt.Point;
 import java.awt.geom.Rectangle2D;
 import java.util.function.Consumer;
 import java.util.function.Function;
+import java.util.function.Supplier;
 import org.amityregion5.qxrz.client.ui.screen.WindowData;
 import org.amityregion5.qxrz.client.ui.util.CenterMode;
 import org.amityregion5.qxrz.client.ui.util.GuiUtil;
@@ -14,8 +15,8 @@ public class ElementRectangle extends AGuiElement
 {
 	protected Function<WindowData, Point> topLeftFunction;
 	protected Function<WindowData, Point> widthHeightFunction;
+	protected Supplier<String> name;
 	protected Color background, border, text;
-	protected String name;
 	protected WindowData wData;
 	protected float sizeOrPadding;
 
@@ -37,7 +38,7 @@ public class ElementRectangle extends AGuiElement
 		this.background = background;
 		this.border = border;
 		this.text = text;
-		this.name = name;
+		this.name = ()->name;
 		this.sizeOrPadding = sizeOrPadding;
 	}
 
@@ -57,6 +58,25 @@ public class ElementRectangle extends AGuiElement
 		this(topLeftFunction, widthHeightFunction, background, border, sizeOrPadding, text, name);
 		setClickListener(onClick);
 	}
+	
+	/**
+	 * @param topLeftFunction
+	 * @param widthHeightFunction
+	 * @param attachWidthToRight
+	 * @param background
+	 * @param border
+	 * @param text
+	 * @param name
+	 */
+	public ElementRectangle(Function<WindowData, Point> topLeftFunction,
+			Function<WindowData, Point> widthHeightFunction,
+			Color background, Color border, float sizeOrPadding,
+			Color text, Supplier<String> name, Consumer<WindowData> onClick) {
+		this(topLeftFunction, widthHeightFunction, background, border, sizeOrPadding, text, "", onClick);
+		this.name = name;
+	}
+	
+	
 
 	@Override
 	protected void draw(Graphics2D g, WindowData windowData)
@@ -72,10 +92,10 @@ public class ElementRectangle extends AGuiElement
 		if (sizeOrPadding > 0) {
 			g.setFont(g.getFont().deriveFont(sizeOrPadding));
 		} else {
-			GuiUtil.scaleFont(name, new Rectangle2D.Double(getX() - sizeOrPadding, getY() - sizeOrPadding, getWidth() + sizeOrPadding, getHeight() + sizeOrPadding), g);
+			GuiUtil.scaleFont(name.get(), new Rectangle2D.Double(getX() - sizeOrPadding, getY() - sizeOrPadding, getWidth() + sizeOrPadding, getHeight() + sizeOrPadding), g);
 		}
 		g.setColor(text);
-		GuiUtil.drawString(g, name, CenterMode.CENTER, getX() + getWidth()/2, getY() + getHeight()/2);
+		GuiUtil.drawString(g, name.get(), CenterMode.CENTER, getX() + getWidth()/2, getY() + getHeight()/2);
 	}
 
 	@Override
@@ -198,13 +218,21 @@ public class ElementRectangle extends AGuiElement
 	 */
 	public String getName()
 	{
-		return name;
+		return name.get();
 	}
 
 	/**
 	 * @param name the name to set
 	 */
 	public void setName(String name)
+	{
+		this.name = ()->name;
+	}
+
+	/**
+	 * @param name the name to set
+	 */
+	public void setName(Supplier<String> name)
 	{
 		this.name = name;
 	}
