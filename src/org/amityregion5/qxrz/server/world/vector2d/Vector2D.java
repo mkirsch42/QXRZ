@@ -1,5 +1,6 @@
 package org.amityregion5.qxrz.server.world.vector2d;
 
+//physics class 
 public class Vector2D
 {
 	private static final double EPSILON = 0.000001;
