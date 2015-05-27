@@ -18,6 +18,7 @@ Pronounced kew ecks ar zed
     - Health packs and weaponry
     - Background animations (align with storyline)
 - *View others' health*
+- poop
 
 ### Networking
 - Choose server from list

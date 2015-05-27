@@ -1,7 +1,6 @@
 package org.amityregion5.qxrz.common.net;
 
 import java.io.Serializable;
-import java.net.DatagramSocket;
 
 public class ChatMessage implements Serializable
 {
@@ -27,5 +26,15 @@ public class ChatMessage implements Serializable
 	{
 		from = c;
 		return this;
+	}
+	
+	public NetworkNode getSender()
+	{
+		return from;
+	}
+	
+	public String getMessage()
+	{
+		return message;
 	}
 }
