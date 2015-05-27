@@ -3,11 +3,11 @@ package org.amityregion5.qxrz.server.net;
 import java.io.IOException;
 import java.io.Serializable;
 import java.net.DatagramSocket;
+import java.net.InetAddress;
 import java.net.SocketException;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.logging.Logger;
-
 import org.amityregion5.qxrz.common.net.AbstractNetworkManager;
 import org.amityregion5.qxrz.common.net.NetworkNode;
 import org.amityregion5.qxrz.common.net.NetworkObject;
@@ -18,10 +18,14 @@ public class ServerNetworkManager extends AbstractNetworkManager
 	private HashSet<NetworkNode> clients = new HashSet<NetworkNode>();
 
 	private Logger l = Logger.getLogger(this.getClass().getName());
+	
+	private int port;
 
 	public ServerNetworkManager(int port) throws SocketException
 	{
 		super(port);
+		this.port = port;
+		
 	}
 
 	public void sendObject(Serializable obj)
@@ -94,4 +98,15 @@ public class ServerNetworkManager extends AbstractNetworkManager
 		}
 	}
 
+	public int getPort() {
+		return sock.getPort();
+	}
+	
+	public String getAddress() {
+		return sock.getLocalSocketAddress().toString();
+	}
+	
+	public HashSet<NetworkNode> getClients() {
+		return clients;
+	}
 }

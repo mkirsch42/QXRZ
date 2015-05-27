@@ -57,7 +57,7 @@ public final class Main
 		// How to send things to all clients:
 		// netManager.sendObject(whatever);
 		
-		new MainGui().show();
+		new MainGui(netManager).show();
 		Game g = new Game();
 		if(DebugConstants.DEBUG_GUI)
 		{
