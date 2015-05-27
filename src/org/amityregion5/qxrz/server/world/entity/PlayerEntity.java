@@ -20,16 +20,11 @@ public class PlayerEntity extends GameEntity implements DrawableObject<PlayerEnt
 	private static AABBDrawer<PlayerEntity> drawer;
 
 	private final double PLAYER_SIZE = 4;
-	private Weapon[] guns = new Weapon[2];
-	private int health;
-	private int speed;
 
 	public PlayerEntity() // creates player vector
 	{
 		pos = new Vector2D(0, 0);
 		vel = new Vector2D(2, 1).multiply(DebugConstants.PATH_LEN);
-		health = 100;
-		speed = 100;
 	}
 
 	public boolean update(double tSinceUpdate, Landscape surroundings)
@@ -226,16 +221,6 @@ public class PlayerEntity extends GameEntity implements DrawableObject<PlayerEnt
 		return v;
 	}
 
-	public int getHealth()
-	{
-		return health;
-	}
-	public void damaged(ProjectileEntity bullet)
-	{
-		if (this.getHitbox().intersects(bullet.getHitBox()))
-			health -= bullet.getDamage();
-	}
-
 	@Override
 	public List<IObjectDrawer<PlayerEntity>> getDrawers() {
 		if (drawer == null) {
@@ -245,5 +230,4 @@ public class PlayerEntity extends GameEntity implements DrawableObject<PlayerEnt
 		l.add(drawer);
 		return l;
 	}
-
 }
