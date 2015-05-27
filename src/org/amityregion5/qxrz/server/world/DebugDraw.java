@@ -84,14 +84,17 @@ public class DebugDraw extends JApplet
 		
 		GuiUtil.applyRenderingHints(g2);
 		
+		rg.setColor(Color.WHITE);
+		rg.fillRect(0, 0, getWidth(), getHeight());
+		
 		g2.scale(SCALE, SCALE);
 		g2.translate(5, 5);
 		//g2.clearRect(-5,-5,getWidth(),getHeight());
 		
 		g2.setColor(Color.WHITE);
 		g2.fillRect(-5, -5, getWidth(), getHeight());
-
-		g2.setStroke(new BasicStroke(0.25F));
+		
+		g2.setStroke(new BasicStroke(25));
 		g2.setColor(Color.GREEN);
 		boolean green = true;
 		while(buffer.size()>0)
@@ -108,7 +111,7 @@ public class DebugDraw extends JApplet
 				green = true;
 			}
 		}
-		g2.setStroke(new BasicStroke(0.1F));
+		g2.setStroke(new BasicStroke(10));
 		g2.setColor(Color.BLACK);
 		if(w!=null)
 			w.draw(g2);
