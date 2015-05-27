@@ -9,11 +9,15 @@ import java.awt.Shape;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.awt.image.BufferedImage;
+import java.io.IOException;
 import java.util.ArrayList;
+
 import javax.swing.JApplet;
 import javax.swing.JFrame;
+
 import org.amityregion5.qxrz.client.ui.util.GuiUtil;
 import org.amityregion5.qxrz.client.ui.util.ImageModification;
+import org.amityregion5.qxrz.server.Main;
 
 public class DebugDraw extends JApplet
 {
@@ -24,10 +28,10 @@ public class DebugDraw extends JApplet
 	private boolean dummy = true;
 	public static ArrayList<Shape> buffer = new ArrayList<Shape>();
 	
-	private static final double SCALE = 15;
+	private static final double SCALE = 0.15;
 	private static final int WIDTH = 1000;
 	private static final int HEIGHT = 700;
-	
+
 	public static DebugDraw setup(World W)
 	{
 		if(W==null)

@@ -1,9 +1,11 @@
 package org.amityregion5.qxrz.server.world.entity;
 
+import java.awt.Rectangle;
 import java.awt.geom.Path2D;
 import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
 import java.util.List;
+
 import org.amityregion5.qxrz.common.ui.AABBDrawer;
 import org.amityregion5.qxrz.common.ui.DrawableObject;
 import org.amityregion5.qxrz.common.ui.IObjectDrawer;
@@ -19,24 +21,26 @@ public class PlayerEntity extends GameEntity implements DrawableObject<PlayerEnt
 
 	private static AABBDrawer<PlayerEntity> drawer;
 
-	private final double PLAYER_SIZE = 4;
+	private final int PLAYER_SIZE = 400;
 	private Weapon[] guns = new Weapon[2];
 	private int health;
 	private int speed;
 
 	public PlayerEntity() // creates player vector
 	{
-		pos = new Vector2D(0, 0);
-		vel = new Vector2D(2, 1).multiply(DebugConstants.PATH_LEN);
+		pos = new Vector2D(1500, 2500);
+		vel = new Vector2D(200, 100).multiply(DebugConstants.PATH_LEN);
 		health = 100;
 		speed = 100;
 	}
 
 	public boolean update(double tSinceUpdate, Landscape surroundings)
 	{
+		System.out.println(pos);
 		Obstacle o = checkCollisions(vel.multiply(tSinceUpdate), surroundings);
 		if (o != null)
 		{
+			Game.debug.buffer.add(((RectangleHitbox)o.getHitbox()).getBounds());
 			collide(o, surroundings, vel.multiply(tSinceUpdate));
 		}
 		else
@@ -50,8 +54,8 @@ public class PlayerEntity extends GameEntity implements DrawableObject<PlayerEnt
 	public RectangleHitbox getHitbox()
 	{
 		// Create 2x2 square around player
-		return new RectangleHitbox(new Rectangle2D.Double(pos.getX()
-				- PLAYER_SIZE / 2.0, pos.getY() - PLAYER_SIZE / 2.0,
+		return new RectangleHitbox(new Rectangle((int)pos.getX()
+				- PLAYER_SIZE / 2, (int)pos.getY() - PLAYER_SIZE / 2,
 				PLAYER_SIZE, PLAYER_SIZE));
 	}
 
@@ -59,7 +63,7 @@ public class PlayerEntity extends GameEntity implements DrawableObject<PlayerEnt
 	{
 		Vector2D bak = pos;
 		Path2D.Double path = new Path2D.Double();
-		Rectangle2D.Double hb = getHitbox().getBounds();
+		Rectangle hb = getHitbox().getBounds();
 
 		Vector2D p1 = new Vector2D(hb.getMinX(), hb.getMinY());
 		Vector2D p2 = new Vector2D(hb.getMinX(), hb.getMaxY());
@@ -98,7 +102,6 @@ public class PlayerEntity extends GameEntity implements DrawableObject<PlayerEnt
 		pos = pos.subtract(norm.multiply(5 * Game.GAME_UNIT));
 		// Get the amount you can move along the side
 		Vector2D move = rem.project(norm.rotateQuad(1)).snap();
-		System.out.println(rem);
 		rem = fixCollisionWithVel(move, h, l, true);
 
 		// Get back out of obstacle
