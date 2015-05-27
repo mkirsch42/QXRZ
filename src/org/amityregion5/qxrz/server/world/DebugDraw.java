@@ -9,11 +9,15 @@ import java.awt.Shape;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.awt.image.BufferedImage;
+import java.io.IOException;
 import java.util.ArrayList;
+
 import javax.swing.JApplet;
 import javax.swing.JFrame;
+
 import org.amityregion5.qxrz.client.ui.util.GuiUtil;
 import org.amityregion5.qxrz.client.ui.util.ImageModification;
+import org.amityregion5.qxrz.server.Main;
 
 public class DebugDraw extends JApplet
 {
@@ -24,10 +28,10 @@ public class DebugDraw extends JApplet
 	private boolean dummy = true;
 	public static ArrayList<Shape> buffer = new ArrayList<Shape>();
 	
-	private static final double SCALE = 15;
+	private static final double SCALE = 0.15;
 	private static final int WIDTH = 1000;
 	private static final int HEIGHT = 700;
-	
+
 	public static DebugDraw setup(World W)
 	{
 		if(W==null)
@@ -80,14 +84,17 @@ public class DebugDraw extends JApplet
 		
 		GuiUtil.applyRenderingHints(g2);
 		
+		rg.setColor(Color.WHITE);
+		rg.fillRect(0, 0, getWidth(), getHeight());
+		
 		g2.scale(SCALE, SCALE);
 		g2.translate(5, 5);
 		//g2.clearRect(-5,-5,getWidth(),getHeight());
 		
 		g2.setColor(Color.WHITE);
 		g2.fillRect(-5, -5, getWidth(), getHeight());
-
-		g2.setStroke(new BasicStroke(0.25F));
+		
+		g2.setStroke(new BasicStroke(25));
 		g2.setColor(Color.GREEN);
 		boolean green = true;
 		while(buffer.size()>0)
@@ -104,7 +111,7 @@ public class DebugDraw extends JApplet
 				green = true;
 			}
 		}
-		g2.setStroke(new BasicStroke(0.1F));
+		g2.setStroke(new BasicStroke(10));
 		g2.setColor(Color.BLACK);
 		if(w!=null)
 			w.draw(g2);

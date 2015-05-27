@@ -1,18 +1,17 @@
 package org.amityregion5.qxrz.server;
 
-import java.awt.geom.Rectangle2D;
-import javax.swing.JApplet;
+import java.awt.Rectangle;
+
 import org.amityregion5.qxrz.server.world.DebugDraw;
 import org.amityregion5.qxrz.server.world.Obstacle;
 import org.amityregion5.qxrz.server.world.World;
-import org.amityregion5.qxrz.server.world.entity.CompoundHitbox;
 import org.amityregion5.qxrz.server.world.entity.PlayerEntity;
 import org.amityregion5.qxrz.server.world.entity.RectangleHitbox;
 
 public class Game implements Runnable
 {
 
-	public static final double GAME_UNIT = 0.01;
+	public static final int GAME_UNIT = 1;
 
 	public static DebugDraw debug = new DebugDraw();
 
@@ -25,9 +24,9 @@ public class Game implements Runnable
 		
 		w.add(new PlayerEntity());
 		//debug = DebugDraw.setup(w);
-		w.addObstacle(new Obstacle(new RectangleHitbox(new Rectangle2D.Double(10,5,4,4))));
-		w.addObstacle(new Obstacle(new RectangleHitbox(new Rectangle2D.Double(20,15,5,10))));
-		w.addObstacle(new Obstacle(new RectangleHitbox(new Rectangle2D.Double(15,29+2*GAME_UNIT,20,5))));
+		w.addObstacle(new Obstacle(new RectangleHitbox(new Rectangle(1000,500,400,400))));
+		w.addObstacle(new Obstacle(new RectangleHitbox(new Rectangle(2000,1500,500,1000))));
+		w.addObstacle(new Obstacle(new RectangleHitbox(new Rectangle(1500,2900+2*GAME_UNIT,2000,500))));
 		// TODO finish compound hitbox normals then add some to the world
 		/*w.addObstacle(new Obstacle(new CompoundHitbox().add(
 				new RectangleHitbox(new Rectangle2D.Double(50,20,5,10))).add(

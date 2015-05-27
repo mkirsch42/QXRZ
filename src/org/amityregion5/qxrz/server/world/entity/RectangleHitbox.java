@@ -1,6 +1,7 @@
 package org.amityregion5.qxrz.server.world.entity;
 
 import java.awt.Graphics2D;
+import java.awt.Rectangle;
 import java.awt.geom.Rectangle2D;
 
 import org.amityregion5.qxrz.server.world.vector2d.Vector2D;
@@ -8,14 +9,14 @@ import org.amityregion5.qxrz.server.world.vector2d.Vector2D;
 public class RectangleHitbox extends Hitbox
 {
 
-	private Rectangle2D.Double bounds;
+	private Rectangle bounds;
 	
-	public RectangleHitbox(Rectangle2D.Double r)
+	public RectangleHitbox(Rectangle r)
 	{
 		bounds = r;
 	}
 	
-	public Rectangle2D.Double getBounds()
+	public Rectangle getBounds()
 	{
 		return bounds;
 	}
@@ -42,7 +43,7 @@ public class RectangleHitbox extends Hitbox
 	{
 		if(! (h instanceof RectangleHitbox))
 			return null;
-		Rectangle2D.Double r = ((RectangleHitbox)h).getBounds();
+		Rectangle r = ((RectangleHitbox)h).getBounds();
 		int code = bounds.outcode(r.getMaxX(), r.getMaxY()) &
 				bounds.outcode(r.getMaxX(), r.getMinY()) &
 				bounds.outcode(r.getMinX(), r.getMaxY()) &

@@ -1,10 +1,12 @@
 package org.amityregion5.qxrz.server.world.entity;
 
+import java.awt.Rectangle;
 import java.awt.geom.Path2D;
 import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
 import java.util.List;
 import org.amityregion5.qxrz.common.ui.AABBDrawer;
+import org.amityregion5.qxrz.common.ui.AssetDrawer;
 import org.amityregion5.qxrz.common.ui.DrawableObject;
 import org.amityregion5.qxrz.common.ui.IObjectDrawer;
 import org.amityregion5.qxrz.server.DebugConstants;
@@ -14,24 +16,46 @@ import org.amityregion5.qxrz.server.world.Landscape;
 import org.amityregion5.qxrz.server.world.Obstacle;
 import org.amityregion5.qxrz.server.world.vector2d.Vector2D;
 
-public class PlayerEntity extends GameEntity implements DrawableObject<PlayerEntity>
+public class PlayerEntity extends GameEntity implements
+		DrawableObject<PlayerEntity>
 {
 
-	private static AABBDrawer<PlayerEntity> drawer;
+	private static List<IObjectDrawer<PlayerEntity>> drawers;
 
+<<<<<<< HEAD
 	private final double PLAYER_SIZE = 4;
+=======
+	private final int PLAYER_SIZE = 400;
+	private Weapon[] guns = new Weapon[2];
+	private int health;
+	private int speed;
+>>>>>>> branch 'master' of https://github.com/mkirsch42/QXRZ.git
 
 	public PlayerEntity() // creates player vector
 	{
+<<<<<<< HEAD
 		pos = new Vector2D(0, 0);
 		vel = new Vector2D(2, 1).multiply(DebugConstants.PATH_LEN);
+=======
+		//pos = new Vector2D(1500, 2500);
+		pos = new Vector2D(0,0);
+		vel = new Vector2D(200, 100).multiply(DebugConstants.PATH_LEN);
+		health = 100;
+		speed = 100;
+>>>>>>> branch 'master' of https://github.com/mkirsch42/QXRZ.git
 	}
 
 	public boolean update(double tSinceUpdate, Landscape surroundings)
 	{
+		// System.out.println(pos);
 		Obstacle o = checkCollisions(vel.multiply(tSinceUpdate), surroundings);
 		if (o != null)
 		{
+			if (DebugConstants.DEBUG_PATH)
+			{
+				Game.debug.buffer.add(((RectangleHitbox) o.getHitbox())
+						.getBounds());
+			}
 			collide(o, surroundings, vel.multiply(tSinceUpdate));
 		}
 		else
@@ -45,16 +69,16 @@ public class PlayerEntity extends GameEntity implements DrawableObject<PlayerEnt
 	public RectangleHitbox getHitbox()
 	{
 		// Create 2x2 square around player
-		return new RectangleHitbox(new Rectangle2D.Double(pos.getX()
-				- PLAYER_SIZE / 2.0, pos.getY() - PLAYER_SIZE / 2.0,
-				PLAYER_SIZE, PLAYER_SIZE));
+		return new RectangleHitbox(new Rectangle((int) pos.getX() - PLAYER_SIZE
+				/ 2, (int) pos.getY() - PLAYER_SIZE / 2, PLAYER_SIZE,
+				PLAYER_SIZE));
 	}
 
 	public Obstacle checkCollisions(Vector2D v, Landscape surroundings)
 	{
 		Vector2D bak = pos;
 		Path2D.Double path = new Path2D.Double();
-		Rectangle2D.Double hb = getHitbox().getBounds();
+		Rectangle hb = getHitbox().getBounds();
 
 		Vector2D p1 = new Vector2D(hb.getMinX(), hb.getMinY());
 		Vector2D p2 = new Vector2D(hb.getMinX(), hb.getMaxY());
@@ -93,7 +117,6 @@ public class PlayerEntity extends GameEntity implements DrawableObject<PlayerEnt
 		pos = pos.subtract(norm.multiply(5 * Game.GAME_UNIT));
 		// Get the amount you can move along the side
 		Vector2D move = rem.project(norm.rotateQuad(1)).snap();
-		System.out.println(rem);
 		rem = fixCollisionWithVel(move, h, l, true);
 
 		// Get back out of obstacle
@@ -127,7 +150,7 @@ public class PlayerEntity extends GameEntity implements DrawableObject<PlayerEnt
 		if (unCollide)
 		{
 			// System.out.println("I can do it!");
-			//System.out.println("Yes you can!");
+			// System.out.println("Yes you can!");
 
 		}
 		if (v.length() < 2 * Game.GAME_UNIT)
@@ -221,13 +244,26 @@ public class PlayerEntity extends GameEntity implements DrawableObject<PlayerEnt
 		return v;
 	}
 
+	public int getHealth()
+	{
+		return health;
+	}
+
+	public void damaged(ProjectileEntity bullet)
+	{
+		if (this.getHitbox().intersects(bullet.getHitBox()))
+			health -= bullet.getDamage();
+	}
+
 	@Override
-	public List<IObjectDrawer<PlayerEntity>> getDrawers() {
-		if (drawer == null) {
-			drawer = new AABBDrawer<PlayerEntity>();
+	public List<IObjectDrawer<PlayerEntity>> getDrawers()
+	{
+		if (drawers == null)
+		{
+			drawers = new ArrayList<IObjectDrawer<PlayerEntity>>();
+			drawers.add(new AssetDrawer<PlayerEntity>("weapons/*"));
+			drawers.add(new AABBDrawer<PlayerEntity>());
 		}
-		List<IObjectDrawer<PlayerEntity>> l = new ArrayList<IObjectDrawer<PlayerEntity>>();
-		l.add(drawer);
-		return l;
+		return drawers;
 	}
 }

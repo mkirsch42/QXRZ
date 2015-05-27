@@ -18,10 +18,10 @@ public class GameScreen extends AbstractScreen
 	public GameScreen(IScreen previous, MainGui gui, Game game) {
 		super(previous, gui);
 		this.game = game;
-		vp.xCenter=20;
-		vp.yCenter=20;
-		vp.height=40;
-		vp.width=60;
+		vp.xCenter=20 * 100;
+		vp.yCenter=20 * 100;
+		vp.height=40 * 100;
+		vp.width=60 * 100;
 		
 		new Thread(game).start();;
 	}
@@ -32,24 +32,24 @@ public class GameScreen extends AbstractScreen
 		g.fillRect(0,0, windowData.getWidth(), windowData.getHeight());
 
 		if (windowData.getKeysDown().contains(KeyEvent.VK_W)) {
-			vp.yCenter--;
+			vp.yCenter-=100;
 		}			
 		if (windowData.getKeysDown().contains(KeyEvent.VK_A)) {
-			vp.xCenter--;
+			vp.xCenter-=100;
 		}
 		if (windowData.getKeysDown().contains(KeyEvent.VK_S)) {
-			vp.yCenter++;
+			vp.yCenter+=100;
 		}			
 		if (windowData.getKeysDown().contains(KeyEvent.VK_D)) {
-			vp.xCenter++;
+			vp.xCenter+=100;
 		}
 		if (windowData.getKeysDown().contains(KeyEvent.VK_Q)) {
-			vp.height+=(2/1.5);
-			vp.width+=2;
+			vp.height+=(2/1.5) * 100;
+			vp.width+=2 * 100;
 		}			
-		if (windowData.getKeysDown().contains(KeyEvent.VK_E) && vp.height > 6) {
-			vp.height-=(2/1.5);
-			vp.width-=2;
+		if (windowData.getKeysDown().contains(KeyEvent.VK_E) && vp.height > 600) {
+			vp.height-=(2/1.5) * 100;
+			vp.width-=2 * 100;
 		}
 		
 		//g.setStroke(new BasicStr);
