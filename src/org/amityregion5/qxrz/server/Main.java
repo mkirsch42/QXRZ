@@ -35,7 +35,6 @@ public final class Main
 				{
 					PlayerEntity u = (PlayerEntity) netObj;
 					RectangleHitbox uhb = u.getHitbox();
-					int health = u.getHealth();
 				}
 				
 				else if(netObj instanceof ProjectileEntity)
