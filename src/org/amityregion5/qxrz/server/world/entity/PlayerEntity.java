@@ -16,7 +16,8 @@ import org.amityregion5.qxrz.server.world.Landscape;
 import org.amityregion5.qxrz.server.world.Obstacle;
 import org.amityregion5.qxrz.server.world.vector2d.Vector2D;
 
-public class PlayerEntity extends GameEntity implements DrawableObject<PlayerEntity>
+public class PlayerEntity extends GameEntity implements
+		DrawableObject<PlayerEntity>
 {
 
 	private static AABBDrawer<PlayerEntity> drawer;
@@ -28,7 +29,8 @@ public class PlayerEntity extends GameEntity implements DrawableObject<PlayerEnt
 
 	public PlayerEntity() // creates player vector
 	{
-		pos = new Vector2D(1500, 2500);
+		//pos = new Vector2D(1500, 2500);
+		pos = new Vector2D(0,0);
 		vel = new Vector2D(200, 100).multiply(DebugConstants.PATH_LEN);
 		health = 100;
 		speed = 100;
@@ -36,11 +38,15 @@ public class PlayerEntity extends GameEntity implements DrawableObject<PlayerEnt
 
 	public boolean update(double tSinceUpdate, Landscape surroundings)
 	{
-		System.out.println(pos);
+		// System.out.println(pos);
 		Obstacle o = checkCollisions(vel.multiply(tSinceUpdate), surroundings);
 		if (o != null)
 		{
-			Game.debug.buffer.add(((RectangleHitbox)o.getHitbox()).getBounds());
+			if (DebugConstants.DEBUG_PATH)
+			{
+				Game.debug.buffer.add(((RectangleHitbox) o.getHitbox())
+						.getBounds());
+			}
 			collide(o, surroundings, vel.multiply(tSinceUpdate));
 		}
 		else
@@ -54,9 +60,9 @@ public class PlayerEntity extends GameEntity implements DrawableObject<PlayerEnt
 	public RectangleHitbox getHitbox()
 	{
 		// Create 2x2 square around player
-		return new RectangleHitbox(new Rectangle((int)pos.getX()
-				- PLAYER_SIZE / 2, (int)pos.getY() - PLAYER_SIZE / 2,
-				PLAYER_SIZE, PLAYER_SIZE));
+		return new RectangleHitbox(new Rectangle((int) pos.getX() - PLAYER_SIZE
+				/ 2, (int) pos.getY() - PLAYER_SIZE / 2, PLAYER_SIZE,
+				PLAYER_SIZE));
 	}
 
 	public Obstacle checkCollisions(Vector2D v, Landscape surroundings)
@@ -135,7 +141,7 @@ public class PlayerEntity extends GameEntity implements DrawableObject<PlayerEnt
 		if (unCollide)
 		{
 			// System.out.println("I can do it!");
-			//System.out.println("Yes you can!");
+			// System.out.println("Yes you can!");
 
 		}
 		if (v.length() < 2 * Game.GAME_UNIT)
@@ -233,6 +239,7 @@ public class PlayerEntity extends GameEntity implements DrawableObject<PlayerEnt
 	{
 		return health;
 	}
+
 	public void damaged(ProjectileEntity bullet)
 	{
 		if (this.getHitbox().intersects(bullet.getHitBox()))
@@ -240,8 +247,10 @@ public class PlayerEntity extends GameEntity implements DrawableObject<PlayerEnt
 	}
 
 	@Override
-	public List<IObjectDrawer<PlayerEntity>> getDrawers() {
-		if (drawer == null) {
+	public List<IObjectDrawer<PlayerEntity>> getDrawers()
+	{
+		if (drawer == null)
+		{
 			drawer = new AABBDrawer<PlayerEntity>();
 		}
 		List<IObjectDrawer<PlayerEntity>> l = new ArrayList<IObjectDrawer<PlayerEntity>>();
