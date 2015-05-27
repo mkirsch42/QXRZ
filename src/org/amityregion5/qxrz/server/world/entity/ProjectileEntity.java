@@ -1,6 +1,6 @@
 package org.amityregion5.qxrz.server.world.entity;
 
-import java.awt.geom.Rectangle2D;
+import java.awt.Rectangle;
 
 import org.amityregion5.qxrz.server.world.Landscape;
 import org.amityregion5.qxrz.server.world.Obstacle;
@@ -26,7 +26,7 @@ public abstract class ProjectileEntity extends GameEntity
 	
 	public RectangleHitbox getHitBox()
 	{
-		return new RectangleHitbox(new Rectangle2D.Double(pos.getX(),pos.getY(),PROJECTILE_SIZE,PROJECTILE_SIZE));
+		return new RectangleHitbox(new Rectangle((int)pos.getX(),(int)pos.getY(),PROJECTILE_SIZE,PROJECTILE_SIZE));
 	}
 	public int getDamage()
 	{

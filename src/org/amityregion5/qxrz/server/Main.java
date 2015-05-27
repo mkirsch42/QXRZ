@@ -3,6 +3,7 @@ package org.amityregion5.qxrz.server;
 import java.io.IOException;
 import java.io.Serializable;
 
+import org.amityregion5.qxrz.common.net.ChatMessage;
 import org.amityregion5.qxrz.common.net.DisconnectNotification;
 import org.amityregion5.qxrz.common.net.NetEventListener;
 import org.amityregion5.qxrz.common.net.NetworkNode;
@@ -49,7 +50,11 @@ public final class Main
 					// also stop drawing player and stuff
 					netManager.removeClient(c);
 				}
-				
+				else if(netObj instanceof ChatMessage)
+				{
+					// echo it back out
+					netManager.sendObject(((ChatMessage) netObj).setNode(c));
+				}
 			}
 		});
 		
