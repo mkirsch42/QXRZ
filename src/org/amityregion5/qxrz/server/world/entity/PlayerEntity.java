@@ -2,6 +2,8 @@ package org.amityregion5.qxrz.server.world.entity;
 
 import java.awt.geom.Path2D;
 import java.awt.geom.Rectangle2D;
+import java.util.ArrayList;
+import java.util.List;
 import org.amityregion5.qxrz.common.ui.AABBDrawer;
 import org.amityregion5.qxrz.common.ui.DrawableObject;
 import org.amityregion5.qxrz.common.ui.IObjectDrawer;
@@ -235,11 +237,13 @@ public class PlayerEntity extends GameEntity implements DrawableObject<PlayerEnt
 	}
 
 	@Override
-	public IObjectDrawer<PlayerEntity> getDrawer() {
+	public List<IObjectDrawer<PlayerEntity>> getDrawers() {
 		if (drawer == null) {
 			drawer = new AABBDrawer<PlayerEntity>();
 		}
-		return drawer;
+		List<IObjectDrawer<PlayerEntity>> l = new ArrayList<IObjectDrawer<PlayerEntity>>();
+		l.add(drawer);
+		return l;
 	}
 
 }

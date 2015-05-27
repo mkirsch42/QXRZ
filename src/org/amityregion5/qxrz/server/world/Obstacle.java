@@ -1,5 +1,7 @@
 package org.amityregion5.qxrz.server.world;
 
+import java.util.ArrayList;
+import java.util.List;
 import org.amityregion5.qxrz.common.ui.AABBDrawer;
 import org.amityregion5.qxrz.common.ui.DrawableObject;
 import org.amityregion5.qxrz.common.ui.IObjectDrawer;
@@ -30,11 +32,13 @@ public class Obstacle implements Hitboxed, DrawableObject<Obstacle>
 	}
 
 	@Override
-	public IObjectDrawer<Obstacle> getDrawer() {
+	public List<IObjectDrawer<Obstacle>> getDrawers(){
 		if (drawer == null) {
 			drawer = new AABBDrawer<Obstacle>();
 		}
-		return drawer;
+		List<IObjectDrawer<Obstacle>> l = new ArrayList<IObjectDrawer<Obstacle>>();
+		l.add(drawer);
+		return l;
 	}
 	
 }

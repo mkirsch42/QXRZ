@@ -35,7 +35,6 @@ public class ClientNetworkManager extends AbstractNetworkManager
 		}
 	}
 
-	// This can be almost entirely replaced by the runHelper
 	@Override
 	public void run()
 	{

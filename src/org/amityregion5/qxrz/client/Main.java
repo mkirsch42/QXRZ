@@ -2,6 +2,7 @@ package org.amityregion5.qxrz.client;
 
 import org.amityregion5.qxrz.client.ui.MainGui;
 import org.amityregion5.qxrz.client.ui.screen.MainMenuScreen;
+import org.amityregion5.qxrz.common.asset.AssetManager;
 
 public class Main
 {
@@ -15,7 +16,7 @@ public class Main
 		
 		//Do loading stuffs
 		{
-			//TODO: Loading?
+			AssetManager.loadAssets();
 		}
 
 		//Set the screen to the main menu screen
