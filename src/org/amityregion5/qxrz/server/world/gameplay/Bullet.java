@@ -1,8 +1,11 @@
 package org.amityregion5.qxrz.server.world.gameplay;
 
+import org.amityregion5.qxrz.server.world.entity.ProjectileEntity;
+
 public class Bullet {
 	private String type;
 	private int damage;
+	private ProjectileEntity entity;
 	
 	public Bullet()
 	{
@@ -28,4 +31,9 @@ public class Bullet {
 	{
 		return type;
 	}
+	public ProjectileEntity getEntity()
+	{
+		return entity;
+	}
+	
 }
