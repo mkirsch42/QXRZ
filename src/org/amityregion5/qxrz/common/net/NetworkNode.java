@@ -12,13 +12,13 @@ public class NetworkNode
 	
 	private UDPOutputStream outStream;
 	
-	public NetworkNode(InetSocketAddress a) throws SocketException
+	public NetworkNode(UDPOutputStream out, InetSocketAddress a) throws SocketException
 	{
 		addr = a;
 		sentPacketCount = 0;
 		receivedPacketCount = 0;
 		
-		outStream = new UDPOutputStream(addr);
+		outStream = out;
 	}
 
 	public InetSocketAddress getAddress()
