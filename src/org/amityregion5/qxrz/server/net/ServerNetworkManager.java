@@ -23,6 +23,25 @@ public class ServerNetworkManager extends AbstractNetworkManager
 	public ServerNetworkManager(int p) throws Exception
 	{
 		super(p);
+		Runtime.getRuntime().addShutdownHook(new Thread()
+		{
+			public void run()
+			{
+				for(Iterator<NetworkNode> it = clients.iterator(); it.hasNext();)
+				{
+					NetworkNode n = it.next();
+					try
+					{
+						removeClient(n);
+					} catch (Exception e)
+					{
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+				}
+				System.exit(0);
+			}
+		});
 	}
 
 	public void sendObject(Serializable obj)

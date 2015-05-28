@@ -8,6 +8,7 @@ import java.net.SocketException;
 import java.net.UnknownHostException;
 
 import org.amityregion5.qxrz.common.net.AbstractNetworkManager;
+import org.amityregion5.qxrz.common.net.DisconnectNotification;
 import org.amityregion5.qxrz.common.net.NetworkNode;
 import org.amityregion5.qxrz.common.net.NetworkObject;
 
@@ -18,6 +19,13 @@ public class ClientNetworkManager extends AbstractNetworkManager
 	public ClientNetworkManager() throws Exception 
 	{
 		super();
+		Runtime.getRuntime().addShutdownHook(new Thread()
+		{
+			public void run()
+			{
+				sendObject(new DisconnectNotification());
+			}
+		});
 	}
 	
 	public void broadcastQuery()
