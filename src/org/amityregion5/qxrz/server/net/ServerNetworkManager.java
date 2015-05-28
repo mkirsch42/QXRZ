@@ -9,6 +9,7 @@ import java.util.logging.Logger;
 
 import org.amityregion5.qxrz.common.net.AbstractNetworkManager;
 import org.amityregion5.qxrz.common.net.BroadcastDiscoveryQuery;
+import org.amityregion5.qxrz.common.net.DisconnectNotification;
 import org.amityregion5.qxrz.common.net.NetworkNode;
 import org.amityregion5.qxrz.common.net.NetworkObject;
 
@@ -33,17 +34,17 @@ public class ServerNetworkManager extends AbstractNetworkManager
 			{
 				c.send(obj);
 				l.info("sent to " + c.getAddress());
-			}
-			catch (Exception e)
+			} catch (Exception e)
 			{
 				e.printStackTrace();
 			}
 		}
 	}
 
-	public void removeClient(NetworkNode c)
+	public void removeClient(NetworkNode c) throws Exception
 	{
 		clients.remove(c);
+		c.send(new DisconnectNotification());
 	}
 
 	@Override
@@ -55,17 +56,18 @@ public class ServerNetworkManager extends AbstractNetworkManager
 			{
 				NetworkObject netObj = (NetworkObject) inStream.recvObject();
 				NetworkNode recvClient = new NetworkNode(outStream,
-						(InetSocketAddress) inStream.getPacket().getSocketAddress());
+						(InetSocketAddress) inStream.getPacket()
+								.getSocketAddress());
 				boolean foundClient = false;
 
 				// if this is a discovery query, echo back at the server
 				if (netObj instanceof BroadcastDiscoveryQuery)
 				{
 					recvClient.send(netObj);
-				}
-				else
+				} else
 				{
-					for (Iterator<NetworkNode> it = clients.iterator(); it.hasNext();)
+					for (Iterator<NetworkNode> it = clients.iterator(); it
+							.hasNext();)
 					{
 						NetworkNode c = it.next();
 						if (c.equals(recvClient))
@@ -85,11 +87,14 @@ public class ServerNetworkManager extends AbstractNetworkManager
 					}
 
 					runHelper(recvClient, netObj);
+					if (netObj.getPayload() instanceof DisconnectNotification)
+					{
+						removeClient(recvClient);
+					}
 				}
 
 				l.info("Object Received from: " + netObj.toString());
-			}
-			catch (Exception e)
+			} catch (Exception e)
 			{
 				e.printStackTrace();
 			}
