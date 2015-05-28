@@ -1,6 +1,5 @@
 package org.amityregion5.qxrz.server.net;
 
-import java.io.IOException;
 import java.io.Serializable;
 import java.net.InetSocketAddress;
 import java.net.SocketAddress;
@@ -9,6 +8,7 @@ import java.util.Iterator;
 import java.util.logging.Logger;
 
 import org.amityregion5.qxrz.common.net.AbstractNetworkManager;
+import org.amityregion5.qxrz.common.net.BroadcastDiscoveryQuery;
 import org.amityregion5.qxrz.common.net.NetworkNode;
 import org.amityregion5.qxrz.common.net.NetworkObject;
 
@@ -18,7 +18,7 @@ public class ServerNetworkManager extends AbstractNetworkManager
 	private HashSet<NetworkNode> clients = new HashSet<NetworkNode>();
 
 	private Logger l = Logger.getLogger(this.getClass().getName());
-	
+
 	public ServerNetworkManager(int p) throws Exception
 	{
 		super(p);
@@ -52,48 +52,59 @@ public class ServerNetworkManager extends AbstractNetworkManager
 			try
 			{
 				NetworkObject netObj = (NetworkObject) inStream.recvObject();
-				NetworkNode recvClient = new NetworkNode((InetSocketAddress) inStream.getPacket().getSocketAddress());
+				NetworkNode recvClient = new NetworkNode(
+						(InetSocketAddress) inStream.getPacket().getSocketAddress());
 				boolean foundClient = false;
-				
-				// if netObj instanceof DiscoveryQuery don't do anything below
-				for (Iterator<NetworkNode> it = clients.iterator(); it.hasNext();)
+
+				// if this is a discovery query, echo back at the server
+				if (netObj instanceof BroadcastDiscoveryQuery)
 				{
-					NetworkNode c = it.next();
-					if (c.equals(recvClient))
+					recvClient.send(netObj);
+				}
+				else
+				{
+					for (Iterator<NetworkNode> it = clients.iterator(); it.hasNext();)
 					{
-						// Found a client
-						recvClient = c;
-						foundClient = true;
-						break;
+						NetworkNode c = it.next();
+						if (c.equals(recvClient))
+						{
+							// Found a client
+							recvClient = c;
+							foundClient = true;
+							break;
+						}
 					}
-				}
-				
-				if(! foundClient)
-				{
-					clients.add(recvClient);
-					callback.newNode(recvClient);
-					l.info("New client " + recvClient.getAddress());
-				}
 
-				runHelper(recvClient, netObj);
+					if (!foundClient)
+					{
+						clients.add(recvClient);
+						callback.newNode(recvClient);
+						l.info("New client " + recvClient.getAddress());
+					}
 
-				// eventually callback will do processing + sending, right now just echoing
-				sendObject(netObj);
+					runHelper(recvClient, netObj);
+
+					// eventually callback will do processing + sending, right now
+					// just echoing
+					sendObject(netObj);
+				}
 
 				l.info("Object Received from: " + netObj.toString());
 			}
-			catch (ClassNotFoundException | IOException e)
+			catch (Exception e)
 			{
 				e.printStackTrace();
 			}
 		}
 	}
-	
-	public SocketAddress getSocket() {
+
+	public SocketAddress getSocket()
+	{
 		return sock.getLocalSocketAddress();
 	}
-	
-	public HashSet<NetworkNode> getClients() {
+
+	public HashSet<NetworkNode> getClients()
+	{
 		return clients;
 	}
 }

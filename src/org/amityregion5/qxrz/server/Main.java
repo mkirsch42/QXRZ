@@ -1,6 +1,5 @@
 package org.amityregion5.qxrz.server;
 
-import java.io.IOException;
 import java.io.Serializable;
 
 import org.amityregion5.qxrz.common.net.ChatMessage;

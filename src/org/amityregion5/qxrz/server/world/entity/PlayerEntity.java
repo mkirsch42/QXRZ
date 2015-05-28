@@ -2,9 +2,9 @@ package org.amityregion5.qxrz.server.world.entity;
 
 import java.awt.Rectangle;
 import java.awt.geom.Path2D;
-import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
 import java.util.List;
+
 import org.amityregion5.qxrz.common.ui.AABBDrawer;
 import org.amityregion5.qxrz.common.ui.AssetDrawer;
 import org.amityregion5.qxrz.common.ui.DrawableObject;
@@ -14,6 +14,7 @@ import org.amityregion5.qxrz.server.Game;
 import org.amityregion5.qxrz.server.world.DebugDraw;
 import org.amityregion5.qxrz.server.world.Landscape;
 import org.amityregion5.qxrz.server.world.Obstacle;
+import org.amityregion5.qxrz.server.world.gameplay.Weapon;
 import org.amityregion5.qxrz.server.world.vector2d.Vector2D;
 
 public class PlayerEntity extends GameEntity implements
@@ -22,7 +23,6 @@ public class PlayerEntity extends GameEntity implements
 
 	private static List<IObjectDrawer<PlayerEntity>> drawers;
 
-	private final double PLAYER_SIZE = 4;
 	private final int PLAYER_SIZE = 400;
 	private Weapon[] guns = new Weapon[2];
 
