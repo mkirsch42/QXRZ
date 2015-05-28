@@ -1,6 +1,8 @@
 package org.amityregion5.qxrz.common.net;
 
-public interface BroadcastDiscoveryQuery
-{
+import java.io.Serializable;
 
+public interface BroadcastDiscoveryQuery extends Serializable
+{
+	
 }

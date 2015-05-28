@@ -15,7 +15,7 @@ public class NetworkNode
 	public NetworkNode(UDPOutputStream out, InetSocketAddress a) throws SocketException
 	{
 		addr = a;
-		sentPacketCount = 0;
+		sentPacketCount = 1;
 		receivedPacketCount = 0;
 		
 		outStream = out;
@@ -43,9 +43,9 @@ public class NetworkNode
 	
 	public void send(Serializable obj) throws Exception
 	{
-		sentPacketCount++;
 		outStream.setAddress(addr);
 		outStream.sendObject(new NetworkObject(obj, sentPacketCount));
+		sentPacketCount++;
 	}
 	
 	public boolean equals(Object obj)
