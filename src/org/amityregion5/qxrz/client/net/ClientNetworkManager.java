@@ -67,7 +67,6 @@ public class ClientNetworkManager extends AbstractNetworkManager
 			try
 			{
 				NetworkObject netObj = (NetworkObject) inStream.recvObject();
-				System.out.println("client received something");
 				runHelper(server, netObj);
 			}
 			catch (ClassNotFoundException | IOException e)

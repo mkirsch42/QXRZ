@@ -50,7 +50,6 @@ public class NetworkNode
 	
 	public boolean equals(Object obj)
 	{
-		System.out.println("NetworkNode.equals()");
 		if(!(obj instanceof NetworkNode)) return false;
 		
 		return addr.equals(((NetworkNode) obj).getAddress());

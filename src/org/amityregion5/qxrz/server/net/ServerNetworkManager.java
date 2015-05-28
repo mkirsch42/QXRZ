@@ -27,15 +27,15 @@ public class ServerNetworkManager extends AbstractNetworkManager
 		{
 			public void run()
 			{
-				for(Iterator<NetworkNode> it = clients.iterator(); it.hasNext();)
+				for (Iterator<NetworkNode> it = clients.iterator(); it.hasNext();)
 				{
 					NetworkNode n = it.next();
 					try
 					{
 						removeClient(n);
-					} catch (Exception e)
+					}
+					catch (Exception e)
 					{
-						// TODO Auto-generated catch block
 						e.printStackTrace();
 					}
 				}
@@ -46,24 +46,30 @@ public class ServerNetworkManager extends AbstractNetworkManager
 
 	public void sendObject(Serializable obj)
 	{
-		l.info("sending to " + clients.size() + " client(s)");
 		for (NetworkNode c : clients)
 		{
 			try
 			{
 				c.send(obj);
-				l.info("sent to " + c.getAddress());
-			} catch (Exception e)
+			}
+			catch (Exception e)
 			{
 				e.printStackTrace();
 			}
 		}
 	}
 
-	public void removeClient(NetworkNode c) throws Exception
+	public void removeClient(NetworkNode c)
 	{
 		clients.remove(c);
-		c.send(new DisconnectNotification());
+		try
+		{
+			c.send(new DisconnectNotification());
+		}
+		catch (Exception e)
+		{
+			e.printStackTrace();
+		}
 	}
 
 	@Override
@@ -75,18 +81,17 @@ public class ServerNetworkManager extends AbstractNetworkManager
 			{
 				NetworkObject netObj = (NetworkObject) inStream.recvObject();
 				NetworkNode recvClient = new NetworkNode(outStream,
-						(InetSocketAddress) inStream.getPacket()
-								.getSocketAddress());
+						(InetSocketAddress) inStream.getPacket().getSocketAddress());
 				boolean foundClient = false;
 
 				// if this is a discovery query, echo back at the server
-				if (netObj instanceof BroadcastDiscoveryQuery)
+				if (netObj.getPayload() instanceof BroadcastDiscoveryQuery)
 				{
 					recvClient.send(netObj);
-				} else
+				}
+				else
 				{
-					for (Iterator<NetworkNode> it = clients.iterator(); it
-							.hasNext();)
+					for (Iterator<NetworkNode> it = clients.iterator(); it.hasNext();)
 					{
 						NetworkNode c = it.next();
 						if (c.equals(recvClient))
@@ -113,7 +118,8 @@ public class ServerNetworkManager extends AbstractNetworkManager
 				}
 
 				l.info("Object Received from: " + netObj.toString());
-			} catch (Exception e)
+			}
+			catch (Exception e)
 			{
 				e.printStackTrace();
 			}

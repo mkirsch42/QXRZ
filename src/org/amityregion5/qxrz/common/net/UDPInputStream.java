@@ -17,7 +17,6 @@ public class UDPInputStream
 	public UDPInputStream(DatagramSocket ds) throws Exception
 	{
 		sock = ds;
-		System.out.println("input stream sock: " + sock.getLocalSocketAddress());
 		buf = new byte[NetworkObject.BUFFER_SIZE];
 		packet = new DatagramPacket(buf, buf.length);
 	}

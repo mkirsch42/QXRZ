@@ -2,7 +2,8 @@ package org.amityregion5.qxrz.common.net;
 
 import java.io.Serializable;
 
-public interface BroadcastDiscoveryQuery extends Serializable
+public class BroadcastDiscoveryQuery implements Serializable
 {
+	private static final long serialVersionUID = 1L;
 	
 }

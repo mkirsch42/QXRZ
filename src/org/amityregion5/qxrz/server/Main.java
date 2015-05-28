@@ -29,29 +29,29 @@ public final class Main
 			}
 			
 			@Override
-			public void dataReceived(NetworkNode c, Serializable netObj)
+			public void dataReceived(NetworkNode c, Serializable recvObj)
 			{
-				if(netObj instanceof PlayerEntity) 
+				if(recvObj instanceof PlayerEntity) 
 				{
-					PlayerEntity u = (PlayerEntity) netObj;
+					PlayerEntity u = (PlayerEntity) recvObj;
 					RectangleHitbox uhb = u.getHitbox();
 				}
 				
-				else if(netObj instanceof ProjectileEntity)
+				else if(recvObj instanceof ProjectileEntity)
 				{
-					ProjectileEntity u = (ProjectileEntity) netObj;
+					ProjectileEntity u = (ProjectileEntity) recvObj;
 					RectangleHitbox uhb = u.getHitBox();
 				}
 				
-				else if(netObj instanceof DisconnectNotification)
+				else if(recvObj instanceof DisconnectNotification)
 				{
 					// also stop drawing player and stuff
 					netManager.removeClient(c);
 				}
-				else if(netObj instanceof ChatMessage)
+				else if(recvObj instanceof ChatMessage)
 				{
 					// echo it back out
-					netManager.sendObject(((ChatMessage) netObj).setNode(c));
+					netManager.sendObject(((ChatMessage) recvObj).setNode(c));
 				}
 			}
 		});
