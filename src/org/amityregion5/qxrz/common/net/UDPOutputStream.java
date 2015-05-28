@@ -4,20 +4,24 @@ import java.io.ByteArrayOutputStream;
 import java.io.ObjectOutputStream;
 import java.net.DatagramPacket;
 import java.net.DatagramSocket;
+import java.net.InetSocketAddress;
+import java.net.SocketException;
 
 public class UDPOutputStream
 {
 
 	private DatagramSocket sock;
+	private InetSocketAddress addr;
 	
-	public UDPOutputStream(DatagramSocket ds)
+	public UDPOutputStream(InetSocketAddress a) throws SocketException
 	{
-		sock = ds;
+		setAddress(a);
+		sock = new DatagramSocket(); // anonymous bind to a random local port
 	}
 	
-	public void setSocket(DatagramSocket ds)
+	public void setAddress(InetSocketAddress a)
 	{
-		sock = ds;
+		addr = a;
 	}
 	
 	public void sendObject(Object o) throws Exception
@@ -32,7 +36,7 @@ public class UDPOutputStream
 		// This shouldn't ever happen...
 		if(data.length > NetworkObject.BUFFER_SIZE) throw new Exception("Object is too large!");
 		
-		sock.send(new DatagramPacket(data, data.length));
+		sock.send(new DatagramPacket(data, data.length, addr.getAddress(), addr.getPort()));
 	}
 	
 }

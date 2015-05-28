@@ -8,7 +8,6 @@ import java.net.DatagramSocket;
 
 public class UDPInputStream
 {
-
 	private DatagramSocket sock;
 	private DatagramPacket packet;
 	private byte[] buf;

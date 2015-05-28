@@ -3,6 +3,7 @@ package org.amityregion5.qxrz.client.net;
 import java.io.IOException;
 import java.io.Serializable;
 import java.net.InetAddress;
+import java.net.InetSocketAddress;
 import java.net.SocketException;
 import java.net.UnknownHostException;
 
@@ -17,17 +18,15 @@ public class ClientNetworkManager extends AbstractNetworkManager
 	public ClientNetworkManager(String host, int port) throws SocketException, UnknownHostException
 	{
 		super();
-		
-		sock.connect(InetAddress.getByName(host), port);
 
-		server = new NetworkNode(sock);
+		server = new NetworkNode(new InetSocketAddress(InetAddress.getByName(host), port));
 	}
 
 	public void sendObject(Serializable s)
 	{
 		try
 		{
-			server.send(outStream, s);
+			server.send(s);
 		}
 		catch (Exception e)
 		{

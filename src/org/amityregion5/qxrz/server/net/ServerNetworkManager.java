@@ -2,8 +2,7 @@ package org.amityregion5.qxrz.server.net;
 
 import java.io.IOException;
 import java.io.Serializable;
-import java.net.DatagramSocket;
-import java.net.InetAddress;
+import java.net.InetSocketAddress;
 import java.net.SocketAddress;
 import java.net.SocketException;
 import java.util.HashSet;
@@ -32,7 +31,7 @@ public class ServerNetworkManager extends AbstractNetworkManager
 		{
 			try
 			{
-				c.send(outStream, obj);
+				c.send(obj);
 			}
 			catch (Exception e)
 			{
@@ -46,20 +45,6 @@ public class ServerNetworkManager extends AbstractNetworkManager
 		clients.remove(c);
 	}
 
-	private NetworkNode getClientBySocket(DatagramSocket sock)
-	{
-		NetworkNode c2 = new NetworkNode(sock);
-		for (Iterator<NetworkNode> it = clients.iterator(); it.hasNext();)
-		{
-			NetworkNode c = it.next();
-			if (c.equals(c2))
-			{
-				return c;
-			}
-		}
-		return null;
-	}
-
 	@Override
 	public void run()
 	{
@@ -68,25 +53,35 @@ public class ServerNetworkManager extends AbstractNetworkManager
 			try
 			{
 				NetworkObject netObj = (NetworkObject) inStream.recvObject();
-				DatagramSocket ds = new DatagramSocket();
-				NetworkNode c = new NetworkNode(ds);
-				ds.connect(inStream.getPacket().getSocketAddress());
-				if (!clients.contains(c))
+				NetworkNode recvClient = new NetworkNode((InetSocketAddress) inStream.getPacket().getSocketAddress());
+				boolean foundClient = false;
+				
+				// if netObj instanceof DiscoveryQuery don't do anything below
+				for (Iterator<NetworkNode> it = clients.iterator(); it.hasNext();)
 				{
-					if (callback != null)
+					NetworkNode c = it.next();
+					if (c.equals(recvClient))
 					{
-						callback.newNode(c);
+						// Found a client
+						recvClient = c;
+						foundClient = true;
+						break;
 					}
-					clients.add(c);
+				}
+				
+				if(! foundClient)
+				{
+					clients.add(recvClient);
+					callback.newNode(recvClient);
+					l.info("New client " + recvClient.getAddress());
 				}
 
-				runHelper(getClientBySocket(ds), netObj);
+				runHelper(recvClient, netObj);
 
-				// eventually callback will do processing + sending
+				// eventually callback will do processing + sending, right now just echoing
 				sendObject(netObj);
 
-				l.info("Object Received from:");
-				l.info(netObj.toString());
+				l.info("Object Received from: " + netObj.toString());
 
 			}
 			catch (ClassNotFoundException | IOException e)

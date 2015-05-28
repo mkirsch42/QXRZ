@@ -1,25 +1,29 @@
 package org.amityregion5.qxrz.common.net;
 
 import java.io.Serializable;
-import java.net.DatagramSocket;
-import java.util.Arrays;
+import java.net.InetSocketAddress;
+import java.net.SocketException;
 
 public class NetworkNode
 {
-	private DatagramSocket sock;
+	private InetSocketAddress addr;
 	private int sentPacketCount;
 	private int receivedPacketCount;
 	
-	public NetworkNode(DatagramSocket ds)
+	private UDPOutputStream outStream;
+	
+	public NetworkNode(InetSocketAddress a) throws SocketException
 	{
-		sock = ds;
+		addr = a;
 		sentPacketCount = 0;
 		receivedPacketCount = 0;
+		
+		outStream = new UDPOutputStream(addr);
 	}
 
-	public DatagramSocket getSocket()
+	public InetSocketAddress getAddress()
 	{
-		return sock;
+		return addr;
 	}
 	
 	public int getReceivedPacketCount()
@@ -37,9 +41,9 @@ public class NetworkNode
 		return sentPacketCount;
 	}
 	
-	public void send(UDPOutputStream outStream, Serializable obj) throws Exception
+	public void send(Serializable obj) throws Exception
 	{
-		outStream.setSocket(sock);
+		outStream.setAddress(addr);
 		outStream.sendObject(new NetworkObject(obj, sentPacketCount));
 		sentPacketCount++;
 	}
@@ -48,11 +52,6 @@ public class NetworkNode
 	{
 		if(!(obj instanceof NetworkNode)) return false;
 		
-		DatagramSocket sock2 = ((NetworkNode) obj).getSocket();
-		
-		/* We want to check that they have the same socket... so IP/port. */
-		if(sock.getPort() != sock2.getPort()) return false;
-		
-		return Arrays.equals(sock.getInetAddress().getAddress(), sock2.getInetAddress().getAddress());
+		return addr.equals(((NetworkNode) obj).getAddress());
 	}
 }
