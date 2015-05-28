@@ -2,11 +2,7 @@ package org.amityregion5.qxrz.server.net;
 
 import java.io.IOException;
 import java.io.Serializable;
-<<<<<<< HEAD
 import java.net.InetSocketAddress;
-=======
-import java.net.DatagramSocket;
->>>>>>> branch 'master' of https://github.com/mkirsch42/QXRZ.git
 import java.net.SocketAddress;
 import java.util.HashSet;
 import java.util.Iterator;
@@ -34,12 +30,7 @@ public class ServerNetworkManager extends AbstractNetworkManager
 		{
 			try
 			{
-<<<<<<< HEAD
 				c.send(obj);
-=======
-				c.send(outStream, obj);
-				l.info("Sended to " + c.getSocket().getInetAddress() + ":" + c.getSocket().getPort());
->>>>>>> branch 'master' of https://github.com/mkirsch42/QXRZ.git
 			}
 			catch (Exception e)
 			{
@@ -90,8 +81,6 @@ public class ServerNetworkManager extends AbstractNetworkManager
 				sendObject(netObj);
 
 				l.info("Object Received from: " + netObj.toString());
-
-				runHelper(getClientBySocket(ds), netObj);
 			}
 			catch (ClassNotFoundException | IOException e)
 			{

@@ -16,7 +16,7 @@ import org.amityregion5.qxrz.server.world.entity.RectangleHitbox;
 
 public final class Main
 {
-	public static void main(String[] args) throws InterruptedException, IOException
+	public static void main(String[] args) throws Exception
 	{
 		
 		ServerNetworkManager netManager = new ServerNetworkManager(8000);
