@@ -13,10 +13,14 @@ public class UDPOutputStream
 	private DatagramSocket sock;
 	private InetSocketAddress addr;
 	
+	public UDPOutputStream(DatagramSocket localSock) throws SocketException
+	{
+		sock = localSock;
+	}
+	
 	public UDPOutputStream(InetSocketAddress a) throws SocketException
 	{
 		setAddress(a);
-		sock = new DatagramSocket(); // anonymous bind to a random local port
 	}
 	
 	public void setAddress(InetSocketAddress a)
@@ -35,6 +39,8 @@ public class UDPOutputStream
 		
 		// This shouldn't ever happen...
 		if(data.length > NetworkObject.BUFFER_SIZE) throw new Exception("Object is too large!");
+		
+		System.out.println("outstream sending to " + addr);
 		
 		sock.send(new DatagramPacket(data, data.length, addr.getAddress(), addr.getPort()));
 	}

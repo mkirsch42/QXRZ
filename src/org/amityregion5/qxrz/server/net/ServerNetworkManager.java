@@ -26,11 +26,13 @@ public class ServerNetworkManager extends AbstractNetworkManager
 
 	public void sendObject(Serializable obj)
 	{
+		l.info("sending to " + clients.size() + " client(s)");
 		for (NetworkNode c : clients)
 		{
 			try
 			{
 				c.send(obj);
+				l.info("sent to " + c.getAddress());
 			}
 			catch (Exception e)
 			{
@@ -52,7 +54,7 @@ public class ServerNetworkManager extends AbstractNetworkManager
 			try
 			{
 				NetworkObject netObj = (NetworkObject) inStream.recvObject();
-				NetworkNode recvClient = new NetworkNode(
+				NetworkNode recvClient = new NetworkNode(outStream,
 						(InetSocketAddress) inStream.getPacket().getSocketAddress());
 				boolean foundClient = false;
 
@@ -83,10 +85,6 @@ public class ServerNetworkManager extends AbstractNetworkManager
 					}
 
 					runHelper(recvClient, netObj);
-
-					// eventually callback will do processing + sending, right now
-					// just echoing
-					sendObject(netObj);
 				}
 
 				l.info("Object Received from: " + netObj.toString());

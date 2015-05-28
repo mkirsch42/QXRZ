@@ -25,6 +25,7 @@ public abstract class AbstractNetworkManager extends Thread
 		sock.setReuseAddress(true); // Just in case
 		
 		inStream = new UDPInputStream(sock);
+		outStream = new UDPOutputStream(sock);
 	}
 	
 	/*
