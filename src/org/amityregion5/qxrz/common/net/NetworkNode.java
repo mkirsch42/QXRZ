@@ -46,6 +46,7 @@ public class NetworkNode
 	
 	public boolean equals(Object obj)
 	{
+		System.out.println("NetworkNode.equals()");
 		if(!(obj instanceof NetworkNode)) return false;
 		
 		DatagramSocket sock2 = ((NetworkNode) obj).getSocket();

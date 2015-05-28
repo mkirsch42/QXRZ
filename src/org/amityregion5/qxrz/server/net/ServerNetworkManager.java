@@ -4,7 +4,6 @@ import java.io.IOException;
 import java.io.Serializable;
 import java.net.DatagramSocket;
 import java.net.SocketAddress;
-import java.net.SocketException;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.logging.Logger;
@@ -20,7 +19,7 @@ public class ServerNetworkManager extends AbstractNetworkManager
 
 	private Logger l = Logger.getLogger(this.getClass().getName());
 	
-	public ServerNetworkManager(int p) throws SocketException
+	public ServerNetworkManager(int p) throws Exception
 	{
 		super(p);
 	}
@@ -32,6 +31,7 @@ public class ServerNetworkManager extends AbstractNetworkManager
 			try
 			{
 				c.send(outStream, obj);
+				l.info("Sended to " + c.getSocket().getInetAddress() + ":" + c.getSocket().getPort());
 			}
 			catch (Exception e)
 			{
@@ -68,8 +68,8 @@ public class ServerNetworkManager extends AbstractNetworkManager
 			{
 				NetworkObject netObj = (NetworkObject) inStream.recvObject();
 				DatagramSocket ds = new DatagramSocket();
-				NetworkNode c = new NetworkNode(ds);
 				ds.connect(inStream.getPacket().getSocketAddress());
+				NetworkNode c = new NetworkNode(ds);
 				if (!clients.contains(c))
 				{
 					if (callback != null)
@@ -77,16 +77,15 @@ public class ServerNetworkManager extends AbstractNetworkManager
 						callback.newNode(c);
 					}
 					clients.add(c);
+					l.info("New client added to the list!");
 				}
 
-				runHelper(getClientBySocket(ds), netObj);
 
-				// eventually callback will do processing + sending
-				sendObject(netObj);
 
 				l.info("Object Received from:");
 				l.info(netObj.toString());
 
+				runHelper(getClientBySocket(ds), netObj);
 			}
 			catch (ClassNotFoundException | IOException e)
 			{
