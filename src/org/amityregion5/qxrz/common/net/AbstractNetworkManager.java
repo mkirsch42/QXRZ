@@ -3,7 +3,6 @@ package org.amityregion5.qxrz.common.net;
 import java.io.IOException;
 import java.io.Serializable;
 import java.net.DatagramSocket;
-import java.net.SocketException;
 
 public abstract class AbstractNetworkManager extends Thread
 {
@@ -13,12 +12,12 @@ public abstract class AbstractNetworkManager extends Thread
 	
 	protected DatagramSocket sock;
 	
-	public AbstractNetworkManager() throws SocketException
+	public AbstractNetworkManager() throws Exception
 	{
 		this(0);
 	}
 	
-	public AbstractNetworkManager(int port) throws SocketException
+	public AbstractNetworkManager(int port) throws Exception
 	{
 		super("network manager");
 		
@@ -64,6 +63,10 @@ public abstract class AbstractNetworkManager extends Thread
 		
 		// We received an in-order packet!
 		node.setReceivedPacketCount(netObj.getPacketNumber() + 1);
+		if(callback == null)
+		{
+			return;
+		}
 		callback.dataReceived(node, netObj.getPayload());
 	}
 	

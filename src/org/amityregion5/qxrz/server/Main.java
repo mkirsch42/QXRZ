@@ -36,7 +36,6 @@ public final class Main
 				{
 					PlayerEntity u = (PlayerEntity) netObj;
 					RectangleHitbox uhb = u.getHitbox();
-					int health = u.getHealth();
 				}
 				
 				else if(netObj instanceof ProjectileEntity)
@@ -62,6 +61,9 @@ public final class Main
 		// How to send things to all clients:
 		// netManager.sendObject(whatever);
 		
+
+		//new MainGui().show();
+
 		new MainGui(netManager).show();
 		Game g = new Game();
 		if(DebugConstants.DEBUG_GUI)

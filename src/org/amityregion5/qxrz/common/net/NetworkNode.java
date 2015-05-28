@@ -43,13 +43,14 @@ public class NetworkNode
 	
 	public void send(Serializable obj) throws Exception
 	{
+		sentPacketCount++;
 		outStream.setAddress(addr);
 		outStream.sendObject(new NetworkObject(obj, sentPacketCount));
-		sentPacketCount++;
 	}
 	
 	public boolean equals(Object obj)
 	{
+		System.out.println("NetworkNode.equals()");
 		if(!(obj instanceof NetworkNode)) return false;
 		
 		return addr.equals(((NetworkNode) obj).getAddress());

@@ -22,18 +22,17 @@ public class PlayerEntity extends GameEntity implements
 
 	private static List<IObjectDrawer<PlayerEntity>> drawers;
 
+	private final double PLAYER_SIZE = 4;
 	private final int PLAYER_SIZE = 400;
 	private Weapon[] guns = new Weapon[2];
-	private int health;
-	private int speed;
 
 	public PlayerEntity() // creates player vector
 	{
+		pos = new Vector2D(0, 0);
+		vel = new Vector2D(2, 1).multiply(DebugConstants.PATH_LEN);
 		//pos = new Vector2D(1500, 2500);
 		pos = new Vector2D(0,0);
 		vel = new Vector2D(200, 100).multiply(DebugConstants.PATH_LEN);
-		health = 100;
-		speed = 100;
 	}
 
 	public boolean update(double tSinceUpdate, Landscape surroundings)
@@ -235,16 +234,7 @@ public class PlayerEntity extends GameEntity implements
 		return v;
 	}
 
-	public int getHealth()
-	{
-		return health;
-	}
 
-	public void damaged(ProjectileEntity bullet)
-	{
-		if (this.getHitbox().intersects(bullet.getHitBox()))
-			health -= bullet.getDamage();
-	}
 
 	@Override
 	public List<IObjectDrawer<PlayerEntity>> getDrawers()
@@ -257,5 +247,4 @@ public class PlayerEntity extends GameEntity implements
 		}
 		return drawers;
 	}
-
 }
