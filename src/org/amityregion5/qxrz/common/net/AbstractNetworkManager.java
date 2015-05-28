@@ -65,6 +65,10 @@ public abstract class AbstractNetworkManager extends Thread
 		
 		// We received an in-order packet!
 		node.setReceivedPacketCount(netObj.getPacketNumber() + 1);
+		if(callback == null)
+		{
+			return;
+		}
 		callback.dataReceived(node, netObj.getPayload());
 	}
 	

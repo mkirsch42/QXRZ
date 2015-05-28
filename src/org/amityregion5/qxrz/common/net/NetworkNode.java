@@ -39,9 +39,9 @@ public class NetworkNode
 	
 	public void send(UDPOutputStream outStream, Serializable obj) throws Exception
 	{
+		sentPacketCount++;
 		outStream.setSocket(sock);
 		outStream.sendObject(new NetworkObject(obj, sentPacketCount));
-		sentPacketCount++;
 	}
 	
 	public boolean equals(Object obj)
