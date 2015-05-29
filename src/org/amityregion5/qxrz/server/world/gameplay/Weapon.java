@@ -7,6 +7,7 @@ public class Weapon {
 	private int cmaxammo; //maximum ammo per clip
 	private int maxclips; //maximum clips to hold
 	private int reserve; //reserve ammo;
+	private int rof; //per second
 	public Weapon() //constructor intended for player spawn				
 	{
 		type = "ps";
@@ -15,6 +16,7 @@ public class Weapon {
 		cmaxammo = 10;
 		maxclips = 6;
 		reserve = 0;
+		rof = 8;
 	}
 	public Weapon(String pick)
 	{
@@ -26,6 +28,7 @@ public class Weapon {
 			cmaxammo = 6;
 			maxclips = 5;
 			reserve = 0;
+			rof = 2;
 		}
 		else if (type.equals("ro"))
 		{
@@ -34,6 +37,7 @@ public class Weapon {
 			cmaxammo = 2;
 			maxclips = 4;
 			reserve = 0;
+			rof  = 1;
 			
 		}
 		else if (type.equals("fl"))
@@ -43,6 +47,7 @@ public class Weapon {
 			cmaxammo = 20;
 			maxclips = 10;
 			reserve = 0;
+			rof = 5;
 		}
 		else if (type.equals("ps"))
 		{
@@ -51,22 +56,26 @@ public class Weapon {
 			cmaxammo = 10;
 			maxclips = 6;
 			reserve = 0;
+			rof = 8;
 		}
 	}
 	
-	public void shoot()
+	public boolean shoot()
 	{
 		if (ccamount==0)
 		{
 			if (cleft==0)
 			{
 				if (reserve==0)
-				{	/*do nothing */	}
+				{	
+					return false;
+				}
 				reserve--;
 			}
 			reload();
 		}
 		ccamount--;
+		return true;
 	}
 	public void reload()
 	{
