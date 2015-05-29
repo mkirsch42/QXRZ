@@ -3,7 +3,6 @@ package org.amityregion5.qxrz.client;
 import java.io.Serializable;
 
 import org.amityregion5.qxrz.client.net.ClientNetworkManager;
-import org.amityregion5.qxrz.common.net.BroadcastDiscoveryQuery;
 import org.amityregion5.qxrz.common.net.NetEventListener;
 import org.amityregion5.qxrz.common.net.NetworkNode;
 

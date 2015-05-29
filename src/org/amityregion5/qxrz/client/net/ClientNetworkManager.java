@@ -19,30 +19,37 @@ import org.amityregion5.qxrz.common.net.NetworkNode;
 import org.amityregion5.qxrz.common.net.NetworkObject;
 import org.amityregion5.qxrz.common.net.ServerInfo;
 
-public class ClientNetworkManager extends AbstractNetworkManager {
+public class ClientNetworkManager extends AbstractNetworkManager
+{
 	private NetworkNode server;
 	private Logger l = Logger.getGlobal();
 
-	public ClientNetworkManager() throws Exception {
+	public ClientNetworkManager() throws Exception
+	{
 		super();
-		Runtime.getRuntime().addShutdownHook(new Thread() {
-			public void run() {
+		Runtime.getRuntime().addShutdownHook(new Thread()
+		{
+			public void run()
+			{
 				sendObject(new DisconnectNotification());
 			}
 		});
 	}
 
-	public void broadcastQuery() throws Exception {
+	public void broadcastQuery() throws Exception
+	{
 		NetworkNode broadcast = new NetworkNode(outStream,
 				new InetSocketAddress(getBroadcast(), 8000));
 		broadcast.send(new BroadcastDiscoveryQuery());
 	}
 
 	public static InetAddress getBroadcast() throws SocketException,
-			UnknownHostException {
+			UnknownHostException
+	{
 		List<InterfaceAddress> addresses = NetworkInterface.getByInetAddress(
 				InetAddress.getLocalHost()).getInterfaceAddresses();
-		for (Iterator<InterfaceAddress> it = addresses.iterator(); it.hasNext();) {
+		for (Iterator<InterfaceAddress> it = addresses.iterator(); it.hasNext();)
+		{
 			InterfaceAddress addr = it.next();
 			if (addr.getBroadcast() != null)
 				return addr.getBroadcast();
@@ -51,31 +58,40 @@ public class ClientNetworkManager extends AbstractNetworkManager {
 	}
 
 	// Once server responds to ping, we can connect
-	public void connect(InetSocketAddress addr) throws SocketException {
+	public void connect(InetSocketAddress addr) throws SocketException
+	{
 		server = new NetworkNode(outStream, addr);
 	}
 
 	// this is if user wants to manually connect
 	public void connect(String host, int port) throws SocketException,
-			UnknownHostException {
+			UnknownHostException
+	{
 		connect(new InetSocketAddress(InetAddress.getByName(host), port));
 	}
 
-	public void sendObject(Serializable s) {
-		try {
+	public void sendObject(Serializable s)
+	{
+		try
+		{
 			server.send(s);
-		} catch (Exception e) {
+		} catch (Exception e)
+		{
 			e.printStackTrace();
 		}
 	}
 
 	@Override
-	public void run() {
-		while (true) {
-			try {
+	public void run()
+	{
+		while (true)
+		{
+			try
+			{
 				NetworkObject netObj = (NetworkObject) inStream.recvObject();
 
-				if (netObj.getPayload() instanceof ServerInfo) {
+				if (netObj.getPayload() instanceof ServerInfo)
+				{
 					callback.dataReceived(null, netObj.getPayload());
 				}
 
@@ -84,10 +100,11 @@ public class ClientNetworkManager extends AbstractNetworkManager {
 				{
 					continue;
 				}
-				
+
 				runHelper(server, netObj);
 
-			} catch (ClassNotFoundException | IOException e) {
+			} catch (ClassNotFoundException | IOException e)
+			{
 				e.printStackTrace();
 			}
 		}
