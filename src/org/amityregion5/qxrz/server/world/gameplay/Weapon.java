@@ -7,57 +7,80 @@ public class Weapon {
 	private int cmaxammo; //maximum ammo per clip
 	private int maxclips; //maximum clips to hold
 	private int reserve; //reserve ammo;
-	private int rof; //per second
-	public Weapon() //constructor intended for player spawn				
+	private int rof; //per half second
+	private int retime; //per half second
+	private int damage;
+	public Weapon() //constructor intended for player spawn	with a pistol			
 	{
-		type = "ps";
-		ccamount = 10;
-		cleft = 6;
-		cmaxammo = 10;
-		maxclips = 6;
-		reserve = 0;
-		rof = 8;
+		this("ps");
 	}
 	public Weapon(String pick)
 	{
 		type = pick;
 		if (type.equals("sg"))
 		{
-			ccamount = 6;
-			cleft = 5;
-			cmaxammo = 6;
-			maxclips = 5;
+			ccamount = 8;
+			cleft = 3;
+			cmaxammo = 8;
+			maxclips = 3;
 			reserve = 0;
-			rof = 2;
+			rof = 3;
+			retime = 2;
+			damage = 6;
 		}
 		else if (type.equals("ro"))
 		{
-			ccamount = 2;
-			cleft = 4;
-			cmaxammo = 2;
-			maxclips = 4;
+			ccamount = 4;
+			cleft = 2;
+			cmaxammo = 4;
+			maxclips = 2;
 			reserve = 0;
-			rof  = 1;
+			rof  = 2;
+			retime = 3;
+			damage = 80;
 			
 		}
 		else if (type.equals("fl"))
 		{
-			ccamount = 20;
-			cleft = 10;
-			cmaxammo = 20;
-			maxclips = 10;
-			reserve = 0;
-			rof = 5;
+			ccamount = 200;
+			cmaxammo = 200;
+			rof = 6;
+			damage = 35;
 		}
 		else if (type.equals("ps"))
 		{
-			ccamount = 10;
+			ccamount = 6;
+			cleft = 3;
+			cmaxammo = 6;
+			maxclips = 3;
+			reserve = 0;
+			rof = 5;
+			retime = 1;
+			damage = 13;
+		}
+		else if (type.equals("as"))
+		{
+			ccamount = 12;
+			cleft = 3;
+			cmaxammo = 12;
+			maxclips = 3;
+			reserve = 0;
+			rof = 9;
+			retime = 2;
+			damage = 7;
+		}
+		else if (type.equals("bo"))
+		{
+			ccamount = 1;
 			cleft = 6;
-			cmaxammo = 10;
+			cmaxammo = 1;
 			maxclips = 6;
 			reserve = 0;
-			rof = 8;
+			rof = 1;
+			retime = 2; 
+			damage = 100;
 		}
+
 	}
 	
 	public boolean shoot()
