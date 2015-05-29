@@ -3,12 +3,15 @@ package org.amityregion5.qxrz.common.net;
 import java.io.IOException;
 import java.io.Serializable;
 import java.net.DatagramSocket;
+import java.util.logging.Logger;
 
 public abstract class AbstractNetworkManager extends Thread
 {
 	protected UDPInputStream inStream;
 	protected UDPOutputStream outStream;
 	protected NetEventListener callback;
+	
+	private Logger l = Logger.getGlobal();
 	
 	protected DatagramSocket sock;
 	
@@ -56,6 +59,7 @@ public abstract class AbstractNetworkManager extends Thread
 		 * 
 		 * If they are, we may need to work in some sort of handshake
 		 */
+		l.info(netObj.getPacketNumber() + " <= " + node.getReceivedPacketCount());
 		if(netObj.getPacketNumber() <= node.getReceivedPacketCount())
 		{
 			// should this fail silently?
@@ -63,7 +67,7 @@ public abstract class AbstractNetworkManager extends Thread
 		}
 		
 		// We received an in-order packet!
-		node.setReceivedPacketCount(netObj.getPacketNumber() + 1);
+		node.setReceivedPacketCount(netObj.getPacketNumber());
 		if(callback == null)
 		{
 			return;

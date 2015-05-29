@@ -18,7 +18,7 @@ public class ServerNetworkManager extends AbstractNetworkManager
 	// List of client sockets
 	private HashSet<NetworkNode> clients = new HashSet<NetworkNode>();
 
-	private Logger l = Logger.getLogger(this.getClass().getName());
+	private Logger l = Logger.getGlobal();
 
 	public ServerNetworkManager(int p) throws Exception
 	{
@@ -83,6 +83,8 @@ public class ServerNetworkManager extends AbstractNetworkManager
 				NetworkNode recvClient = new NetworkNode(outStream,
 						(InetSocketAddress) inStream.getPacket().getSocketAddress());
 				boolean foundClient = false;
+				
+				l.info("#" + netObj.getPacketNumber() + " " + netObj.getPayload());
 
 				// if this is a discovery query, echo back at the server
 				if (netObj.getPayload() instanceof BroadcastDiscoveryQuery)
