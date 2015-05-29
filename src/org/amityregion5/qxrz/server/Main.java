@@ -18,8 +18,8 @@ public final class Main
 	public static void main(String[] args) throws Exception
 	{
 		
-		ServerNetworkManager netManager = new ServerNetworkManager(8000);
-		
+		ServerNetworkManager netManager = new ServerNetworkManager("Main Server", 8000);
+		//TODO maybe all the manager stuff should be created within the GUI
 		netManager.attachEventListener(new NetEventListener()
 		{
 			@Override
@@ -57,14 +57,12 @@ public final class Main
 		});
 		
 		netManager.start();
-		// How to send things to all clients:
-		// netManager.sendObject(whatever);
 		
 
 		//new MainGui().show();
 
 		new MainGui(netManager).show();
-		Game g = new Game();
+		Game g = new Game(); //TODO game needs access to network, too...
 		if(DebugConstants.DEBUG_GUI)
 		{
 			Game.debug = DebugDraw.setup(g.getWorld());

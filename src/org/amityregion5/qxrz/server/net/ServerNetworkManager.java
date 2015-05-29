@@ -1,7 +1,6 @@
 package org.amityregion5.qxrz.server.net;
 
 import java.io.Serializable;
-import java.net.InetAddress;
 import java.net.InetSocketAddress;
 import java.net.SocketAddress;
 import java.util.HashSet;
@@ -22,10 +21,10 @@ public class ServerNetworkManager extends AbstractNetworkManager
 
 	private Logger l = Logger.getGlobal();
 	private ServerInfo info;
-	public ServerNetworkManager(int p) throws Exception
+	public ServerNetworkManager(String name, int p) throws Exception
 	{
 		super(p);
-		info = new ServerInfo(new InetSocketAddress(InetAddress.getLocalHost(), 8000), "Test", "This is a test server");
+		info = new ServerInfo(name);
 		Runtime.getRuntime().addShutdownHook(new Thread()
 		{
 			public void run()

@@ -11,7 +11,7 @@ public class ServerNetworkTester
 {
 	public static void main(String[] args) throws Exception
 	{
-		ServerNetworkManager manager = new ServerNetworkManager(8000);
+		ServerNetworkManager manager = new ServerNetworkManager("test server", 8000);
 //		Logger.getGlobal().setLevel(Level.OFF);
 		
 		manager.attachEventListener(new NetEventListener()

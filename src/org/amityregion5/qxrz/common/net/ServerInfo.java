@@ -1,28 +1,23 @@
 package org.amityregion5.qxrz.common.net;
 
 import java.io.Serializable;
-import java.net.InetSocketAddress;
 
+/* This is what servers reply to Broadcast Queries with.
+ * 
+ */
 public class ServerInfo implements Serializable
 {
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = 1L;
-	public InetSocketAddress addr;
-	public String name;
-	public String description;
 	
-	public ServerInfo(InetSocketAddress a, String serverName, String serverDescription)
+	private String name;
+	
+	public ServerInfo(String serverName)
 	{
-		this.addr = a;
-		this.name = serverName;
-		this.description = serverDescription;
+		name = serverName;
 	}
 	
-	public String toString()
+	public String getName()
 	{
-		return name + ", " + addr.toString();
+		return name;
 	}
-
 }
