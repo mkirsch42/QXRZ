@@ -5,16 +5,17 @@ import org.amityregion5.qxrz.server.world.entity.ProjectileEntity;
 
 public class Player {
 	private int health;
-	private final int speed = 100; //speed will not be upgradable
+	private int speed;
 	private Weapon[] guns = new Weapon[2];
 	private int equipped; //index for currently equipped weapon
 	private Upgrade pupgr; //player upgrade
-	private PlayerEntity entity;
+	private PlayerEntity entity; //physics entity for player
 	
 	public Player()
 	{
 		guns[0] = new Weapon();
 		health = 100;
+		speed = 100;
 	}
 	public void damaged(Bullet b)
 	{
@@ -25,4 +26,11 @@ public class Player {
 	{
 		pupgr = u;
 	}
+	public void useHealthpack()
+	{
+		if (health >= 100 && health != 100)
+			health = 100;
+		health += 50;
+	}
+	
 }

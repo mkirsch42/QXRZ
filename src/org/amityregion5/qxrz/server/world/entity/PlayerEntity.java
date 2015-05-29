@@ -234,8 +234,6 @@ public class PlayerEntity extends GameEntity implements
 		return v;
 	}
 
-
-
 	@Override
 	public List<IObjectDrawer<PlayerEntity>> getDrawers()
 	{
