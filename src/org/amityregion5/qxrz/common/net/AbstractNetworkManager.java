@@ -47,6 +47,7 @@ public abstract class AbstractNetworkManager extends Thread
 	// subclasses will call this helper for each node
 	protected void runHelper(NetworkNode node, NetworkObject netObj) throws ClassNotFoundException, IOException
 	{
+	
 		/*
 		 * The packet count should be always-increasing.
 		 * 
@@ -59,6 +60,7 @@ public abstract class AbstractNetworkManager extends Thread
 		 * 
 		 * If they are, we may need to work in some sort of handshake
 		 */
+		
 		l.info(netObj.getPacketNumber() + " <= " + node.getReceivedPacketCount());
 		if(netObj.getPacketNumber() <= node.getReceivedPacketCount())
 		{
@@ -68,10 +70,10 @@ public abstract class AbstractNetworkManager extends Thread
 		
 		// We received an in-order packet!
 		node.setReceivedPacketCount(netObj.getPacketNumber());
-		if(callback == null)
-		{
-			return;
-		}
+//		if(callback == null)
+//		{
+//			return;
+//		}
 		callback.dataReceived(node, netObj.getPayload());
 	}
 	

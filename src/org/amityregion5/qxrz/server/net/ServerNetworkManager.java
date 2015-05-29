@@ -1,6 +1,7 @@
 package org.amityregion5.qxrz.server.net;
 
 import java.io.Serializable;
+import java.net.InetAddress;
 import java.net.InetSocketAddress;
 import java.net.SocketAddress;
 import java.util.HashSet;
@@ -12,6 +13,7 @@ import org.amityregion5.qxrz.common.net.BroadcastDiscoveryQuery;
 import org.amityregion5.qxrz.common.net.DisconnectNotification;
 import org.amityregion5.qxrz.common.net.NetworkNode;
 import org.amityregion5.qxrz.common.net.NetworkObject;
+import org.amityregion5.qxrz.common.net.ServerInfo;
 
 public class ServerNetworkManager extends AbstractNetworkManager
 {
@@ -19,10 +21,11 @@ public class ServerNetworkManager extends AbstractNetworkManager
 	private HashSet<NetworkNode> clients = new HashSet<NetworkNode>();
 
 	private Logger l = Logger.getGlobal();
-
+	private ServerInfo info;
 	public ServerNetworkManager(int p) throws Exception
 	{
 		super(p);
+		info = new ServerInfo(new InetSocketAddress(InetAddress.getLocalHost(), 8000), "Test", "This is a test server");
 		Runtime.getRuntime().addShutdownHook(new Thread()
 		{
 			public void run()
@@ -89,7 +92,8 @@ public class ServerNetworkManager extends AbstractNetworkManager
 				// if this is a discovery query, echo back at the server
 				if (netObj.getPayload() instanceof BroadcastDiscoveryQuery)
 				{
-					recvClient.send(netObj);
+					l.info("Query received!");
+					recvClient.send(info);
 				}
 				else
 				{
@@ -113,10 +117,6 @@ public class ServerNetworkManager extends AbstractNetworkManager
 					}
 
 					runHelper(recvClient, netObj);
-					if (netObj.getPayload() instanceof DisconnectNotification)
-					{
-						removeClient(recvClient);
-					}
 				}
 
 				l.info("Object Received from: " + netObj.toString());
