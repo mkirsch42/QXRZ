@@ -14,7 +14,7 @@ public class ServerNetworkTester
 	public static void main(String[] args) throws Exception
 	{
 		ServerNetworkManager manager = new ServerNetworkManager(8000);
-		//Logger.getGlobal().setLevel(Level.OFF);
+		Logger.getGlobal().setLevel(Level.OFF);
 		
 		manager.attachEventListener(new NetEventListener()
 		{
@@ -23,13 +23,13 @@ public class ServerNetworkTester
 			@Override
 			public void newNode(NetworkNode c)
 			{
-				manager.sendObject("bounce");
+				
 			}
 			
 			@Override
 			public void dataReceived(NetworkNode from, Serializable payload)
 			{
-				System.out.println("got " + payload + " from " + from.getAddress() + " (#" + i++ + ")");
+				System.out.println("got " + payload + " from" + from.getAddress() + "\t(#" + i++ + ")");
 				manager.sendObject(payload);
 			}
 		});
