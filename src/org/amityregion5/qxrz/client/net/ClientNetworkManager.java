@@ -106,7 +106,9 @@ public class ClientNetworkManager extends AbstractNetworkManager
 	{
 		try
 		{
-			server.send(s);
+			if (server != null) {
+				server.send(s);
+			}
 		} catch (Exception e)
 		{
 			e.printStackTrace();
