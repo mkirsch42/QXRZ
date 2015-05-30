@@ -2,6 +2,7 @@ package org.amityregion5.qxrz.server;
 
 import java.io.Serializable;
 import java.net.InetAddress;
+import java.net.InetSocketAddress;
 
 import org.amityregion5.qxrz.common.net.NetEventListener;
 import org.amityregion5.qxrz.common.net.NetworkNode;
@@ -27,6 +28,13 @@ public class ServerNetworkTester
 			@Override
 			public void dataReceived(NetworkNode from, Serializable payload)
 			{
+				
+			}
+
+			@Override
+			public void serverAdded(InetSocketAddress addr, String name)
+			{
+				// TODO Auto-generated method stub
 				
 			}
 		});

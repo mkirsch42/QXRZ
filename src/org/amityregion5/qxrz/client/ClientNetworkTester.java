@@ -1,6 +1,7 @@
 package org.amityregion5.qxrz.client;
 
 import java.io.Serializable;
+import java.net.InetSocketAddress;
 
 import org.amityregion5.qxrz.client.net.ClientNetworkManager;
 import org.amityregion5.qxrz.common.net.NetEventListener;
@@ -12,7 +13,7 @@ public class ClientNetworkTester
 	{
 		ClientNetworkManager manager = new ClientNetworkManager();
 //		manager.connect(, 8000);
-		System.out.println(ClientNetworkManager.getBroadcast());
+//		System.out.println(ClientNetworkManager.getBroadcast());
 //		Logger.getGlobal().setLevel(Level.OFF);
 		
 		manager.attachEventListener(new NetEventListener()
@@ -28,6 +29,13 @@ public class ClientNetworkTester
 			@Override
 			public void dataReceived(NetworkNode from, Serializable payload)
 			{
+			}
+
+			@Override
+			public void serverAdded(InetSocketAddress addr, String name)
+			{
+				// TODO Auto-generated method stub
+				
 			}
 		});
 		

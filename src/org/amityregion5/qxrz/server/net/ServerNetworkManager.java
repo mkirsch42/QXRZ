@@ -21,6 +21,17 @@ public class ServerNetworkManager extends AbstractNetworkManager
 
 	private Logger l = Logger.getGlobal();
 	private ServerInfo info;
+
+	/**
+	 * To construct a server, pass in a name and a port to listen on
+	 * 
+	 * @param name
+	 *            Name of the server.
+	 * @param p
+	 *            port to listen to
+	 * @throws Exception
+	 *             Throw exception if failed to open a socket.
+	 */
 	public ServerNetworkManager(String name, int p) throws Exception
 	{
 		super(p);
@@ -29,14 +40,14 @@ public class ServerNetworkManager extends AbstractNetworkManager
 		{
 			public void run()
 			{
-				for (Iterator<NetworkNode> it = clients.iterator(); it.hasNext();)
+				for (Iterator<NetworkNode> it = clients.iterator(); it
+						.hasNext();)
 				{
 					NetworkNode n = it.next();
 					try
 					{
 						removeClient(n);
-					}
-					catch (Exception e)
+					} catch (Exception e)
 					{
 						e.printStackTrace();
 					}
@@ -46,6 +57,12 @@ public class ServerNetworkManager extends AbstractNetworkManager
 		});
 	}
 
+	/**
+	 * Sends given object to all clients.
+	 * 
+	 * @param obj
+	 *            Object that needs to be send.
+	 */
 	public void sendObject(Serializable obj)
 	{
 		for (NetworkNode c : clients)
@@ -53,22 +70,28 @@ public class ServerNetworkManager extends AbstractNetworkManager
 			try
 			{
 				c.send(obj);
-			}
-			catch (Exception e)
+			} catch (Exception e)
 			{
 				e.printStackTrace();
 			}
 		}
 	}
 
+	/**
+	 * Remove a client from the list. This function will tell the client it has
+	 * been disconnected so it will stop pestering the server. Note that when a
+	 * client disconnects, it will be automatically removed.
+	 * 
+	 * @param c
+	 *            Client that need to be removed
+	 */
 	public void removeClient(NetworkNode c)
 	{
 		clients.remove(c);
 		try
 		{
 			c.send(new DisconnectNotification());
-		}
-		catch (Exception e)
+		} catch (Exception e)
 		{
 			e.printStackTrace();
 		}
@@ -83,20 +106,22 @@ public class ServerNetworkManager extends AbstractNetworkManager
 			{
 				NetworkObject netObj = (NetworkObject) inStream.recvObject();
 				NetworkNode recvClient = new NetworkNode(outStream,
-						(InetSocketAddress) inStream.getPacket().getSocketAddress());
+						(InetSocketAddress) inStream.getPacket()
+								.getSocketAddress());
 				boolean foundClient = false;
-				
-				l.info("#" + netObj.getPacketNumber() + " " + netObj.getPayload());
+
+				l.info("#" + netObj.getPacketNumber() + " "
+						+ netObj.getPayload());
 
 				// if this is a discovery query, echo back at the server
 				if (netObj.getPayload() instanceof BroadcastDiscoveryQuery)
 				{
 					l.info("Query received!");
 					recvClient.send(info);
-				}
-				else
+				} else
 				{
-					for (Iterator<NetworkNode> it = clients.iterator(); it.hasNext();)
+					for (Iterator<NetworkNode> it = clients.iterator(); it
+							.hasNext();)
 					{
 						NetworkNode c = it.next();
 						if (c.equals(recvClient))
@@ -119,14 +144,16 @@ public class ServerNetworkManager extends AbstractNetworkManager
 				}
 
 				l.info("Object Received from: " + netObj.toString());
-			}
-			catch (Exception e)
+			} catch (Exception e)
 			{
 				e.printStackTrace();
 			}
 		}
 	}
-
+	/**
+	 * return the IP and port of this server
+	 * @return SocketAddress including ip and port
+	 */
 	public SocketAddress getSocket()
 	{
 		return sock.getLocalSocketAddress();
