@@ -8,8 +8,7 @@ import org.amityregion5.qxrz.client.ui.screen.MainMenuScreen;
 import org.amityregion5.qxrz.common.asset.AssetManager;
 import org.amityregion5.qxrz.common.net.NetEventListener;
 import org.amityregion5.qxrz.common.net.NetworkNode;
-
-import com.sun.org.apache.bcel.internal.generic.NEWARRAY;
+import org.amityregion5.qxrz.common.net.ServerInfo;
 
 public class Main
 {
@@ -17,7 +16,6 @@ public class Main
 	{
 		ClientNetworkManager manager = new ClientNetworkManager();
 		
-		//TODO maybe all the manager stuff should be created within the GUI
 		manager.attachEventListener(new NetEventListener()
 		{
 			
@@ -30,14 +28,20 @@ public class Main
 			@Override
 			public void dataReceived(NetworkNode from, Serializable payload)
 			{
-				
+				if(payload instanceof ServerInfo)
+				{
+					/* call gui functions here
+					 * like gui.addServer(from, ServerInfo) or something
+					 * and then addServer() would add that server to the menu
+					 */
+				}
 			}
 		});
 		manager.start();
 		
 		
 		//Create a gui object
-		/*TODO this should take the manager in its constructor
+		/* TODO this should take the manager in its constructor
 		 * then you can call
 		 * manager.broadcastQuery()
 		 * and

@@ -90,18 +90,20 @@ public class ClientNetworkManager extends AbstractNetworkManager
 			{
 				NetworkObject netObj = (NetworkObject) inStream.recvObject();
 
+				// Reply to Broadcast query from server!
 				if (netObj.getPayload() instanceof ServerInfo)
 				{
-					callback.dataReceived(null, netObj.getPayload());
+					NetworkNode availableServer = new NetworkNode(outStream, (InetSocketAddress) inStream.getPacket().getSocketAddress());
+					callback.dataReceived(availableServer, netObj.getPayload());
 				}
 
-				// If server has not been set yet, ignore all other packets.
-				if (server == null)
+				/* If server has not been set yet, ignore all other packets.
+				 * Though we probably shouldn't be receiving any packets if we haven't joined the game yet
+				 */
+				if (server != null)
 				{
-					continue;
+					runHelper(server, netObj);
 				}
-
-				runHelper(server, netObj);
 
 			} catch (ClassNotFoundException | IOException e)
 			{
