@@ -2,6 +2,7 @@ package org.amityregion5.qxrz.server;
 
 import java.io.Serializable;
 
+import org.amityregion5.qxrz.common.net.AbstractNetworkNode;
 import org.amityregion5.qxrz.common.net.ChatMessage;
 import org.amityregion5.qxrz.common.net.DisconnectNotification;
 import org.amityregion5.qxrz.common.net.NetEventListener;
@@ -23,9 +24,10 @@ public final class Main
 		netManager.attachEventListener(new NetEventListener()
 		{
 			@Override
-			public void newNode(NetworkNode c)
+			public void newNode(AbstractNetworkNode c)
 			{
 				// TODO do stuff for new client (drawing, inventory whatever)
+				// You should cast c to a NetworkNode before using
 			}
 			
 			@Override

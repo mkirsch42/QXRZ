@@ -16,13 +16,6 @@ public interface NetEventListener
 	 * this method gets called each time a new node connected to the manager 
 	 * @param c node that just connected
 	 */
-	public void newNode(NetworkNode c);
-	
-	/**
-	 * gets called each time a new server is discovered
-	 * @param addr Address of the server
-	 * @param name Name of the Server
-	 */
-	public void serverAdded(InetSocketAddress addr, String name);
+	public void newNode(AbstractNetworkNode c);
 	
 }

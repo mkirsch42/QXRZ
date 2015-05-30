@@ -4,9 +4,10 @@ import java.io.Serializable;
 import java.net.InetSocketAddress;
 import java.net.SocketException;
 
-public class NetworkNode
+public class NetworkNode extends AbstractNetworkNode
 {
 	private InetSocketAddress addr;
+
 	private int sentPacketCount;
 	private int receivedPacketCount;
 
@@ -15,18 +16,12 @@ public class NetworkNode
 	public NetworkNode(UDPOutputStream out, InetSocketAddress a)
 			throws SocketException
 	{
-		addr = a;
 		sentPacketCount = 0;
 		receivedPacketCount = 0;
 
 		outStream = out;
 	}
-
-	public InetSocketAddress getAddress()
-	{
-		return addr;
-	}
-
+	
 	public int getReceivedPacketCount()
 	{
 		return receivedPacketCount;

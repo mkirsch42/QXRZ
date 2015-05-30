@@ -6,6 +6,7 @@ import org.amityregion5.qxrz.client.net.ClientNetworkManager;
 import org.amityregion5.qxrz.client.ui.MainGui;
 import org.amityregion5.qxrz.client.ui.screen.MainMenuScreen;
 import org.amityregion5.qxrz.common.asset.AssetManager;
+import org.amityregion5.qxrz.common.net.AbstractNetworkNode;
 import org.amityregion5.qxrz.common.net.NetEventListener;
 import org.amityregion5.qxrz.common.net.NetworkNode;
 import org.amityregion5.qxrz.common.net.ServerInfo;
@@ -20,9 +21,11 @@ public class Main
 		{
 			
 			@Override
-			public void newNode(NetworkNode c)
+			public void newNode(AbstractNetworkNode server)
 			{
-				// leave empty
+				// This will be called when a new server makes itself known.
+				
+				// You should cast the AbstractNetworkNode to a ServerInfo before using
 			}
 			
 			@Override

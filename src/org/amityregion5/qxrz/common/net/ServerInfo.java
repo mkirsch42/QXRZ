@@ -5,7 +5,7 @@ import java.io.Serializable;
 /* This is what servers reply to Broadcast Queries with.
  * 
  */
-public class ServerInfo implements Serializable
+public class ServerInfo extends AbstractNetworkNode implements Serializable 
 {
 	private static final long serialVersionUID = 1L;
 	
