@@ -2,26 +2,36 @@ package org.amityregion5.qxrz.client.ui.screen;
 
 import java.util.List;
 
+/**
+ * A utility/data class to store input data and screen size data
+ */
 public class WindowData
 {
+	//Width of window
 	private int width;
+	//Height of window
 	private int height;
+	//List of keys that are down
 	private List<Integer> keysDown;
+	//List of mouse buttons that are down
 	private List<Integer> miceDown;
+	//Mouse X Coordinate
 	private int mouseX;
+	//Mouse Y Coordinate
 	private int mouseY;
 	
 	/**
-	 * @param width
-	 * @param height
-	 * @param keysDown
-	 * @param miceDown
-	 * @param mouseX
-	 * @param mouseY
+	 * @param width the width of the screen
+	 * @param height the height of the screen
+	 * @param keysDown a list of keys that are down
+	 * @param miceDown a list of mouse buttons that are down
+	 * @param mouseX the mouse X coordinate
+	 * @param mouseY the mouse Y coordinate
 	 */
 	public WindowData(int width, int height, List<Integer> keysDown,
 			List<Integer> miceDown, int mouseX, int mouseY)
 	{
+		//Set variables
 		this.width = width;
 		this.height = height;
 		this.keysDown = keysDown;

@@ -1,7 +1,7 @@
 package org.amityregion5.qxrz.server;
 
 import java.io.Serializable;
-
+import java.net.InetSocketAddress;
 import org.amityregion5.qxrz.common.net.ChatMessage;
 import org.amityregion5.qxrz.common.net.DisconnectNotification;
 import org.amityregion5.qxrz.common.net.NetEventListener;
@@ -53,6 +53,12 @@ public final class Main
 					// echo it back out
 					netManager.sendObject(((ChatMessage) recvObj).setNode(c));
 				}
+			}
+
+			@Override
+			public void serverAdded(InetSocketAddress addr, String name) {
+				// TODO Auto-generated method stub
+				
 			}
 		});
 		

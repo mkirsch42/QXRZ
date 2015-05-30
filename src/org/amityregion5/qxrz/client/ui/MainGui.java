@@ -5,6 +5,7 @@ import java.awt.event.WindowListener;
 import java.util.Arrays;
 import javax.swing.JFrame;
 import javax.swing.WindowConstants;
+import org.amityregion5.qxrz.client.net.ClientNetworkManager;
 import org.amityregion5.qxrz.client.ui.screen.IScreen;
 import org.amityregion5.qxrz.client.ui.screen.LoadingScreen;
 
@@ -20,11 +21,16 @@ public class MainGui
 	//The time since the last repaint
 	private long lastRepaint;
 	
+	private ClientNetworkManager networkManger;
+	
 	/**
 	 * Create a new MainGui object
+	 * @param manager the network manager to use
 	 */
-	public MainGui()
+	public MainGui(ClientNetworkManager manager)
 	{
+		networkManger = manager;
+		
 		//Store 10 fps values
 		fps = new double[10];
 		
@@ -148,4 +154,13 @@ public class MainGui
 		currentScreen.onGameClose();
 		System.exit(0);
 	}
+
+	/**
+	 * @return the networkManger
+	 */
+	public ClientNetworkManager getNetworkManger() {
+		return networkManger;
+	}
+	
+	
 }

@@ -11,10 +11,8 @@ import java.net.UnknownHostException;
 import java.util.Iterator;
 import java.util.List;
 import java.util.logging.Logger;
-
 import org.amityregion5.qxrz.common.net.AbstractNetworkManager;
 import org.amityregion5.qxrz.common.net.BroadcastDiscoveryQuery;
-import org.amityregion5.qxrz.common.net.DisconnectNotification;
 import org.amityregion5.qxrz.common.net.NetworkNode;
 import org.amityregion5.qxrz.common.net.NetworkObject;
 import org.amityregion5.qxrz.common.net.ServerInfo;
@@ -27,13 +25,6 @@ public class ClientNetworkManager extends AbstractNetworkManager
 	public ClientNetworkManager() throws Exception
 	{
 		super();
-		Runtime.getRuntime().addShutdownHook(new Thread()
-		{
-			public void run()
-			{
-				sendObject(new DisconnectNotification());
-			}
-		});
 	}
 
 	/**

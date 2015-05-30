@@ -4,8 +4,10 @@ import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.Image;
 import java.awt.geom.AffineTransform;
+import java.awt.geom.Point2D;
 import java.awt.image.BufferedImage;
 import java.awt.image.WritableRaster;
+import org.amityregion5.qxrz.common.util.MathUtil;
 
 public class ImageModification {
 	public static BufferedImage createBufferedImage(Image image) {
@@ -28,7 +30,22 @@ public class ImageModification {
 	public static Graphics2D getImageGraphics(BufferedImage image) {
 		return image.createGraphics();
 	}
-	public static Image resizeImage(Image image, int width, int height) throws NullPointerException {
+	
+	public static BufferedImage squarifyImage(BufferedImage img) {
+		int size = Math.max(img.getHeight(), img.getWidth());
+		
+		BufferedImage newImage = createBlankBufferedImage(size, size);
+		
+		Graphics2D g = newImage.createGraphics();
+		
+		g.drawImage(img, (size-img.getWidth())/2, (size-img.getHeight())/2, img.getWidth(), img.getHeight(), null);
+		
+		g.dispose();
+		
+		return newImage;
+	}
+	
+	public static BufferedImage resizeImage(Image image, int width, int height) throws NullPointerException {
 
 		if (image == null) { throw new NullPointerException("No Image sent"); }
 
@@ -40,27 +57,41 @@ public class ImageModification {
 
 		return resizedImage;
 	}
-	public static Image rotateImage(Image image, double degrees, int extraBorder) throws NullPointerException {
+	public static BufferedImage rotateImage(BufferedImage image, double radians) throws NullPointerException {
 
-		if (image == null) { throw new NullPointerException("No Image sent"); }
-
-		BufferedImage buff = new BufferedImage(image.getWidth(null) + extraBorder * 2, image.getHeight(null) + extraBorder * 2, BufferedImage.TYPE_4BYTE_ABGR);
+		Point2D.Double center = new Point2D.Double(image.getWidth()/2.0, image.getHeight()/2.0);
+		
+		Point2D.Double p1 = MathUtil.getPointAtEndOfLine(center, center.distance(0, 0), radians + MathUtil.getAngleBetweenPoints(center, new Point2D.Double(0,0)));
+		Point2D.Double p2 = MathUtil.getPointAtEndOfLine(center, center.distance(image.getWidth(), 0), radians + MathUtil.getAngleBetweenPoints(center, new Point2D.Double(image.getWidth(),0)));
+		Point2D.Double p3 = MathUtil.getPointAtEndOfLine(center, center.distance(image.getWidth(), image.getHeight()), radians + MathUtil.getAngleBetweenPoints(center, new Point2D.Double(image.getWidth(),image.getHeight())));
+		Point2D.Double p4 = MathUtil.getPointAtEndOfLine(center, center.distance(0, image.getHeight()), radians + MathUtil.getAngleBetweenPoints(center, new Point2D.Double(0,image.getHeight())));
+		
+		double minX = Math.min(Math.min(p1.x, p2.x), Math.min(p3.x, p4.x));
+		double minY = Math.min(Math.min(p1.y, p2.y), Math.min(p3.y, p4.y));
+		
+		double maxX = Math.max(Math.max(p1.x, p2.x), Math.max(p3.x, p4.x));
+		double maxY = Math.max(Math.max(p1.y, p2.y), Math.max(p3.y, p4.y));
+		
+		double width = maxX - minX;
+		double height = maxY - minY;
+		
+		BufferedImage buff = createBlankBufferedImage((int)Math.ceil(width), (int)Math.ceil(height));
 
 		Graphics2D g = buff.createGraphics();
 
 		AffineTransform at = new AffineTransform();
 		at.setToIdentity();
-		at.translate(image.getWidth(null) / 2 + extraBorder, image.getHeight(null) / 2 + extraBorder);
-		at.rotate(Math.toRadians(degrees));
+		at.translate(width/2, height/2);
+		at.rotate(radians);
 		g.setTransform(at);
 
-		g.drawImage(image, -image.getWidth(null) / 2, -image.getHeight(null) / 2, image.getWidth(null), image.getHeight(null), null);
+		g.drawImage(image, -image.getWidth() / 2, -image.getHeight() / 2, image.getWidth(), image.getHeight(), null);
 
 		g.dispose();
 
 		return buff;
 	}
-	public static Image setImageColor(Image image, Color color, boolean retainAlpha) {
+	public static BufferedImage setImageColor(Image image, Color color, boolean retainAlpha) {
 		BufferedImage buff = createBufferedImage(image);
 
 		int width = buff.getWidth();

@@ -11,69 +11,78 @@ import org.amityregion5.qxrz.client.ui.screen.WindowData;
 import org.amityregion5.qxrz.client.ui.util.CenterMode;
 import org.amityregion5.qxrz.client.ui.util.GuiUtil;
 
+/**
+ * A class representing a rectangle (Could be a button or a label)
+ */
 public class ElementRectangle extends AGuiElement
 {
+	//A function to determine to top left corner of the rectangle
 	protected Function<WindowData, Point> topLeftFunction;
+	//A function to determine the width and height of the rectangle
 	protected Function<WindowData, Point> widthHeightFunction;
+	//A supplier to determine the name of the rectangle
 	protected Supplier<String> name;
+	//The three colors of the rectangle
 	protected Color background, border, text;
+	//Last known window data of the rectangle
 	protected WindowData wData;
+	//The size/Padding of the rectangle's text
 	protected float sizeOrPadding;
 
 	/**
-	 * @param topLeftFunction
-	 * @param widthHeightFunction
-	 * @param attachWidthToRight
-	 * @param background
-	 * @param border
-	 * @param text
-	 * @param name
+	 * @param topLeftFunction the function to determine to top left corner of the rectangle
+	 * @param widthHeightFunction the function to determine the width and height of the rectangle
+	 * @param background the background color
+	 * @param border the border color
+	 * @param sizeOrPadding the size of the text or if it is a negative number to padding for the resize
+	 * @param text the text color
+	 * @param name the text in the rectangle
 	 */
 	public ElementRectangle(Function<WindowData, Point> topLeftFunction,
 			Function<WindowData, Point> widthHeightFunction,
 			Color background, Color border, float sizeOrPadding,
 			Color text, String name) {
-		this.topLeftFunction = topLeftFunction;
-		this.widthHeightFunction = widthHeightFunction;
-		this.background = background;
-		this.border = border;
-		this.text = text;
-		this.name = ()->name;
-		this.sizeOrPadding = sizeOrPadding;
+		this(topLeftFunction, widthHeightFunction, background, border, sizeOrPadding, text, ()->name, null);
 	}
 
 	/**
-	 * @param topLeftFunction
-	 * @param widthHeightFunction
-	 * @param attachWidthToRight
-	 * @param background
-	 * @param border
-	 * @param text
-	 * @param name
+	 * @param topLeftFunction the function to determine to top left corner of the rectangle
+	 * @param widthHeightFunction the function to determine the width and height of the rectangle
+	 * @param background the background color
+	 * @param border the border color
+	 * @param sizeOrPadding the size of the text or if it is a negative number to padding for the resize
+	 * @param text the text color
+	 * @param name the text in the rectangle
+	 * @param onClick the click listener for the rectangle
 	 */
 	public ElementRectangle(Function<WindowData, Point> topLeftFunction,
 			Function<WindowData, Point> widthHeightFunction,
 			Color background, Color border, float sizeOrPadding,
 			Color text, String name, Consumer<WindowData> onClick) {
-		this(topLeftFunction, widthHeightFunction, background, border, sizeOrPadding, text, name);
-		setClickListener(onClick);
+		this(topLeftFunction, widthHeightFunction, background, border, sizeOrPadding, text, ()->name, onClick);
 	}
 	
 	/**
-	 * @param topLeftFunction
-	 * @param widthHeightFunction
-	 * @param attachWidthToRight
-	 * @param background
-	 * @param border
-	 * @param text
-	 * @param name
+	 * @param topLeftFunction the function to determine to top left corner of the rectangle
+	 * @param widthHeightFunction the function to determine the width and height of the rectangle
+	 * @param background the background color
+	 * @param border the border color
+	 * @param sizeOrPadding the size of the text or if it is a negative number to padding for the resize
+	 * @param text the text color
+	 * @param name the string supplier for the text in the rectangle
 	 */
 	public ElementRectangle(Function<WindowData, Point> topLeftFunction,
 			Function<WindowData, Point> widthHeightFunction,
 			Color background, Color border, float sizeOrPadding,
 			Color text, Supplier<String> name, Consumer<WindowData> onClick) {
-		this(topLeftFunction, widthHeightFunction, background, border, sizeOrPadding, text, "", onClick);
 		this.name = name;
+		this.topLeftFunction = topLeftFunction;
+		this.widthHeightFunction = widthHeightFunction;
+		this.background = background;
+		this.border = border;
+		this.text = text;
+		setClickListener(onClick);
+		this.sizeOrPadding = sizeOrPadding;
 	}
 	
 	
@@ -81,20 +90,26 @@ public class ElementRectangle extends AGuiElement
 	@Override
 	protected void draw(Graphics2D g, WindowData windowData)
 	{
+		//Set the latest window data
 		wData = windowData;
 		
+		//Draw the background
 		g.setColor(background);
 		g.fillRect(getX(), getY(), getWidth(), getHeight());
 		
+		//Draw the border
 		g.setColor(border);
 		g.drawRect(getX(), getY(), getWidth(), getHeight());
 		
+		//Set font size
 		if (sizeOrPadding > 0) {
 			g.setFont(g.getFont().deriveFont(sizeOrPadding));
 		} else {
 			GuiUtil.scaleFont(name.get(), new Rectangle2D.Double(getX() - sizeOrPadding, getY() - sizeOrPadding, getWidth() + sizeOrPadding, getHeight() + sizeOrPadding), g);
 		}
+		//Set text color
 		g.setColor(text);
+		//Draw the text
 		GuiUtil.drawString(g, name.get(), CenterMode.CENTER, getX() + getWidth()/2, getY() + getHeight()/2);
 	}
 

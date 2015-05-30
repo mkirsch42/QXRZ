@@ -2,6 +2,9 @@ package org.amityregion5.qxrz.client.ui.screen;
 
 import java.awt.Graphics2D;
 
+/**
+ * The basic Screen interface
+ */
 public interface IScreen
 {
 	/**
@@ -24,5 +27,8 @@ public interface IScreen
 	 */
 	public boolean setReturnScreen(IScreen s);
 	
+	/**
+	 * Called to clean up open sockets or anything that needs to be cleaned up as the game closes
+	 */
 	public void onGameClose();
 }

@@ -1,11 +1,12 @@
 package org.amityregion5.qxrz.client;
 
 import java.io.Serializable;
-
+import java.net.InetSocketAddress;
 import org.amityregion5.qxrz.client.net.ClientNetworkManager;
 import org.amityregion5.qxrz.client.ui.MainGui;
 import org.amityregion5.qxrz.client.ui.screen.MainMenuScreen;
 import org.amityregion5.qxrz.common.asset.AssetManager;
+import org.amityregion5.qxrz.common.net.DisconnectNotification;
 import org.amityregion5.qxrz.common.net.NetEventListener;
 import org.amityregion5.qxrz.common.net.NetworkNode;
 import org.amityregion5.qxrz.common.net.ServerInfo;
@@ -36,9 +37,14 @@ public class Main
 					 */
 				}
 			}
+
+			@Override
+			public void serverAdded(InetSocketAddress addr, String name) {
+				// TODO Auto-generated method stub
+				
+			}
 		});
 		manager.start();
-		
 		
 		//Create a gui object
 		/* TODO this should take the manager in its constructor
@@ -47,7 +53,20 @@ public class Main
 		 * and
 		 * manager.connect(address) when the user chooses a server.
 		 */
-		MainGui gui = new MainGui(); 
+		MainGui gui = new MainGui(manager); 
+		
+		//Called when the JRE closes
+		Runtime.getRuntime().addShutdownHook(new Thread()
+		{
+			public void run()
+			{
+				//Clean up gui stuff
+				gui.closeGame();
+				//Send a disconnect notification packet to the server
+				manager.sendObject(new DisconnectNotification());
+			}
+		});
+
 		
 		//Show the gui
 		gui.show();
