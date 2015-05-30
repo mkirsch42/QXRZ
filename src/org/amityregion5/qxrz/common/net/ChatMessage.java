@@ -15,13 +15,6 @@ public class ChatMessage implements Serializable
 		message = m;
 	}
 	
-	// For server
-	public ChatMessage(String m, NetworkNode f)
-	{
-		message = m;
-		from = f;
-	}
-	
 	public ChatMessage setNode(NetworkNode c)
 	{
 		from = c;
