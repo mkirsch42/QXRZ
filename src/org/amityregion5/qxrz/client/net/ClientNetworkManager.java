@@ -118,8 +118,9 @@ public class ClientNetworkManager extends AbstractNetworkManager
 				// Reply to Broadcast query from server!
 				if (netObj.getPayload() instanceof ServerInfo)
 				{
-					NetworkNode availableServer = new NetworkNode(outStream, (InetSocketAddress) inStream.getPacket().getSocketAddress());
-					callback.dataReceived(availableServer, netObj.getPayload());
+					ServerInfo info = (ServerInfo) netObj.getPayload();
+					info.setAddress((InetSocketAddress) inStream.getPacket().getSocketAddress());
+					callback.newNode(info);
 				}
 
 				/* If server has not been set yet, ignore all other packets.

@@ -1,9 +1,8 @@
 package org.amityregion5.qxrz.client;
 
 import java.io.Serializable;
-import java.net.InetSocketAddress;
-
 import org.amityregion5.qxrz.client.net.ClientNetworkManager;
+import org.amityregion5.qxrz.common.net.AbstractNetworkNode;
 import org.amityregion5.qxrz.common.net.NetEventListener;
 import org.amityregion5.qxrz.common.net.NetworkNode;
 
@@ -21,20 +20,14 @@ public class ClientNetworkTester
 //			int i = 1;
 			
 			@Override
-			public void newNode(NetworkNode c)
+			public void newNode(AbstractNetworkNode c)
 			{
-				// leave empty
+				// This will b
 			}
 			
 			@Override
 			public void dataReceived(NetworkNode from, Serializable payload)
 			{
-			}
-
-			@Override
-			public void serverAdded(InetSocketAddress addr, String name)
-			{
-				// TODO Auto-generated method stub
 				
 			}
 		});

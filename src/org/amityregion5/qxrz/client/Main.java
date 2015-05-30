@@ -1,11 +1,12 @@
 package org.amityregion5.qxrz.client;
 
 import java.io.Serializable;
-import java.net.InetSocketAddress;
 import org.amityregion5.qxrz.client.net.ClientNetworkManager;
 import org.amityregion5.qxrz.client.ui.MainGui;
 import org.amityregion5.qxrz.client.ui.screen.MainMenuScreen;
 import org.amityregion5.qxrz.common.asset.AssetManager;
+import org.amityregion5.qxrz.common.net.AbstractNetworkNode;
+//github.com/mkirsch42/QXRZ.gitimport org.amityregion5.qxrz.common.net.AbstractNetworkNode;
 import org.amityregion5.qxrz.common.net.DisconnectNotification;
 import org.amityregion5.qxrz.common.net.NetEventListener;
 import org.amityregion5.qxrz.common.net.NetworkNode;
@@ -21,9 +22,11 @@ public class Main
 		{
 			
 			@Override
-			public void newNode(NetworkNode c)
+			public void newNode(AbstractNetworkNode server)
 			{
-				// leave empty
+				// This will be called when a new server makes itself known.
+				
+				// You should cast the AbstractNetworkNode to a ServerInfo before using
 			}
 			
 			@Override
@@ -36,12 +39,6 @@ public class Main
 					 * and then addServer() would add that server to the menu
 					 */
 				}
-			}
-
-			@Override
-			public void serverAdded(InetSocketAddress addr, String name) {
-				// TODO Auto-generated method stub
-				
 			}
 		});
 		manager.start();
