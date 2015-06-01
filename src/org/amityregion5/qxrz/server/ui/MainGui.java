@@ -41,11 +41,11 @@ public class MainGui
 				panel.add(port);
 				panel.add(IP);
 			}
-			JPanel RemotePort = new JPanel("Remote Port");
-			JPanel Hostname = new JPanel("Hostname");
-			panel.add(RemotePort);
-			panel.add(Hostname);
-			
+			JPanel remotePort = new JPanel("Remote Port");
+			JPanel hostname = new JPanel("Hostname");
+			panel.add(remotePort);
+			panel.add(hostname);
+			JPanel title = new JPanel("Hostname and IP \n Running Port", SwingConstants.NORTH_EAST); 
 		SocketAddress addr = networkManager.getSocket();
 		
 		JLabel ipLabel = new JLabel("Address:" + addr + "", SwingConstants.CENTER);
