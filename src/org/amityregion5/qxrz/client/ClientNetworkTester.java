@@ -1,10 +1,12 @@
 package org.amityregion5.qxrz.client;
 
 import java.io.Serializable;
+
 import org.amityregion5.qxrz.client.net.ClientNetworkManager;
 import org.amityregion5.qxrz.common.net.AbstractNetworkNode;
 import org.amityregion5.qxrz.common.net.NetEventListener;
 import org.amityregion5.qxrz.common.net.NetworkNode;
+import org.amityregion5.qxrz.common.net.ServerInfo;
 
 public class ClientNetworkTester
 {
@@ -22,7 +24,7 @@ public class ClientNetworkTester
 			@Override
 			public void newNode(AbstractNetworkNode c)
 			{
-				// This will b
+				System.out.println("Received!" + c.getAddress() + " name: " + ((ServerInfo) c).getName());
 			}
 			
 			@Override
