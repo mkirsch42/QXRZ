@@ -1,6 +1,7 @@
 package org.amityregion5.qxrz.common.net;
 
 import java.io.Serializable;
+
 import java.net.InetSocketAddress;
 import java.net.SocketException;
 
@@ -15,13 +16,16 @@ public class NetworkNode extends AbstractNetworkNode
 
 	public NetworkNode(UDPOutputStream out, InetSocketAddress a)
 			throws SocketException
-	{
+	{	addr = a;
 		sentPacketCount = 0;
 		receivedPacketCount = 0;
 
 		outStream = out;
 	}
 	
+	public InetSocketAddress getSocketAddress() {
+		return addr;
+	}
 	public int getReceivedPacketCount()
 	{
 		return receivedPacketCount;
