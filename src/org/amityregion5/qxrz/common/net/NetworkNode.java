@@ -3,14 +3,14 @@ package org.amityregion5.qxrz.common.net;
 import java.io.Serializable;
 import java.net.InetSocketAddress;
 import java.net.SocketException;
+import java.util.logging.Logger;
 
 public class NetworkNode extends AbstractNetworkNode
 {
-	private InetSocketAddress addr;
 
 	private int sentPacketCount;
 	private int receivedPacketCount;
-
+	private static Logger l = Logger.getGlobal();
 	private UDPOutputStream outStream;
 
 	public NetworkNode(UDPOutputStream out, InetSocketAddress a)
@@ -18,7 +18,8 @@ public class NetworkNode extends AbstractNetworkNode
 	{
 		sentPacketCount = 0;
 		receivedPacketCount = 0;
-
+		setAddress(a);
+		l.info("nn constructor" + addr.toString());
 		outStream = out;
 	}
 	
@@ -40,6 +41,7 @@ public class NetworkNode extends AbstractNetworkNode
 	public void send(Serializable obj) throws Exception
 	{
 		sentPacketCount++;
+		
 		outStream.setAddress(addr);
 		outStream.sendObject(new NetworkObject(obj, sentPacketCount));
 	}

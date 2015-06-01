@@ -6,13 +6,14 @@ import java.net.DatagramPacket;
 import java.net.DatagramSocket;
 import java.net.InetSocketAddress;
 import java.net.SocketException;
+import java.util.logging.Logger;
 
 public class UDPOutputStream
 {
 
 	private DatagramSocket sock;
 	private InetSocketAddress addr;
-	
+	private static Logger l = Logger.getGlobal();
 	public UDPOutputStream(DatagramSocket localSock) throws SocketException
 	{
 		sock = localSock;
@@ -39,7 +40,7 @@ public class UDPOutputStream
 		
 		// This shouldn't ever happen...
 		if(data.length > NetworkObject.BUFFER_SIZE) throw new Exception("Object is too large!");
-		
+		l.info("sendObj()" + addr.getAddress() + ":" + addr.getPort());
 		sock.send(new DatagramPacket(data, data.length, addr.getAddress(), addr.getPort()));
 	}
 	
