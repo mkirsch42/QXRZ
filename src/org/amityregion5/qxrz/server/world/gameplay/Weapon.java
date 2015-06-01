@@ -117,4 +117,22 @@ public class Weapon {
 			cleft--;
 		}
 	}
+	public void weaponUp(Upgrade u)
+	{
+		/*
+		String type = ((Upgrade) u).getType();
+		if (type.equals("rof"))
+		{
+			rof += 4;
+		}
+		else if (type.equals("cmax"))
+		{
+			cmaxammo += 4;
+		}
+		else if (type.equals("maxc"))
+		{
+			maxclips += 4;
+		}
+		*/
+	}
 }
