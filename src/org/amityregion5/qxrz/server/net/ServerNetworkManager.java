@@ -21,8 +21,6 @@ public class ServerNetworkManager extends AbstractNetworkManager
 
 	private Logger l = Logger.getGlobal();
 	private ServerInfo info;
-	
-	private boolean running = true;
 
 	/**
 	 * To construct a server, pass in a name and a port to listen on
@@ -102,7 +100,7 @@ public class ServerNetworkManager extends AbstractNetworkManager
 	@Override
 	public void run()
 	{
-		while (running)
+		while (true)
 		{
 			try
 			{
@@ -164,10 +162,5 @@ public class ServerNetworkManager extends AbstractNetworkManager
 	public HashSet<NetworkNode> getClients()
 	{
 		return clients;
-	}
-	
-	public void close()
-	{
-		running = false;
 	}
 }

@@ -32,14 +32,14 @@ public class MainGui
 		JPanel panel = new JPanel();
 		panel.setLayout(new BoxLayout(panel, BoxLayout.PAGE_AXIS));
 		panel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
-		
+		//test
 		SocketAddress addr = networkManager.getSocket();
 		
 		JLabel ipLabel = new JLabel("Address:" + addr + "", SwingConstants.CENTER);
 		ipLabel.setHorizontalAlignment(SwingConstants.CENTER);
 		ipLabel.setVerticalAlignment(SwingConstants.CENTER);
 		JLabel ClientList = new JLabel("Client List", SwingConstants.LEFT);
-		//test
+		
 		panel.add(ipLabel);
 		panel.add(ClientList);
 
