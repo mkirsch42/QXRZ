@@ -10,7 +10,7 @@ public class Weapon {
 	private int rof; //per half second
 	private int retime; //per half second
 	private int damage;
-	public Weapon() //constructor intended for player spawn	with a pistol			
+	public Weapon()
 	{
 		this("ps");
 	}
