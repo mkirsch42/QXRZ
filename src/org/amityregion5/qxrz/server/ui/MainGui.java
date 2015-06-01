@@ -28,7 +28,7 @@ public class MainGui
 		
 		frame = new JFrame("QXRZ");
 		frame.setSize(600,600);
-		
+		JPanel Title = new JPanel();
 		JPanel panel = new JPanel();
 		panel.setLayout(new BoxLayout(panel, BoxLayout.PAGE_AXIS));
 		panel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));

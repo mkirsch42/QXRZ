@@ -7,12 +7,16 @@ import org.amityregion5.qxrz.client.ui.MainGui;
 import org.amityregion5.qxrz.client.ui.element.ElementRectangle;
 import org.amityregion5.qxrz.server.Game;
 
+/**
+ * The Main Menu Screen
+ */
 public class MainMenuScreen extends AbstractScreen
 {
 	
 	public MainMenuScreen(MainGui gui) {
 		super(null, gui);
 		
+		//Add the title
 		elements.add(new ElementRectangle(
 				(w)->{return new Point(0, 10);},
 				(w)->{return new Point(w.getWidth(),190);},
@@ -31,6 +35,8 @@ public class MainMenuScreen extends AbstractScreen
 			e.printStackTrace();
 		}
 		
+		//TODO: add connect to server/multiplayer button
+		
 		//Quit Button
 		elements.add(new ElementRectangle(
 				(w)->{return new Point(100, w.getHeight() - 100);},
@@ -41,6 +47,7 @@ public class MainMenuScreen extends AbstractScreen
 	
 	@Override
 	protected void draw(Graphics2D g, WindowData windowData) {
+		//Fill the background with black
 		g.setColor(Color.black);
 		g.fillRect(0,0, windowData.getWidth(), windowData.getHeight());
 	}

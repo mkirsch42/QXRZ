@@ -1,8 +1,9 @@
 package org.amityregion5.qxrz.common.asset;
 
-import java.awt.Image;
+import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.util.HashMap;
+import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 import javax.imageio.ImageIO;
 import org.amityregion5.qxrz.client.Main;
@@ -12,7 +13,7 @@ import org.amityregion5.qxrz.common.util.FileUtil;
 public class AssetManager
 {
 	
-	private static HashMap<String, Image> imageAssets = new HashMap<String, Image>();
+	private static HashMap<String, BufferedImage> imageAssets = new HashMap<String, BufferedImage>();
 
 	public static void loadAssets()
 	{
@@ -26,11 +27,30 @@ public class AssetManager
 		}
 	}
 	
-	public static Image[] getImageAssets(String name) {
-		return imageAssets.keySet().stream().filter((s)->s.matches(regexify(name))).map((k)->imageAssets.get(k)).collect(Collectors.toList()).toArray(new Image[] {});
+	public static BufferedImage[] getImageAssets(String name) {
+		return imageAssets.keySet().stream().filter((s)->s.matches(regexify(name))).map((k)->imageAssets.get(k)).collect(Collectors.toList()).toArray(new BufferedImage[] {});
 	}
 	
 	private static String regexify(String str) {
-		return str.replace("*", "[^/]*").replace("?", "[^/]?");
+		String finalString = "";
+		
+		String[] split = str.split(Pattern.quote("**"));
+		for (int i = 0; i<split.length; i++) {
+			String[] split2 = split[i].split(Pattern.quote("*"));
+			for (int i2 = 0; i2<split2.length; i2++) {
+				String[] split3 = split2[i].split(Pattern.quote("?"));
+				for (int i3 = 0; i3<split3.length; i3++) {
+					finalString += split3[i3] + (i3 == split3.length-1  ? "" : "[^/]?");
+				}
+				finalString += (split2[i2].endsWith("?") ? "[^/]?" : "");
+				finalString += (i2 == split2.length-1 ? "" : "[^/]*");
+			}
+			finalString += (split[i].endsWith("*") ? "[^/]*" : "");
+			finalString += (i == split.length-1 ? "" : ".*");
+		}
+		finalString += (str.endsWith("**") ? ".*" : "");
+		
+		return finalString;
+		//return str.replace("*", "[^/]*").replace("?", "[^/]?");
 	}
 }

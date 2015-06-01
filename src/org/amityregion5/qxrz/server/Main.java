@@ -1,7 +1,7 @@
 package org.amityregion5.qxrz.server;
 
 import java.io.Serializable;
-
+import org.amityregion5.qxrz.common.net.AbstractNetworkNode;
 import org.amityregion5.qxrz.common.net.ChatMessage;
 import org.amityregion5.qxrz.common.net.DisconnectNotification;
 import org.amityregion5.qxrz.common.net.NetEventListener;
@@ -12,20 +12,22 @@ import org.amityregion5.qxrz.server.world.DebugDraw;
 import org.amityregion5.qxrz.server.world.entity.PlayerEntity;
 import org.amityregion5.qxrz.server.world.entity.ProjectileEntity;
 import org.amityregion5.qxrz.server.world.entity.RectangleHitbox;
+//github.com/mkirsch42/QXRZ.gitimport org.amityregion5.qxrz.common.net.ChatMessage;
 
 public final class Main
 {
 	public static void main(String[] args) throws Exception
 	{
 		
-		ServerNetworkManager netManager = new ServerNetworkManager(8000);
-		
+		ServerNetworkManager netManager = new ServerNetworkManager("Main Server", 8000);
+		//TODO maybe all the manager stuff should be created within the GUI
 		netManager.attachEventListener(new NetEventListener()
 		{
 			@Override
-			public void newNode(NetworkNode c)
+			public void newNode(AbstractNetworkNode c)
 			{
 				// TODO do stuff for new client (drawing, inventory whatever)
+				// You should cast c to a NetworkNode before using
 			}
 			
 			@Override
@@ -57,14 +59,12 @@ public final class Main
 		});
 		
 		netManager.start();
-		// How to send things to all clients:
-		// netManager.sendObject(whatever);
 		
 
 		//new MainGui().show();
 
 		new MainGui(netManager).show();
-		Game g = new Game();
+		Game g = new Game(); //TODO game needs access to network, too...
 		if(DebugConstants.DEBUG_GUI)
 		{
 			Game.debug = DebugDraw.setup(g.getWorld());
