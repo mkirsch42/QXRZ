@@ -1,6 +1,7 @@
 package org.amityregion5.qxrz.client.ui.element;
 
 import java.awt.Graphics2D;
+
 import java.util.function.Consumer;
 import org.amityregion5.qxrz.client.ui.screen.WindowData;
 

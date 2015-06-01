@@ -2,6 +2,7 @@ package org.amityregion5.qxrz.server.ui;
 
 import java.net.SocketAddress;
 
+
 import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;
 import javax.swing.JFrame;
@@ -14,7 +15,10 @@ import org.amityregion5.qxrz.server.net.ServerNetworkManager;
 
 public class MainGui
 {
-
+	public static void main(String [] args) {
+		MainGui n = new MainGui(null);
+		n.s
+	}
 	private JFrame frame;
 	private ServerNetworkManager networkManager;
 	
@@ -34,8 +38,11 @@ public class MainGui
 		JLabel ipLabel = new JLabel("Address:" + addr + "", SwingConstants.CENTER);
 		ipLabel.setHorizontalAlignment(SwingConstants.CENTER);
 		ipLabel.setVerticalAlignment(SwingConstants.CENTER);
-		panel.add(ipLabel);
+		JLabel ClientList = new JLabel("Client List", SwingConstants.LEFT);
 		
+		panel.add(ipLabel);
+		panel.add(ClientList);
+
 		frame.add(panel);
 		
 		frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
