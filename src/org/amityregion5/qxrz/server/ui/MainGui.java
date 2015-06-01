@@ -39,7 +39,7 @@ public class MainGui
 		ipLabel.setHorizontalAlignment(SwingConstants.CENTER);
 		ipLabel.setVerticalAlignment(SwingConstants.CENTER);
 		JLabel ClientList = new JLabel("Client List", SwingConstants.LEFT);
-		
+		//test
 		panel.add(ipLabel);
 		panel.add(ClientList);
 
