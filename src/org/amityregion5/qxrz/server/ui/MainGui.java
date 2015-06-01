@@ -1,7 +1,7 @@
 package org.amityregion5.qxrz.server.ui;
 
+import java.net.InetSocketAddress;
 import java.net.SocketAddress;
-
 
 import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;
@@ -32,7 +32,20 @@ public class MainGui
 		JPanel panel = new JPanel();
 		panel.setLayout(new BoxLayout(panel, BoxLayout.PAGE_AXIS));
 		panel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
-		//test
+		HashSet<NetworkNode> c = networkManager.getClients();
+			for(Iterator<NetworkNode> i = c.getIterator(); i.hasNext()) {
+				NetworkNode n = i.next();
+				InetSocketAddress a = n.getSocketAddress();
+				JPanel port = new JPanel(a.getPort() + "");
+				JPanel IP = new JPanel(a.getHostString());
+				panel.add(port);
+				panel.add(IP);
+			}
+			JPanel RemotePort = new JPanel("Remote Port");
+			JPanel Hostname = new JPanel("Hostname");
+			panel.add(RemotePort);
+			panel.add(Hostname);
+			
 		SocketAddress addr = networkManager.getSocket();
 		
 		JLabel ipLabel = new JLabel("Address:" + addr + "", SwingConstants.CENTER);
