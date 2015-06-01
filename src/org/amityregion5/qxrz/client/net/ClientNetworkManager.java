@@ -21,7 +21,8 @@ public class ClientNetworkManager extends AbstractNetworkManager
 {
 	private NetworkNode server;
 	private Logger l = Logger.getGlobal();
-
+	private boolean running = true;
+	
 	public ClientNetworkManager() throws Exception
 	{
 		super();
@@ -109,7 +110,7 @@ public class ClientNetworkManager extends AbstractNetworkManager
 	@Override
 	public void run()
 	{
-		while (true)
+		while (running)
 		{
 			try
 			{
@@ -136,6 +137,11 @@ public class ClientNetworkManager extends AbstractNetworkManager
 				e.printStackTrace();
 			}
 		}
+	}
+	
+	public void close()
+	{
+		running = false;
 	}
 
 }
