@@ -10,7 +10,7 @@ public class Weapon {
 	private int rof; //per half second
 	private int retime; //per half second
 	private int damage;
-	public Weapon() //constructor intended for player spawn	with a pistol			
+	public Weapon()
 	{
 		this("ps");
 	}
@@ -116,5 +116,23 @@ public class Weapon {
 			ccamount += cmaxammo-ccamount; //clip fills up
 			cleft--;
 		}
+	}
+	public void weaponUp(Upgrade u)
+	{
+		/*
+		String type = ((Upgrade) u).getType();
+		if (type.equals("rof"))
+		{
+			rof += 4;
+		}
+		else if (type.equals("cmax"))
+		{
+			cmaxammo += 4;
+		}
+		else if (type.equals("maxc"))
+		{
+			maxclips += 4;
+		}
+		*/
 	}
 }

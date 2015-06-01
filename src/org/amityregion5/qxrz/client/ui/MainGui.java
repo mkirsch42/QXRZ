@@ -85,6 +85,8 @@ public class MainGui
 		if (!frame.isVisible()) {
 			//Set the last repaint value
 			lastRepaint = System.currentTimeMillis();
+			//Set the last repaint value
+			lastRepaint = System.currentTimeMillis();
 
 			//Set the frame as visible
 			frame.setVisible(true);
@@ -93,6 +95,10 @@ public class MainGui
 			new Thread(()->{
 				//Stopping condition: when the frame is hidden
 				while (frame.isVisible()) {
+					//Move the fps values down by 1
+					for (int i=0; i<fps.length-1; i++) {
+						fps[i] = fps[i+1];
+					}
 					//Set the newest FPS value
 					fps[fps.length-1] = 1000.0/(System.currentTimeMillis() - lastRepaint);
 					//Set the last repaint time
@@ -100,18 +106,13 @@ public class MainGui
 
 					//Repaint the screen
 					frame.repaint();
-
-					//Move the fps values down by 1
-					for (int i=0; i<fps.length-1; i++) {
-						fps[i] = fps[i+1];
-					}
-
+					//Wait enough time to make it 60 fps
 					try{
 						//The 900 here is chosen because it makes it the closest to 60 FPS
-						Thread.sleep((long) ((1000.0/60)-(System.currentTimeMillis()-lastRepaint)));
+						Thread.sleep((900/60-(System.currentTimeMillis()-lastRepaint)));
 					}catch (Exception e){}
 				}
-			}, "Gui refresh Thread").start();
+			}, "Gui Refresh Thread").start();
 		}
 	}
 
@@ -152,7 +153,7 @@ public class MainGui
 	public double getFps()
 	{
 		//Get the average of the FPS values
-		return Arrays.stream(fps).average().getAsDouble();
+		return Arrays.stream(fps).average().orElse(0);
 	}
 
 	/**

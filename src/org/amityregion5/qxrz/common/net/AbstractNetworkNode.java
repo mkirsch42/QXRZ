@@ -7,7 +7,7 @@ import java.net.InetSocketAddress;
  *   - ServerInfo
  */
 public abstract class AbstractNetworkNode {
-	private InetSocketAddress addr;
+	protected InetSocketAddress addr;
 
 	public InetSocketAddress getAddress() {
 		return addr;
