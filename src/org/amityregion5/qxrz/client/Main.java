@@ -17,18 +17,18 @@ public class Main
 	public static void main(String[] args) throws Exception
 	{
 		ClientNetworkManager manager = new ClientNetworkManager();
-		
+
 		manager.attachEventListener(new NetEventListener()
 		{
-			
+
 			@Override
 			public void newNode(AbstractNetworkNode server)
 			{
 				// This will be called when a new server makes itself known.
-				
+
 				// You should cast the AbstractNetworkNode to a ServerInfo before using
 			}
-			
+
 			@Override
 			public void dataReceived(NetworkNode from, Serializable payload)
 			{
@@ -42,7 +42,7 @@ public class Main
 			}
 		});
 		manager.start();
-		
+
 		//Create a gui object
 		/* TODO this should take the manager in its constructor
 		 * then you can call
@@ -51,23 +51,23 @@ public class Main
 		 * manager.connect(address) when the user chooses a server.
 		 */
 		MainGui gui = new MainGui(manager); 
-		
-		//Called when the JRE closes
-		Runtime.getRuntime().addShutdownHook(new Thread()
-		{
-			public void run()
-			{
-				//Clean up gui stuff
-				gui.closeGame();
-				//Send a disconnect notification packet to the server
-				manager.sendObject(new DisconnectNotification());
-			}
-		});
 
-		
+		//Called when the JRE closes
+		Runtime.getRuntime().addShutdownHook(new Thread(()->
+		{
+			//Send a disconnect notification packet to the server
+			manager.sendObject(new DisconnectNotification());
+			
+			//Clean up gui stuff
+			gui.closeGame();
+
+			manager.close();
+		}, "Shutdown Hook thread"));
+
+
 		//Show the gui
 		gui.show();
-		
+
 		//Do loading stuffs
 		{
 			AssetManager.loadAssets();

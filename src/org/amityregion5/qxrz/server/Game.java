@@ -16,6 +16,7 @@ public class Game implements Runnable
 	public static DebugDraw debug = new DebugDraw();
 
 	private World w;
+	private boolean running = true;
 
 	public Game() throws InterruptedException
 	{
@@ -38,7 +39,7 @@ public class Game implements Runnable
 	@Override
 	public void run() {
 		long lastMs = System.currentTimeMillis();
-		while (true)
+		while (running)
 		{
 			// Update world entities with proportional time
 			w.update((System.currentTimeMillis() - lastMs)
@@ -53,6 +54,10 @@ public class Game implements Runnable
 			} catch (Exception e) {
 			}
 		}
+	}
+	
+	public void close() {
+		running = false;
 	}
 
 	public World getWorld() {

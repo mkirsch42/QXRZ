@@ -13,6 +13,7 @@ public class MainGui
 {
 	//The frame
 	private JFrame frame;
+	private boolean setFrameInvisible = true;
 	private MainPanel panel;
 	//The previous few FPS values
 	private double[] fps;
@@ -20,9 +21,9 @@ public class MainGui
 	private IScreen currentScreen;
 	//The time since the last repaint
 	private long lastRepaint;
-	
+
 	private ClientNetworkManager networkManger;
-	
+
 	/**
 	 * Create a new MainGui object
 	 * @param manager the network manager to use
@@ -30,31 +31,35 @@ public class MainGui
 	public MainGui(ClientNetworkManager manager)
 	{
 		networkManger = manager;
-		
+
 		//Store 10 fps values
 		fps = new double[10];
-		
+
 		//Create the frame
 		frame = new JFrame("QXRZ");
-		
+
 		//Add a main panel to the frame
 		frame.add(panel = new MainPanel(this));
-		
+
 		//Set the size of the frame
 		frame.setSize(1200, 800);
-		
+
 		//Set the default close operation of the frame
 		frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-		
+
 		//Add a listener for when the window is closed and close the game
 		frame.addWindowListener(new WindowListener() {
 			@Override
 			public void windowOpened(WindowEvent e) {}
 			@Override
-			public void windowClosing(WindowEvent e) {}
+			public void windowClosing(WindowEvent e) {
+				setFrameInvisible = false;
+				System.exit(0);
+				//closeGame();
+			}
 			@Override
 			public void windowClosed(WindowEvent e) {
-				closeGame();
+				//closeGame();
 			}
 			@Override
 			public void windowIconified(WindowEvent e) {}
@@ -65,9 +70,9 @@ public class MainGui
 			@Override
 			public void windowDeactivated(WindowEvent e) {}
 		});
-		
+
 		frame.addKeyListener(panel);
-		
+
 		//Set the screen to the loading screen
 		setCurrentScreen(new LoadingScreen());
 	}
@@ -77,46 +82,50 @@ public class MainGui
 	 */
 	public void show()
 	{
-		//Set the last repaint value
-		lastRepaint = System.currentTimeMillis();
-		
-		//Set the frame as visible
-		frame.setVisible(true);
-		
-		//Start a new thread which contains the repaint method (Render loop)
-		new Thread(()->{
-			//Stopping condition: when the frame is hidden
-			while (frame.isVisible()) {
-				//Set the newest FPS value
-				fps[fps.length-1] = 1000.0/(System.currentTimeMillis() - lastRepaint);
-				//Set the last repaint time
-				lastRepaint = System.currentTimeMillis();
+		if (!frame.isVisible()) {
+			//Set the last repaint value
+			lastRepaint = System.currentTimeMillis();
 
-				//Repaint the screen
-				frame.repaint();
-				
-				//Move the fps values down by 1
-				for (int i=0; i<fps.length-1; i++) {
-					fps[i] = fps[i+1];
+			//Set the frame as visible
+			frame.setVisible(true);
+
+			//Start a new thread which contains the repaint method (Render loop)
+			new Thread(()->{
+				//Stopping condition: when the frame is hidden
+				while (frame.isVisible()) {
+					//Set the newest FPS value
+					fps[fps.length-1] = 1000.0/(System.currentTimeMillis() - lastRepaint);
+					//Set the last repaint time
+					lastRepaint = System.currentTimeMillis();
+
+					//Repaint the screen
+					frame.repaint();
+
+					//Move the fps values down by 1
+					for (int i=0; i<fps.length-1; i++) {
+						fps[i] = fps[i+1];
+					}
+
+					try{
+						//The 900 here is chosen because it makes it the closest to 60 FPS
+						Thread.sleep((long) ((1000.0/60)-(System.currentTimeMillis()-lastRepaint)));
+					}catch (Exception e){}
 				}
-				
-				try{
-					//The 900 here is chosen because it makes it the closest to 60 FPS
-					Thread.sleep((long) ((1000.0/60)-(System.currentTimeMillis()-lastRepaint)));
-				}catch (Exception e){}
-			}
-		}).start();
+			}, "Gui refresh Thread").start();
+		}
 	}
-	
+
 	/**
 	 * Hide the frame and data represented by this MainGui object
 	 */
 	public void hide()
 	{
 		//Hide the frame (will also stop the render thread)
-		frame.setVisible(false);
+		if (setFrameInvisible) {
+			frame.setVisible(false);
+		}
 	}
-	
+
 	/**
 	 * Get the current screen
 	 * 
@@ -126,7 +135,7 @@ public class MainGui
 	{
 		return currentScreen;
 	}
-	
+
 	/**
 	 * Set the current screen
 	 * 
@@ -145,14 +154,14 @@ public class MainGui
 		//Get the average of the FPS values
 		return Arrays.stream(fps).average().getAsDouble();
 	}
-	
+
 	/**
 	 * Called to safely close the game (Should cut any networking communication)
 	 */
 	public void closeGame() {
 		hide();
 		currentScreen.onGameClose();
-		System.exit(0);
+		getNetworkManger().close();
 	}
 
 	/**
@@ -161,6 +170,6 @@ public class MainGui
 	public ClientNetworkManager getNetworkManger() {
 		return networkManger;
 	}
-	
-	
+
+
 }
