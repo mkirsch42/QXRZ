@@ -30,6 +30,8 @@ public final class Main
 			@Override
 			public void newNode(AbstractNetworkNode c)
 			{
+				PlayerEntity p = new PlayerEntity();
+				g.addPlayer((NetworkNode) c, p);
 				// TODO do stuff for new client (drawing, inventory whatever)
 				// You should cast c to a NetworkNode before using
 			}
@@ -40,6 +42,8 @@ public final class Main
 				if(netObj instanceof NetworkInputData)
 				{
 					PlayerEntity from = g.findPlayer(c);
+					from.input((NetworkInputData)netObj);
+					System.out.println("I got data!");
 				}
 				
 				if(netObj instanceof PlayerEntity) 

@@ -13,7 +13,7 @@ import org.amityregion5.qxrz.server.world.entity.RectangleHitbox;
 public class Game implements Runnable
 {
 
-	private static HashMap<NetworkNode, PlayerEntity> players = new HashMap<NetworkNode, PlayerEntity>();
+	private HashMap<NetworkNode, PlayerEntity> players = new HashMap<NetworkNode, PlayerEntity>();
 	
 	public static final int GAME_UNIT = 1;
 
@@ -68,8 +68,13 @@ public class Game implements Runnable
 		return w;
 	}
 
-	public static PlayerEntity findPlayer(NetworkNode n)
+	public PlayerEntity findPlayer(NetworkNode n)
 	{
 		return players.get(n);
+	}
+	
+	public void addPlayer(NetworkNode n, PlayerEntity p)
+	{
+		players.put(n, p);
 	}
 }

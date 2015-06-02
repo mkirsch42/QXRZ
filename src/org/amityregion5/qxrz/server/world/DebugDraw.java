@@ -27,7 +27,7 @@ public class DebugDraw extends JApplet
 	private boolean dummy = true;
 	public static ArrayList<Shape> buffer = new ArrayList<Shape>();
 	
-	private static final double SCALE = 1;
+	private static final double SCALE = 0.25;
 	private static final int WIDTH = 1000;
 	private static final int HEIGHT = 700;
 	private static final float STROKE = 1F;
@@ -96,7 +96,7 @@ public class DebugDraw extends JApplet
 		rg.fillRect(0, 0, getWidth(), getHeight());
 		
 		g2.scale(SCALE, SCALE);
-		System.out.println(tX + "," + tY);
+		//System.out.println(tX + "," + tY);
 		g2.translate(-tX, -tY);
 		//g2.clearRect(-5,-5,getWidth(),getHeight());
 		
