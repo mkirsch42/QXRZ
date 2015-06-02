@@ -46,7 +46,7 @@ public class MainGui
 			{
 				// TODO Auto-generated method stub
 				super.windowClosing(e);
-				System.exit(0);
+				//System.exit(0);
 			}
 			
 		});
