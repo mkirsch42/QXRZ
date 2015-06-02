@@ -9,7 +9,6 @@ import java.awt.Shape;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.awt.image.BufferedImage;
-import java.io.IOException;
 import java.util.ArrayList;
 
 import javax.swing.JApplet;
@@ -17,7 +16,7 @@ import javax.swing.JFrame;
 
 import org.amityregion5.qxrz.client.ui.util.GuiUtil;
 import org.amityregion5.qxrz.client.ui.util.ImageModification;
-import org.amityregion5.qxrz.server.Main;
+import org.amityregion5.qxrz.server.world.vector2d.Vector2D;
 
 public class DebugDraw extends JApplet
 {
@@ -28,10 +27,13 @@ public class DebugDraw extends JApplet
 	private boolean dummy = true;
 	public static ArrayList<Shape> buffer = new ArrayList<Shape>();
 	
-	private static final double SCALE = 0.15;
+	private static final double SCALE = 1;
 	private static final int WIDTH = 1000;
 	private static final int HEIGHT = 700;
-
+	private static final float STROKE = 5F;
+	private static int tX = -5;
+	private static int tY = -5;
+	
 	public static DebugDraw setup(World W)
 	{
 		if(W==null)
@@ -64,6 +66,12 @@ public class DebugDraw extends JApplet
         setForeground(fg);
     }
 	
+	public void pos(Vector2D v)
+	{
+		tX = (int) v.getX() - getWidth()/2;
+		tY = (int) v.getY() - getHeight()/2;
+	}
+	
 	public void draw()
 	{
 		if(dummy)
@@ -88,13 +96,14 @@ public class DebugDraw extends JApplet
 		rg.fillRect(0, 0, getWidth(), getHeight());
 		
 		g2.scale(SCALE, SCALE);
-		g2.translate(5, 5);
+		System.out.println(tX + "," + tY);
+		g2.translate(-tX, -tY);
 		//g2.clearRect(-5,-5,getWidth(),getHeight());
 		
 		g2.setColor(Color.WHITE);
-		g2.fillRect(-5, -5, getWidth(), getHeight());
+		g2.fillRect(tX, tY, getWidth(), getHeight());
 		
-		g2.setStroke(new BasicStroke(25));
+		g2.setStroke(new BasicStroke(STROKE*2.5F));
 		g2.setColor(Color.GREEN);
 		boolean green = true;
 		while(buffer.size()>0)
@@ -111,7 +120,7 @@ public class DebugDraw extends JApplet
 				green = true;
 			}
 		}
-		g2.setStroke(new BasicStroke(10));
+		g2.setStroke(new BasicStroke(STROKE));
 		g2.setColor(Color.BLACK);
 		if(w!=null)
 			w.draw(g2);

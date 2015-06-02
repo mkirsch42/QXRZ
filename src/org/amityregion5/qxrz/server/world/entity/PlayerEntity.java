@@ -53,6 +53,7 @@ public class PlayerEntity extends GameEntity implements
 			pos = pos.add(vel.multiply(tSinceUpdate));
 		}
 		// System.out.println(pos);
+		Game.debug.pos(pos);
 		return false;
 	}
 
