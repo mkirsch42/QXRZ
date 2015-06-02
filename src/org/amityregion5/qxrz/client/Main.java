@@ -53,15 +53,16 @@ public class Main
 		MainGui gui = new MainGui(manager); 
 
 		//Called when the JRE closes
-		Runtime.getRuntime().addShutdownHook(new Thread(()->
-		{
+		Runtime.getRuntime().addShutdownHook(new Thread(()->{
+			System.out.println("Start Shutdown Hook");
+			//Clean up gui stuff
+			gui.closeGame();
+			
 			//Send a disconnect notification packet to the server
 			manager.sendObject(new DisconnectNotification());
 			
-			//Clean up gui stuff
-			gui.closeGame();
 
-			manager.close();
+			//manager.close();
 		}, "Shutdown Hook thread"));
 
 

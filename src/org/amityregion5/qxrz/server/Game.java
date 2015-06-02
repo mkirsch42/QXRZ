@@ -18,7 +18,7 @@ public class Game implements Runnable
 	private World w;
 	private boolean running = true;
 
-	public Game() throws InterruptedException
+	public Game()
 	{
 		// Create world and add test objects
 		w = new World();

@@ -1,7 +1,7 @@
 package org.amityregion5.qxrz.client.ui;
 
+import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
-import java.awt.event.WindowListener;
 import java.util.Arrays;
 import javax.swing.JFrame;
 import javax.swing.WindowConstants;
@@ -48,27 +48,12 @@ public class MainGui
 		frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
 
 		//Add a listener for when the window is closed and close the game
-		frame.addWindowListener(new WindowListener() {
-			@Override
-			public void windowOpened(WindowEvent e) {}
+		frame.addWindowListener(new WindowAdapter() {
 			@Override
 			public void windowClosing(WindowEvent e) {
 				setFrameInvisible = false;
-				System.exit(0);
-				//closeGame();
+				Runtime.getRuntime().exit(0);
 			}
-			@Override
-			public void windowClosed(WindowEvent e) {
-				//closeGame();
-			}
-			@Override
-			public void windowIconified(WindowEvent e) {}
-			@Override
-			public void windowDeiconified(WindowEvent e) {}
-			@Override
-			public void windowActivated(WindowEvent e) {}
-			@Override
-			public void windowDeactivated(WindowEvent e) {}
 		});
 
 		frame.addKeyListener(panel);
