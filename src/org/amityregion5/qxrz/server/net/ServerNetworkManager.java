@@ -1,6 +1,7 @@
 package org.amityregion5.qxrz.server.net;
 
 import java.io.Serializable;
+
 import java.net.InetSocketAddress;
 import java.net.SocketAddress;
 import java.util.HashSet;
@@ -117,6 +118,7 @@ public class ServerNetworkManager extends AbstractNetworkManager
 				if (netObj.getPayload() instanceof BroadcastDiscoveryQuery)
 				{
 					l.info("Query received!");
+					System.out.println("query");
 					recvClient.send(info);
 				} else
 				{

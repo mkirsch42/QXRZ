@@ -39,7 +39,7 @@ public class GameScreen extends AbstractScreen
 		vp.width=60 * 100;
 		
 		//Start game on a new thread
-		new Thread(game).start();;
+		new Thread(game, "Game loop thread").start();;
 	}
 
 	@Override
@@ -131,5 +131,6 @@ public class GameScreen extends AbstractScreen
 
 	@Override
 	protected void cleanup() {
+		game.close();
 	}
 }

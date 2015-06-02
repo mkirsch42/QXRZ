@@ -11,6 +11,7 @@ import java.net.UnknownHostException;
 import java.util.Iterator;
 import java.util.List;
 import java.util.logging.Logger;
+
 import org.amityregion5.qxrz.common.net.AbstractNetworkManager;
 import org.amityregion5.qxrz.common.net.BroadcastDiscoveryQuery;
 import org.amityregion5.qxrz.common.net.NetworkNode;
@@ -20,7 +21,7 @@ import org.amityregion5.qxrz.common.net.ServerInfo;
 public class ClientNetworkManager extends AbstractNetworkManager
 {
 	private NetworkNode server;
-	private Logger l = Logger.getGlobal();
+	private static Logger l = Logger.getGlobal();
 	private boolean running = true;
 	
 	public ClientNetworkManager() throws Exception
@@ -37,8 +38,10 @@ public class ClientNetworkManager extends AbstractNetworkManager
 	 */
 	public void broadcastQuery() throws Exception
 	{
+		l.info(getBroadcast().toString());
 		NetworkNode broadcast = new NetworkNode(outStream,
 				new InetSocketAddress(getBroadcast(), 8000));
+		l.info(broadcast.getAddress().toString());
 		broadcast.send(new BroadcastDiscoveryQuery());
 	}
 
@@ -50,6 +53,7 @@ public class ClientNetworkManager extends AbstractNetworkManager
 		for (Iterator<InterfaceAddress> it = addresses.iterator(); it.hasNext();)
 		{
 			InterfaceAddress addr = it.next();
+			l.info(addr.toString());
 			if (addr.getBroadcast() != null)
 				return addr.getBroadcast();
 		}
