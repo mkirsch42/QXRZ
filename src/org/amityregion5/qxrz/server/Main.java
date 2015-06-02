@@ -1,6 +1,8 @@
 package org.amityregion5.qxrz.server;
 
 import java.io.Serializable;
+
+import org.amityregion5.qxrz.common.control.NetworkInputData;
 import org.amityregion5.qxrz.common.net.AbstractNetworkNode;
 import org.amityregion5.qxrz.common.net.ChatMessage;
 import org.amityregion5.qxrz.common.net.DisconnectNotification;
@@ -16,6 +18,8 @@ import org.amityregion5.qxrz.server.world.entity.RectangleHitbox;
 
 public final class Main
 {
+	private static Game g;
+	
 	public static void main(String[] args) throws Exception
 	{
 		
@@ -33,6 +37,11 @@ public final class Main
 			@Override
 			public void dataReceived(NetworkNode c, Serializable netObj)
 			{
+				if(netObj instanceof NetworkInputData)
+				{
+					PlayerEntity from = g.findPlayer(c);
+				}
+				
 				if(netObj instanceof PlayerEntity) 
 				{
 					PlayerEntity u = (PlayerEntity) netObj;
@@ -64,7 +73,7 @@ public final class Main
 		//new MainGui().show();
 
 		new MainGui(netManager).show();
-		Game g = new Game(); //TODO game needs access to network, too...
+		g = new Game(); //TODO game needs access to network, too...
 		if(DebugConstants.DEBUG_GUI)
 		{
 			Game.debug = DebugDraw.setup(g.getWorld());

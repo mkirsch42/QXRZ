@@ -1,7 +1,9 @@
 package org.amityregion5.qxrz.server;
 
 import java.awt.Rectangle;
+import java.util.HashMap;
 
+import org.amityregion5.qxrz.common.net.NetworkNode;
 import org.amityregion5.qxrz.server.world.DebugDraw;
 import org.amityregion5.qxrz.server.world.Obstacle;
 import org.amityregion5.qxrz.server.world.World;
@@ -11,6 +13,8 @@ import org.amityregion5.qxrz.server.world.entity.RectangleHitbox;
 public class Game implements Runnable
 {
 
+	private static HashMap<NetworkNode, PlayerEntity> players = new HashMap<NetworkNode, PlayerEntity>();
+	
 	public static final int GAME_UNIT = 1;
 
 	public static DebugDraw debug = new DebugDraw();
@@ -64,8 +68,8 @@ public class Game implements Runnable
 		return w;
 	}
 
-	public static void debugMode()
+	public static PlayerEntity findPlayer(NetworkNode n)
 	{
-		
+		return players.get(n);
 	}
 }
