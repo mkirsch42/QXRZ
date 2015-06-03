@@ -28,7 +28,7 @@ public class Main
 			@Override
 			public void newNode(AbstractNetworkNode server)
 			{
-				//queryServers.add((ServerInfo)server);
+				queryServers.add((ServerInfo)server);
 				// This will be called when a new server makes itself known.
 
 				// You should cast the AbstractNetworkNode to a ServerInfo before using
@@ -40,7 +40,7 @@ public class Main
 				System.out.println(from.getSocketAddress());
 				if(payload instanceof ServerInfo)
 				{
-					queryServers.add((ServerInfo)payload);
+					//queryServers.add((ServerInfo)payload);
 					/* call gui functions here
 					 * like gui.addServer(from, ServerInfo) or something
 					 * and then addServer() would add that server to the menu
