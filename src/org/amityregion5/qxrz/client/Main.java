@@ -32,6 +32,7 @@ public class Main
 			@Override
 			public void dataReceived(NetworkNode from, Serializable payload)
 			{
+				System.out.println(from.getSocketAddress());
 				if(payload instanceof ServerInfo)
 				{
 					/* call gui functions here
@@ -42,7 +43,7 @@ public class Main
 			}
 		});
 		manager.start();
-
+		manager.broadcastQuery();
 		//Create a gui object
 		/* TODO this should take the manager in its constructor
 		 * then you can call

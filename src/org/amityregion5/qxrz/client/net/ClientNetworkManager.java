@@ -8,6 +8,7 @@ import java.net.InterfaceAddress;
 import java.net.NetworkInterface;
 import java.net.SocketException;
 import java.net.UnknownHostException;
+import java.util.Enumeration;
 import java.util.Iterator;
 import java.util.List;
 import java.util.logging.Logger;
@@ -48,14 +49,21 @@ public class ClientNetworkManager extends AbstractNetworkManager
 	private static InetAddress getBroadcast() throws SocketException,
 			UnknownHostException
 	{
-		List<InterfaceAddress> addresses = NetworkInterface.getByInetAddress(
-				InetAddress.getLocalHost()).getInterfaceAddresses();
-		for (Iterator<InterfaceAddress> it = addresses.iterator(); it.hasNext();)
+		Enumeration<NetworkInterface> addresses = NetworkInterface.getNetworkInterfaces();
+		while(addresses.hasMoreElements())
 		{
-			InterfaceAddress addr = it.next();
-			l.info(addr.toString());
-			if (addr.getBroadcast() != null)
-				return addr.getBroadcast();
+			NetworkInterface networkInterface = addresses.nextElement();
+			if(!networkInterface.isLoopback())
+			{
+				for (InterfaceAddress interfaceAddress : networkInterface.getInterfaceAddresses())
+				{
+					InetAddress bcast = interfaceAddress.getBroadcast();
+					if(bcast != null)
+					{
+						return bcast;
+					}
+				}
+			}
 		}
 		return null; // won't happen on a working computer
 	}
