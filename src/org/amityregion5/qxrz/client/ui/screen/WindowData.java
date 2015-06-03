@@ -1,5 +1,6 @@
 package org.amityregion5.qxrz.client.ui.screen;
 
+import java.awt.event.KeyEvent;
 import java.util.List;
 
 /**
@@ -12,7 +13,7 @@ public class WindowData
 	//Height of window
 	private int height;
 	//List of keys that are down
-	private List<Integer> keysDown;
+	private List<KeyEvent> keysDown;
 	//List of mouse buttons that are down
 	private List<Integer> miceDown;
 	//Mouse X Coordinate
@@ -28,7 +29,7 @@ public class WindowData
 	 * @param mouseX the mouse X coordinate
 	 * @param mouseY the mouse Y coordinate
 	 */
-	public WindowData(int width, int height, List<Integer> keysDown,
+	public WindowData(int width, int height, List<KeyEvent> keysDown,
 			List<Integer> miceDown, int mouseX, int mouseY)
 	{
 		//Set variables
@@ -70,14 +71,14 @@ public class WindowData
 	/**
 	 * @return the keysDown
 	 */
-	public List<Integer> getKeysDown()
+	public List<KeyEvent> getKeysDown()
 	{
 		return keysDown;
 	}
 	/**
 	 * @param keysDown the keysDown to set
 	 */
-	public void setKeysDown(List<Integer> keysDown)
+	public void setKeysDown(List<KeyEvent> keysDown)
 	{
 		this.keysDown = keysDown;
 	}

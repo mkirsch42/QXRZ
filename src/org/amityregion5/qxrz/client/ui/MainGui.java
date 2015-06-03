@@ -3,11 +3,13 @@ package org.amityregion5.qxrz.client.ui;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.util.Arrays;
+import java.util.List;
 import javax.swing.JFrame;
 import javax.swing.WindowConstants;
 import org.amityregion5.qxrz.client.net.ClientNetworkManager;
 import org.amityregion5.qxrz.client.ui.screen.IScreen;
 import org.amityregion5.qxrz.client.ui.screen.LoadingScreen;
+import org.amityregion5.qxrz.common.net.ServerInfo;
 
 public class MainGui
 {
@@ -21,6 +23,7 @@ public class MainGui
 	private IScreen currentScreen;
 	//The time since the last repaint
 	private long lastRepaint;
+	private List<ServerInfo> queryInfo;
 
 	private ClientNetworkManager networkManger;
 
@@ -28,9 +31,10 @@ public class MainGui
 	 * Create a new MainGui object
 	 * @param manager the network manager to use
 	 */
-	public MainGui(ClientNetworkManager manager)
+	public MainGui(ClientNetworkManager manager, List<ServerInfo> queryInfo)
 	{
 		networkManger = manager;
+		this.queryInfo = queryInfo;
 
 		//Store 10 fps values
 		fps = new double[10];
@@ -145,7 +149,7 @@ public class MainGui
 	 * Called to safely close the game (Should cut any networking communication)
 	 */
 	public void closeGame() {
-		hide();
+		//hide();
 		currentScreen.onGameClose();
 		getNetworkManger().close();
 	}
@@ -157,5 +161,12 @@ public class MainGui
 		return networkManger;
 	}
 
+	/**
+	 * @return the queryInfo
+	 */
+	public List<ServerInfo> getQueryInfo() {
+		return queryInfo;
+	}
 
+	
 }

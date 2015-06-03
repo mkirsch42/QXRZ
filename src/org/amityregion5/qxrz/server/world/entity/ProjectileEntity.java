@@ -10,13 +10,11 @@ import org.amityregion5.qxrz.server.world.Landscape;
 import org.amityregion5.qxrz.server.world.Obstacle;
 import org.amityregion5.qxrz.server.world.vector2d.Vector2D;
 
-public abstract class ProjectileEntity extends GameEntity
+public class ProjectileEntity extends GameEntity
 {
 
-	private final int PROJECTILE_SIZE = 1;
-	private final int DAMAGE = 10;
+	private int projectilesize;
 	public ProjectileEntity(PlayerEntity source)
-
 	{
 		pos = source.pos;
 		vel = source.vel;
@@ -30,11 +28,7 @@ public abstract class ProjectileEntity extends GameEntity
 	
 	public RectangleHitbox getHitBox()
 	{
-		return new RectangleHitbox(new Rectangle((int)pos.getX(),(int)pos.getY(),PROJECTILE_SIZE,PROJECTILE_SIZE));
-	}
-	public int getDamage()
-	{
-		return DAMAGE;
+		return new RectangleHitbox(new Rectangle((int)pos.getX(),(int)pos.getY(),projectilesize,projectilesize));
 	}
 	public Obstacle checkCollisions(Vector2D v, Landscape surroundings)
 	{
@@ -44,6 +38,18 @@ public abstract class ProjectileEntity extends GameEntity
 		Path2D.Double path = new Path2D.Double();
 		*/
 		return new Obstacle(null);
+	}
+
+	@Override
+	public Hitbox getHitbox() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	protected boolean collide(Hitboxed h, Landscape l, Vector2D v) {
+		// TODO Auto-generated method stub
+		return false;
 	}
 
 }

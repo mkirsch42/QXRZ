@@ -10,6 +10,7 @@ public class Weapon {
 	private int rof; //per half second
 	private int retime; //per half second
 	private int damage;
+	//constructors
 	public Weapon()
 	{
 		this("ps");
@@ -134,5 +135,13 @@ public class Weapon {
 			maxclips += 4;
 		}
 		*/
+	}
+	public int getDamage()
+	{
+		return damage;
+	}
+	public String getType()
+	{
+		return type;
 	}
 }

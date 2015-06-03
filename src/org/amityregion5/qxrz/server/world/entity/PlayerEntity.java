@@ -5,6 +5,8 @@ import java.awt.geom.Path2D;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.amityregion5.qxrz.common.control.NetworkInputData;
+import org.amityregion5.qxrz.common.control.NetworkInputMasks;
 import org.amityregion5.qxrz.common.ui.AABBDrawer;
 import org.amityregion5.qxrz.common.ui.AssetDrawer;
 import org.amityregion5.qxrz.common.ui.DrawableObject;
@@ -29,12 +31,36 @@ public class PlayerEntity extends GameEntity implements
 	public PlayerEntity() // creates player vector
 	{
 		pos = new Vector2D(0, 0);
-		vel = new Vector2D(2, 1).multiply(DebugConstants.PATH_LEN);
+		vel = new Vector2D(0, 0);
 		//pos = new Vector2D(1500, 2500);
-		pos = new Vector2D(0,0);
-		vel = new Vector2D(200, 100).multiply(DebugConstants.PATH_LEN);
+		//pos = new Vector2D(0,0);
+		//vel = new Vector2D(200, 100).multiply(DebugConstants.PATH_LEN);
 	}
 
+	public boolean input(NetworkInputData nid)
+	{
+		int vX = 0;
+		int vY = 0;
+		if(nid.get(NetworkInputMasks.W))
+		{
+			vY = -1;
+		}
+		if(nid.get(NetworkInputMasks.S))
+		{
+			vY = 1;
+		}
+		if(nid.get(NetworkInputMasks.A))
+		{
+			vX = -1;
+		}
+		if(nid.get(NetworkInputMasks.D))
+		{
+			vX = 1;
+		}
+		vel = new Vector2D(vX, vY).multiply(DebugConstants.PATH_LEN);
+		return false;
+	}
+	
 	public boolean update(double tSinceUpdate, Landscape surroundings)
 	{
 		// System.out.println(pos);
@@ -53,6 +79,7 @@ public class PlayerEntity extends GameEntity implements
 			pos = pos.add(vel.multiply(tSinceUpdate));
 		}
 		// System.out.println(pos);
+		Game.debug.pos(pos);
 		return false;
 	}
 

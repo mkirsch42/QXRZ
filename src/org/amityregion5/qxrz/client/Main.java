@@ -1,6 +1,8 @@
 package org.amityregion5.qxrz.client;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 import org.amityregion5.qxrz.client.net.ClientNetworkManager;
 import org.amityregion5.qxrz.client.ui.MainGui;
 import org.amityregion5.qxrz.client.ui.screen.MainMenuScreen;
@@ -16,6 +18,8 @@ public class Main
 {
 	public static void main(String[] args) throws Exception
 	{
+		List<ServerInfo> queryServers = new ArrayList<ServerInfo>();
+		
 		ClientNetworkManager manager = new ClientNetworkManager();
 
 		manager.attachEventListener(new NetEventListener()
@@ -24,6 +28,7 @@ public class Main
 			@Override
 			public void newNode(AbstractNetworkNode server)
 			{
+				//queryServers.add((ServerInfo)server);
 				// This will be called when a new server makes itself known.
 
 				// You should cast the AbstractNetworkNode to a ServerInfo before using
@@ -34,6 +39,7 @@ public class Main
 			{
 				if(payload instanceof ServerInfo)
 				{
+					queryServers.add((ServerInfo)payload);
 					/* call gui functions here
 					 * like gui.addServer(from, ServerInfo) or something
 					 * and then addServer() would add that server to the menu
@@ -50,7 +56,7 @@ public class Main
 		 * and
 		 * manager.connect(address) when the user chooses a server.
 		 */
-		MainGui gui = new MainGui(manager); 
+		MainGui gui = new MainGui(manager, queryServers); 
 
 		//Called when the JRE closes
 		Runtime.getRuntime().addShutdownHook(new Thread(()->{

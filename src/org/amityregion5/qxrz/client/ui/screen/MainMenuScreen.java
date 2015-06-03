@@ -5,7 +5,6 @@ import java.awt.Graphics2D;
 import java.awt.Point;
 import org.amityregion5.qxrz.client.ui.MainGui;
 import org.amityregion5.qxrz.client.ui.element.ElementRectangle;
-import org.amityregion5.qxrz.server.Game;
 
 /**
  * The Main Menu Screen
@@ -26,16 +25,16 @@ public class MainMenuScreen extends AbstractScreen
 		//Debug/Single player mode
 		elements.add(new ElementRectangle(
 				(w)->{return new Point(100, 200);},
-				(w)->{return new Point(w.getWidth()/2-50, 50);},
-				Color.DARK_GRAY, Color.WHITE, -20f, Color.WHITE, "Debug game",
-				(w)->gui.setCurrentScreen(new GameScreen(this, gui, new Game()))));
+				(w)->{return new Point(w.getWidth()/2-100, 50);},
+				Color.DARK_GRAY, Color.WHITE, -20f, Color.WHITE, "Debug game"/*,
+				(w)->gui.setCurrentScreen(new GameScreen(this, gui, new Game()))*/));
 
 		//TODO: add connect to server/multiplayer button
 		elements.add(new ElementRectangle(
-				(w)->{return new Point(w.getWidth()+50, 200);},
-				(w)->{return new Point(w.getWidth()/2-50, 50);},
+				(w)->{return new Point(w.getWidth()/2+50, 200);},
+				(w)->{return new Point(w.getWidth()/2-100, 50);},
 				Color.DARK_GRAY, Color.WHITE, -20f, Color.WHITE, "Join game",
-				(w)->{}));
+				(w)->gui.setCurrentScreen(new ServerSelectionScreen(this, gui))));
 
 		//Quit Button
 		elements.add(new ElementRectangle(

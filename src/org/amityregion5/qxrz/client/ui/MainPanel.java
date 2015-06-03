@@ -26,7 +26,7 @@ public class MainPanel extends JPanel implements MouseListener, MouseMotionListe
 	private MainGui gui;
 	
 	//Keyboard buttons that are currently down
-	private List<Integer> keysDown;
+	private List<KeyEvent> keysDown;
 	//Mouse buttons that are currently down
 	private List<Integer> miceDown;
 	//X coordinate relative to the top right of this panel of the mouse
@@ -43,7 +43,7 @@ public class MainPanel extends JPanel implements MouseListener, MouseMotionListe
 	{
 		//Set instance variables
 		this.gui = gui;
-		keysDown = new ArrayList<Integer>();
+		keysDown = new ArrayList<KeyEvent>();
 		miceDown = new ArrayList<Integer>();
 		
 		//Add event listeners
@@ -87,17 +87,29 @@ public class MainPanel extends JPanel implements MouseListener, MouseMotionListe
 	@Override
 	public void keyPressed(KeyEvent e)
 	{
-		if (!keysDown.contains(e.getExtendedKeyCode())) {
-			keysDown.add(e.getExtendedKeyCode());
+		if (!isKeyDown(e)) {
+			keysDown.add(e);
 		}
 	}
 
 	@Override
 	public void keyReleased(KeyEvent e)
 	{
-		if (keysDown.contains(e.getExtendedKeyCode())) {
-			keysDown.remove(keysDown.indexOf(e.getExtendedKeyCode()));
+		for (KeyEvent k : keysDown) {
+			if (k.getKeyCode() == e.getKeyCode()) {
+				keysDown.remove(k);
+				return;
+			}
 		}
+	}
+	
+	private boolean isKeyDown(KeyEvent e) {
+		for (KeyEvent k : keysDown) {
+			if (k.getKeyCode() == e.getKeyCode()) {
+				return true;
+			}
+		}
+		return false;
 	}
 
 	@Override
