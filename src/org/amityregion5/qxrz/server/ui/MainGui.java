@@ -1,7 +1,5 @@
 package org.amityregion5.qxrz.server.ui;
 
-import java.awt.event.WindowAdapter;
-import java.awt.event.WindowEvent;
 import java.net.SocketAddress;
 
 import javax.swing.BorderFactory;
@@ -39,17 +37,7 @@ public class MainGui
 		panel.add(ipLabel);
 		
 		frame.add(panel);
-		frame.addWindowListener(new WindowAdapter(){
-
-			@Override
-			public void windowClosing(WindowEvent e)
-			{
-				// TODO Auto-generated method stub
-				super.windowClosing(e);
-				//System.exit(0);
-			}
-			
-		});
+		
 		frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
 	}
 	

@@ -4,6 +4,7 @@ import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
+import java.awt.geom.Point2D;
 import org.amityregion5.qxrz.client.ui.MainGui;
 import org.amityregion5.qxrz.common.control.NetworkInputData;
 import org.amityregion5.qxrz.common.control.NetworkInputMasks;
@@ -33,8 +34,8 @@ public class GameScreen extends AbstractScreen
 		this.game = game;
 		
 		//Set viewport defaults
-		vp.xCenter=20 * 100;
-		vp.yCenter=20 * 100;
+		vp.xCenter=0 * 100;
+		vp.yCenter=0 * 100;
 		vp.height=40 * 100;
 		vp.width=60 * 100;
 		
@@ -115,8 +116,9 @@ public class GameScreen extends AbstractScreen
 			nid.set(NetworkInputMasks.PERIOD, windowData.getKeysDown().contains(KeyEvent.VK_PERIOD));
 			
 			//Set mouse coordinate data
-			nid.setMouseX(windowData.getMouseX());
-			nid.setMouseY(windowData.getMouseY());
+			Point2D.Double mc = vp.screenToGame(new Point2D.Double(windowData.getMouseX(), windowData.getMouseY()), windowData);
+			nid.setMouseX(mc.x);
+			nid.setMouseY(mc.y);
 			
 			//Send the object
 			gui.getNetworkManger().sendObject(nid);

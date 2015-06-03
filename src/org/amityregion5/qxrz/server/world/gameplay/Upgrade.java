@@ -2,7 +2,7 @@ package org.amityregion5.qxrz.server.world.gameplay;
 
 public class Upgrade {
 	private Player pl;
-	private String type
+	private String type;
 	public Upgrade()
 	{
 		
