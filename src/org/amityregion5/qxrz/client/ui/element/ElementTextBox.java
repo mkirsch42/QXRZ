@@ -57,6 +57,11 @@ public class ElementTextBox extends ElementRectangle {
 		return (selected && cursorVisible ? "|" : "") + text + (selected && cursorVisible ? "|" : "");
 	}
 	
+	@Override
+	public void setName(String name) {
+		text = name;
+	}
+	
 	protected void onClickOn(WindowData d) {
 		selected = true;
 	}
