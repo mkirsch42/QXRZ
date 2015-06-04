@@ -4,6 +4,7 @@ import java.awt.Font;
 import java.awt.ScrollPane;
 import java.net.InetAddress;
 import java.net.InetSocketAddress;
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Iterator;
 
@@ -18,20 +19,20 @@ import org.amityregion5.qxrz.server.net.ServerNetworkManager;
 public class MainGui
 {	private Font f = new Font("Sans Serif", Font.PLAIN, 32);
 	public static void main(String [] args) throws Exception{ 
-		
-		MainGui n = new MainGui();
+		System.err.println("DO NOT USE THIS MAIN METHOD. USE server.Main. IF YOU DONT WANT THE DEBUG STUFF TO DRAW TURN OFF DEBUG_GUI IN DebugConstants.java.");
+		//MainGui n = new MainGui();
 	}
 	private JFrame frame;
 	private ServerNetworkManager networkManager;
 	
-	public MainGui() throws Exception
+	public MainGui(ServerNetworkManager manager) throws Exception
 	{	
-		networkManager = new ServerNetworkManager("test server", 8000);
+		networkManager = manager;
 		
 		frame = new JFrame("QXRZ");
 		frame.setSize(1080,1000);
 		RTable table = new RTable();
-		HashSet<NetworkNode> c = networkManager.getClients();
+		ArrayList<NetworkNode> c = networkManager.getClients();
 			
 		for(Iterator<NetworkNode> i = c.iterator(); i.hasNext();) {
 				NetworkNode n = i.next();

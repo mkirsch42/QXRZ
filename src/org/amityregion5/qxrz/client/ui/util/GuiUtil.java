@@ -35,7 +35,7 @@ public class GuiUtil
 		//Subtract some more of the bounds depending on how it should be
 		if (mode == CenterMode.LEFT)
 		{
-			x += bounds.width;
+			//x += bounds.width;
 		} else if (mode == CenterMode.CENTER)
 		{
 			x -= bounds.width / 2;

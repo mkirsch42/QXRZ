@@ -14,6 +14,7 @@ public class ElementTextBox extends ElementRectangle {
 	private String text = "";
 	private HashMap<KeyEvent, Integer> cooldownKeys = new HashMap<KeyEvent, Integer>();
 	private Predicate<Integer> charPred;
+	private Runnable onTextChangeCallback;
 	private static final int cooldownClearTime = 30;
 	private boolean selected = false;
 	private boolean cursorVisible = true;
@@ -29,15 +30,25 @@ public class ElementTextBox extends ElementRectangle {
 	
 	public static ElementTextBox createTextBox(Function<WindowData, Point> topLeftFunction,
 			Function<WindowData, Point> widthHeightFunction, Color background,
-			Color border, float sizeOrPadding, Color text, Predicate<Integer> characterPredicate) {
+			Color border, float sizeOrPadding, Color text, Predicate<Integer> characterPredicate) {		
+		return createTextBox(topLeftFunction, widthHeightFunction, background, border, sizeOrPadding, text, "", characterPredicate);
+	}
+	public static ElementTextBox createTextBox(Function<WindowData, Point> topLeftFunction,
+			Function<WindowData, Point> widthHeightFunction, Color background,
+			Color border, float sizeOrPadding, Color text, String defaultText, Predicate<Integer> characterPredicate) {
 		ElementTextBox box = new ElementTextBox(topLeftFunction, widthHeightFunction, background, border, sizeOrPadding, text, characterPredicate);
 		
+		box.text = defaultText;
 		box.setName(box::getString);
 		box.setClickListener(box::onClickOn);
 		box.setClickOffListener(box::onClickOff);
 		box.setWhileKeyDownListener(box::whileKeyDown);
 		
 		return box;
+	}
+	
+	public void setOnTextChangeCallback(Runnable onTextChangeCallback) {
+		this.onTextChangeCallback = onTextChangeCallback;
 	}
 	
 	@Override
@@ -54,7 +65,7 @@ public class ElementTextBox extends ElementRectangle {
 	}
 	
 	public String getString() {
-		return (selected && cursorVisible ? "|" : "") + text + (selected && cursorVisible ? "|" : "");
+		return text + (selected && cursorVisible ? "|" : "");
 	}
 	
 	@Override
@@ -83,6 +94,9 @@ public class ElementTextBox extends ElementRectangle {
 				}
 				if (charPred.test((int) key.getKeyChar())) {
 					text += key.getKeyChar();
+					if (onTextChangeCallback != null) {
+						onTextChangeCallback.run();
+					}
 				}
 			});
 		}

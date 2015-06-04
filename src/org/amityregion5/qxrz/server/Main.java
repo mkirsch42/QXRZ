@@ -23,7 +23,7 @@ public final class Main
 	public static void main(String[] args) throws Exception
 	{
 		
-		ServerNetworkManager netManager = new ServerNetworkManager("Main Server", 8000);
+		ServerNetworkManager netManager = new ServerNetworkManager("Sergey Server", 8000);
 		//TODO maybe all the manager stuff should be created within the GUI
 		netManager.attachEventListener(new NetEventListener()
 		{

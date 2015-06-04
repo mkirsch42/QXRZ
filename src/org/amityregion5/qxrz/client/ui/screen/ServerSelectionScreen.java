@@ -4,6 +4,7 @@ import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.Point;
 import java.awt.image.BufferedImage;
+import java.net.SocketException;
 import org.amityregion5.qxrz.client.ui.MainGui;
 import org.amityregion5.qxrz.client.ui.element.ElementRectangle;
 import org.amityregion5.qxrz.client.ui.element.ElementTextBox;
@@ -26,26 +27,48 @@ public class ServerSelectionScreen extends AbstractScreen
 		refreshServerList();
 		
 		elements.add(new ElementRectangle(
-				(w)->{return new Point(100, 25);},
-				(w)->{return new Point(w.getWidth()-200, 50);},
+				(w)->{return new Point(w.getWidth()-100, 50);},
+				(w)->{return new Point(50, 50);},
+				Color.LIGHT_GRAY, Color.BLACK, 0, Color.BLACK,
+				"Refresh Server List", (w)->refreshServerList()));
+
+		elements.add(new ElementRectangle(
+				(w)->{return new Point(50, 50);},
+				(w)->{return new Point(50, 50);},
+				Color.LIGHT_GRAY, Color.BLACK, -10f, Color.BLACK,
+				"<", (w)->{cleanup();gui.setCurrentScreen(getReturnScreen());}));
+
+		
+		elements.add(new ElementRectangle(
+				(w)->{return new Point(100, 50);},
+				(w)->{return new Point(100, 50);},
 				Color.WHITE, Color.WHITE, 20f, Color.BLACK,
-				"Input IP and port"));
+				"Port:"));
+		
+		elements.add(portBox = ElementTextBox.createTextBox(
+				(w)->{return new Point(250, 50);},
+				(w)->{return new Point(w.getWidth()-150-250, 50);},
+				Color.DARK_GRAY, Color.BLACK, 20f, Color.WHITE, "8000",
+				(k)->Character.isDigit(k)&&
+				(portBox.getString().replace("|", "").length()==0 || (1<<16) > Integer.parseInt(portBox.getString().replace("|", "")+((char)k.intValue())))));
+		//portBox.setOnTextChangeCallback(()->gui.getNetworkManger().set
+		
+		elements.add(new ElementRectangle(
+				(w)->{return new Point(50, w.getHeight()-100);},
+				(w)->{return new Point(50, 50);},
+				Color.WHITE, Color.WHITE, 20f, Color.BLACK,
+				"IP:"));
 		
 		elements.add(ipBox = ElementTextBox.createTextBox(
-				(w)->{return new Point(50, 75);},
-				(w)->{return new Point(w.getWidth()/2-100, 50);},
+				(w)->{return new Point(150, w.getHeight()-100);},
+				(w)->{return new Point(w.getWidth()-350, 50);},
 				Color.DARK_GRAY, Color.BLACK, 20f, Color.WHITE,
 				(k)->Character.isDigit(k)||((char)k.intValue())=='.'));
-		elements.add(portBox = ElementTextBox.createTextBox(
-				(w)->{return new Point(w.getWidth()/2+50, 75);},
-				(w)->{return new Point(w.getWidth()/2-100, 50);},
-				Color.DARK_GRAY, Color.BLACK, 20f, Color.WHITE,
-				(k)->Character.isDigit(k)));
 		
 		//TODO: Figure out how to validate server
 		elements.add(new ElementRectangle(
-				(w)->{return new Point(150, 150);},
-				(w)->{return new Point(w.getWidth()/2-200, 50);},
+				(w)->{return new Point(w.getWidth()-150, w.getHeight()-100);},
+				(w)->{return new Point(100, 50);},
 				()->(Color.LIGHT_GRAY), ()->Color.BLACK, 20f, ()->Color.BLACK,
 				()->"Join Game", (w)->{
 					try {
@@ -55,17 +78,6 @@ public class ServerSelectionScreen extends AbstractScreen
 						e.printStackTrace();
 					}}));
 		
-		elements.add(new ElementRectangle(
-				(w)->{return new Point(w.getWidth()/2+50, 150);},
-				(w)->{return new Point(w.getWidth()/2-200, 50);},
-				Color.LIGHT_GRAY, Color.BLACK, 20f, Color.BLACK,
-				"Refresh Server List", (w)->refreshServerList()));
-
-		elements.add(new ElementRectangle(
-				(w)->{return new Point(100, w.getHeight()-100);},
-				(w)->{return new Point(w.getWidth()-200, 50);},
-				Color.LIGHT_GRAY, Color.BLACK, 20f, Color.BLACK,
-				"Return to main menu", (w)->{cleanup();gui.setCurrentScreen(getReturnScreen());}));
 	}
 	
 	private void refreshServerList() {
@@ -83,15 +95,21 @@ public class ServerSelectionScreen extends AbstractScreen
 		g.setColor(Color.WHITE);
 		g.fillRect(0,0, windowData.getWidth(), windowData.getHeight());
 		
+		int serverX = 100;
+		int serverY = 150;
+		int endWidth = 100;
+		int endHeight = 150;
+		
+		
 		//Draw the background
 		g.setColor(Color.DARK_GRAY);
-		g.fillRect(100, 225, windowData.getWidth()-200, windowData.getHeight()-350);
+		g.fillRect(serverX, serverY, windowData.getWidth()-(serverX + endWidth), windowData.getHeight()-(serverY+endHeight));
 		
 		//Draw the border
 		g.setColor(Color.BLACK);
-		g.drawRect(100, 225, windowData.getWidth()-200, windowData.getHeight()-350);
+		g.drawRect(serverX, serverY, windowData.getWidth()-(serverX + endWidth), windowData.getHeight()-(serverY+endHeight));
 		
-		BufferedImage buff = ImageModification.createBlankBufferedImage(windowData.getWidth()-200, windowData.getHeight()-475);
+		BufferedImage buff = ImageModification.createBlankBufferedImage(windowData.getWidth()-(serverX + endWidth), windowData.getHeight()-(serverY+endHeight));
 		
 		Graphics2D gBuff = buff.createGraphics();
 		
@@ -100,8 +118,6 @@ public class ServerSelectionScreen extends AbstractScreen
 		//TODO: Scrolling
 		int w = buff.getWidth();
 		int h = 75;
-		int xBuff = 100;
-		int yBuff = 225;
 		for (int i = 0; i<gui.getQueryInfo().size(); i++) {
 			int x = 0;
 			int y = h*i;
@@ -122,19 +138,23 @@ public class ServerSelectionScreen extends AbstractScreen
 				
 				gBuff.setColor(Color.BLACK);
 				gBuff.setFont(gBuff.getFont().deriveFont(16f));
-				GuiUtil.drawString(gBuff, gui.getQueryInfo().get(i).getName(), CenterMode.CENTER, x+w/2, y+h/2);
+				GuiUtil.drawString(gBuff, gui.getQueryInfo().get(i).getName(), CenterMode.LEFT, x + 10, y+h/3);
+				GuiUtil.drawString(gBuff, gui.getQueryInfo().get(i).getAddress().getAddress().getHostAddress(), CenterMode.LEFT, x + 10, y+2*h/3);
 				
-				if (windowData.getMiceDown().size() > 0 && windowData.getMouseX() >= x + xBuff && windowData.getMouseX() <= x+w+xBuff &&
-						windowData.getMouseY() >= y+yBuff && windowData.getMouseY() <= y+h+yBuff) {
-					ipBox.setName(ip);
-					portBox.setName("" + port);
+				if (windowData.getMiceDown().size() > 0 && windowData.getMouseX() >= x + serverX && windowData.getMouseX() <= x+w+serverX &&
+						windowData.getMouseY() >= y+serverY && windowData.getMouseY() <= y+h+serverY) {
+					try
+					{
+						gui.getNetworkManger().connect(gui.getQueryInfo().get(i).getAddress());
+					}
+					catch (SocketException e){e.printStackTrace();}
 				}
 			}
 		}
 		
 		gBuff.dispose();
 		
-		g.drawImage(buff, null, xBuff, yBuff);
+		g.drawImage(buff, null, serverX, serverY);
 	}
 
 	@Override
