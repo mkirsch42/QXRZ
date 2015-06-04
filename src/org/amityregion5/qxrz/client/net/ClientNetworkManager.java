@@ -9,12 +9,11 @@ import java.net.NetworkInterface;
 import java.net.SocketException;
 import java.net.UnknownHostException;
 import java.util.Enumeration;
-import java.util.Iterator;
-import java.util.List;
 import java.util.logging.Logger;
 
 import org.amityregion5.qxrz.common.net.AbstractNetworkManager;
 import org.amityregion5.qxrz.common.net.BroadcastDiscoveryQuery;
+import org.amityregion5.qxrz.common.net.DisconnectNotification;
 import org.amityregion5.qxrz.common.net.NetworkNode;
 import org.amityregion5.qxrz.common.net.NetworkObject;
 import org.amityregion5.qxrz.common.net.ServerInfo;
@@ -29,6 +28,28 @@ public class ClientNetworkManager extends AbstractNetworkManager
 	{
 		super();
 	}
+	
+	public boolean isConnectedTo(InetSocketAddress address)
+	{
+		if(server == null)
+		{
+			return false;
+		}
+		return address.equals(server.getAddress());
+	}
+	
+	public void sendDisconnectNotification()
+	{
+		try
+		{
+			server.send(new DisconnectNotification());
+		} catch (Exception e)
+		{
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+	
 
 	/**
 	 * Run this when you are looking for servers. Servers will respond with
