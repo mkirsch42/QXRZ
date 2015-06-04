@@ -2,14 +2,14 @@ package org.amityregion5.qxrz.server.world.gameplay;
 
 public class Weapon {
 	private String type;
-	private static int ccamount; //current clip amount
-	private static int cleft;	  //clips left
-	private static int cmaxammo; //maximum ammo per clip
-	private static int maxclips; //maximum clips to hold
-	private static int reserve; //reserve ammo;
-	private static int rof; //per half second
-	private static int retime; //per half second
-	private static int damage;
+	private int ccamount; //current clip amount
+	private int cleft;	  //clips left
+	private int cmaxammo; //maximum ammo per clip
+	private int maxclips; //maximum clips to hold
+	private int reserve; //reserve ammo;
+	private int rof; //per half second
+	private int retime; //per half second
+	private int damage;
 	//constructors
 	public Weapon()
 	{

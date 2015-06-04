@@ -26,7 +26,6 @@ public class PlayerEntity extends GameEntity implements
 	private static List<IObjectDrawer<PlayerEntity>> drawers;
 
 	private final int PLAYER_SIZE = 400;
-	private Weapon[] guns = new Weapon[2];
 
 	public PlayerEntity() // creates player vector
 	{
