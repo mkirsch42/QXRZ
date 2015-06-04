@@ -1,25 +1,15 @@
 package org.amityregion5.qxrz.server.world.gameplay;
 
 public class Upgrade {
-	private Player pl;
 	private String type;
-	public Upgrade()
+
+	public Upgrade(String t)
 	{
-		
+		type = t;
 	}
-	public Upgrade(String type)
+	
+	public String getType()
 	{
-		if (type.equals("rof"))
-		{
-			
-		}
-		else if (type.equals("cmax"))
-		{
-			
-		}
-		else if (type.equals("maxammo"))
-		{
-			pl.getEquip();
-		}
+		return type;
 	}
 }
