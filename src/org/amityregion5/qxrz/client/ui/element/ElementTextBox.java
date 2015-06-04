@@ -14,7 +14,7 @@ public class ElementTextBox extends ElementRectangle {
 	private String text = "";
 	private HashMap<KeyEvent, Integer> cooldownKeys = new HashMap<KeyEvent, Integer>();
 	private Predicate<Integer> charPred;
-	private Runnable onTextChangeCallback;
+	private Runnable onTextChangeCallback, onEnterCallback;
 	private static final int cooldownClearTime = 30;
 	private boolean selected = false;
 	private boolean cursorVisible = true;
@@ -49,6 +49,11 @@ public class ElementTextBox extends ElementRectangle {
 	
 	public void setOnTextChangeCallback(Runnable onTextChangeCallback) {
 		this.onTextChangeCallback = onTextChangeCallback;
+		onTextChangeCallback.run();
+	}
+	
+	public void setOnEnterCallback(Runnable onEnterCallback) {
+		this.onEnterCallback = onEnterCallback;
 	}
 	
 	@Override
@@ -65,7 +70,7 @@ public class ElementTextBox extends ElementRectangle {
 	}
 	
 	public String getString() {
-		return text + (selected && cursorVisible ? "|" : "");
+		return text/* + (selected && cursorVisible ? "|" : "")*/;
 	}
 	
 	@Override
@@ -86,6 +91,7 @@ public class ElementTextBox extends ElementRectangle {
 			d.getKeysDown().stream().sequential()
 			.filter((key)->!cooldownKeys.containsKey(key))
 			.forEach((key)->{
+				if (key.getKeyCode() == KeyEvent.VK_ENTER && onEnterCallback != null) onEnterCallback.run(); 
 				if (key.isActionKey() || Character.isSupplementaryCodePoint(key.getKeyChar()) || key.getKeyCode() == KeyEvent.VK_SHIFT) { return; }
 				cooldownKeys.put(key, cooldownClearTime);
 				if (key.getKeyCode() == KeyEvent.VK_BACK_SPACE && text.length() >= 1) {

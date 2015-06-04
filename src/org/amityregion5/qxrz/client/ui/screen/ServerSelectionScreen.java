@@ -15,6 +15,7 @@ import org.amityregion5.qxrz.client.ui.util.ImageModification;
 public class ServerSelectionScreen extends AbstractScreen
 {
 	private ElementTextBox ipBox, portBox;
+	private int selectedServer, lastMouseButtonsDown;
 	
 	/**
 	 * Create a join screen
@@ -51,7 +52,7 @@ public class ServerSelectionScreen extends AbstractScreen
 				Color.DARK_GRAY, Color.BLACK, 20f, Color.WHITE, "8000",
 				(k)->Character.isDigit(k)&&
 				(portBox.getString().replace("|", "").length()==0 || (1<<16) > Integer.parseInt(portBox.getString().replace("|", "")+((char)k.intValue())))));
-		//portBox.setOnTextChangeCallback(()->gui.getNetworkManger().set
+		portBox.setOnTextChangeCallback(()->refreshServerList());
 		
 		elements.add(new ElementRectangle(
 				(w)->{return new Point(50, w.getHeight()-100);},
@@ -73,7 +74,7 @@ public class ServerSelectionScreen extends AbstractScreen
 				()->"Join Game", (w)->{
 					try {
 						gui.getNetworkManger().connect(ipBox.getName(), Integer.parseInt(portBox.getString()));
-						//gui.setCurrentScreen(new ServerLobbyScreen());
+						gui.setCurrentScreen(new ServerLobbyScreen(this, gui));
 					} catch (Exception e) {
 						e.printStackTrace();
 					}}));
@@ -82,6 +83,7 @@ public class ServerSelectionScreen extends AbstractScreen
 	
 	private void refreshServerList() {
 		try {
+			selectedServer = -1;
 			gui.getQueryInfo().clear();
 			gui.getNetworkManger().broadcastQuery();
 		} catch (Exception e) {
@@ -122,11 +124,11 @@ public class ServerSelectionScreen extends AbstractScreen
 			int x = 0;
 			int y = h*i;
 			
-			String ip = gui.getQueryInfo().get(i).getAddress().getAddress().getHostAddress();
-			int port = gui.getQueryInfo().get(i).getAddress().getPort();
+			//String ip = gui.getQueryInfo().get(i).getAddress().getAddress().getHostAddress();
+			//int port = gui.getQueryInfo().get(i).getAddress().getPort();
 			
 			if (x+h >= 0 && x <= buff.getHeight()) {
-				if (ipBox.getName().equals(ip) && portBox.getName().equals("" + port)) {
+				if (i == selectedServer) {
 					gBuff.setColor(Color.GRAY);
 				} else {
 					gBuff.setColor(Color.LIGHT_GRAY);
@@ -141,23 +143,32 @@ public class ServerSelectionScreen extends AbstractScreen
 				GuiUtil.drawString(gBuff, gui.getQueryInfo().get(i).getName(), CenterMode.LEFT, x + 10, y+h/3);
 				GuiUtil.drawString(gBuff, gui.getQueryInfo().get(i).getAddress().getAddress().getHostAddress(), CenterMode.LEFT, x + 10, y+2*h/3);
 				
-				if (windowData.getMiceDown().size() > 0 && windowData.getMouseX() >= x + serverX && windowData.getMouseX() <= x+w+serverX &&
+				if (windowData.getMiceDown().size() == 0 && lastMouseButtonsDown > 0 && windowData.getMouseX() >= x + serverX && windowData.getMouseX() <= x+w+serverX &&
 						windowData.getMouseY() >= y+serverY && windowData.getMouseY() <= y+h+serverY) {
-					try
-					{
-						gui.getNetworkManger().connect(gui.getQueryInfo().get(i).getAddress());
+					if (i == selectedServer) {
+						try
+						{
+							gui.getNetworkManger().connect(gui.getQueryInfo().get(i).getAddress());
+							if (gui.getNetworkManger().isConnectedTo(gui.getQueryInfo().get(i).getAddress())) {
+								gui.setCurrentScreen(new ServerLobbyScreen(this, gui));
+							}
+						}
+						catch (SocketException e){e.printStackTrace();}
+					} else {
+						selectedServer = i;
 					}
-					catch (SocketException e){e.printStackTrace();}
 				}
 			}
 		}
-		
 		gBuff.dispose();
 		
 		g.drawImage(buff, null, serverX, serverY);
+
+		lastMouseButtonsDown = windowData.getMiceDown().size();		
 	}
 
 	@Override
 	protected void cleanup() {
+		gui.getNetworkManger().sendDisconnectNotification();
 	}
 }

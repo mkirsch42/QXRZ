@@ -9,6 +9,7 @@ import org.amityregion5.qxrz.client.ui.MainGui;
 import org.amityregion5.qxrz.client.ui.screen.MainMenuScreen;
 import org.amityregion5.qxrz.common.asset.AssetManager;
 import org.amityregion5.qxrz.common.net.AbstractNetworkNode;
+import org.amityregion5.qxrz.common.net.ChatMessage;
 //github.com/mkirsch42/QXRZ.gitimport org.amityregion5.qxrz.common.net.AbstractNetworkNode;
 import org.amityregion5.qxrz.common.net.DisconnectNotification;
 import org.amityregion5.qxrz.common.net.NetEventListener;
@@ -20,6 +21,7 @@ public class Main
 	public static void main(String[] args) throws Exception
 	{
 		List<ServerInfo> queryServers = new ArrayList<ServerInfo>();
+		List<ChatMessage> chatMessages = new ArrayList<ChatMessage>();
 		
 		ClientNetworkManager manager = new ClientNetworkManager();
 
@@ -45,8 +47,9 @@ public class Main
 			public void dataReceived(NetworkNode from, Serializable payload)
 			{
 				System.out.println(from.getSocketAddress());
-				if(payload instanceof ServerInfo)
+				if(payload instanceof ChatMessage)
 				{
+					chatMessages.add((ChatMessage)payload);
 					//queryServers.add((ServerInfo)payload);
 					/* call gui functions here
 					 * like gui.addServer(from, ServerInfo) or something
@@ -64,7 +67,7 @@ public class Main
 		 * and
 		 * manager.connect(address) when the user chooses a server.
 		 */
-		MainGui gui = new MainGui(manager, queryServers); 
+		MainGui gui = new MainGui(manager, queryServers, chatMessages); 
 
 		//Called when the JRE closes
 		Runtime.getRuntime().addShutdownHook(new Thread(()->{
