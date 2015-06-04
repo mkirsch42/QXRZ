@@ -1,13 +1,14 @@
 package org.amityregion5.qxrz.common.net;
 
 import java.io.Serializable;
+import java.net.InetSocketAddress;
 
 public class ChatMessage implements Serializable
 {
 	private static final long serialVersionUID = 1L;
 
 	private String message;
-	private NetworkNode from;
+	private InetSocketAddress from;
 
 	// For clients
 	/**
@@ -30,22 +31,12 @@ public class ChatMessage implements Serializable
 	 * @param f
 	 *            sender of the message
 	 */
-	public ChatMessage(String m, NetworkNode f)
+	public ChatMessage(String m, InetSocketAddress addr)
 	{
 		message = m;
-		from = f;
+		setFrom(addr);
 	}
 	
-	public ChatMessage setNode(NetworkNode c)
-	{
-		from = c;
-		return this;
-	}
-
-	public NetworkNode getSender()
-	{
-		return from;
-	}
 
 	/**
 	 * Return the message
@@ -54,5 +45,15 @@ public class ChatMessage implements Serializable
 	public String getMessage()
 	{
 		return message;
+	}
+
+	public InetSocketAddress getFrom()
+	{
+		return from;
+	}
+
+	public void setFrom(InetSocketAddress from)
+	{
+		this.from = from;
 	}
 }
