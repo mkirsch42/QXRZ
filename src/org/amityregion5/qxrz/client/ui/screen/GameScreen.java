@@ -126,12 +126,6 @@ public class GameScreen extends AbstractScreen
 	}
 
 	@Override
-	public IScreen getReturnScreen(){return null;}
-
-	@Override
-	public boolean setReturnScreen(IScreen s){return false;}
-
-	@Override
 	protected void cleanup() {
 		game.close();
 	}

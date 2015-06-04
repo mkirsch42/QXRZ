@@ -60,6 +60,12 @@ public class ServerSelectionScreen extends AbstractScreen
 				(w)->{return new Point(w.getWidth()/2-200, 50);},
 				Color.LIGHT_GRAY, Color.BLACK, 20f, Color.BLACK,
 				"Refresh Server List", (w)->refreshServerList()));
+
+		elements.add(new ElementRectangle(
+				(w)->{return new Point(100, w.getHeight()-100);},
+				(w)->{return new Point(w.getWidth()-200, 50);},
+				Color.LIGHT_GRAY, Color.BLACK, 20f, Color.BLACK,
+				"Return to main menu", (w)->{cleanup();gui.setCurrentScreen(getReturnScreen());}));
 	}
 	
 	private void refreshServerList() {
@@ -79,13 +85,13 @@ public class ServerSelectionScreen extends AbstractScreen
 		
 		//Draw the background
 		g.setColor(Color.DARK_GRAY);
-		g.fillRect(100, 225, windowData.getWidth()-200, windowData.getHeight()-250);
+		g.fillRect(100, 225, windowData.getWidth()-200, windowData.getHeight()-350);
 		
 		//Draw the border
 		g.setColor(Color.BLACK);
-		g.drawRect(100, 225, windowData.getWidth()-200, windowData.getHeight()-250);
+		g.drawRect(100, 225, windowData.getWidth()-200, windowData.getHeight()-350);
 		
-		BufferedImage buff = ImageModification.createBlankBufferedImage(windowData.getWidth()-200, windowData.getHeight()-375);
+		BufferedImage buff = ImageModification.createBlankBufferedImage(windowData.getWidth()-200, windowData.getHeight()-475);
 		
 		Graphics2D gBuff = buff.createGraphics();
 		
@@ -130,12 +136,6 @@ public class ServerSelectionScreen extends AbstractScreen
 		
 		g.drawImage(buff, null, xBuff, yBuff);
 	}
-
-	@Override
-	public IScreen getReturnScreen(){return null;}
-
-	@Override
-	public boolean setReturnScreen(IScreen s){return false;}
 
 	@Override
 	protected void cleanup() {

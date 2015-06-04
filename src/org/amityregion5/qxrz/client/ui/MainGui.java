@@ -4,10 +4,8 @@ import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.util.Arrays;
 import java.util.List;
-
 import javax.swing.JFrame;
 import javax.swing.WindowConstants;
-
 import org.amityregion5.qxrz.client.net.ClientNetworkManager;
 import org.amityregion5.qxrz.client.ui.screen.IScreen;
 import org.amityregion5.qxrz.client.ui.screen.LoadingScreen;
@@ -26,6 +24,8 @@ public class MainGui
 	//The time since the last repaint
 	private long lastRepaint;
 	private List<ServerInfo> queryInfo;
+
+	private Thread renderThread;
 
 	private ClientNetworkManager networkManger;
 
@@ -76,14 +76,12 @@ public class MainGui
 		if (!frame.isVisible()) {
 			//Set the last repaint value
 			lastRepaint = System.currentTimeMillis();
-			//Set the last repaint value
-			lastRepaint = System.currentTimeMillis();
 
 			//Set the frame as visible
 			frame.setVisible(true);
 
 			//Start a new thread which contains the repaint method (Render loop)
-			new Thread(()->{
+			renderThread = new Thread(()->{
 				//Stopping condition: when the frame is hidden
 				while (frame.isVisible()) {
 					//Move the fps values down by 1
@@ -97,13 +95,16 @@ public class MainGui
 
 					//Repaint the screen
 					frame.repaint();
+					
 					//Wait enough time to make it 60 fps
 					try{
 						//The 900 here is chosen because it makes it the closest to 60 FPS
 						Thread.sleep((900/60-(System.currentTimeMillis()-lastRepaint)));
 					}catch (Exception e){}
 				}
-			}, "Gui Refresh Thread").start();
+				System.out.println("MainGui.show()");
+			}, "Gui Refresh Thread");
+			renderThread.start();
 		}
 	}
 
@@ -123,7 +124,7 @@ public class MainGui
 	 * 
 	 * @return the current screen
 	 */
-	public IScreen getCurrentScreen()
+	public synchronized IScreen getCurrentScreen()
 	{
 		return currentScreen;
 	}
@@ -133,7 +134,7 @@ public class MainGui
 	 * 
 	 * @param currentScreen new current screen
 	 */
-	public void setCurrentScreen(IScreen currentScreen)
+	public synchronized void setCurrentScreen(IScreen currentScreen)
 	{
 		this.currentScreen = currentScreen;
 	}
@@ -152,7 +153,9 @@ public class MainGui
 	 */
 	public void closeGame() {
 		//hide();
+		
 		currentScreen.onGameClose();
+		
 		getNetworkManger().close();
 	}
 
@@ -170,5 +173,5 @@ public class MainGui
 		return queryInfo;
 	}
 
-	
+
 }

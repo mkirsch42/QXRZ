@@ -30,8 +30,10 @@ public class Main
 			public void newNode(AbstractNetworkNode server)
 			{
 				System.out.println("yay server responded");
-				if (!queryServers.contains(server)) {
+				if (queryServers.contains(server)) {
 					queryServers.set(queryServers.indexOf((ServerInfo)server), (ServerInfo)server);
+				} else {
+					queryServers.add((ServerInfo)server);
 				}
 
 				// This will be called when a new server makes itself known.

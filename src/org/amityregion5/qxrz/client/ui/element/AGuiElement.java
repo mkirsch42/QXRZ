@@ -12,6 +12,7 @@ public abstract class AGuiElement
 {
 	//An on click listener/event handler
 	protected Consumer<WindowData> onClickOn, onClickOff, whileKeyDown;
+	private int lastMiceDown = 0;
 	
 	/**
 	 * This method should be called to draw this element
@@ -24,7 +25,7 @@ public abstract class AGuiElement
 		draw(g, windowData);
 
 		//Do click listener stuff
-		if (windowData.getMiceDown().size() > 0){
+		if (windowData.getMiceDown().size() == 0 && lastMiceDown > 0){
 			if (isPointInElement(windowData.getMouseX(), windowData.getMouseY())) {
 				if (onClickOn != null) {
 					onClickOn.accept(windowData);
@@ -35,6 +36,7 @@ public abstract class AGuiElement
 				}
 			}
 		}
+		lastMiceDown = windowData.getMiceDown().size();
 		if (windowData.getKeysDown().size() > 0 && whileKeyDown != null) {
 			whileKeyDown.accept(windowData);
 		}

@@ -29,7 +29,6 @@ public class MainMenuScreen extends AbstractScreen
 				Color.DARK_GRAY, Color.WHITE, -20f, Color.WHITE, "Debug game"/*,
 				(w)->gui.setCurrentScreen(new GameScreen(this, gui, new Game()))*/));
 
-		//TODO: add connect to server/multiplayer button
 		elements.add(new ElementRectangle(
 				(w)->{return new Point(w.getWidth()/2+50, 200);},
 				(w)->{return new Point(w.getWidth()/2-100, 50);},
@@ -52,7 +51,7 @@ public class MainMenuScreen extends AbstractScreen
 	}
 
 	@Override
-	public IScreen getReturnScreen(){return null;}
+	public IScreen getReturnScreen(){return new LoadingScreen();}
 
 	@Override
 	public boolean setReturnScreen(IScreen s){return false;}
