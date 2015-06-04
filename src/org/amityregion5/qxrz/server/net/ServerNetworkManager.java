@@ -1,9 +1,10 @@
 package org.amityregion5.qxrz.server.net;
 
 import java.io.Serializable;
-
+import java.net.InetAddress;
 import java.net.InetSocketAddress;
 import java.net.SocketAddress;
+import java.net.UnknownHostException;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.logging.Logger;
@@ -158,7 +159,15 @@ public class ServerNetworkManager extends AbstractNetworkManager
 	 */
 	public SocketAddress getSocket()
 	{
-		return sock.getLocalSocketAddress();
+		try
+		{
+			return new InetSocketAddress(InetAddress.getLocalHost(), this.sock.getLocalPort());
+		} catch (UnknownHostException e)
+		{
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return null;
 	}
 
 	public HashSet<NetworkNode> getClients()

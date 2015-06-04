@@ -24,7 +24,7 @@ public class ClientNetworkTester
 			@Override
 			public void newNode(AbstractNetworkNode c)
 			{
-				System.out.println("Received!" + c.getAddress() + " name: " + ((ServerInfo) c).getName());
+				System.out.println("Server Founded!" + c.getAddress() + " name: " + ((ServerInfo) c).getName());
 			}
 			
 			@Override
