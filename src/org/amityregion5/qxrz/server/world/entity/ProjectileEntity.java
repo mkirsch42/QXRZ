@@ -13,7 +13,7 @@ import org.amityregion5.qxrz.server.world.vector2d.Vector2D;
 public class ProjectileEntity extends GameEntity
 {
 
-	private int projectilesize;
+	private int projectilesize; //depending on specific projectile?
 	public ProjectileEntity(PlayerEntity source)
 	{
 		pos = source.pos;
@@ -32,12 +32,16 @@ public class ProjectileEntity extends GameEntity
 	}
 	public Obstacle checkCollisions(Vector2D v, Landscape surroundings)
 	{
-		/*stuff will be added
-		Vector2D back = pos;
-		Rectangle2D.Double hbox = this.getHitBox().getBounds();
-		Path2D.Double path = new Path2D.Double();
-		*/
-		return new Obstacle(null);
+		Obstacle o = new Obstacle(null);
+		for (Obstacle obj: surroundings.getObstacles())
+		{
+			if (obj.getHitbox().intersects(this.getHitbox()))
+			{
+				o = obj;
+				break;
+			}
+		}
+		return o;
 	}
 
 	@Override
@@ -48,7 +52,7 @@ public class ProjectileEntity extends GameEntity
 
 	@Override
 	protected boolean collide(Hitboxed h, Landscape l, Vector2D v) {
-		// TODO Auto-generated method stub
+		
 		return false;
 	}
 
