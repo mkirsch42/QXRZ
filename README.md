@@ -87,7 +87,7 @@ If you send chat messages to the server, it will echo it back to all clients. **
 There are two listeners:
 
 - `dataReceived()` will be called when data is received (duh). It tells you who sent it (for the client, this will always be a server), as well as the object that was sent.
-- `newNode(NetworkNode c)` is only used on the Server, for now. It's called when a new client connects. We're trying to implement client side too when a new server is found.
+- `newNode(NetworkNode c)` It's called when a new client connects (server side) and when a server responds (client side).
 
 ### Network Nodes
 
