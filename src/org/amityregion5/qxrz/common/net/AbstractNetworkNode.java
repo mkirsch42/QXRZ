@@ -19,10 +19,11 @@ public abstract class AbstractNetworkNode {
 	
 	@Override
 	public boolean equals(Object obj) {
-		if (obj instanceof AbstractNetworkNode) {
-			AbstractNetworkNode ann = (AbstractNetworkNode)obj;
-			return ann.getAddress().getAddress().getHostAddress().equals(addr.getAddress().getHostAddress()) && ann.getAddress().getPort()==addr.getPort();
+		if (!(obj instanceof AbstractNetworkNode)) {
+			return false;
 		}
-		return false;
+		
+		AbstractNetworkNode ann = (AbstractNetworkNode) obj;
+		return addr.equals(ann.getAddress());
 	}
 }

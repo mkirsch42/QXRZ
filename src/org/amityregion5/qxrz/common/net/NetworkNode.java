@@ -49,12 +49,4 @@ public class NetworkNode extends AbstractNetworkNode
 		outStream.setAddress(addr);
 		outStream.sendObject(new NetworkObject(obj, sentPacketCount));
 	}
-
-	public boolean equals(Object obj)
-	{
-		if (!(obj instanceof NetworkNode))
-			return false;
-
-		return addr.equals(((NetworkNode) obj).getAddress());
-	}
 }
