@@ -20,7 +20,6 @@ public class NetworkNode extends AbstractNetworkNode
 		sentPacketCount = 0;
 		receivedPacketCount = 0;
 		setAddress(a);
-		l.info("nn constructor" + addr.toString());
 		outStream = out;
 	}
 	
