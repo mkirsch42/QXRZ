@@ -3,8 +3,10 @@ package org.amityregion5.qxrz.client.ui.screen;
 import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.Point;
+
 import org.amityregion5.qxrz.client.ui.MainGui;
 import org.amityregion5.qxrz.client.ui.element.ElementRectangle;
+import org.amityregion5.qxrz.server.Game;
 
 /**
  * The Main Menu Screen
@@ -26,8 +28,8 @@ public class MainMenuScreen extends AbstractScreen
 		elements.add(new ElementRectangle(
 				(w)->{return new Point(100, 200);},
 				(w)->{return new Point(w.getWidth()/2-100, 50);},
-				Color.DARK_GRAY, Color.WHITE, -20f, Color.WHITE, "Debug game"/*,
-				(w)->gui.setCurrentScreen(new GameScreen(this, gui, new Game()))*/));
+				Color.DARK_GRAY, Color.WHITE, -20f, Color.WHITE, "Debug game",
+				(w)->gui.setCurrentScreen(new GameScreen(this, gui, new Game()))));
 
 		elements.add(new ElementRectangle(
 				(w)->{return new Point(w.getWidth()/2+50, 200);},

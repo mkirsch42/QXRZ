@@ -9,6 +9,10 @@ import java.util.logging.Logger;
 public class NetworkNode extends AbstractNetworkNode
 {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -5035976919498974857L;
 	private int sentPacketCount;
 	private int receivedPacketCount;
 	private static Logger l = Logger.getGlobal();

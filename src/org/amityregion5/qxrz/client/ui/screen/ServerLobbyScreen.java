@@ -5,6 +5,7 @@ import java.awt.Graphics2D;
 import java.awt.Point;
 import java.awt.Rectangle;
 import java.awt.image.BufferedImage;
+import java.util.ArrayList;
 
 import org.amityregion5.qxrz.client.ui.MainGui;
 import org.amityregion5.qxrz.client.ui.element.ElementRectangle;
@@ -73,17 +74,26 @@ public class ServerLobbyScreen extends AbstractScreen
 
 		GuiUtil.applyRenderingHints(gBuff);
 
-		int y = 0;
+		gBuff.setFont(gBuff.getFont().deriveFont(14f));
+		gBuff.setColor(Color.WHITE);
+		
+		int totalYTrans = 0;
 		for (ChatMessage c : gui.getMessages()) {
 			int x = 0;
 			int subIndex = 0;
 			int endIndex = c.getMessage().length();
+			
+			ArrayList<String> lines = new ArrayList<String>();
 
 			while (subIndex < endIndex) {
 				Rectangle r = GuiMath.getStringBounds(gBuff, c.getMessage().substring(subIndex, endIndex), 0, 0);
 				if (r.width >= buff.getWidth() - 20) {
-					subIndex = (int)(endIndex - ((buff.getWidth()-20)/(double)r.width * (endIndex-subIndex)));
+					endIndex = (int)((buff.getWidth()-20)/(double)r.width * (endIndex-subIndex));
 					r = GuiMath.getStringBounds(gBuff, c.getMessage().substring(subIndex, endIndex), 0, 0);
+					while (r.width >= buff.getWidth() - 20) {
+						endIndex--;
+						r = GuiMath.getStringBounds(gBuff, c.getMessage().substring(subIndex, endIndex), 0, 0);
+					}
 				}
 				/*
 				while (r.width >= buff.getWidth() - 20) {
@@ -95,15 +105,25 @@ public class ServerLobbyScreen extends AbstractScreen
 					
 				}*/
 
-				y += r.height + 2;
+				totalYTrans += r.height + 2;
+				
+				lines.add(c.getMessage().substring(subIndex, endIndex));
 
+				subIndex = endIndex;
+				endIndex = c.getMessage().length();
+			}
+			
+			for (int i = lines.size()-1;i>=0;i--) {
+				String str = lines.get(i);
+				
+				Rectangle r = GuiMath.getStringBounds(gBuff, str, 0, 0);
+				
 				gBuff.setFont(gBuff.getFont().deriveFont(14f));
-				GuiUtil.drawString(gBuff, c.getMessage().substring(subIndex, endIndex), CenterMode.LEFT, x + 10, (buff.getHeight()-y)+r.height/2);
-				endIndex = subIndex;
-				subIndex = 0;
+				gBuff.translate(0, -(r.height + 2));
+				GuiUtil.drawString(gBuff, str, CenterMode.LEFT, x + 10, (buff.getHeight()-(r.height + 2))+r.height/2);
 			}
 
-			if (y > windowData.getHeight()) {
+			if (totalYTrans > buff.getHeight()) {
 				break;
 			}
 		}

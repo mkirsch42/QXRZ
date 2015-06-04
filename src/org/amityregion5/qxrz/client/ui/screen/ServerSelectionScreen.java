@@ -5,12 +5,14 @@ import java.awt.Graphics2D;
 import java.awt.Point;
 import java.awt.image.BufferedImage;
 import java.net.SocketException;
+
 import org.amityregion5.qxrz.client.ui.MainGui;
 import org.amityregion5.qxrz.client.ui.element.ElementRectangle;
 import org.amityregion5.qxrz.client.ui.element.ElementTextBox;
 import org.amityregion5.qxrz.client.ui.util.CenterMode;
 import org.amityregion5.qxrz.client.ui.util.GuiUtil;
 import org.amityregion5.qxrz.client.ui.util.ImageModification;
+import org.amityregion5.qxrz.common.util.Colors;
 
 public class ServerSelectionScreen extends AbstractScreen
 {
@@ -43,7 +45,7 @@ public class ServerSelectionScreen extends AbstractScreen
 		elements.add(new ElementRectangle(
 				(w)->{return new Point(100, 50);},
 				(w)->{return new Point(100, 50);},
-				Color.WHITE, Color.WHITE, 20f, Color.BLACK,
+				Colors.CLEAR, Colors.CLEAR, 20f, Color.BLACK,
 				"Port:"));
 		
 		elements.add(portBox = ElementTextBox.createTextBox(

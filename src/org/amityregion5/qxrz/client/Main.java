@@ -49,7 +49,7 @@ public class Main
 				System.out.println(from.getSocketAddress());
 				if(payload instanceof ChatMessage)
 				{
-					chatMessages.add((ChatMessage)payload);
+					chatMessages.add(0, (ChatMessage)payload);
 					//queryServers.add((ServerInfo)payload);
 					/* call gui functions here
 					 * like gui.addServer(from, ServerInfo) or something

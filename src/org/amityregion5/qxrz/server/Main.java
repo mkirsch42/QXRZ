@@ -66,7 +66,7 @@ public final class Main
 				else if(netObj instanceof ChatMessage)
 				{
 					// echo it back out
-					netManager.sendObject(((ChatMessage) netObj).setNode(c));
+					netManager.sendObject(((ChatMessage) netObj)/*.setNode(c)*/);
 				}
 			}
 		});
