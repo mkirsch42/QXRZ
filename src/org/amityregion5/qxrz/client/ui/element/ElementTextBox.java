@@ -3,11 +3,16 @@ package org.amityregion5.qxrz.client.ui.element;
 import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.Point;
+import java.awt.Rectangle;
 import java.awt.event.KeyEvent;
 import java.util.HashMap;
 import java.util.function.Function;
 import java.util.function.Predicate;
+
 import org.amityregion5.qxrz.client.ui.screen.WindowData;
+import org.amityregion5.qxrz.client.ui.util.CenterMode;
+import org.amityregion5.qxrz.client.ui.util.GuiMath;
+import org.amityregion5.qxrz.client.ui.util.GuiUtil;
 
 public class ElementTextBox extends ElementRectangle {
 	
@@ -67,6 +72,11 @@ public class ElementTextBox extends ElementRectangle {
 			cursorFlipTime = cooldownClearTime;
 		}
 		cursorFlipTime--;
+		
+		if (selected && cursorVisible) {
+			Rectangle b = GuiMath.getStringBounds(g, text, 0, 0);
+			GuiUtil.drawString(g, "|", CenterMode.LEFT, (int)(getX() + getWidth()/2 + b.getWidth()/2 + 5), getY() + getHeight()/2);
+		}
 	}
 	
 	public String getString() {
