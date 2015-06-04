@@ -2,16 +2,21 @@ package org.amityregion5.qxrz.server.ui;
 
 import java.awt.Font;
 import java.awt.ScrollPane;
+import java.net.InetAddress;
+import java.net.InetSocketAddress;
+import java.util.HashSet;
+import java.util.Iterator;
 
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.WindowConstants;
 
+import org.amityregion5.qxrz.common.net.NetworkNode;
 import org.amityregion5.qxrz.server.net.ServerNetworkManager;
 
 public class MainGui
-{	private Font f = new Font("Times New Roman", Font.PLAIN, 32);
+{	private Font f = new Font("Sans Serif", Font.PLAIN, 32);
 	public static void main(String [] args) throws Exception{ 
 		
 		MainGui n = new MainGui();
@@ -19,21 +24,22 @@ public class MainGui
 	private JFrame frame;
 	private ServerNetworkManager networkManager;
 	
-	public MainGui()
-	{
-		//networkManager = nm;
+	public MainGui() throws Exception
+	{	
+		networkManager = new ServerNetworkManager("test server", 8000);
 		
 		frame = new JFrame("QXRZ");
 		frame.setSize(1080,1000);
-		//panel.setLayout(new BoxLayout(panel, BoxLayout.PAGE_AXIS));
-
-		//HashSet<NetworkNode> c = networkManager.getClients();
-			/*for(Iterator<NetworkNode> i = c.iterator(); i.hasNext();) {
-				NetworkNode n = i.next();*/
-		
 		RTable table = new RTable();
-		for(int i = 0; i < 10; i++)
-			table.add("test " + i, i);
+		HashSet<NetworkNode> c = networkManager.getClients();
+			
+		for(Iterator<NetworkNode> i = c.iterator(); i.hasNext();) {
+				NetworkNode n = i.next();
+				InetSocketAddress a = n.getAddress();
+				InetAddress p = a.getAddress();
+				table.add(p.toString(), a.getPort());
+		}
+		
 		JPanel title = new JPanel();
 		JLabel t = new JLabel("Host Name and IP");
 		t.setFont(f);
@@ -51,18 +57,7 @@ public class MainGui
 		scroll.setSize(500, 500);
 		scroll.setLocation(300,300);
 		
-		//title.setPreferredSize(new Dimension(100,100));
-		//title.setLocation(500,0);
-		//SocketAddress addr = networkManager.getSocket();
-		
-		/*
-		 * JLabel ipLabel = new JLabel("Address:" + addr + "", SwingConstants.CENTER);
-		ipLabel.setHorizontalAlignment(SwingConstants.CENTER);
-		ipLabel.setVerticalAlignment(SwingConstants.CENTER);
-		JLabel ClientList = new JLabel("Client List", SwingConstants.LEFT);
-		
-		panel.add(ipLabel);
-		panel.add(ClientList);*/
+
 		frame.add(scroll);
 		frame.add(gamedata);
 		frame.add(title);
