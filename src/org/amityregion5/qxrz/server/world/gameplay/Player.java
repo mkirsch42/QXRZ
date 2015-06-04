@@ -56,6 +56,16 @@ public class Player {
 	public void setUpgrade(Upgrade u)
 	{
 		pupgr = u;
+		//might have to add a null check
+		switch (pupgr.getType())
+		{
+		case "maxclips": guns[0].changeMaxAmmo();
+						 guns[1].changeMaxAmmo();
+		case "rof":		 guns[0].changeROF();
+						 guns[1].changeROF();
+		case "cmax":	 guns[0].changeCMax();
+						 guns[1].changeCMax();
+		}
 	}
 	public void equip(int input)
 	{
@@ -65,7 +75,7 @@ public class Player {
 	{
 		if (guns[equipped].shoot())
 		{
-		//Bullet b = new Bullet(new ProjectileEntity(entity), guns[equipped]);
+		Bullet b = new Bullet(new ProjectileEntity(entity), guns[equipped]);
 		}
 		else {}
 	}
