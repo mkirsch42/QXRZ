@@ -55,7 +55,7 @@ public class ServerNetworkManager extends AbstractNetworkManager
 						e.printStackTrace();
 					}
 				}
-				//System.exit(0);
+				System.exit(0);
 			}
 		});
 	}
