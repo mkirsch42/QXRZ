@@ -1,5 +1,6 @@
 package org.amityregion5.qxrz.server.world.gameplay;
 
+import org.amityregion5.qxrz.common.control.NetworkInputData;
 import org.amityregion5.qxrz.server.world.entity.PlayerEntity;
 import org.amityregion5.qxrz.server.world.entity.ProjectileEntity;
 
@@ -109,5 +110,9 @@ public class Player {
 		{
 			pspecmove.dash(entity);
 		}
+	}
+	public void input(NetworkInputData nid)
+	{
+		entity.input(nid);
 	}
 }

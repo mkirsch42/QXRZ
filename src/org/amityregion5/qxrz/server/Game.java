@@ -9,11 +9,12 @@ import org.amityregion5.qxrz.server.world.Obstacle;
 import org.amityregion5.qxrz.server.world.World;
 import org.amityregion5.qxrz.server.world.entity.PlayerEntity;
 import org.amityregion5.qxrz.server.world.entity.RectangleHitbox;
+import org.amityregion5.qxrz.server.world.gameplay.Player;
 
 public class Game implements Runnable
 {
 
-	private HashMap<NetworkNode, PlayerEntity> players = new HashMap<NetworkNode, PlayerEntity>();
+	private HashMap<NetworkNode, Player> players = new HashMap<NetworkNode, Player>();
 	
 	public static final int GAME_UNIT = 1;
 
@@ -68,12 +69,12 @@ public class Game implements Runnable
 		return w;
 	}
 
-	public PlayerEntity findPlayer(NetworkNode n)
+	public Player findPlayer(NetworkNode n)
 	{
 		return players.get(n);
 	}
 	
-	public void addPlayer(NetworkNode n, PlayerEntity p)
+	public void addPlayer(NetworkNode n, Player p)
 	{
 		players.put(n, p);
 	}

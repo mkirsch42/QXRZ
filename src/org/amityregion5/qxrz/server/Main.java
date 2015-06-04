@@ -14,6 +14,7 @@ import org.amityregion5.qxrz.server.world.DebugDraw;
 import org.amityregion5.qxrz.server.world.entity.PlayerEntity;
 import org.amityregion5.qxrz.server.world.entity.ProjectileEntity;
 import org.amityregion5.qxrz.server.world.entity.RectangleHitbox;
+import org.amityregion5.qxrz.server.world.gameplay.Player;
 //github.com/mkirsch42/QXRZ.gitimport org.amityregion5.qxrz.common.net.ChatMessage;
 
 public final class Main
@@ -30,7 +31,7 @@ public final class Main
 			@Override
 			public void newNode(AbstractNetworkNode c)
 			{
-				PlayerEntity p = new PlayerEntity();
+				Player p = new Player();
 				g.addPlayer((NetworkNode) c, p);
 				// TODO do stuff for new client (drawing, inventory whatever)
 				// You should cast c to a NetworkNode before using
@@ -41,7 +42,7 @@ public final class Main
 			{
 				if(netObj instanceof NetworkInputData)
 				{
-					PlayerEntity from = g.findPlayer(c);
+					Player from = g.findPlayer(c);
 					from.input((NetworkInputData)netObj);
 					System.out.println("I got data!");
 				}
