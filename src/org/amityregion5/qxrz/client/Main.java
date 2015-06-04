@@ -3,6 +3,7 @@ package org.amityregion5.qxrz.client;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
+
 import org.amityregion5.qxrz.client.net.ClientNetworkManager;
 import org.amityregion5.qxrz.client.ui.MainGui;
 import org.amityregion5.qxrz.client.ui.screen.MainMenuScreen;
@@ -28,7 +29,9 @@ public class Main
 			@Override
 			public void newNode(AbstractNetworkNode server)
 			{
-				queryServers.add((ServerInfo)server);
+				if (!queryServers.contains(server)) {
+					queryServers.set(queryServers.indexOf((ServerInfo)server), (ServerInfo)server);
+				}
 				// This will be called when a new server makes itself known.
 
 				// You should cast the AbstractNetworkNode to a ServerInfo before using

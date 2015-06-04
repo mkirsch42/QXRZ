@@ -16,4 +16,13 @@ public abstract class AbstractNetworkNode {
 	public void setAddress(InetSocketAddress a) {
 		addr = a;
 	}
+	
+	@Override
+	public boolean equals(Object obj) {
+		if (obj instanceof AbstractNetworkNode) {
+			AbstractNetworkNode ann = (AbstractNetworkNode)obj;
+			return ann.getAddress().getAddress().getHostAddress().equals(addr.getAddress().getHostAddress()) && ann.getAddress().getPort()==addr.getPort();
+		}
+		return false;
+	}
 }
