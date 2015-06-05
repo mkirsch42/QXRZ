@@ -271,4 +271,5 @@ public class PlayerEntity extends GameEntity implements
 		}
 		return drawers;
 	}
+
 }

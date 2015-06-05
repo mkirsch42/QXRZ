@@ -2,18 +2,20 @@ package org.amityregion5.qxrz.server.world.entity;
 
 import java.awt.geom.Path2D;
 import java.awt.geom.Rectangle2D;
-
 import java.awt.Rectangle;
-
 
 import org.amityregion5.qxrz.server.world.Landscape;
 import org.amityregion5.qxrz.server.world.Obstacle;
+import org.amityregion5.qxrz.server.world.gameplay.Bullet;
 import org.amityregion5.qxrz.server.world.vector2d.Vector2D;
 
 public class ProjectileEntity extends GameEntity
 {
 
-	private int projectilesize; //depending on specific projectile?
+	private int projsize; //depending on specific projectile?
+	private int velocity; //definitely will depend on specific projectile
+	private Bullet b = new Bullet(this);
+	
 	public ProjectileEntity(PlayerEntity source)
 	{
 		pos = source.pos;
@@ -28,7 +30,7 @@ public class ProjectileEntity extends GameEntity
 	
 	public RectangleHitbox getHitBox()
 	{
-		return new RectangleHitbox(new Rectangle((int)pos.getX(),(int)pos.getY(),projectilesize,projectilesize));
+		return new RectangleHitbox(new Rectangle((int)pos.getX() - projsize,(int)pos.getY()- projsize,projsize,projsize));
 	}
 	public Obstacle checkCollisions(Vector2D v, Landscape surroundings)
 	{
@@ -41,6 +43,7 @@ public class ProjectileEntity extends GameEntity
 				break;
 			}
 		}
+		collide((Hitboxed) o.getHitbox(), surroundings, pos);
 		return o;
 	}
 
@@ -55,5 +58,4 @@ public class ProjectileEntity extends GameEntity
 		
 		return false;
 	}
-
 }
