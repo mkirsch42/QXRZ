@@ -45,7 +45,6 @@ public class MainGui
 		JLabel t = new JLabel("Host Name and IP");
 		t.setFont(f);
 		title.add(t);
-		JLabel client = new JLabel("Client List");
 		title.setSize(300, 75);
 		title.setLocation(400, 0);
 		JPanel gamedata = new JPanel();

@@ -24,7 +24,7 @@ public class RTable {
 	}
 	
 	public void add(String h, int i) {
-	servers.add(new RTableUnits(h, i));
+	servers.add(new RTableUnits(h, i, new Button("X")));
 	}
 	
 	public ScrollPane getPanel() {
