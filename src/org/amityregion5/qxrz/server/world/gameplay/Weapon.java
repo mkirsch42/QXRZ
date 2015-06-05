@@ -10,6 +10,8 @@ public class Weapon {
 	private int rof; //per half second
 	private int retime; //per half second
 	private int damage;
+	private int speed;
+	//constructors
 	public Weapon()
 	{
 		this("ps");
@@ -117,22 +119,29 @@ public class Weapon {
 			cleft--;
 		}
 	}
-	public void weaponUp(Upgrade u)
+	public int getDamage()
 	{
-		/*
-		String type = ((Upgrade) u).getType();
-		if (type.equals("rof"))
-		{
-			rof += 4;
-		}
-		else if (type.equals("cmax"))
-		{
-			cmaxammo += 4;
-		}
-		else if (type.equals("maxc"))
-		{
-			maxclips += 4;
-		}
-		*/
+		return damage;
+	}
+	public String getType()
+	{
+		return type;
+	}
+	public int getSpeed()
+	{
+		return speed;
+	}
+	public void changeROF()
+	{
+		rof += 4;
+	}
+	public void changeMaxAmmo()
+	{
+		//cleft	?
+		maxclips += 4;
+	}
+	public void changeCMax()
+	{
+		cmaxammo += 4;
 	}
 }

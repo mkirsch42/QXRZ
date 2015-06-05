@@ -1,14 +1,15 @@
 package org.amityregion5.qxrz.server.world.gameplay;
 
 public class Upgrade {
-	private Player pl;
 	private String type;
-	public Upgrade()
+
+	public Upgrade(String t)
 	{
-		
+		type = t;
 	}
-	public Upgrade(String choice)
+	
+	public String getType()
 	{
-		
+		return type;
 	}
 }

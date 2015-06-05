@@ -1,9 +1,11 @@
 package org.amityregion5.qxrz.server.net;
 
 import java.io.Serializable;
-
+import java.net.InetAddress;
 import java.net.InetSocketAddress;
 import java.net.SocketAddress;
+import java.net.UnknownHostException;
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.logging.Logger;
@@ -18,7 +20,7 @@ import org.amityregion5.qxrz.common.net.ServerInfo;
 public class ServerNetworkManager extends AbstractNetworkManager
 {
 	// List of client sockets
-	private HashSet<NetworkNode> clients = new HashSet<NetworkNode>();
+	private ArrayList<NetworkNode> clients = new ArrayList<NetworkNode>();
 
 	private Logger l = Logger.getGlobal();
 	private ServerInfo info;
@@ -122,10 +124,8 @@ public class ServerNetworkManager extends AbstractNetworkManager
 					recvClient.send(info);
 				} else
 				{
-					for (Iterator<NetworkNode> it = clients.iterator(); it
-							.hasNext();)
+					for(NetworkNode c : clients)
 					{
-						NetworkNode c = it.next();
 						if (c.equals(recvClient))
 						{
 							// Found a client
@@ -135,7 +135,7 @@ public class ServerNetworkManager extends AbstractNetworkManager
 						}
 					}
 
-					if (!foundClient)
+					if (! foundClient)
 					{
 						clients.add(recvClient);
 						callback.newNode(recvClient);
@@ -158,10 +158,18 @@ public class ServerNetworkManager extends AbstractNetworkManager
 	 */
 	public SocketAddress getSocket()
 	{
-		return sock.getLocalSocketAddress();
+		try
+		{
+			return new InetSocketAddress(InetAddress.getLocalHost(), this.sock.getLocalPort());
+		} catch (UnknownHostException e)
+		{
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return null;
 	}
 
-	public HashSet<NetworkNode> getClients()
+	public ArrayList<NetworkNode> getClients()
 	{
 		return clients;
 	}

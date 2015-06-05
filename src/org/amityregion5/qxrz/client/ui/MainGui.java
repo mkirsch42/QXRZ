@@ -1,13 +1,18 @@
 package org.amityregion5.qxrz.client.ui;
 
+import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
-import java.awt.event.WindowListener;
 import java.util.Arrays;
+import java.util.List;
+
 import javax.swing.JFrame;
 import javax.swing.WindowConstants;
+
 import org.amityregion5.qxrz.client.net.ClientNetworkManager;
 import org.amityregion5.qxrz.client.ui.screen.IScreen;
 import org.amityregion5.qxrz.client.ui.screen.LoadingScreen;
+import org.amityregion5.qxrz.common.net.ChatMessage;
+import org.amityregion5.qxrz.common.net.ServerInfo;
 
 public class MainGui
 {
@@ -21,16 +26,23 @@ public class MainGui
 	private IScreen currentScreen;
 	//The time since the last repaint
 	private long lastRepaint;
+	private List<ServerInfo> queryInfo;
+	private List<ChatMessage> messages;
+
+	private Thread renderThread;
 
 	private ClientNetworkManager networkManger;
 
 	/**
 	 * Create a new MainGui object
 	 * @param manager the network manager to use
+	 * @param chatMessages 
 	 */
-	public MainGui(ClientNetworkManager manager)
+	public MainGui(ClientNetworkManager manager, List<ServerInfo> queryInfo, List<ChatMessage> chatMessages)
 	{
 		networkManger = manager;
+		this.queryInfo = queryInfo;
+		this.messages = chatMessages;
 
 		//Store 10 fps values
 		fps = new double[10];
@@ -48,27 +60,12 @@ public class MainGui
 		frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
 
 		//Add a listener for when the window is closed and close the game
-		frame.addWindowListener(new WindowListener() {
-			@Override
-			public void windowOpened(WindowEvent e) {}
+		frame.addWindowListener(new WindowAdapter() {
 			@Override
 			public void windowClosing(WindowEvent e) {
 				setFrameInvisible = false;
-				System.exit(0);
-				//closeGame();
+				Runtime.getRuntime().exit(0);
 			}
-			@Override
-			public void windowClosed(WindowEvent e) {
-				//closeGame();
-			}
-			@Override
-			public void windowIconified(WindowEvent e) {}
-			@Override
-			public void windowDeiconified(WindowEvent e) {}
-			@Override
-			public void windowActivated(WindowEvent e) {}
-			@Override
-			public void windowDeactivated(WindowEvent e) {}
 		});
 
 		frame.addKeyListener(panel);
@@ -85,14 +82,12 @@ public class MainGui
 		if (!frame.isVisible()) {
 			//Set the last repaint value
 			lastRepaint = System.currentTimeMillis();
-			//Set the last repaint value
-			lastRepaint = System.currentTimeMillis();
 
 			//Set the frame as visible
 			frame.setVisible(true);
 
 			//Start a new thread which contains the repaint method (Render loop)
-			new Thread(()->{
+			renderThread = new Thread(()->{
 				//Stopping condition: when the frame is hidden
 				while (frame.isVisible()) {
 					//Move the fps values down by 1
@@ -106,13 +101,16 @@ public class MainGui
 
 					//Repaint the screen
 					frame.repaint();
+					
 					//Wait enough time to make it 60 fps
 					try{
 						//The 900 here is chosen because it makes it the closest to 60 FPS
 						Thread.sleep((900/60-(System.currentTimeMillis()-lastRepaint)));
 					}catch (Exception e){}
 				}
-			}, "Gui Refresh Thread").start();
+				System.out.println("MainGui.show()");
+			}, "Gui Refresh Thread");
+			renderThread.start();
 		}
 	}
 
@@ -132,7 +130,7 @@ public class MainGui
 	 * 
 	 * @return the current screen
 	 */
-	public IScreen getCurrentScreen()
+	public synchronized IScreen getCurrentScreen()
 	{
 		return currentScreen;
 	}
@@ -142,7 +140,7 @@ public class MainGui
 	 * 
 	 * @param currentScreen new current screen
 	 */
-	public void setCurrentScreen(IScreen currentScreen)
+	public synchronized void setCurrentScreen(IScreen currentScreen)
 	{
 		this.currentScreen = currentScreen;
 	}
@@ -160,8 +158,10 @@ public class MainGui
 	 * Called to safely close the game (Should cut any networking communication)
 	 */
 	public void closeGame() {
-		hide();
+		//hide();
+		
 		currentScreen.onGameClose();
+		
 		getNetworkManger().close();
 	}
 
@@ -172,5 +172,18 @@ public class MainGui
 		return networkManger;
 	}
 
+	/**
+	 * @return the queryInfo
+	 */
+	public List<ServerInfo> getQueryInfo() {
+		return queryInfo;
+	}
 
+	/**
+	 * @return the messages
+	 */
+	public List<ChatMessage> getMessages() {
+		return messages;
+	}
+	
 }

@@ -9,6 +9,10 @@ import java.util.logging.Logger;
 public class NetworkNode extends AbstractNetworkNode
 {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -5035976919498974857L;
 	private int sentPacketCount;
 	private int receivedPacketCount;
 	private static Logger l = Logger.getGlobal();
@@ -20,7 +24,6 @@ public class NetworkNode extends AbstractNetworkNode
 		sentPacketCount = 0;
 		receivedPacketCount = 0;
 		setAddress(a);
-		l.info("nn constructor" + addr.toString());
 		outStream = out;
 	}
 	
@@ -48,13 +51,5 @@ public class NetworkNode extends AbstractNetworkNode
 		
 		outStream.setAddress(addr);
 		outStream.sendObject(new NetworkObject(obj, sentPacketCount));
-	}
-
-	public boolean equals(Object obj)
-	{
-		if (!(obj instanceof NetworkNode))
-			return false;
-
-		return addr.equals(((NetworkNode) obj).getAddress());
 	}
 }

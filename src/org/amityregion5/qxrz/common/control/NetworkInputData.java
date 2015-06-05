@@ -12,8 +12,8 @@ public class NetworkInputData implements Serializable
 
 	
 	private BitSet inputsDown;
-	private int mouseX;
-	private int mouseY;
+	private double mouseX;
+	private double mouseY;
 	
 	public NetworkInputData()
 	{
@@ -29,18 +29,18 @@ public class NetworkInputData implements Serializable
 		return inputsDown.get(inputMask.getMaskIndex());
 	}
 	
-	public int getMouseX() {
+	public double getMouseX() {
 		return mouseX;
 	}
 	
-	public int getMouseY() {
+	public double getMouseY() {
 		return mouseY;
 	}
 	
-	public void setMouseX(int mouseX) {
-		this.mouseX = mouseX;
+	public void setMouseX(double x) {
+		this.mouseX = x;
 	}
-	public void setMouseY(int mouseY) {
+	public void setMouseY(double mouseY) {
 		this.mouseY = mouseY;
 	}
 }

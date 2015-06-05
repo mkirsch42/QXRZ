@@ -23,7 +23,7 @@ public class ElementRectangle extends AGuiElement
 	//A supplier to determine the name of the rectangle
 	protected Supplier<String> name;
 	//The three colors of the rectangle
-	protected Color background, border, text;
+	protected Supplier<Color> background, border, text;
 	//Last known window data of the rectangle
 	protected WindowData wData;
 	//The size/Padding of the rectangle's text
@@ -42,7 +42,7 @@ public class ElementRectangle extends AGuiElement
 			Function<WindowData, Point> widthHeightFunction,
 			Color background, Color border, float sizeOrPadding,
 			Color text, String name) {
-		this(topLeftFunction, widthHeightFunction, background, border, sizeOrPadding, text, ()->name, null);
+		this(topLeftFunction, widthHeightFunction, ()->background, ()->border, sizeOrPadding, ()->text, ()->name, null);
 	}
 
 	/**
@@ -59,7 +59,7 @@ public class ElementRectangle extends AGuiElement
 			Function<WindowData, Point> widthHeightFunction,
 			Color background, Color border, float sizeOrPadding,
 			Color text, String name, Consumer<WindowData> onClick) {
-		this(topLeftFunction, widthHeightFunction, background, border, sizeOrPadding, text, ()->name, onClick);
+		this(topLeftFunction, widthHeightFunction, ()->background, ()->border, sizeOrPadding, ()->text, ()->name, onClick);
 	}
 	
 	/**
@@ -73,8 +73,8 @@ public class ElementRectangle extends AGuiElement
 	 */
 	public ElementRectangle(Function<WindowData, Point> topLeftFunction,
 			Function<WindowData, Point> widthHeightFunction,
-			Color background, Color border, float sizeOrPadding,
-			Color text, Supplier<String> name, Consumer<WindowData> onClick) {
+			Supplier<Color> background, Supplier<Color> border, float sizeOrPadding,
+			Supplier<Color> text, Supplier<String> name, Consumer<WindowData> onClick) {
 		this.name = name;
 		this.topLeftFunction = topLeftFunction;
 		this.widthHeightFunction = widthHeightFunction;
@@ -94,11 +94,11 @@ public class ElementRectangle extends AGuiElement
 		wData = windowData;
 		
 		//Draw the background
-		g.setColor(background);
+		g.setColor(background.get());
 		g.fillRect(getX(), getY(), getWidth(), getHeight());
 		
 		//Draw the border
-		g.setColor(border);
+		g.setColor(border.get());
 		g.drawRect(getX(), getY(), getWidth(), getHeight());
 		
 		//Set font size
@@ -108,7 +108,7 @@ public class ElementRectangle extends AGuiElement
 			GuiUtil.scaleFont(name.get(), new Rectangle2D.Double(getX() - sizeOrPadding, getY() - sizeOrPadding, getWidth() + sizeOrPadding, getHeight() + sizeOrPadding), g);
 		}
 		//Set text color
-		g.setColor(text);
+		g.setColor(text.get());
 		//Draw the text
 		GuiUtil.drawString(g, name.get(), CenterMode.CENTER, getX() + getWidth()/2, getY() + getHeight()/2);
 	}
@@ -185,13 +185,13 @@ public class ElementRectangle extends AGuiElement
 	 */
 	public Color getBackground()
 	{
-		return background;
+		return background.get();
 	}
 
 	/**
 	 * @param background the background to set
 	 */
-	public void setBackground(Color background)
+	public void setBackground(Supplier<Color> background)
 	{
 		this.background = background;
 	}
@@ -201,13 +201,13 @@ public class ElementRectangle extends AGuiElement
 	 */
 	public Color getBorder()
 	{
-		return border;
+		return border.get();
 	}
 
 	/**
 	 * @param border the border to set
 	 */
-	public void setBorder(Color border)
+	public void setBorder(Supplier<Color> border)
 	{
 		this.border = border;
 	}
@@ -217,13 +217,13 @@ public class ElementRectangle extends AGuiElement
 	 */
 	public Color getText()
 	{
-		return text;
+		return text.get();
 	}
 
 	/**
 	 * @param text the text to set
 	 */
-	public void setText(Color text)
+	public void setText(Supplier<Color> text)
 	{
 		this.text = text;
 	}

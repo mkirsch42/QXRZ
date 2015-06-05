@@ -1,6 +1,7 @@
 package org.amityregion5.qxrz.common.ui;
 
 import java.awt.Graphics2D;
+import java.awt.geom.Point2D;
 import java.awt.image.BufferedImage;
 import org.amityregion5.qxrz.client.ui.screen.WindowData;
 import org.amityregion5.qxrz.client.ui.util.ImageModification;
@@ -28,19 +29,24 @@ public class AssetDrawer<T extends Hitboxed> implements IObjectDrawer<T> {
 		//Get hitbox
 		Hitbox h = object.getHitbox();
 		//Do math to determine positioning
-		double xFact = d.getWidth()/vp.width;
-		double xOff = vp.getXOff() * xFact;
-		double yFact = d.getHeight()/vp.height;
-		double yOff = vp.getYOff() * xFact;
-		int width = (int)(h.getAABB().getWidth() * xFact);
-		int height = (int)(h.getAABB().getHeight() * yFact);
+		
+		Point2D.Double playerTL = vp.gameToScreen(new Point2D.Double(h.getAABB().getX(), h.getAABB().getY()), d);
+		Point2D.Double playerBR = vp.gameToScreen(new Point2D.Double(h.getAABB().getMaxX(), h.getAABB().getMaxY()), d);
+		double pW = playerBR.x - playerTL.x;
+		double pH = playerBR.y - playerTL.y;
+		
+		Point2D.Double playerCenter = new Point2D.Double(playerTL.x + pW/2, playerTL.y + pH/2);
+		
+		//Squarify and rotate(temporary) the image
+		BufferedImage before = ImageModification.squarifyImage(AssetManager.getImageAssets(assetName)[0]);
+		BufferedImage newImage = ImageModification.rotateImage(before, Math.toRadians(deg++));
+		
+		int width = (int)(pW * newImage.getWidth()/before.getWidth());
+		int height = (int)(pH * newImage.getHeight()/before.getHeight());
 		
 		//Draw on a buffered image to prevent antialiasing
 		BufferedImage buff = ImageModification.createBlankBufferedImage(width, height);
 		Graphics2D g2 = buff.createGraphics();
-		
-		//Squarify and rotate(temporary) the image
-		BufferedImage newImage = ImageModification.squarifyImage(ImageModification.rotateImage(AssetManager.getImageAssets(assetName)[0], Math.toRadians(deg++)));
 		
 		//Draw the image
 		g2.drawImage(newImage, 0, 0,
@@ -50,6 +56,7 @@ public class AssetDrawer<T extends Hitboxed> implements IObjectDrawer<T> {
 		g2.dispose();
 		
 		//Draw the buffer to the screen
-		g.drawImage(buff, (int)(h.getAABB().getX() * xFact - xOff), (int)(h.getAABB().getY() * yFact - yOff), width, height, null);
+		g.drawImage(buff, (int)(playerCenter.x - width/2.0),
+				(int)(playerCenter.y - height/2.0), width, height, null);
 	}
 }

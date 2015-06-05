@@ -6,23 +6,26 @@ public class Bullet {
 	private String type;
 	private int damage;
 	private ProjectileEntity entity;
-	
+	//constructors
 	public Bullet()
 	{
-		this("ps"); //pistol is default
+		this(new Weapon("ps")); //pistol is default
 	}
-	public Bullet(String wtype)
+	public Bullet(Weapon wep)
 	{
-		type = wtype;
-		if (type.equals("ps"))
-			damage = 5;
-		else if (type.equals("sg"))
-			damage = 10;
-		else if (type.equals("ro"))
-			damage = 95;
-		else if (type.equals("fl"))
-			damage = 15;
+		damage = wep.getDamage();
+		type = wep.getType();
 	}
+	public Bullet(ProjectileEntity source)
+	{
+		entity = source;
+	}
+	public Bullet(ProjectileEntity source, Weapon wep)
+	{
+		this(wep);
+		entity = source;
+	}
+	
 	public int getDamage()
 	{
 		return damage;

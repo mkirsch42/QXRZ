@@ -4,6 +4,7 @@ import java.io.Serializable;
 
 import org.amityregion5.qxrz.client.net.ClientNetworkManager;
 import org.amityregion5.qxrz.common.net.AbstractNetworkNode;
+import org.amityregion5.qxrz.common.net.ChatMessage;
 import org.amityregion5.qxrz.common.net.NetEventListener;
 import org.amityregion5.qxrz.common.net.NetworkNode;
 import org.amityregion5.qxrz.common.net.ServerInfo;
@@ -24,13 +25,17 @@ public class ClientNetworkTester
 			@Override
 			public void newNode(AbstractNetworkNode c)
 			{
-				System.out.println("Received!" + c.getAddress() + " name: " + ((ServerInfo) c).getName());
+				System.out.println("Server Founded!" + c.getAddress() + " name: " + ((ServerInfo) c).getName());
 			}
 			
 			@Override
 			public void dataReceived(NetworkNode from, Serializable payload)
 			{
-				
+				if(payload instanceof ChatMessage)
+				{
+					ChatMessage cm = (ChatMessage)payload;
+					String s = cm.getMessage();
+				}
 			}
 		});
 		
