@@ -30,7 +30,7 @@ public class PlayerEntity extends GameEntity implements
 	public PlayerEntity() // creates player vector
 	{
 		pos = new Vector2D(0, 0);
-		vel = new Vector2D(400, 200);
+		vel = new Vector2D(0, 0);
 		//pos = new Vector2D(1500, 2500);
 		//pos = new Vector2D(0,0);
 		//vel = new Vector2D(200, 100).multiply(DebugConstants.PATH_LEN);
@@ -42,19 +42,19 @@ public class PlayerEntity extends GameEntity implements
 		int vY = 0;
 		if(nid.get(NetworkInputMasks.W))
 		{
-			vY = -1;
+			vY = -100;
 		}
 		if(nid.get(NetworkInputMasks.S))
 		{
-			vY = 1;
+			vY = 100;
 		}
 		if(nid.get(NetworkInputMasks.A))
 		{
-			vX = -1;
+			vX = -100;
 		}
 		if(nid.get(NetworkInputMasks.D))
 		{
-			vX = 1;
+			vX = 100;
 		}
 		vel = new Vector2D(vX, vY).multiply(DebugConstants.PATH_LEN);
 		return false;

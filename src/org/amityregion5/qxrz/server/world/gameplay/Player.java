@@ -115,4 +115,8 @@ public class Player {
 	{
 		entity.input(nid);
 	}
+	public PlayerEntity getEntity()
+	{
+		return entity;
+	}
 }

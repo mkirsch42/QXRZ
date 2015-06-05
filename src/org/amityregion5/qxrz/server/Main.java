@@ -44,7 +44,7 @@ public final class Main
 				{
 					Player from = g.findPlayer(c);
 					from.input((NetworkInputData)netObj);
-					System.out.println("I got data!");
+					System.out.println((NetworkInputData)netObj);
 				}
 				
 				if(netObj instanceof PlayerEntity) 

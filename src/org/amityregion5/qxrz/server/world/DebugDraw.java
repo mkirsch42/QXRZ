@@ -30,7 +30,7 @@ public class DebugDraw extends JApplet
 	private static final double SCALE = 0.25;
 	private static final int WIDTH = 1000;
 	private static final int HEIGHT = 700;
-	private static final float STROKE = 1F;
+	private static final float STROKE = 2F;
 	private static int tX = -5;
 	private static int tY = -5;
 	

@@ -28,7 +28,7 @@ public class Game implements Runnable
 		// Create world and add test objects
 		w = new World();
 		
-		w.add(new PlayerEntity());
+		//w.add(new PlayerEntity());
 		//debug = DebugDraw.setup(w);
 		w.addObstacle(new Obstacle(new RectangleHitbox(new Rectangle(1000,500,400,400))));
 		w.addObstacle(new Obstacle(new RectangleHitbox(new Rectangle(2000,1500,500,1000))));
@@ -76,6 +76,7 @@ public class Game implements Runnable
 	
 	public void addPlayer(NetworkNode n, Player p)
 	{
+		w.add(p.getEntity());
 		players.put(n, p);
 	}
 }
