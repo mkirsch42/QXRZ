@@ -11,7 +11,7 @@ import org.amityregion5.qxrz.common.asset.AssetManager;
 import org.amityregion5.qxrz.common.net.AbstractNetworkNode;
 import org.amityregion5.qxrz.common.net.ChatMessage;
 //github.com/mkirsch42/QXRZ.gitimport org.amityregion5.qxrz.common.net.AbstractNetworkNode;
-import org.amityregion5.qxrz.common.net.DisconnectNotification;
+import org.amityregion5.qxrz.common.net.Goodbye;
 import org.amityregion5.qxrz.common.net.NetEventListener;
 import org.amityregion5.qxrz.common.net.NetworkNode;
 import org.amityregion5.qxrz.common.net.ServerInfo;
@@ -76,7 +76,7 @@ public class Main
 			gui.closeGame();
 			
 			//Send a disconnect notification packet to the server
-			manager.sendObject(new DisconnectNotification());
+			manager.sendObject(new Goodbye());
 			
 
 			//manager.close();

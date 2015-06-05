@@ -52,8 +52,9 @@ public class ChatMessage implements Serializable
 		return from;
 	}
 
-	public void setFrom(InetSocketAddress from)
+	public ChatMessage setFrom(InetSocketAddress f)
 	{
-		this.from = from;
+		from = f;
+		return this;
 	}
 }

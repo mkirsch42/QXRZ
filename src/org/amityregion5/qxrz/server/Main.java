@@ -5,7 +5,7 @@ import java.io.Serializable;
 import org.amityregion5.qxrz.common.control.NetworkInputData;
 import org.amityregion5.qxrz.common.net.AbstractNetworkNode;
 import org.amityregion5.qxrz.common.net.ChatMessage;
-import org.amityregion5.qxrz.common.net.DisconnectNotification;
+import org.amityregion5.qxrz.common.net.Goodbye;
 import org.amityregion5.qxrz.common.net.NetEventListener;
 import org.amityregion5.qxrz.common.net.NetworkNode;
 import org.amityregion5.qxrz.server.net.ServerNetworkManager;
@@ -24,7 +24,7 @@ public final class Main
 	public static void main(String[] args) throws Exception
 	{
 		
-		ServerNetworkManager netManager = new ServerNetworkManager("Sergey Server", 8000);
+		ServerNetworkManager netManager = new ServerNetworkManager("Not Sergey Server", 8000);
 		//TODO maybe all the manager stuff should be created within the GUI
 		netManager.attachEventListener(new NetEventListener()
 		{
@@ -59,7 +59,7 @@ public final class Main
 					RectangleHitbox uhb = u.getHitBox();
 				}
 				
-				else if(netObj instanceof DisconnectNotification)
+				else if(netObj instanceof Goodbye)
 				{
 					// also stop drawing player and stuff
 					netManager.removeClient(c);
@@ -67,7 +67,7 @@ public final class Main
 				else if(netObj instanceof ChatMessage)
 				{
 					// echo it back out
-					netManager.sendObject(((ChatMessage) netObj)/*.setNode(c)*/);
+					netManager.sendObject(((ChatMessage) netObj).setFrom(c.getSocketAddress()));
 				}
 			}
 		});

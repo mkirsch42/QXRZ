@@ -14,7 +14,8 @@ import java.util.logging.Logger;
 import org.amityregion5.qxrz.common.net.AbstractNetworkManager;
 import org.amityregion5.qxrz.common.net.BroadcastDiscoveryQuery;
 import org.amityregion5.qxrz.common.net.ChatMessage;
-import org.amityregion5.qxrz.common.net.DisconnectNotification;
+import org.amityregion5.qxrz.common.net.Goodbye;
+import org.amityregion5.qxrz.common.net.Hello;
 import org.amityregion5.qxrz.common.net.NetworkNode;
 import org.amityregion5.qxrz.common.net.NetworkObject;
 import org.amityregion5.qxrz.common.net.ServerInfo;
@@ -60,7 +61,7 @@ public class ClientNetworkManager extends AbstractNetworkManager
 	{
 		try
 		{
-			server.send(new DisconnectNotification());
+			server.send(new Goodbye());
 		} catch (Exception e)
 		{
 			// TODO Auto-generated catch block
@@ -120,6 +121,7 @@ public class ClientNetworkManager extends AbstractNetworkManager
 	public void connect(InetSocketAddress addr) throws SocketException
 	{
 		server = new NetworkNode(outStream, addr);
+		sendObject(new Hello());
 	}
 
 	// this is if user wants to manually connect
