@@ -23,6 +23,7 @@ public class PlayerEntity extends GameEntity implements
 		DrawableObject<PlayerEntity>
 {
 
+	private String asset = "weapons/flamethrower";
 	private static List<IObjectDrawer<PlayerEntity>> drawers;
 
 	private final int PLAYER_SIZE = 400;
@@ -270,6 +271,12 @@ public class PlayerEntity extends GameEntity implements
 			drawers.add(new AABBDrawer<PlayerEntity>());
 		}
 		return drawers;
+	}
+
+	@Override
+	public String getAsset()
+	{
+		return asset;
 	}
 
 }

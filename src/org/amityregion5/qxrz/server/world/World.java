@@ -3,6 +3,9 @@ package org.amityregion5.qxrz.server.world;
 import java.awt.Graphics2D;
 import java.util.ArrayList;
 import java.util.List;
+
+import org.amityregion5.qxrz.common.ui.NetworkDrawableObject;
+import org.amityregion5.qxrz.common.ui.NetworkDrawablePacket;
 import org.amityregion5.qxrz.server.world.entity.GameEntity;
 
 public class World
@@ -50,5 +53,15 @@ public class World
 	
 	public List<GameEntity> getEntities() {
 		return entities;
+	}
+	
+	public NetworkDrawablePacket constructDrawablePacket()
+	{
+		NetworkDrawablePacket ndp = new NetworkDrawablePacket();
+		for(GameEntity e : entities)
+		{
+			ndp.add(new NetworkDrawableObject(e.getAsset(), e.getHitbox().getAABB()));
+		}
+		return ndp;
 	}
 }

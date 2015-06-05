@@ -13,8 +13,8 @@ public abstract class GameEntity implements Hitboxed
 	
 	public abstract boolean update(double tSinceUpdate, Landscape surroundings);
 	
-	public abstract Hitbox getHitbox();
-	
 	protected abstract boolean collide(Hitboxed h, Landscape l, Vector2D v);
+	
+	public abstract String getAsset();
 
 }

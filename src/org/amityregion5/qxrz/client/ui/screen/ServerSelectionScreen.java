@@ -164,7 +164,7 @@ public class ServerSelectionScreen extends AbstractScreen
 							gui.getNetworkManger().connect(gui.getQueryInfo().get(i).getAddress());
 							if (gui.getNetworkManger().isConnectedTo(gui.getQueryInfo().get(i).getAddress())) {
 								//gui.setCurrentScreen(new ServerLobbyScreen(this, gui));
-								gui.setCurrentScreen(new GameScreen(this, gui, new Game()));
+								gui.setCurrentScreen(new GameScreen(this, gui, new Game(null)));
 							}
 						}
 						catch (SocketException e){e.printStackTrace();}

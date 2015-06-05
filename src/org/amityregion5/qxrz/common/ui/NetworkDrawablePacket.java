@@ -25,7 +25,7 @@ public class NetworkDrawablePacket implements Serializable, Iterable<NetworkDraw
 		drawables.add(ndo);
 	}
 	
-	public void setclientIndex(int cid)
+	public void setClientIndex(int cid)
 	{
 		clientIndex = cid;
 	}

@@ -11,9 +11,8 @@ import org.amityregion5.qxrz.server.world.vector2d.Vector2D;
 
 public class ProjectileEntity extends GameEntity
 {
-
+	private String asset = "weapons/revolv"; //TODO: change this pls pls pls
 	private int projsize; //depending on specific projectile?
-	private int velocity; //definitely will depend on specific projectile
 	private Bullet b = new Bullet(this);
 	
 	public ProjectileEntity(PlayerEntity source)
@@ -57,5 +56,11 @@ public class ProjectileEntity extends GameEntity
 	protected boolean collide(Hitboxed h, Landscape l, Vector2D v) {
 		
 		return false;
+	}
+
+	@Override
+	public String getAsset()
+	{
+		return asset;
 	}
 }

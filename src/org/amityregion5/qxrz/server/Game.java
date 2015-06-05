@@ -4,16 +4,19 @@ import java.awt.Rectangle;
 import java.util.HashMap;
 
 import org.amityregion5.qxrz.common.net.NetworkNode;
+import org.amityregion5.qxrz.common.ui.NetworkDrawablePacket;
+import org.amityregion5.qxrz.server.net.ServerNetworkManager;
 import org.amityregion5.qxrz.server.world.DebugDraw;
 import org.amityregion5.qxrz.server.world.Obstacle;
 import org.amityregion5.qxrz.server.world.World;
-import org.amityregion5.qxrz.server.world.entity.PlayerEntity;
 import org.amityregion5.qxrz.server.world.entity.RectangleHitbox;
 import org.amityregion5.qxrz.server.world.gameplay.Player;
 
 public class Game implements Runnable
 {
 
+	ServerNetworkManager net;
+	
 	private HashMap<NetworkNode, Player> players = new HashMap<NetworkNode, Player>();
 	
 	public static final int GAME_UNIT = 1;
@@ -23,8 +26,9 @@ public class Game implements Runnable
 	private World w;
 	private boolean running = true;
 
-	public Game()
+	public Game(ServerNetworkManager n)
 	{
+		net = n;
 		// Create world and add test objects
 		w = new World();
 		
@@ -51,6 +55,21 @@ public class Game implements Runnable
 					/ (1000.0 / DebugConstants.UPDATE_RATE));
 			debug.draw();
 
+			NetworkDrawablePacket ndp = w.constructDrawablePacket();
+			for(NetworkNode node : players.keySet())
+			{
+				int index = w.getEntities().indexOf(players.get(node));
+				ndp.setClientIndex(index);
+				try
+				{
+					node.send(ndp);
+				} catch (Exception e)
+				{
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
+			
 			// Set current time for next update
 			lastMs = System.currentTimeMillis();
 			// Sleep for next update

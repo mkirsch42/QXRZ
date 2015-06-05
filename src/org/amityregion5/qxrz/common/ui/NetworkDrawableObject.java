@@ -3,6 +3,7 @@ package org.amityregion5.qxrz.common.ui;
 import java.awt.Dimension;
 import java.awt.Point;
 import java.awt.Rectangle;
+import java.awt.geom.Rectangle2D;
 import java.io.Serializable;
 
 public class NetworkDrawableObject implements Serializable
@@ -13,9 +14,9 @@ public class NetworkDrawableObject implements Serializable
 	 */
 	private static final long serialVersionUID = -4205289169148579464L;
 	private String asset;
-	private Rectangle box;
+	private Rectangle2D box;
 	
-	public NetworkDrawableObject(String a, Rectangle b)
+	public NetworkDrawableObject(String a, Rectangle2D b)
 	{
 		asset = a;
 		box = b;

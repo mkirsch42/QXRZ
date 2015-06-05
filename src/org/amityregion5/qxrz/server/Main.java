@@ -11,9 +11,6 @@ import org.amityregion5.qxrz.common.net.NetworkNode;
 import org.amityregion5.qxrz.server.net.ServerNetworkManager;
 import org.amityregion5.qxrz.server.ui.MainGui;
 import org.amityregion5.qxrz.server.world.DebugDraw;
-import org.amityregion5.qxrz.server.world.entity.PlayerEntity;
-import org.amityregion5.qxrz.server.world.entity.ProjectileEntity;
-import org.amityregion5.qxrz.server.world.entity.RectangleHitbox;
 import org.amityregion5.qxrz.server.world.gameplay.Player;
 //github.com/mkirsch42/QXRZ.gitimport org.amityregion5.qxrz.common.net.ChatMessage;
 
@@ -46,19 +43,6 @@ public final class Main
 					from.input((NetworkInputData)netObj);
 					System.out.println((NetworkInputData)netObj);
 				}
-				
-				if(netObj instanceof PlayerEntity) 
-				{
-					PlayerEntity u = (PlayerEntity) netObj;
-					RectangleHitbox uhb = u.getHitbox();
-				}
-				
-				else if(netObj instanceof ProjectileEntity)
-				{
-					ProjectileEntity u = (ProjectileEntity) netObj;
-					RectangleHitbox uhb = u.getHitBox();
-				}
-				
 				else if(netObj instanceof Goodbye)
 				{
 					// also stop drawing player and stuff
@@ -78,7 +62,7 @@ public final class Main
 		//new MainGui().show();
 
 		new MainGui(netManager).show();
-		g = new Game(); //TODO game needs access to network, too...
+		g = new Game(netManager); //TODO game needs access to network, too...
 		//TODO server panel should show actual IP, not 0.0.0.0
 		if(DebugConstants.DEBUG_GUI)
 		{
