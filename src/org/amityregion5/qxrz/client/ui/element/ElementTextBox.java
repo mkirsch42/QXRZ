@@ -20,7 +20,7 @@ public class ElementTextBox extends ElementRectangle {
 	private HashMap<KeyEvent, Integer> cooldownKeys = new HashMap<KeyEvent, Integer>();
 	private Predicate<Integer> charPred;
 	private Runnable onTextChangeCallback, onEnterCallback;
-	private static final int cooldownClearTime = 15;
+	private static final int cooldownClearTime = 10;
 	private boolean selected = false;
 	private boolean cursorVisible = true;
 	private int cursorFlipTime = 0;

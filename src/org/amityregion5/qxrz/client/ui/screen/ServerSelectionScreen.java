@@ -52,9 +52,14 @@ public class ServerSelectionScreen extends AbstractScreen
 				(w)->{return new Point(250, 50);},
 				(w)->{return new Point(w.getWidth()-150-250, 50);},
 				Color.DARK_GRAY, Color.BLACK, 20f, Color.WHITE, "8000",
-				(k)->Character.isDigit(k)&&
-				(portBox.getString().replace("|", "").length()==0 || (1<<16) > Integer.parseInt(portBox.getString().replace("|", "")+((char)k.intValue())))));
-		portBox.setOnTextChangeCallback(()->refreshServerList());
+				(k)->Character.isDigit(k)));
+		portBox.setOnTextChangeCallback(()->{
+			int boxInt = Integer.parseInt(portBox.getString());
+			if (boxInt >= 65536) {
+				portBox.setName(Integer.parseInt(portBox.getString())/10 + "");
+			}
+			refreshServerList();
+		});
 		
 		elements.add(new ElementRectangle(
 				(w)->{return new Point(50, w.getHeight()-100);},

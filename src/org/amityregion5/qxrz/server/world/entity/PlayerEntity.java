@@ -30,7 +30,7 @@ public class PlayerEntity extends GameEntity implements
 	public PlayerEntity() // creates player vector
 	{
 		pos = new Vector2D(0, 0);
-		vel = new Vector2D(0, 0);
+		vel = new Vector2D(400, 200);
 		//pos = new Vector2D(1500, 2500);
 		//pos = new Vector2D(0,0);
 		//vel = new Vector2D(200, 100).multiply(DebugConstants.PATH_LEN);
