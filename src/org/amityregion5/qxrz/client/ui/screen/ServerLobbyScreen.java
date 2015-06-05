@@ -6,9 +6,7 @@ import java.awt.Point;
 import java.awt.Rectangle;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
-
 import org.amityregion5.qxrz.client.ui.MainGui;
-import org.amityregion5.qxrz.client.ui.element.ElementRectangle;
 import org.amityregion5.qxrz.client.ui.element.ElementTextBox;
 import org.amityregion5.qxrz.client.ui.util.CenterMode;
 import org.amityregion5.qxrz.client.ui.util.GuiMath;
