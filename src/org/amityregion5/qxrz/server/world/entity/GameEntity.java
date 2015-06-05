@@ -10,6 +10,13 @@ public abstract class GameEntity implements Hitboxed
 	// Coordinates and velocities
 	protected Vector2D pos;
 	protected Vector2D vel;
+	private int id;
+	private static int lastId=0;
+	
+	public GameEntity()
+	{
+		id = lastId++;
+	}
 	
 	public abstract boolean update(double tSinceUpdate, Landscape surroundings);
 	

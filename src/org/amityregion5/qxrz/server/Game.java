@@ -98,4 +98,9 @@ public class Game implements Runnable
 		w.add(p.getEntity());
 		players.put(n, p);
 	}
+	public void removePlayer(NetworkNode n)
+	{
+		w.removeEntity(players.get(n).getEntity());
+		players.remove(n);
+	}
 }

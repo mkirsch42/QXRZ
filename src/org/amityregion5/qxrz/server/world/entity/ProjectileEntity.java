@@ -17,6 +17,7 @@ public class ProjectileEntity extends GameEntity
 	
 	public ProjectileEntity(PlayerEntity source)
 	{
+		super();
 		pos = source.pos;
 		vel = source.vel;
 	}

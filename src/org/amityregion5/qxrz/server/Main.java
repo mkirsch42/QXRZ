@@ -46,6 +46,7 @@ public final class Main
 				else if(netObj instanceof Goodbye)
 				{
 					// also stop drawing player and stuff
+					g.removePlayer(c);
 					netManager.removeClient(c);
 				}
 				else if(netObj instanceof ChatMessage)

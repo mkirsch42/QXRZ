@@ -32,9 +32,13 @@ public class World
 	
 	public void update(double tSinceUpdate)
 	{
-		for (GameEntity t : entities)
+		for (int i=0;i<entities.size();i++)
 		{
-			t.update(tSinceUpdate, l);
+			if(entities.get(i).update(tSinceUpdate, l))
+			{
+				removeEntity(entities.get(i));
+				i--;
+			}
 		}
 	}
 
@@ -63,5 +67,9 @@ public class World
 			ndp.add(new NetworkDrawableObject(e.getAsset(), e.getHitbox().getAABB()));
 		}
 		return ndp;
+	}
+	public void removeEntity(GameEntity e)
+	{
+		entities.remove(e);
 	}
 }
