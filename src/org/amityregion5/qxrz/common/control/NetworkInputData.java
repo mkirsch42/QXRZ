@@ -49,15 +49,16 @@ public class NetworkInputData implements Serializable
 	}
 	public String toString()
 	{
-		String str = "";
+		String str = "NID {";
 		for(NetworkInputMasks nim : NetworkInputMasks.values())
 		{
 			if(get(nim))
 			{
 				str += nim.toString() + " ";
 			}
-			str += mouseX + " , " + mouseY;
 		}
+		str += "}";
+		str += "{" + mouseX + " , " + mouseY + "}";
 		return str;
 	}
 }
