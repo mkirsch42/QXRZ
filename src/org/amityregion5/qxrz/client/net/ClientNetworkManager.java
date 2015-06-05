@@ -9,12 +9,12 @@ import java.net.NetworkInterface;
 import java.net.SocketException;
 import java.net.UnknownHostException;
 import java.util.Enumeration;
-import java.util.Iterator;
-import java.util.List;
 import java.util.logging.Logger;
 
 import org.amityregion5.qxrz.common.net.AbstractNetworkManager;
 import org.amityregion5.qxrz.common.net.BroadcastDiscoveryQuery;
+import org.amityregion5.qxrz.common.net.ChatMessage;
+import org.amityregion5.qxrz.common.net.DisconnectNotification;
 import org.amityregion5.qxrz.common.net.NetworkNode;
 import org.amityregion5.qxrz.common.net.NetworkObject;
 import org.amityregion5.qxrz.common.net.ServerInfo;
@@ -24,10 +24,48 @@ public class ClientNetworkManager extends AbstractNetworkManager
 	private NetworkNode server;
 	private static Logger l = Logger.getGlobal();
 	private boolean running = true;
-	
+
 	public ClientNetworkManager() throws Exception
 	{
 		super();
+	}
+
+	public boolean isConnectedTo(InetSocketAddress address)
+	{
+		if (server == null)
+		{
+			return false;
+		}
+		return address.equals(server.getAddress());
+	}
+
+	/**
+	 * Send a chat message to the server
+	 * 
+	 * @param message
+	 *            String message itself
+	 */
+	public void sendChatMessage(String message)
+	{
+		ChatMessage cm = new ChatMessage(message, server.getAddress());
+		sendObject(cm);
+	}
+
+	/**
+	 * Send a disconnect notification to the server. This will cause the client
+	 * to disconnect from the server.
+	 * 
+	 */
+	public void sendDisconnectNotification()
+	{
+		try
+		{
+			server.send(new DisconnectNotification());
+		} catch (Exception e)
+		{
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 
 	/**
@@ -49,16 +87,18 @@ public class ClientNetworkManager extends AbstractNetworkManager
 	private static InetAddress getBroadcast() throws SocketException,
 			UnknownHostException
 	{
-		Enumeration<NetworkInterface> addresses = NetworkInterface.getNetworkInterfaces();
-		while(addresses.hasMoreElements())
+		Enumeration<NetworkInterface> addresses = NetworkInterface
+				.getNetworkInterfaces();
+		while (addresses.hasMoreElements())
 		{
 			NetworkInterface networkInterface = addresses.nextElement();
-			if(!networkInterface.isLoopback())
+			if (!networkInterface.isLoopback())
 			{
-				for (InterfaceAddress interfaceAddress : networkInterface.getInterfaceAddresses())
+				for (InterfaceAddress interfaceAddress : networkInterface
+						.getInterfaceAddresses())
 				{
 					InetAddress bcast = interfaceAddress.getBroadcast();
-					if(bcast != null)
+					if (bcast != null)
 					{
 						return bcast;
 					}
@@ -103,6 +143,7 @@ public class ClientNetworkManager extends AbstractNetworkManager
 
 	/**
 	 * Sends the given object to server
+	 * 
 	 * @param s
 	 *            Object that needs to be send
 	 */
@@ -110,7 +151,8 @@ public class ClientNetworkManager extends AbstractNetworkManager
 	{
 		try
 		{
-			if (server != null) {
+			if (server != null)
+			{
 				server.send(s);
 			}
 		} catch (Exception e)
@@ -132,12 +174,15 @@ public class ClientNetworkManager extends AbstractNetworkManager
 				if (netObj.getPayload() instanceof ServerInfo)
 				{
 					ServerInfo info = (ServerInfo) netObj.getPayload();
-					info.setAddress((InetSocketAddress) inStream.getPacket().getSocketAddress());
+					info.setAddress((InetSocketAddress) inStream.getPacket()
+							.getSocketAddress());
 					callback.newNode(info);
 				}
 
-				/* If server has not been set yet, ignore all other packets.
-				 * Though we probably shouldn't be receiving any packets if we haven't joined the game yet
+				/*
+				 * If server has not been set yet, ignore all other packets.
+				 * Though we probably shouldn't be receiving any packets if we
+				 * haven't joined the game yet
 				 */
 				if (server != null)
 				{
@@ -150,6 +195,7 @@ public class ClientNetworkManager extends AbstractNetworkManager
 			}
 		}
 	}
+	
 	
 	public void close()
 	{

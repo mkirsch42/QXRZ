@@ -4,11 +4,14 @@ import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.util.Arrays;
 import java.util.List;
+
 import javax.swing.JFrame;
 import javax.swing.WindowConstants;
+
 import org.amityregion5.qxrz.client.net.ClientNetworkManager;
 import org.amityregion5.qxrz.client.ui.screen.IScreen;
 import org.amityregion5.qxrz.client.ui.screen.LoadingScreen;
+import org.amityregion5.qxrz.common.net.ChatMessage;
 import org.amityregion5.qxrz.common.net.ServerInfo;
 
 public class MainGui
@@ -24,6 +27,7 @@ public class MainGui
 	//The time since the last repaint
 	private long lastRepaint;
 	private List<ServerInfo> queryInfo;
+	private List<ChatMessage> messages;
 
 	private Thread renderThread;
 
@@ -32,11 +36,13 @@ public class MainGui
 	/**
 	 * Create a new MainGui object
 	 * @param manager the network manager to use
+	 * @param chatMessages 
 	 */
-	public MainGui(ClientNetworkManager manager, List<ServerInfo> queryInfo)
+	public MainGui(ClientNetworkManager manager, List<ServerInfo> queryInfo, List<ChatMessage> chatMessages)
 	{
 		networkManger = manager;
 		this.queryInfo = queryInfo;
+		this.messages = chatMessages;
 
 		//Store 10 fps values
 		fps = new double[10];
@@ -173,5 +179,11 @@ public class MainGui
 		return queryInfo;
 	}
 
-
+	/**
+	 * @return the messages
+	 */
+	public List<ChatMessage> getMessages() {
+		return messages;
+	}
+	
 }
