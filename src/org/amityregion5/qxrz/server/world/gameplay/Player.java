@@ -7,6 +7,8 @@ import org.amityregion5.qxrz.server.world.entity.ProjectileEntity;
 import com.sun.xml.internal.bind.v2.schemagen.xmlschema.List;
 
 public class Player {
+	private static int lastId = 0;
+	private int id;
 	private int health;
 	private int speed;
 	private Weapon[] guns = new Weapon[2];
@@ -17,6 +19,7 @@ public class Player {
 	//constructors
 	public Player() //creates a newly spawned player
 	{
+		id = lastId++;
 		guns[0] = new Weapon();
 		health = 100;
 		speed = 100;
@@ -118,5 +121,17 @@ public class Player {
 	public PlayerEntity getEntity()
 	{
 		return entity;
+	}
+	public int getId()
+	{
+		return id;
+	}
+	public boolean equals(Object obj)
+	{
+		if(!(obj instanceof Player))
+		{
+			return false;
+		}
+		return ((Player)obj).getId()==id;
 	}
 }
