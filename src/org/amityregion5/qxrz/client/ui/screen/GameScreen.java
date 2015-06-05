@@ -121,7 +121,8 @@ public class GameScreen extends AbstractScreen
 			nid.setMouseY(mc.y);
 			
 			//Send the object
-			gui.getNetworkManger().sendObject(nid);
+			if(nid.getNumDown()>0)
+				gui.getNetworkManger().sendObject(nid);
 		}
 	}
 

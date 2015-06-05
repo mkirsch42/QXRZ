@@ -43,4 +43,21 @@ public class NetworkInputData implements Serializable
 	public void setMouseY(double mouseY) {
 		this.mouseY = mouseY;
 	}
+	public int getNumDown()
+	{
+		return inputsDown.cardinality();
+	}
+	public String toString()
+	{
+		String str = "";
+		for(NetworkInputMasks nim : NetworkInputMasks.values())
+		{
+			if(get(nim))
+			{
+				str += nim.toString() + " ";
+			}
+			str += mouseX + " , " + mouseY;
+		}
+		return str;
+	}
 }
