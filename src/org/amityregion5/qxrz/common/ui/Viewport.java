@@ -40,9 +40,12 @@ public class Viewport
 	public Point2D.Double screenToGame(Point2D.Double point,
 			WindowData windowData)
 	{
-		return new Point2D.Double((point.x + getXOff()) / windowData.getWidth()
-				* width, (point.y + getYOff()) / windowData.getHeight()
-				* height);
+		double xFact = windowData.getWidth()/width;
+		double xOff = getXOff() * xFact;
+		double yFact = windowData.getHeight()/height;
+		double yOff = getYOff() * xFact;
+
+		return new Point2D.Double((point.x+xOff) / xFact, (point.y - yOff) / yFact);
 	}
 
 	public Point2D.Double gameToScreen(Point2D.Double point,
@@ -54,5 +57,11 @@ public class Viewport
 		double yOff = getYOff() * xFact;
 
 		return new Point2D.Double(point.x * xFact - xOff, point.y * yFact - yOff);
+	}
+	
+	@Override
+	public String toString()
+	{
+		return "x: " + xCenter + " y: " + yCenter + " w: " + width + " h: " + height;
 	}
 }

@@ -50,28 +50,28 @@ public class GameScreen extends AbstractScreen
 		g.fillRect(0,0, windowData.getWidth(), windowData.getHeight());
 
 		//if I is pressed move viewport up
-		if (windowData.getKeysDown().contains(KeyEvent.VK_I)) {
+		if (windowData.getKeysDown().stream().anyMatch((k)->k.getKeyCode()==KeyEvent.VK_I)) {
 			vp.yCenter-=100;
 		}			
 		//if J is pressed move viewport left
-		if (windowData.getKeysDown().contains(KeyEvent.VK_J)) {
+		if (windowData.getKeysDown().stream().anyMatch((k)->k.getKeyCode()==KeyEvent.VK_J)) {
 			vp.xCenter-=100;
 		}
 		//if K is pressed move viewport down
-		if (windowData.getKeysDown().contains(KeyEvent.VK_K)) {
+		if (windowData.getKeysDown().stream().anyMatch((k)->k.getKeyCode()==KeyEvent.VK_K)) {
 			vp.yCenter+=100;
 		}			
 		//if L is pressed move viewport left
-		if (windowData.getKeysDown().contains(KeyEvent.VK_L)) {
+		if (windowData.getKeysDown().stream().anyMatch((k)->k.getKeyCode()==KeyEvent.VK_L)) {
 			vp.xCenter+=100;
 		}
 		//if U is pressed zoom viewport out
-		if (windowData.getKeysDown().contains(KeyEvent.VK_U)) {
+		if (windowData.getKeysDown().stream().anyMatch((k)->k.getKeyCode()==KeyEvent.VK_U)) {
 			vp.height+=(2/1.5) * 100;
 			vp.width+=2 * 100;
 		}			
 		//if O is pressed zoom viewport in
-		if (windowData.getKeysDown().contains(KeyEvent.VK_O) && vp.height > 600) {
+		if (windowData.getKeysDown().stream().anyMatch((k)->k.getKeyCode()==KeyEvent.VK_O) && vp.height > 600) {
 			vp.height-=(2/1.5) * 100;
 			vp.width-=2 * 100;
 		}
@@ -105,15 +105,15 @@ public class GameScreen extends AbstractScreen
 			NetworkInputData nid = new NetworkInputData();
 			
 			//Set flags to input data
-			nid.set(NetworkInputMasks.W, windowData.getKeysDown().contains(KeyEvent.VK_W));
-			nid.set(NetworkInputMasks.A, windowData.getKeysDown().contains(KeyEvent.VK_A));
-			nid.set(NetworkInputMasks.S, windowData.getKeysDown().contains(KeyEvent.VK_S));
-			nid.set(NetworkInputMasks.D, windowData.getKeysDown().contains(KeyEvent.VK_D));
+			nid.set(NetworkInputMasks.W, windowData.getKeysDown().stream().anyMatch((k)->k.getKeyCode()==KeyEvent.VK_W));
+			nid.set(NetworkInputMasks.A, windowData.getKeysDown().stream().anyMatch((k)->k.getKeyCode()==KeyEvent.VK_A));
+			nid.set(NetworkInputMasks.S, windowData.getKeysDown().stream().anyMatch((k)->k.getKeyCode()==KeyEvent.VK_S));
+			nid.set(NetworkInputMasks.D, windowData.getKeysDown().stream().anyMatch((k)->k.getKeyCode()==KeyEvent.VK_D));
 			nid.set(NetworkInputMasks.M1, windowData.getMiceDown().contains(MouseEvent.BUTTON1));
-			nid.set(NetworkInputMasks.R, windowData.getKeysDown().contains(KeyEvent.VK_R));
-			nid.set(NetworkInputMasks.SPACE, windowData.getKeysDown().contains(KeyEvent.VK_SPACE));
-			nid.set(NetworkInputMasks.COMMA, windowData.getKeysDown().contains(KeyEvent.VK_COMMA));
-			nid.set(NetworkInputMasks.PERIOD, windowData.getKeysDown().contains(KeyEvent.VK_PERIOD));
+			nid.set(NetworkInputMasks.R, windowData.getKeysDown().stream().anyMatch((k)->k.getKeyCode()==KeyEvent.VK_R));
+			nid.set(NetworkInputMasks.SPACE, windowData.getKeysDown().stream().anyMatch((k)->k.getKeyCode()==KeyEvent.VK_SPACE));
+			nid.set(NetworkInputMasks.COMMA, windowData.getKeysDown().stream().anyMatch((k)->k.getKeyCode()==KeyEvent.VK_COMMA));
+			nid.set(NetworkInputMasks.PERIOD, windowData.getKeysDown().stream().anyMatch((k)->k.getKeyCode()==KeyEvent.VK_PERIOD));
 			
 			//Set mouse coordinate data
 			Point2D.Double mc = vp.screenToGame(new Point2D.Double(windowData.getMouseX(), windowData.getMouseY()), windowData);

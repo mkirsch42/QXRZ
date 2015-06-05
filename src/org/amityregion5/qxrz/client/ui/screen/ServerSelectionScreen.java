@@ -13,6 +13,7 @@ import org.amityregion5.qxrz.client.ui.util.CenterMode;
 import org.amityregion5.qxrz.client.ui.util.GuiUtil;
 import org.amityregion5.qxrz.client.ui.util.ImageModification;
 import org.amityregion5.qxrz.common.util.Colors;
+import org.amityregion5.qxrz.server.Game;
 
 public class ServerSelectionScreen extends AbstractScreen
 {
@@ -80,8 +81,8 @@ public class ServerSelectionScreen extends AbstractScreen
 				()->(Color.LIGHT_GRAY), ()->Color.BLACK, 20f, ()->Color.BLACK,
 				()->"Join Game", (w)->{
 					try {
-						gui.getNetworkManger().connect(ipBox.getName(), Integer.parseInt(portBox.getString()));
-						gui.setCurrentScreen(new ServerLobbyScreen(this, gui));
+						//gui.getNetworkManger().connect(ipBox.getName(), Integer.parseInt(portBox.getString()));
+						//gui.setCurrentScreen(new ServerLobbyScreen(this, gui));
 					} catch (Exception e) {
 						e.printStackTrace();
 					}}));
@@ -162,7 +163,8 @@ public class ServerSelectionScreen extends AbstractScreen
 						{
 							gui.getNetworkManger().connect(gui.getQueryInfo().get(i).getAddress());
 							if (gui.getNetworkManger().isConnectedTo(gui.getQueryInfo().get(i).getAddress())) {
-								gui.setCurrentScreen(new ServerLobbyScreen(this, gui));
+								//gui.setCurrentScreen(new ServerLobbyScreen(this, gui));
+								gui.setCurrentScreen(new GameScreen(this, gui, new Game()));
 							}
 						}
 						catch (SocketException e){e.printStackTrace();}
