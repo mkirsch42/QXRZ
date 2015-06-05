@@ -145,6 +145,11 @@ public class ServerSelectionScreen extends AbstractScreen
 				GuiUtil.drawString(gBuff, gui.getQueryInfo().get(i).getName(), CenterMode.LEFT, x + 10, y+h/3);
 				GuiUtil.drawString(gBuff, gui.getQueryInfo().get(i).getAddress().getAddress().getHostAddress(), CenterMode.LEFT, x + 10, y+2*h/3);
 				
+				if (i == selectedServer) {
+					gBuff.setColor(Color.WHITE);
+					GuiUtil.drawString(gBuff, "Click to Connect", CenterMode.RIGHT, x+w - 10, y+h/2);
+				}
+				
 				if (windowData.getMiceDown().size() == 0 && lastMouseButtonsDown > 0 && windowData.getMouseX() >= x + serverX && windowData.getMouseX() <= x+w+serverX &&
 						windowData.getMouseY() >= y+serverY && windowData.getMouseY() <= y+h+serverY) {
 					if (i == selectedServer) {

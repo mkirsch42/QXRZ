@@ -31,12 +31,13 @@ public class ServerLobbyScreen extends AbstractScreen
 
 		gui.getMessages().clear();
 
+		/*
 		elements.add(new ElementRectangle(
 				(w)->{return new Point(50, 50);},
 				(w)->{return new Point(50, 50);},
 				Color.LIGHT_GRAY, Color.BLACK, -10f, Color.BLACK,
 				"<", (w)->{cleanup();gui.setCurrentScreen(getReturnScreen());}));
-		
+		*/
 		elements.add(chatBox = ElementTextBox.createTextBox(
 				(w)->{return new Point(100, w.getHeight()-100);},
 				(w)->{return new Point(w.getWidth()-200, 50);},
@@ -135,5 +136,6 @@ public class ServerLobbyScreen extends AbstractScreen
 
 	@Override
 	protected void cleanup() {
+		gui.getNetworkManger().sendDisconnectNotification();
 	}
 }
