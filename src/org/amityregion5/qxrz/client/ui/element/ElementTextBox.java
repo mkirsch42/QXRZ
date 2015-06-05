@@ -5,10 +5,10 @@ import java.awt.Graphics2D;
 import java.awt.Point;
 import java.awt.Rectangle;
 import java.awt.event.KeyEvent;
+import java.awt.geom.Rectangle2D;
 import java.util.HashMap;
 import java.util.function.Function;
 import java.util.function.Predicate;
-
 import org.amityregion5.qxrz.client.ui.screen.WindowData;
 import org.amityregion5.qxrz.client.ui.util.CenterMode;
 import org.amityregion5.qxrz.client.ui.util.GuiMath;
@@ -20,7 +20,7 @@ public class ElementTextBox extends ElementRectangle {
 	private HashMap<KeyEvent, Integer> cooldownKeys = new HashMap<KeyEvent, Integer>();
 	private Predicate<Integer> charPred;
 	private Runnable onTextChangeCallback, onEnterCallback;
-	private static final int cooldownClearTime = 30;
+	private static final int cooldownClearTime = 15;
 	private boolean selected = false;
 	private boolean cursorVisible = true;
 	private int cursorFlipTime = 0;
@@ -63,7 +63,28 @@ public class ElementTextBox extends ElementRectangle {
 	
 	@Override
 	protected void draw(Graphics2D g, WindowData windowData) {
-		super.draw(g, windowData);
+		//Set the latest window data
+		wData = windowData;
+		
+		//Draw the background
+		g.setColor(background.get());
+		g.fillRect(getX(), getY(), getWidth(), getHeight());
+		
+		//Draw the border
+		g.setColor(border.get());
+		g.drawRect(getX(), getY(), getWidth(), getHeight());
+		
+		//Set font size
+		if (sizeOrPadding > 0) {
+			g.setFont(g.getFont().deriveFont(sizeOrPadding));
+		} else {
+			GuiUtil.scaleFont(name.get(), new Rectangle2D.Double(getX() - sizeOrPadding, getY() - sizeOrPadding, getWidth() + sizeOrPadding, getHeight() + sizeOrPadding), g);
+		}
+		//Set text color
+		g.setColor(super.text.get());
+		//Draw the text
+		GuiUtil.drawString(g, name.get(), CenterMode.LEFT, getX() + 10, getY() + getHeight()/2);
+		
 		cooldownKeys.keySet().removeIf((k)->cooldownKeys.get(k)<=0);
 		cooldownKeys.replaceAll((k, i)->i-1);
 		
@@ -75,7 +96,7 @@ public class ElementTextBox extends ElementRectangle {
 		
 		if (selected && cursorVisible) {
 			Rectangle b = GuiMath.getStringBounds(g, text, 0, 0);
-			GuiUtil.drawString(g, "|", CenterMode.LEFT, (int)(getX() + getWidth()/2 + b.getWidth()/2 + 5), getY() + getHeight()/2);
+			GuiUtil.drawString(g, "|", CenterMode.LEFT, (int)(b.getWidth() + getX() + 10 + 5), getY() + getHeight()/2);
 		}
 	}
 	

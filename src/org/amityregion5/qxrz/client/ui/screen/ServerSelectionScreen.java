@@ -5,8 +5,8 @@ import java.awt.Graphics2D;
 import java.awt.Point;
 import java.awt.image.BufferedImage;
 import java.net.SocketException;
-
 import org.amityregion5.qxrz.client.ui.MainGui;
+import org.amityregion5.qxrz.client.ui.element.ElementImageRectangle;
 import org.amityregion5.qxrz.client.ui.element.ElementRectangle;
 import org.amityregion5.qxrz.client.ui.element.ElementTextBox;
 import org.amityregion5.qxrz.client.ui.util.CenterMode;
@@ -29,11 +29,11 @@ public class ServerSelectionScreen extends AbstractScreen
 		super(previous, gui);
 		refreshServerList();
 		
-		elements.add(new ElementRectangle(
+		elements.add(new ElementImageRectangle(
 				(w)->{return new Point(w.getWidth()-100, 50);},
 				(w)->{return new Point(50, 50);},
-				Color.LIGHT_GRAY, Color.BLACK, 0, Color.BLACK,
-				"Refresh Server List", (w)->refreshServerList()));
+				Color.LIGHT_GRAY, Color.BLACK,
+				"icons/refresh", (w)->refreshServerList()));
 
 		elements.add(new ElementRectangle(
 				(w)->{return new Point(50, 50);},

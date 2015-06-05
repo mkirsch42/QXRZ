@@ -20,6 +20,12 @@ public class AssetManager
 		try
 		{
 			imageAssets.put("weapons/flamethrower", ImageIO.read(FileUtil.getURLOfResource(Main.class, "/weapons/flamethrower.png")));
+			imageAssets.put("weapons/rifle", ImageIO.read(FileUtil.getURLOfResource(Main.class, "/weapons/ar.png")));
+			imageAssets.put("weapons/bow", ImageIO.read(FileUtil.getURLOfResource(Main.class, "/weapons/bow.png")));
+			imageAssets.put("weapons/revolver", ImageIO.read(FileUtil.getURLOfResource(Main.class, "/weapons/revolv.png")));
+			imageAssets.put("weapons/launcher", ImageIO.read(FileUtil.getURLOfResource(Main.class, "/weapons/rl.png")));
+			imageAssets.put("weapons/shotgun", ImageIO.read(FileUtil.getURLOfResource(Main.class, "/weapons/shot.png")));
+			imageAssets.put("icons/refresh", ImageIO.read(FileUtil.getURLOfResource(Main.class, "/icons/refresh.png")));
 		}
 		catch (IOException e)
 		{
