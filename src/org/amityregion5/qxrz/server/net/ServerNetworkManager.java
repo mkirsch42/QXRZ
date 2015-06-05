@@ -12,7 +12,7 @@ import java.util.logging.Logger;
 
 import org.amityregion5.qxrz.common.net.AbstractNetworkManager;
 import org.amityregion5.qxrz.common.net.BroadcastDiscoveryQuery;
-import org.amityregion5.qxrz.common.net.DisconnectNotification;
+import org.amityregion5.qxrz.common.net.Goodbye;
 import org.amityregion5.qxrz.common.net.NetworkNode;
 import org.amityregion5.qxrz.common.net.NetworkObject;
 import org.amityregion5.qxrz.common.net.ServerInfo;
@@ -93,7 +93,7 @@ public class ServerNetworkManager extends AbstractNetworkManager
 		clients.remove(c);
 		try
 		{
-			c.send(new DisconnectNotification());
+			c.send(new Goodbye());
 		} catch (Exception e)
 		{
 			e.printStackTrace();
