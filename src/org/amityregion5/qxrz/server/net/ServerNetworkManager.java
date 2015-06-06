@@ -16,8 +16,7 @@ import org.amityregion5.qxrz.common.net.Goodbye;
 import org.amityregion5.qxrz.common.net.NetworkNode;
 import org.amityregion5.qxrz.common.net.NetworkObject;
 
-public class ServerNetworkManager extends AbstractNetworkManager
-{
+public class ServerNetworkManager extends AbstractNetworkManager {
 	// List of client sockets
 	private ArrayList<NetworkNode> clients = new ArrayList<NetworkNode>();
 
@@ -34,23 +33,17 @@ public class ServerNetworkManager extends AbstractNetworkManager
 	 * @throws Exception
 	 *             Throw exception if failed to open a socket.
 	 */
-	public ServerNetworkManager(String name, int p) throws Exception
-	{
+	public ServerNetworkManager(String name, int p) throws Exception {
 		super(p);
 		info = new AbstractNetworkNode(name);
-		Runtime.getRuntime().addShutdownHook(new Thread()
-		{
-			public void run()
-			{
+		Runtime.getRuntime().addShutdownHook(new Thread() {
+			public void run() {
 				for (Iterator<NetworkNode> it = clients.iterator(); it
-						.hasNext();)
-				{
+						.hasNext();) {
 					NetworkNode n = it.next();
-					try
-					{
+					try {
 						removeClient(n);
-					} catch (Exception e)
-					{
+					} catch (Exception e) {
 						e.printStackTrace();
 					}
 				}
@@ -64,15 +57,11 @@ public class ServerNetworkManager extends AbstractNetworkManager
 	 * @param obj
 	 *            Object that needs to be send.
 	 */
-	public void sendObject(Serializable obj)
-	{
-		for (NetworkNode c : clients)
-		{
-			try
-			{
+	public void sendObject(Serializable obj) {
+		for (NetworkNode c : clients) {
+			try {
 				c.send(obj);
-			} catch (Exception e)
-			{
+			} catch (Exception e) {
 				e.printStackTrace();
 			}
 		}
@@ -86,25 +75,19 @@ public class ServerNetworkManager extends AbstractNetworkManager
 	 * @param c
 	 *            Client that need to be removed
 	 */
-	public void removeClient(NetworkNode c)
-	{
+	public void removeClient(NetworkNode c) {
 		clients.remove(c);
-		try
-		{
+		try {
 			c.send(new Goodbye());
-		} catch (Exception e)
-		{
+		} catch (Exception e) {
 			e.printStackTrace();
 		}
 	}
 
 	@Override
-	public void run()
-	{
-		while (true)
-		{
-			try
-			{
+	public void run() {
+		while (true) {
+			try {
 				NetworkObject netObj = (NetworkObject) inStream.recvObject();
 				NetworkNode recvClient = new NetworkNode(outStream,
 						(InetSocketAddress) inStream.getPacket()
@@ -115,17 +98,13 @@ public class ServerNetworkManager extends AbstractNetworkManager
 						+ netObj.getPayload());
 
 				// if this is a discovery query, echo back at the server
-				if (netObj.getPayload() instanceof BroadcastDiscoveryQuery)
-				{
+				if (netObj.getPayload() instanceof BroadcastDiscoveryQuery) {
 					l.info("Query received!");
-					//System.out.println("query");
+					// System.out.println("query");
 					recvClient.send(info);
-				} else
-				{
-					for(NetworkNode c : clients)
-					{
-						if (c.equals(recvClient))
-						{
+				} else {
+					for (NetworkNode c : clients) {
+						if (c.equals(recvClient)) {
 							// Found a client
 							recvClient = c;
 							foundClient = true;
@@ -133,8 +112,7 @@ public class ServerNetworkManager extends AbstractNetworkManager
 						}
 					}
 
-					if (! foundClient)
-					{
+					if (!foundClient) {
 						clients.add(recvClient);
 						callback.newNode(recvClient);
 						l.info("New client " + recvClient.getAddress());
@@ -144,31 +122,29 @@ public class ServerNetworkManager extends AbstractNetworkManager
 				}
 
 				l.info("Object Received from: " + netObj.toString());
-			} catch (Exception e)
-			{
+			} catch (Exception e) {
 				e.printStackTrace();
 			}
 		}
 	}
+
 	/**
 	 * return the IP and port of this server
+	 * 
 	 * @return SocketAddress including ip and port
 	 */
-	public SocketAddress getSocket()
-	{
-		try
-		{
-			return new InetSocketAddress(InetAddress.getLocalHost(), this.sock.getLocalPort());
-		} catch (UnknownHostException e)
-		{
+	public SocketAddress getSocket() {
+		try {
+			return new InetSocketAddress(InetAddress.getLocalHost(),
+					this.sock.getLocalPort());
+		} catch (UnknownHostException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		return null;
 	}
 
-	public ArrayList<NetworkNode> getClients()
-	{
+	public ArrayList<NetworkNode> getClients() {
 		return clients;
 	}
 }

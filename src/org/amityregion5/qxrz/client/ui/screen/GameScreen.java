@@ -2,41 +2,58 @@ package org.amityregion5.qxrz.client.ui.screen;
 
 import java.awt.Color;
 import java.awt.Graphics2D;
+import java.awt.Rectangle;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
 import java.awt.geom.Point2D;
+import java.awt.image.BufferedImage;
+import java.util.HashMap;
 
 import org.amityregion5.qxrz.client.ui.MainGui;
+import org.amityregion5.qxrz.client.ui.util.CenterMode;
 import org.amityregion5.qxrz.client.ui.util.GameUIHelper;
+import org.amityregion5.qxrz.client.ui.util.GuiMath;
+import org.amityregion5.qxrz.client.ui.util.GuiUtil;
 import org.amityregion5.qxrz.common.asset.AssetManager;
 import org.amityregion5.qxrz.common.audio.AudioHelper;
 import org.amityregion5.qxrz.common.control.NetworkInputData;
 import org.amityregion5.qxrz.common.control.NetworkInputMasks;
+import org.amityregion5.qxrz.common.net.ChatMessage;
 import org.amityregion5.qxrz.common.ui.NetworkDrawableEntity;
 import org.amityregion5.qxrz.common.ui.Viewport;
 import org.amityregion5.qxrz.common.world.WorldManager;
 import org.amityregion5.qxrz.server.world.Obstacle;
 
-public class GameScreen extends AbstractScreen
-{
-	//The current viewport
+public class GameScreen extends AbstractScreen {
+	// The current viewport
 	private Viewport vp = new Viewport();
+
+	private boolean isChatOpen = false;
+
+	private String text = "";
+	private HashMap<KeyEvent, Integer> cooldownKeys = new HashMap<KeyEvent, Integer>();
+	private static final int cooldownClearTime = 10;
+	private boolean cursorVisible = true;
+	private int cursorFlipTime = 0;
 
 	/**
 	 * Create a game screen
 	 * 
-	 * @param previous the return screen
-	 * @param gui the MainGui object
-	 * @param game the Game object
+	 * @param previous
+	 *            the return screen
+	 * @param gui
+	 *            the MainGui object
+	 * @param game
+	 *            the Game object
 	 */
 	public GameScreen(IScreen previous, MainGui gui) {
 		super(previous, gui);
-		
-		//Set viewport defaults
-		vp.xCenter=0 * 100;
-		vp.yCenter=0 * 100;
-		vp.height=40 * 100 * 1.2;
-		vp.width=60 * 100 * 1.2;
+
+		// Set viewport defaults
+		vp.xCenter = 0 * 100;
+		vp.yCenter = 0 * 100;
+		vp.height = 40 * 100 * 1.2;
+		vp.width = 60 * 100 * 1.2;
 	}
 
 	@Override
@@ -44,28 +61,89 @@ public class GameScreen extends AbstractScreen
 		//Fill the screen with white
 		g.setColor(Color.WHITE);
 		g.fillRect(0,0, windowData.getWidth(), windowData.getHeight());
-		
+
 		if (gui.getNetworkDrawablePacket() != null) {
 			if (gui.getNetworkDrawablePacket().getClientIndex() != -1) {
 				NetworkDrawableEntity player = gui.getNetworkDrawablePacket().getDrawables().get(gui.getNetworkDrawablePacket().getClientIndex());
 				vp.xCenter = player.getBox().getCenterX();
 				vp.yCenter = player.getBox().getCenterY();
 			}
-			
+
 			for (Obstacle o : WorldManager.getWorld(gui.getNetworkDrawablePacket().getCurrentWorld()).getLandscape().getObstacles()) {
 				GameUIHelper.draw(g, o.getNDE(), vp, windowData);
 			}
-			
+
 			for (NetworkDrawableEntity nde : gui.getNetworkDrawablePacket().getDrawables()) {
 				GameUIHelper.draw(g, nde, vp, windowData);
 			}
 		}
-		
+
+		BufferedImage chat = GameUIHelper.getChatMessagesImage(windowData.getWidth()/2 - 20, windowData.getHeight() - 200, gui, Color.BLACK, 12f);
+		g.drawImage(chat, null, 10, 100);
+
+		if (!isChatOpen && windowData.getKeysDown().stream().anyMatch((k)->k.getKeyCode()==KeyEvent.VK_T)) {
+			isChatOpen = true;
+			cooldownKeys.put(windowData.getKeysDown().stream().filter((k)->k.getKeyCode()==KeyEvent.VK_T).findAny().get(), cooldownClearTime);
+			text = "";
+		}
+
 		//Do network input data stuff
-		{
+		if (isChatOpen) {
+			cooldownKeys.keySet().removeIf((k)->cooldownKeys.get(k)<=0);
+			cooldownKeys.replaceAll((k, i)->i-1);
+
+			if (cursorFlipTime <= 0) {
+				cursorVisible = !cursorVisible;
+				cursorFlipTime = cooldownClearTime;
+			}
+			cursorFlipTime--;
+
+			windowData.getKeysDown().stream().sequential()
+			.filter((key)->!cooldownKeys.containsKey(key))
+			.forEach((key)->{
+				if (key.getKeyCode() == KeyEvent.VK_ESCAPE) {
+					text = "";
+					isChatOpen = false;
+				} else {
+					if (key.getKeyCode() == KeyEvent.VK_ENTER) {
+						gui.getNetworkManger().sendObject(new ChatMessage(text));
+						text = "";
+						isChatOpen = false;
+						return;
+					} else {
+						if (key.isActionKey() || Character.isSupplementaryCodePoint(key.getKeyChar()) || key.getKeyCode() == KeyEvent.VK_SHIFT) {
+						} else {
+							cooldownKeys.put(key, cooldownClearTime);
+							if (key.getKeyCode() == KeyEvent.VK_BACK_SPACE && text.length() >= 1) {
+								text = text.substring(0, text.length() - 1);
+							} else {
+								text += key.getKeyChar();
+							}
+						}
+					}
+				}
+			});
+
+			g.setColor(Color.BLACK);
+			GuiUtil.drawString(g, text , CenterMode.LEFT, 10, windowData.getHeight() - 80);
+
+			if (cursorVisible) {
+				Rectangle b = GuiMath.getStringBounds(g, text, 0, 0);
+				GuiUtil.drawString(g, "|", CenterMode.LEFT, (int)(b.getWidth() + 10 + 5), windowData.getHeight() - 80);
+			}
+
+			NetworkInputData nid = new NetworkInputData();
+
+			Point2D.Double mc = vp.screenToGame(new Point2D.Double(windowData.getMouseX(), windowData.getMouseY()), windowData);
+			nid.setMouseX(mc.x);
+			nid.setMouseY(mc.y);
+
+			//Send the object
+			gui.getNetworkManger().sendObject(nid);
+		} else {
 			//Create a network input data object
 			NetworkInputData nid = new NetworkInputData();
-			
+
 			//Set flags to input data
 			nid.set(NetworkInputMasks.W, windowData.getKeysDown().stream().anyMatch((k)->k.getKeyCode()==KeyEvent.VK_W));
 			nid.set(NetworkInputMasks.A, windowData.getKeysDown().stream().anyMatch((k)->k.getKeyCode()==KeyEvent.VK_A));
@@ -81,12 +159,12 @@ public class GameScreen extends AbstractScreen
 			nid.set(NetworkInputMasks.SPACE, windowData.getKeysDown().stream().anyMatch((k)->k.getKeyCode()==KeyEvent.VK_SPACE));
 			nid.set(NetworkInputMasks.COMMA, windowData.getKeysDown().stream().anyMatch((k)->k.getKeyCode()==KeyEvent.VK_COMMA));
 			nid.set(NetworkInputMasks.PERIOD, windowData.getKeysDown().stream().anyMatch((k)->k.getKeyCode()==KeyEvent.VK_PERIOD));
-			
+
 			//Set mouse coordinate data
 			Point2D.Double mc = vp.screenToGame(new Point2D.Double(windowData.getMouseX(), windowData.getMouseY()), windowData);
 			nid.setMouseX(mc.x);
 			nid.setMouseY(mc.y);
-			
+
 			//Send the object
 			gui.getNetworkManger().sendObject(nid);
 		}
