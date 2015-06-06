@@ -12,13 +12,13 @@ import java.util.Enumeration;
 import java.util.logging.Logger;
 
 import org.amityregion5.qxrz.common.net.AbstractNetworkManager;
+import org.amityregion5.qxrz.common.net.AbstractNetworkNode;
 import org.amityregion5.qxrz.common.net.BroadcastDiscoveryQuery;
 import org.amityregion5.qxrz.common.net.ChatMessage;
 import org.amityregion5.qxrz.common.net.Goodbye;
 import org.amityregion5.qxrz.common.net.Hello;
 import org.amityregion5.qxrz.common.net.NetworkNode;
 import org.amityregion5.qxrz.common.net.NetworkObject;
-import org.amityregion5.qxrz.common.net.ServerInfo;
 
 public class ClientNetworkManager extends AbstractNetworkManager
 {
@@ -173,9 +173,9 @@ public class ClientNetworkManager extends AbstractNetworkManager
 				NetworkObject netObj = (NetworkObject) inStream.recvObject();
 
 				// Reply to Broadcast query from server!
-				if (netObj.getPayload() instanceof ServerInfo)
+				if (netObj.getPayload() instanceof AbstractNetworkNode)
 				{
-					ServerInfo info = (ServerInfo) netObj.getPayload();
+					AbstractNetworkNode info = (AbstractNetworkNode) netObj.getPayload();
 					info.setAddress((InetSocketAddress) inStream.getPacket()
 							.getSocketAddress());
 					callback.newNode(info);

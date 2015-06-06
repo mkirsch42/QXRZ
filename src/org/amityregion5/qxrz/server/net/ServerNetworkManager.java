@@ -6,16 +6,15 @@ import java.net.InetSocketAddress;
 import java.net.SocketAddress;
 import java.net.UnknownHostException;
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.Iterator;
 import java.util.logging.Logger;
 
 import org.amityregion5.qxrz.common.net.AbstractNetworkManager;
+import org.amityregion5.qxrz.common.net.AbstractNetworkNode;
 import org.amityregion5.qxrz.common.net.BroadcastDiscoveryQuery;
 import org.amityregion5.qxrz.common.net.Goodbye;
 import org.amityregion5.qxrz.common.net.NetworkNode;
 import org.amityregion5.qxrz.common.net.NetworkObject;
-import org.amityregion5.qxrz.common.net.ServerInfo;
 
 public class ServerNetworkManager extends AbstractNetworkManager
 {
@@ -23,7 +22,7 @@ public class ServerNetworkManager extends AbstractNetworkManager
 	private ArrayList<NetworkNode> clients = new ArrayList<NetworkNode>();
 
 	private Logger l = Logger.getGlobal();
-	private ServerInfo info;
+	private AbstractNetworkNode info;
 
 	/**
 	 * To construct a server, pass in a name and a port to listen on
@@ -38,7 +37,7 @@ public class ServerNetworkManager extends AbstractNetworkManager
 	public ServerNetworkManager(String name, int p) throws Exception
 	{
 		super(p);
-		info = new ServerInfo(name);
+		info = new AbstractNetworkNode(name);
 		Runtime.getRuntime().addShutdownHook(new Thread()
 		{
 			public void run()

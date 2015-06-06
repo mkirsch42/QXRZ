@@ -7,12 +7,11 @@ import org.amityregion5.qxrz.common.net.AbstractNetworkNode;
 import org.amityregion5.qxrz.common.net.ChatMessage;
 import org.amityregion5.qxrz.common.net.NetEventListener;
 import org.amityregion5.qxrz.common.net.NetworkNode;
-import org.amityregion5.qxrz.common.net.ServerInfo;
 
 public class ClientNetworkTester
 {
 	public static void main(String[] args) throws Exception
-	{
+	{ 
 		ClientNetworkManager manager = new ClientNetworkManager();
 //		manager.connect(, 8000);
 //		System.out.println(ClientNetworkManager.getBroadcast());
@@ -25,7 +24,7 @@ public class ClientNetworkTester
 			@Override
 			public void newNode(AbstractNetworkNode c)
 			{
-				System.out.println("Server Founded!" + c.getAddress() + " name: " + ((ServerInfo) c).getName());
+				//System.out.println("Server Founded!" + c.getAddress() + " name: " + ((ServerInfo) c).getName());
 			}
 			
 			@Override

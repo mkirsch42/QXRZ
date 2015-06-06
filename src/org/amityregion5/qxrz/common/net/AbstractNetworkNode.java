@@ -7,19 +7,31 @@ import java.net.InetSocketAddress;
  *   - NetworkNode
  *   - ServerInfo
  */
-public abstract class AbstractNetworkNode implements Serializable{
+public class AbstractNetworkNode implements Serializable {
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 7661039239230519837L;
 	protected InetSocketAddress addr;
-
+	protected String name;
+	
+	public AbstractNetworkNode(String n)
+	{
+		name = n;
+	}
+	
 	public InetSocketAddress getAddress() {
 		return addr;
 	}
 
 	public void setAddress(InetSocketAddress a) {
 		addr = a;
+	}
+
+	
+	public String getName()
+	{
+		return name;
 	}
 	
 	@Override

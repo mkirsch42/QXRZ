@@ -17,7 +17,6 @@ import org.amityregion5.qxrz.common.net.AbstractNetworkNode;
 import org.amityregion5.qxrz.common.net.ChatMessage;
 import org.amityregion5.qxrz.common.net.NetEventListener;
 import org.amityregion5.qxrz.common.net.NetworkNode;
-import org.amityregion5.qxrz.common.net.ServerInfo;
 import org.amityregion5.qxrz.common.ui.NetworkDrawablePacket;
 import org.amityregion5.qxrz.common.util.RNG;
 
@@ -33,7 +32,7 @@ public class MainGui
 	private IScreen currentScreen;
 	//The time since the last repaint
 	private long lastRepaint;
-	private List<ServerInfo> queryInfo;
+	private List<AbstractNetworkNode> queryInfo;
 	private List<ChatMessage> messages;
 	private NetworkDrawablePacket ndp;
 	private String username;
@@ -52,7 +51,7 @@ public class MainGui
 		username = "Player " + RNG.r.nextInt(10000);
 		
 		setNetworkManager(manager);
-		this.queryInfo = new ArrayList<ServerInfo>();
+		this.queryInfo = new ArrayList<AbstractNetworkNode>();
 		this.messages = new ArrayList<ChatMessage>();
 
 		//Store 10 fps values
@@ -196,11 +195,10 @@ public class MainGui
 			{
 				if (queryInfo.contains(server))
 				{
-					queryInfo.set(queryInfo.indexOf((ServerInfo) server),
-							(ServerInfo) server);
+					queryInfo.set(queryInfo.indexOf(server), server);
 				} else
 				{
-					queryInfo.add((ServerInfo) server);
+					queryInfo.add(server);
 				}
 			}
 
@@ -220,7 +218,7 @@ public class MainGui
 	/**
 	 * @return the queryInfo
 	 */
-	public List<ServerInfo> getQueryInfo() {
+	public List<AbstractNetworkNode> getQueryInfo() {
 		return queryInfo;
 	}
 

@@ -20,16 +20,20 @@ public class NetworkNode extends AbstractNetworkNode
 
 	public NetworkNode(UDPOutputStream out, InetSocketAddress a)
 			throws SocketException
-	{	addr = a;
+	{
+		super("");
+		addr = a;
 		sentPacketCount = 0;
 		receivedPacketCount = 0;
 		setAddress(a);
 		outStream = out;
 	}
-	
-	public InetSocketAddress getSocketAddress() {
+
+	public InetSocketAddress getSocketAddress()
+	{
 		return addr;
 	}
+
 	public int getReceivedPacketCount()
 	{
 		return receivedPacketCount;
@@ -48,7 +52,7 @@ public class NetworkNode extends AbstractNetworkNode
 	public void send(Serializable obj) throws Exception
 	{
 		sentPacketCount++;
-		
+
 		outStream.setAddress(addr);
 		outStream.sendObject(new NetworkObject(obj, sentPacketCount));
 	}
