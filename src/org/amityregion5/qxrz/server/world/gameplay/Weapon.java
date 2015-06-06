@@ -1,5 +1,7 @@
 package org.amityregion5.qxrz.server.world.gameplay;
 
+import org.amityregion5.qxrz.server.DebugConstants;
+
 public class Weapon {
 	private String type;
 	private int ccamount; //current clip amount
@@ -88,6 +90,10 @@ public class Weapon {
 	
 	public boolean shoot()
 	{
+		if(DebugConstants.INFINITEAMMO)
+		{
+			return true;
+		}
 		if (ccamount==0)
 		{
 			if (cleft==0)
@@ -145,4 +151,5 @@ public class Weapon {
 	{
 		cmaxammo += 4;
 	}
+
 }

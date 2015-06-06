@@ -64,7 +64,7 @@ public class RectangleHitbox extends Hitbox
 		{
 			return new Vector2D(0,1);
 		}
-		return new Vector2D();
+		return null;
 	}
 
 	@Override
