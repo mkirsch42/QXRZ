@@ -19,7 +19,7 @@ public class PlayerEntity extends GameEntity
 
 	private Player parent;
 	
-	private String asset = "weapons/flamethrower";
+	private String asset = "players/1";
 
 	private final int PLAYER_SIZE = 400;
 
