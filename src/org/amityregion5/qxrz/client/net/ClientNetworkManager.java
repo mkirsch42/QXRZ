@@ -59,14 +59,7 @@ public class ClientNetworkManager extends AbstractNetworkManager
 	 */
 	public void sendDisconnectNotification()
 	{
-		try
-		{
-			server.send(new Goodbye());
-		} catch (Exception e)
-		{
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+		sendObject(new Goodbye());
 	}
 
 	/**
