@@ -33,4 +33,18 @@ public class NetworkDrawableObject implements Serializable
 		asset = a;
 		box = new Rectangle(x,y,w,h);
 	}
+
+	/**
+	 * @return the asset
+	 */
+	public String getAsset() {
+		return asset;
+	}
+
+	/**
+	 * @return the box
+	 */
+	public Rectangle2D getBox() {
+		return box;
+	}
 }

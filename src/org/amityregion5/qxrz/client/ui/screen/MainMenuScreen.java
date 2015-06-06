@@ -6,7 +6,6 @@ import java.awt.Point;
 
 import org.amityregion5.qxrz.client.ui.MainGui;
 import org.amityregion5.qxrz.client.ui.element.ElementRectangle;
-import org.amityregion5.qxrz.server.Game;
 
 /**
  * The Main Menu Screen

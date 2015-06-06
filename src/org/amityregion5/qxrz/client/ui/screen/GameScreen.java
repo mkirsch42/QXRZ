@@ -5,19 +5,18 @@ import java.awt.Graphics2D;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
 import java.awt.geom.Point2D;
+
 import org.amityregion5.qxrz.client.ui.MainGui;
 import org.amityregion5.qxrz.common.control.NetworkInputData;
 import org.amityregion5.qxrz.common.control.NetworkInputMasks;
-import org.amityregion5.qxrz.common.ui.DrawableObject;
+import org.amityregion5.qxrz.common.ui.AssetDrawer;
+import org.amityregion5.qxrz.common.ui.NetworkDrawableObject;
 import org.amityregion5.qxrz.common.ui.Viewport;
-import org.amityregion5.qxrz.server.Game;
+import org.amityregion5.qxrz.common.world.WorldManager;
 import org.amityregion5.qxrz.server.world.Obstacle;
-import org.amityregion5.qxrz.server.world.entity.GameEntity;
 
 public class GameScreen extends AbstractScreen
 {
-	//The current game
-	private Game game;
 	//The current viewport
 	private Viewport vp = new Viewport();
 
@@ -28,19 +27,14 @@ public class GameScreen extends AbstractScreen
 	 * @param gui the MainGui object
 	 * @param game the Game object
 	 */
-	public GameScreen(IScreen previous, MainGui gui, Game game) {
+	public GameScreen(IScreen previous, MainGui gui) {
 		super(previous, gui);
-		//Set game variable
-		this.game = game;
 		
 		//Set viewport defaults
 		vp.xCenter=0 * 100;
 		vp.yCenter=0 * 100;
-		vp.height=40 * 100;
-		vp.width=60 * 100;
-		
-		//Start game on a new thread
-		new Thread(game, "Game loop thread").start();;
+		vp.height=40 * 100 * 1.5;
+		vp.width=60 * 100 * 1.5;
 	}
 
 	@Override
@@ -48,54 +42,24 @@ public class GameScreen extends AbstractScreen
 		//Fill the screen with white
 		g.setColor(Color.WHITE);
 		g.fillRect(0,0, windowData.getWidth(), windowData.getHeight());
-
-		//if I is pressed move viewport up
-		if (windowData.getKeysDown().stream().anyMatch((k)->k.getKeyCode()==KeyEvent.VK_I)) {
-			vp.yCenter-=100;
-		}			
-		//if J is pressed move viewport left
-		if (windowData.getKeysDown().stream().anyMatch((k)->k.getKeyCode()==KeyEvent.VK_J)) {
-			vp.xCenter-=100;
-		}
-		//if K is pressed move viewport down
-		if (windowData.getKeysDown().stream().anyMatch((k)->k.getKeyCode()==KeyEvent.VK_K)) {
-			vp.yCenter+=100;
-		}			
-		//if L is pressed move viewport left
-		if (windowData.getKeysDown().stream().anyMatch((k)->k.getKeyCode()==KeyEvent.VK_L)) {
-			vp.xCenter+=100;
-		}
-		//if U is pressed zoom viewport out
-		if (windowData.getKeysDown().stream().anyMatch((k)->k.getKeyCode()==KeyEvent.VK_U)) {
-			vp.height+=(2/1.5) * 100;
-			vp.width+=2 * 100;
-		}			
-		//if O is pressed zoom viewport in
-		if (windowData.getKeysDown().stream().anyMatch((k)->k.getKeyCode()==KeyEvent.VK_O) && vp.height > 600) {
-			vp.height-=(2/1.5) * 100;
-			vp.width-=2 * 100;
-		}
-
-		//Loop through all of the obstacles in the world
-		for (Obstacle o : game.getWorld().getLandscape().getObstacles()) {
-			//If they have drawers (If they can be drawn)
-			if (o.getDrawers() != null) {
-				//Tell each of the drawers to draw the object
-				o.getDrawers().forEach((d)->d.draw(g, o, vp, windowData));
+		
+		if (gui.getNetworkDrawablePacket() != null) {
+			if (gui.getNetworkDrawablePacket().getClientIndex() != -1) {
+				NetworkDrawableObject player = gui.getNetworkDrawablePacket().getDrawables().get(gui.getNetworkDrawablePacket().getClientIndex());
+				vp.xCenter = player.getBox().getCenterX();
+				vp.yCenter = player.getBox().getCenterY();
 			}
-		}
-		//Loop through all of the game entities
-		for (GameEntity e : game.getWorld().getEntities()) {
-			//If that entity is an instance of Drawable object
-			if (e instanceof DrawableObject) {
-				//Get the as a drawable object
-				@SuppressWarnings("unchecked") //Due to the way the DrawableObject interface should be used this should always work
-				DrawableObject<GameEntity> d = (DrawableObject<GameEntity>)e;
-				//Check if it has drawers
-				if (d.getDrawers() != null) {
-					//Tell each of the drawers to draw
-					d.getDrawers().forEach((d2)->d2.draw(g, e, vp, windowData));
+			
+			for (Obstacle o : WorldManager.getWorld(gui.getNetworkDrawablePacket().getCurrentWorld()).getLandscape().getObstacles()) {
+				//If they have drawers (If they can be drawn)
+				if (o.getDrawers() != null) {
+					//Tell each of the drawers to draw the object
+					o.getDrawers().forEach((d)->d.draw(g, o, vp, windowData));
 				}
+			}
+			
+			for (NetworkDrawableObject ndo : gui.getNetworkDrawablePacket().getDrawables()) {
+				AssetDrawer.sdraw(g, ndo, vp, windowData);
 			}
 		}
 		
@@ -127,6 +91,5 @@ public class GameScreen extends AbstractScreen
 
 	@Override
 	protected void cleanup() {
-		game.close();
 	}
 }

@@ -5,6 +5,7 @@ import java.awt.Graphics2D;
 import java.awt.Point;
 import java.awt.image.BufferedImage;
 import java.net.SocketException;
+
 import org.amityregion5.qxrz.client.ui.MainGui;
 import org.amityregion5.qxrz.client.ui.element.ElementImageRectangle;
 import org.amityregion5.qxrz.client.ui.element.ElementRectangle;
@@ -13,7 +14,6 @@ import org.amityregion5.qxrz.client.ui.util.CenterMode;
 import org.amityregion5.qxrz.client.ui.util.GuiUtil;
 import org.amityregion5.qxrz.client.ui.util.ImageModification;
 import org.amityregion5.qxrz.common.util.Colors;
-import org.amityregion5.qxrz.server.Game;
 
 public class ServerSelectionScreen extends AbstractScreen
 {
@@ -164,7 +164,7 @@ public class ServerSelectionScreen extends AbstractScreen
 							gui.getNetworkManger().connect(gui.getQueryInfo().get(i).getAddress());
 							if (gui.getNetworkManger().isConnectedTo(gui.getQueryInfo().get(i).getAddress())) {
 								//gui.setCurrentScreen(new ServerLobbyScreen(this, gui));
-								gui.setCurrentScreen(new GameScreen(this, gui, new Game(null)));
+								gui.setCurrentScreen(new GameScreen(this, gui));
 							}
 						}
 						catch (SocketException e){e.printStackTrace();}

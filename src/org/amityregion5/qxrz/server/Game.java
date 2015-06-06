@@ -59,7 +59,7 @@ public class Game implements Runnable
 			ndp.setCurrentWorld(world);
 			for(NetworkNode node : players.keySet())
 			{
-				int index = w.getEntities().indexOf(players.get(node));
+				int index = w.getEntities().indexOf(players.get(node).getEntity());
 				ndp.setClientIndex(index);
 				try
 				{
