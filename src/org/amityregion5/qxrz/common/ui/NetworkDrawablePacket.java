@@ -4,6 +4,8 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Iterator;
 
+import org.amityregion5.qxrz.common.world.Worlds;
+
 public class NetworkDrawablePacket implements Serializable, Iterable<NetworkDrawableObject>
 {
 
@@ -14,6 +16,7 @@ public class NetworkDrawablePacket implements Serializable, Iterable<NetworkDraw
 
 	private ArrayList<NetworkDrawableObject> drawables;
 	private int clientIndex;
+	private Worlds currentWorld;
 	
 	public NetworkDrawablePacket()
 	{
@@ -49,5 +52,13 @@ public class NetworkDrawablePacket implements Serializable, Iterable<NetworkDraw
 	public Iterator<NetworkDrawableObject> iterator()
 	{
 		return drawables.iterator();
+	}
+	
+	public void setCurrentWorld(Worlds currentWorld) {
+		this.currentWorld = currentWorld;
+	}
+	
+	public Worlds getCurrentWorld() {
+		return currentWorld;
 	}
 }

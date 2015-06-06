@@ -5,6 +5,8 @@ import java.util.HashMap;
 
 import org.amityregion5.qxrz.common.net.NetworkNode;
 import org.amityregion5.qxrz.common.ui.NetworkDrawablePacket;
+import org.amityregion5.qxrz.common.world.WorldManager;
+import org.amityregion5.qxrz.common.world.Worlds;
 import org.amityregion5.qxrz.server.net.ServerNetworkManager;
 import org.amityregion5.qxrz.server.world.DebugDraw;
 import org.amityregion5.qxrz.server.world.Obstacle;
@@ -25,18 +27,16 @@ public class Game implements Runnable
 
 	private World w;
 	private boolean running = true;
+	private Worlds world;
 
 	public Game(ServerNetworkManager n)
 	{
 		net = n;
 		// Create world and add test objects
-		w = new World();
+		w = WorldManager.getWorld(Worlds.DEBUG);
 		
 		//w.add(new PlayerEntity());
 		//debug = DebugDraw.setup(w);
-		w.addObstacle(new Obstacle(new RectangleHitbox(new Rectangle(1000,500,400,400))));
-		w.addObstacle(new Obstacle(new RectangleHitbox(new Rectangle(2000,1500,500,1000))));
-		w.addObstacle(new Obstacle(new RectangleHitbox(new Rectangle(1500,2900+2*GAME_UNIT,2000,500))));
 		// TODO finish compound hitbox normals then add some to the world
 		/*w.addObstacle(new Obstacle(new CompoundHitbox().add(
 				new RectangleHitbox(new Rectangle2D.Double(50,20,5,10))).add(
@@ -56,6 +56,7 @@ public class Game implements Runnable
 			debug.draw();
 
 			NetworkDrawablePacket ndp = w.constructDrawablePacket();
+			ndp.setCurrentWorld(world);
 			for(NetworkNode node : players.keySet())
 			{
 				int index = w.getEntities().indexOf(players.get(node));
@@ -86,6 +87,10 @@ public class Game implements Runnable
 
 	public World getWorld() {
 		return w;
+	}
+	
+	public Worlds getWorlds() {
+		return world;
 	}
 
 	public Player findPlayer(NetworkNode n)
