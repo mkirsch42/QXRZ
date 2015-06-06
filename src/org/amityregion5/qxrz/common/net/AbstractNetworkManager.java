@@ -49,7 +49,7 @@ public abstract class AbstractNetworkManager extends Thread
 	 * @param obj
 	 *            Object that needs to be send
 	 */
-	public abstract void sendObject(Serializable obj);
+	public abstract boolean sendObject(Serializable obj);
 
 	/**
 	 * Use this function to attach your callback function to the method. If you
