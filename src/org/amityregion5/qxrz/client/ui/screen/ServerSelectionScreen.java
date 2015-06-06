@@ -13,6 +13,8 @@ import org.amityregion5.qxrz.client.ui.element.ElementTextBox;
 import org.amityregion5.qxrz.client.ui.util.CenterMode;
 import org.amityregion5.qxrz.client.ui.util.GuiUtil;
 import org.amityregion5.qxrz.client.ui.util.ImageModification;
+import org.amityregion5.qxrz.common.asset.AssetManager;
+import org.amityregion5.qxrz.common.audio.AudioHelper;
 import org.amityregion5.qxrz.common.util.Colors;
 
 public class ServerSelectionScreen extends AbstractScreen
@@ -181,6 +183,15 @@ public class ServerSelectionScreen extends AbstractScreen
 		g.drawImage(buff, null, serverX, serverY);
 
 		lastMouseButtonsDown = windowData.getMiceDown().size();		
+	}
+	
+	@Override
+	public void onScreenChange(boolean leaving) {
+		if (leaving) {
+			AudioHelper.stop(AssetManager.getAudioAssets("test/elevator")[0]);
+		} else {
+			AudioHelper.play(AssetManager.getAudioAssets("test/elevator")[0], true);
+		}
 	}
 
 	@Override

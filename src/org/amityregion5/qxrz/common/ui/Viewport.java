@@ -45,7 +45,7 @@ public class Viewport
 		double yFact = windowData.getHeight()/height;
 		double yOff = getYOff() * xFact;
 
-		return new Point2D.Double((point.x+xOff) / xFact, (point.y - yOff) / yFact);
+		return new Point2D.Double((point.x+xOff) / xFact, (point.y+yOff) / yFact);
 	}
 
 	public Point2D.Double gameToScreen(Point2D.Double point,

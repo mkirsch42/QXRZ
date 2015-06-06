@@ -45,6 +45,8 @@ public class AssetManager
 		try
 		{
 			audioAssets.put("test/BHT", getAudioClip(FileUtil.getURLOfResource(Main.class, "/audio/benny.wav")));
+			audioAssets.put("test/elevator", getAudioClip(FileUtil.getURLOfResource(Main.class, "/audio/elevator.wav")));
+			audioAssets.put("footstep", getAudioClip(FileUtil.getURLOfResource(Main.class, "/audio/footsteps.wav")));
 		}
 		catch (IOException | UnsupportedAudioFileException | LineUnavailableException e)
 		{

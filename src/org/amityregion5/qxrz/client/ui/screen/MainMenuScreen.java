@@ -59,7 +59,7 @@ public class MainMenuScreen extends AbstractScreen
 		if (leaving) {
 			AudioHelper.stop(AssetManager.getAudioAssets("test/BHT")[0]);
 		} else {
-			AudioHelper.play(AssetManager.getAudioAssets("test/BHT")[0]);
+			AudioHelper.play(AssetManager.getAudioAssets("test/BHT")[0], true);
 		}
 	}
 
