@@ -61,7 +61,7 @@ public class World
 	public NetworkDrawablePacket constructDrawablePacket()
 	{
 		NetworkDrawablePacket ndp = new NetworkDrawablePacket();
-		for(GameEntity e : entities)
+		for(GameEntity e : new ArrayList<GameEntity>(entities))
 		{
 			ndp.add(e.getNDE());
 		}
