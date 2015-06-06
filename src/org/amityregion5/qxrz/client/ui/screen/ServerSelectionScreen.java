@@ -56,6 +56,9 @@ public class ServerSelectionScreen extends AbstractScreen
 				(w)->{return new Point(w.getWidth()-150-250, 50);},
 				Color.DARK_GRAY, Color.BLACK, 20f, Color.WHITE, gui.getUsername(),
 				(k)->true));
+		portBox.setOnTextChangeCallback(()->{
+			gui.setUsername(portBox.getString());
+		});
 		/*
 		portBox.setOnTextChangeCallback(()->{
 			int boxInt = Integer.parseInt(portBox.getString());
