@@ -46,7 +46,7 @@ public final class Main
 			@Override
 			public void newNode(AbstractNetworkNode c)
 			{
-				Player p = new Player();
+				Player p = new Player(g.getWorld());
 				g.addPlayer((NetworkNode) c, p);
 				// TODO do stuff for new client (drawing, inventory whatever)
 				// You should cast c to a NetworkNode before using
@@ -59,7 +59,7 @@ public final class Main
 				{
 					Player from = g.findPlayer(c);
 					from.input((NetworkInputData)netObj);
-					//System.out.println((NetworkInputData)netObj);
+					System.out.println((NetworkInputData)netObj);
 				}
 				else if(netObj instanceof Goodbye)
 				{

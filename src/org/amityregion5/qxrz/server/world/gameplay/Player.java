@@ -1,10 +1,10 @@
 package org.amityregion5.qxrz.server.world.gameplay;
 
 import org.amityregion5.qxrz.common.control.NetworkInputData;
+import org.amityregion5.qxrz.common.control.NetworkInputMasks;
+import org.amityregion5.qxrz.server.world.World;
 import org.amityregion5.qxrz.server.world.entity.PlayerEntity;
-import org.amityregion5.qxrz.server.world.entity.ProjectileEntity;
-
-import com.sun.xml.internal.bind.v2.schemagen.xmlschema.List;
+import org.amityregion5.qxrz.server.world.vector2d.Vector2D;
 
 public class Player {
 	private static int lastId = 0;
@@ -16,36 +16,40 @@ public class Player {
 	private Upgrade pupgr; //player upgrade
 	private SpecialMovement pspecmove; //player special movement
 	private PlayerEntity entity; //physics entity for player
+	private World w;
+	private boolean hasShot = false;
 	//constructors
-	public Player() //creates a newly spawned player
+	public Player(World parent) //creates a newly spawned player
 	{
 		id = lastId++;
 		guns[0] = new Weapon();
 		health = 100;
 		speed = 100;
-		entity = new PlayerEntity();
+		entity = new PlayerEntity(this);
+		w = parent;
 	}
-	public Player(Upgrade u) //creates a newly spawned player with a weapon upgrade
+	public Player(Upgrade u, World parent) //creates a newly spawned player with a weapon upgrade
 	{
-		this();
+		this(parent);
 		pupgr = u;
 	}
-	public Player(PlayerEntity spawn) //spawned at a given entity
+	public Player(PlayerEntity spawn, World parent) //spawned at a given entity
 	{
 		guns[0] = new Weapon();
 		health = 100;
 		speed = 100;
 		entity = spawn;
+		w = parent;
 	}
-	public Player(Upgrade u, PlayerEntity spawn) //previous two constructors in one
+	public Player(Upgrade u, PlayerEntity spawn, World parent) //previous two constructors in one
 	{
-		this(spawn);
+		this(spawn, parent);
 		pupgr = u;
 	}
 	
 	public void damaged(Bullet b) //tests if a given bullet hits player and acts accordingly
 	{
-		if (b.getEntity().getHitBox().intersects(entity.getHitbox()))
+		if (b.getEntity().getHitbox().intersects(entity.getHitbox()))
 		 health -= b.getDamage();
 		dead();
 	}
@@ -80,11 +84,12 @@ public class Player {
 	{
 		equipped = input-1; //assuming weapon keys for user will be 1 and 2 respectively
 	}
-	public void shoot() //shoots currently equipped weapon and creates a respective bullet
+	public void shoot(Vector2D v) //shoots currently equipped weapon and creates a respective bullet
 	{
 		if (guns[equipped].shoot())
 		{
-		Bullet b = new Bullet(new ProjectileEntity(entity), guns[equipped]);
+		Bullet b = new Bullet(entity.getPos(), v, guns[equipped]);
+		w.add(b.getEntity());
 		}
 		else {}
 	}
@@ -117,6 +122,16 @@ public class Player {
 	public void input(NetworkInputData nid)
 	{
 		entity.input(nid);
+		if(nid.get(NetworkInputMasks.M1) && !hasShot)
+		{
+			hasShot = true;
+			Vector2D v = new Vector2D(nid.getMouseX(), nid.getMouseY()).subtract(entity.getPos());
+			shoot(v);
+		}
+		if(!nid.get(NetworkInputMasks.M1))
+		{
+			hasShot = false;
+		}
 	}
 	public PlayerEntity getEntity()
 	{

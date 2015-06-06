@@ -33,7 +33,7 @@ public class World
 	{
 		for (int i=0;i<entities.size();i++)
 		{
-			if(entities.get(i).update(tSinceUpdate, l))
+			if(entities.get(i).update(tSinceUpdate, this))
 			{
 				removeEntity(entities.get(i));
 				i--;
@@ -69,6 +69,7 @@ public class World
 	}
 	public void removeEntity(GameEntity e)
 	{
+		System.out.println("removing entity #"+e.getId());
 		entities.remove(e);
 	}
 }

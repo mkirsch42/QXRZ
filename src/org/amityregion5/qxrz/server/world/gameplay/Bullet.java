@@ -1,6 +1,7 @@
 package org.amityregion5.qxrz.server.world.gameplay;
 
 import org.amityregion5.qxrz.server.world.entity.ProjectileEntity;
+import org.amityregion5.qxrz.server.world.vector2d.Vector2D;
 
 public class Bullet {
 	private String type;
@@ -9,21 +10,24 @@ public class Bullet {
 	//constructors
 	public Bullet()
 	{
-		this(new Weapon("ps")); //pistol is default
+		this(new Vector2D(), new Vector2D(), new Weapon("ps"));
 	}
 	public Bullet(Weapon wep)
 	{
+		this(new Vector2D(), new Vector2D(), wep);
 		damage = wep.getDamage();
 		type = wep.getType();
+		entity = new ProjectileEntity(new Vector2D(), new Vector2D(), this);
 	}
-	public Bullet(ProjectileEntity source)
+	public Bullet(Vector2D pos, Vector2D vel)
 	{
-		entity = source;
+		this(pos, vel, new Weapon("ps"));
 	}
-	public Bullet(ProjectileEntity source, Weapon wep)
+	public Bullet(Vector2D pos, Vector2D vel, Weapon wep)
 	{
-		this(wep);
-		entity = source;
+		damage = wep.getDamage();
+		type = wep.getType();
+		entity = new ProjectileEntity(pos, new Vector2D(vel.angle()).multiply(wep.getSpeed()), this);
 	}
 	
 	public int getDamage()
