@@ -125,11 +125,11 @@ public class GameScreen extends AbstractScreen {
 			});
 
 			g.setColor(Color.BLACK);
-			GuiUtil.drawString(g, text , CenterMode.LEFT, 10, windowData.getHeight() - 80);
+			GuiUtil.drawString(g, text , CenterMode.LEFT, 20, windowData.getHeight() - 80);
 
 			if (cursorVisible) {
 				Rectangle b = GuiMath.getStringBounds(g, text, 0, 0);
-				GuiUtil.drawString(g, "|", CenterMode.LEFT, (int)(b.getWidth() + 10 + 5), windowData.getHeight() - 80);
+				GuiUtil.drawString(g, "|", CenterMode.LEFT, (int)(b.getWidth() + 20 + 5), windowData.getHeight() - 80);
 			}
 
 			NetworkInputData nid = new NetworkInputData();
