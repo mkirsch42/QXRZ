@@ -105,7 +105,7 @@ public class GameScreen extends AbstractScreen {
 					text = "";
 					isChatOpen = false;
 				} else {
-					if (key.getKeyCode() == KeyEvent.VK_ENTER) {
+					if (key.getKeyCode() == KeyEvent.VK_ENTER && text.length()>0) {
 						gui.getNetworkManger().sendObject(new ChatMessage(text));
 						text = "";
 						isChatOpen = false;
