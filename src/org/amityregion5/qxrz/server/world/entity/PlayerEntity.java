@@ -113,10 +113,10 @@ public class PlayerEntity extends GameEntity
 			// System.out.println("Yes you can!");
 
 		}
-		if (v.length() < 2 * Game.GAME_UNIT)
+		/*if (v.length() < 2 * Game.GAME_UNIT)
 		{
 			return new Vector2D();
-		}
+		}*/
 		Vector2D pathTemp = v.multiply(0.5);
 		double accuracy = pathTemp.length() * 0.5;
 		while (accuracy > Game.GAME_UNIT)
@@ -174,7 +174,8 @@ public class PlayerEntity extends GameEntity
 		}
 		v = v.subtract(pathTemp);
 		pos = pos.add(pathTemp);
-		while (getHitbox().intersects(h.getHitbox()))
+		//while (getHitbox().intersects(h.getHitbox()))
+		while(!h.getHitbox().canGetNormal(getHitbox()))
 		{
 			if (unCollide)
 			{
@@ -189,7 +190,7 @@ public class PlayerEntity extends GameEntity
 				pos = pos.subtract(t);
 			}
 		}
-		if (unCollide)
+		/*if (unCollide)
 		{
 			Vector2D t = new Vector2D(v.angle()).multiply(Game.GAME_UNIT);
 			v = v.subtract(t);
@@ -200,7 +201,7 @@ public class PlayerEntity extends GameEntity
 			Vector2D t = new Vector2D(v.angle()).multiply(Game.GAME_UNIT);
 			v = v.add(t);
 			pos = pos.subtract(t);
-		}
+		}*/
 		return v;
 	}
 

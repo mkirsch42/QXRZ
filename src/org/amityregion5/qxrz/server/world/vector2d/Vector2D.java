@@ -122,6 +122,11 @@ public class Vector2D
 		return r;
 	}
 
+	public Vector2D round()
+	{
+		return new Vector2D(Math.round(x), Math.round(y));
+	}
+	
 	public Vector2D snap()
 	{
 		if(Math.abs(getX())<EPSILON)

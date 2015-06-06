@@ -11,5 +11,9 @@ public abstract class Hitbox
 	public abstract boolean intersects(Hitbox h2);
 	public abstract Vector2D getNearestNormal(Hitbox h);
 	public abstract Rectangle2D getAABB();
+	public boolean canGetNormal(Hitbox h)
+	{
+		return getNearestNormal(h) != null;
+	}
 	
 }
