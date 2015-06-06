@@ -6,6 +6,8 @@ import java.awt.Point;
 
 import org.amityregion5.qxrz.client.ui.MainGui;
 import org.amityregion5.qxrz.client.ui.element.ElementRectangle;
+import org.amityregion5.qxrz.common.asset.AssetManager;
+import org.amityregion5.qxrz.common.audio.AudioHelper;
 
 /**
  * The Main Menu Screen
@@ -50,6 +52,15 @@ public class MainMenuScreen extends AbstractScreen
 		//Fill the background with black
 		g.setColor(Color.black);
 		g.fillRect(0,0, windowData.getWidth(), windowData.getHeight());
+	}
+	
+	@Override
+	public void onScreenChange(boolean leaving) {
+		if (leaving) {
+			AudioHelper.stop(AssetManager.getAudioAssets("test/BHT")[0]);
+		} else {
+			AudioHelper.play(AssetManager.getAudioAssets("test/BHT")[0]);
+		}
 	}
 
 	@Override

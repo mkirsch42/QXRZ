@@ -2,10 +2,18 @@ package org.amityregion5.qxrz.common.asset;
 
 import java.awt.image.BufferedImage;
 import java.io.IOException;
+import java.net.URL;
 import java.util.HashMap;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
+
 import javax.imageio.ImageIO;
+import javax.sound.sampled.AudioInputStream;
+import javax.sound.sampled.AudioSystem;
+import javax.sound.sampled.Clip;
+import javax.sound.sampled.LineUnavailableException;
+import javax.sound.sampled.UnsupportedAudioFileException;
+
 import org.amityregion5.qxrz.client.Main;
 import org.amityregion5.qxrz.common.util.FileUtil;
 
@@ -14,6 +22,7 @@ public class AssetManager
 {
 	
 	private static HashMap<String, BufferedImage> imageAssets = new HashMap<String, BufferedImage>();
+	private static HashMap<String, Clip> audioAssets = new HashMap<String, Clip>();
 
 	public static void loadAssets()
 	{
@@ -31,10 +40,29 @@ public class AssetManager
 		{
 			e.printStackTrace();
 		}
+		
+		try
+		{
+			audioAssets.put("test/BHT", getAudioClip(FileUtil.getURLOfResource(Main.class, "/audio/benny.wav")));
+		}
+		catch (IOException | UnsupportedAudioFileException | LineUnavailableException e)
+		{
+		}
+	}
+	
+	private static Clip getAudioClip(URL fileURL) throws UnsupportedAudioFileException, IOException, LineUnavailableException {
+		AudioInputStream ain = AudioSystem.getAudioInputStream(fileURL);
+		Clip c = AudioSystem.getClip();
+		c.open(ain);
+		return c;
 	}
 	
 	public static BufferedImage[] getImageAssets(String name) {
 		return imageAssets.keySet().stream().filter((s)->s.matches(regexify(name))).map((k)->imageAssets.get(k)).collect(Collectors.toList()).toArray(new BufferedImage[] {});
+	}
+	
+	public static Clip[] getAudioAssets(String name) {
+		return audioAssets.keySet().stream().filter((s)->s.matches(regexify(name))).map((k)->audioAssets.get(k)).collect(Collectors.toList()).toArray(new Clip[] {});
 	}
 	
 	private static String regexify(String str) {

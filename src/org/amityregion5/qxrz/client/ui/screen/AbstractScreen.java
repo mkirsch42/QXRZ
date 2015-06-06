@@ -67,4 +67,7 @@ public abstract class AbstractScreen implements IScreen {
 	 * Called to cleanup anything that is still open
 	 */
 	protected abstract void cleanup();
+	
+	@Override
+	public void onScreenChange(boolean leaving) {}
 }

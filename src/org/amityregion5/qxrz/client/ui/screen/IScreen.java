@@ -31,4 +31,6 @@ public interface IScreen
 	 * Called to clean up open sockets or anything that needs to be cleaned up as the game closes
 	 */
 	public void onGameClose();
+	
+	public void onScreenChange(boolean leaving);
 }

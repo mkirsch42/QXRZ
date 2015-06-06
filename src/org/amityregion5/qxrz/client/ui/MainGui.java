@@ -152,7 +152,13 @@ public class MainGui
 	 */
 	public synchronized void setCurrentScreen(IScreen currentScreen)
 	{
+		if (this.currentScreen != null) {
+			this.currentScreen.onScreenChange(true);
+		}
 		this.currentScreen = currentScreen;
+		if (this.currentScreen != null) {
+			this.currentScreen.onScreenChange(false);
+		}
 	}
 
 	/**

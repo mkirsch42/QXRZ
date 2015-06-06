@@ -35,6 +35,10 @@ public final class Main
                 null,
                 "QXRZ Server");
 		
+		if (s == null) {
+			return;
+		}
+		
 		ServerNetworkManager netManager = new ServerNetworkManager(s, 8000);
 		//TODO maybe all the manager stuff should be created within the GUI
 		netManager.attachEventListener(new NetEventListener()
