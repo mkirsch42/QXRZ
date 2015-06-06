@@ -56,8 +56,7 @@ public final class Main {
 					netManager.removeClient(c);
 				} else if (netObj instanceof ChatMessage) {
 					// echo it back out
-					netManager.sendObject(((ChatMessage) netObj).setFrom(c
-							.getSocketAddress()));
+					netManager.sendObject(new ChatMessage(c.getName() + ": " + ((ChatMessage)netObj).getMessage()).setFrom(c.getSocketAddress()));
 				}
 			}
 		});

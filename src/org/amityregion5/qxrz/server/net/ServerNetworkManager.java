@@ -13,6 +13,7 @@ import org.amityregion5.qxrz.common.net.AbstractNetworkManager;
 import org.amityregion5.qxrz.common.net.AbstractNetworkNode;
 import org.amityregion5.qxrz.common.net.BroadcastDiscoveryQuery;
 import org.amityregion5.qxrz.common.net.Goodbye;
+import org.amityregion5.qxrz.common.net.Hello;
 import org.amityregion5.qxrz.common.net.NetworkNode;
 import org.amityregion5.qxrz.common.net.NetworkObject;
 
@@ -57,7 +58,7 @@ public class ServerNetworkManager extends AbstractNetworkManager {
 	 * @param obj
 	 *            Object that needs to be send.
 	 */
-	public void sendObject(Serializable obj) {
+	public boolean sendObject(Serializable obj) {
 		for (NetworkNode c : clients) {
 			try {
 				c.send(obj);
@@ -65,6 +66,7 @@ public class ServerNetworkManager extends AbstractNetworkManager {
 				e.printStackTrace();
 			}
 		}
+		return true;
 	}
 
 	/**
@@ -103,6 +105,9 @@ public class ServerNetworkManager extends AbstractNetworkManager {
 					// System.out.println("query");
 					recvClient.send(info);
 				} else {
+					if (netObj.getPayload() instanceof Hello) {
+						recvClient.setName(((Hello)netObj.getPayload()).getName());
+					}
 					for (NetworkNode c : clients) {
 						if (c.equals(recvClient)) {
 							// Found a client

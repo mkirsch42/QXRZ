@@ -34,7 +34,6 @@ public class MainGui {
 	private List<AbstractNetworkNode> queryInfo;
 	private List<ChatMessageTime> messages;
 	private NetworkDrawablePacket ndp;
-	private String username;
 
 	private Thread renderThread;
 
@@ -48,9 +47,9 @@ public class MainGui {
 	 * @param chatMessages
 	 */
 	public MainGui(ClientNetworkManager manager) {
-		username = "Player " + RNG.r.nextInt(10000);
-
 		setNetworkManager(manager);
+		setUsername("Player " + RNG.r.nextInt(10000));
+
 		this.queryInfo = new ArrayList<AbstractNetworkNode>();
 		this.messages = new ArrayList<ChatMessageTime>();
 
@@ -248,7 +247,7 @@ public class MainGui {
 	 * @return the username
 	 */
 	public String getUsername() {
-		return username;
+		return getNetworkManger().getUsername();
 	}
 
 	/**
@@ -256,6 +255,6 @@ public class MainGui {
 	 *            the username to set
 	 */
 	public void setUsername(String username) {
-		this.username = username;
+		getNetworkManger().setUsername(username);
 	}
 }

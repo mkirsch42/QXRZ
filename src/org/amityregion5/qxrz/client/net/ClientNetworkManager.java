@@ -25,6 +25,8 @@ public class ClientNetworkManager extends AbstractNetworkManager
 	private NetworkNode server;
 	private static Logger l = Logger.getGlobal();
 	private boolean running = true;
+	private boolean isConnected = false;
+	private String username;
 
 	public ClientNetworkManager() throws Exception
 	{
@@ -33,7 +35,7 @@ public class ClientNetworkManager extends AbstractNetworkManager
 
 	public boolean isConnectedTo(InetSocketAddress address)
 	{
-		if (server == null)
+		if (server == null || !isConnected)
 		{
 			return false;
 		}
@@ -60,6 +62,7 @@ public class ClientNetworkManager extends AbstractNetworkManager
 	public void sendDisconnectNotification()
 	{
 		sendObject(new Goodbye());
+		isConnected = false;
 	}
 
 	/**
@@ -114,7 +117,7 @@ public class ClientNetworkManager extends AbstractNetworkManager
 	public void connect(InetSocketAddress addr) throws SocketException
 	{
 		server = new NetworkNode(outStream, addr);
-		sendObject(new Hello());
+		isConnected = sendObject(new Hello(username));
 	}
 
 	// this is if user wants to manually connect
@@ -122,7 +125,7 @@ public class ClientNetworkManager extends AbstractNetworkManager
 	 * Connect to a server
 	 * 
 	 * @param host
-	 *            Address of the server
+	 *            Address of the server 
 	 * @param port
 	 *            Port to connect to
 	 * @throws SocketException
@@ -141,19 +144,23 @@ public class ClientNetworkManager extends AbstractNetworkManager
 	 * 
 	 * @param s
 	 *            Object that needs to be send
+	 * @return did it send somewhere/did it work?
 	 */
-	public void sendObject(Serializable s)
+	public boolean sendObject(Serializable s)
 	{
 		try
 		{
 			if (server != null)
 			{
 				server.send(s);
+				return true;
+			} else {
 			}
 		} catch (Exception e)
 		{
 			e.printStackTrace();
 		}
+		return false;
 	}
 
 	@Override
@@ -196,5 +203,16 @@ public class ClientNetworkManager extends AbstractNetworkManager
 	{
 		running = false;
 	}
-
+	
+	public boolean isConnected() {
+		return isConnected;
+	}
+	
+	public String getUsername() {
+		return username;
+	}
+	
+	public void setUsername(String username) {
+		this.username = username;
+	}
 }

@@ -38,7 +38,7 @@ public class ServerSelectionScreen extends AbstractScreen {
 		}, (w) -> {
 			return new Point(50, 50);
 		}, Color.LIGHT_GRAY, Color.BLACK, "icons/refresh",
-				(w) -> refreshServerList()));
+		(w) -> refreshServerList()));
 
 		elements.add(new ElementRectangle((w) -> {
 			return new Point(50, 50);
@@ -86,15 +86,16 @@ public class ServerSelectionScreen extends AbstractScreen {
 		// TODO: Figure out how to validate server
 		elements.add(new ElementRectangle((w) -> {
 			return new Point(w.getWidth() - 150, w.getHeight() - 100);
-		}, (w) -> {
-			return new Point(100, 50);
+		}, (w) -> {return new Point(100, 50);
 		}, () -> (Color.LIGHT_GRAY), () -> Color.BLACK, 20f, () -> Color.BLACK,
-				() -> "Join Game", (w) -> {
-					try {
-						gui.getNetworkManger().connect(ipBox.getName(), 8000);
-						// gui.setCurrentScreen(new ServerLobbyScreen(this,
-						// gui));
-				gui.setCurrentScreen(new GameScreen(this, gui));
+		() -> "Join Game", (w) -> {
+			try {
+				gui.getNetworkManger().connect(ipBox.getName(), 8000);
+				if (gui.getNetworkManger().isConnected()) {
+					gui.setCurrentScreen(new GameScreen(this, gui));
+				}
+				// gui.setCurrentScreen(new ServerLobbyScreen(this,
+				// gui));
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
