@@ -19,6 +19,7 @@ import org.amityregion5.qxrz.common.net.NetEventListener;
 import org.amityregion5.qxrz.common.net.NetworkNode;
 import org.amityregion5.qxrz.common.net.ServerInfo;
 import org.amityregion5.qxrz.common.ui.NetworkDrawablePacket;
+import org.amityregion5.qxrz.common.util.RNG;
 
 public class MainGui
 {
@@ -35,6 +36,7 @@ public class MainGui
 	private List<ServerInfo> queryInfo;
 	private List<ChatMessage> messages;
 	private NetworkDrawablePacket ndp;
+	private String username;
 
 	private Thread renderThread;
 
@@ -47,6 +49,8 @@ public class MainGui
 	 */
 	public MainGui(ClientNetworkManager manager)
 	{
+		username = "Player " + RNG.r.nextInt(10000);
+		
 		setNetworkManager(manager);
 		this.queryInfo = new ArrayList<ServerInfo>();
 		this.messages = new ArrayList<ChatMessage>();
@@ -232,5 +236,19 @@ public class MainGui
 	 */
 	public NetworkDrawablePacket getNetworkDrawablePacket() {
 		return ndp;
+	}
+
+	/**
+	 * @return the username
+	 */
+	public String getUsername() {
+		return username;
+	}
+
+	/**
+	 * @param username the username to set
+	 */
+	public void setUsername(String username) {
+		this.username = username;
 	}
 }

@@ -44,23 +44,24 @@ public class ServerSelectionScreen extends AbstractScreen
 
 		
 		elements.add(new ElementRectangle(
-				(w)->{return new Point(100, 50);},
+				(w)->{return new Point(125, 50);},
 				(w)->{return new Point(100, 50);},
 				Colors.CLEAR, Colors.CLEAR, 20f, Color.BLACK,
-				"Port:"));
+				"Username:"));
 		
 		elements.add(portBox = ElementTextBox.createTextBox(
 				(w)->{return new Point(250, 50);},
 				(w)->{return new Point(w.getWidth()-150-250, 50);},
-				Color.DARK_GRAY, Color.BLACK, 20f, Color.WHITE, "8000",
-				(k)->Character.isDigit(k)));
+				Color.DARK_GRAY, Color.BLACK, 20f, Color.WHITE, gui.getUsername(),
+				(k)->true));
+		/*
 		portBox.setOnTextChangeCallback(()->{
 			int boxInt = Integer.parseInt(portBox.getString());
 			if (boxInt >= 65536) {
 				portBox.setName(Integer.parseInt(portBox.getString())/10 + "");
 			}
 			refreshServerList();
-		});
+		});*/
 		
 		elements.add(new ElementRectangle(
 				(w)->{return new Point(50, w.getHeight()-100);},
@@ -161,6 +162,7 @@ public class ServerSelectionScreen extends AbstractScreen
 					if (i == selectedServer) {
 						try
 						{
+							gui.setUsername(portBox.getString());
 							gui.getNetworkManger().connect(gui.getQueryInfo().get(i).getAddress());
 							if (gui.getNetworkManger().isConnectedTo(gui.getQueryInfo().get(i).getAddress())) {
 								//gui.setCurrentScreen(new ServerLobbyScreen(this, gui));

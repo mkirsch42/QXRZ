@@ -1,9 +1,9 @@
 package org.amityregion5.qxrz.server.world.entity;
 
-import java.awt.geom.Path2D;
-import java.awt.geom.Rectangle2D;
 import java.awt.Rectangle;
 
+import org.amityregion5.qxrz.common.ui.NetworkDrawableEntity;
+import org.amityregion5.qxrz.common.ui.NetworkDrawableObject;
 import org.amityregion5.qxrz.server.world.Landscape;
 import org.amityregion5.qxrz.server.world.Obstacle;
 import org.amityregion5.qxrz.server.world.gameplay.Bullet;
@@ -60,8 +60,7 @@ public class ProjectileEntity extends GameEntity
 	}
 
 	@Override
-	public String getAsset()
-	{
-		return asset;
+	public NetworkDrawableEntity getNDE() {
+		return new NetworkDrawableEntity(new NetworkDrawableObject[] {new NetworkDrawableObject(asset, getHitbox().getAABB())}, getHitbox().getAABB());
 	}
 }

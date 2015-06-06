@@ -1,5 +1,8 @@
 package org.amityregion5.qxrz.client;
 
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
 import org.amityregion5.qxrz.client.net.ClientNetworkManager;
 import org.amityregion5.qxrz.client.ui.MainGui;
 import org.amityregion5.qxrz.client.ui.screen.MainMenuScreen;
@@ -10,6 +13,8 @@ public class Main
 {
 	public static void main(String[] args) throws Exception
 	{
+		Logger.getGlobal().setLevel(Level.OFF);
+		
 		ClientNetworkManager manager = new ClientNetworkManager();
 		
 		MainGui gui = new MainGui(manager);

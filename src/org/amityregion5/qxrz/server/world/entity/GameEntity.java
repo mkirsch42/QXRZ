@@ -1,7 +1,6 @@
 package org.amityregion5.qxrz.server.world.entity;
 
-import java.io.Serializable;
-
+import org.amityregion5.qxrz.common.ui.NetworkDrawableEntity;
 import org.amityregion5.qxrz.server.world.Landscape;
 import org.amityregion5.qxrz.server.world.vector2d.Vector2D;
 
@@ -22,6 +21,7 @@ public abstract class GameEntity implements Hitboxed
 	
 	protected abstract boolean collide(Hitboxed h, Landscape l, Vector2D v);
 	
-	public abstract String getAsset();
+	//public abstract String getAsset();
 
+	public abstract NetworkDrawableEntity getNDE();
 }

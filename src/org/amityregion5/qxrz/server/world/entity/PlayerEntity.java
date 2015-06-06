@@ -2,29 +2,22 @@ package org.amityregion5.qxrz.server.world.entity;
 
 import java.awt.Rectangle;
 import java.awt.geom.Path2D;
-import java.util.ArrayList;
-import java.util.List;
 
 import org.amityregion5.qxrz.common.control.NetworkInputData;
 import org.amityregion5.qxrz.common.control.NetworkInputMasks;
-import org.amityregion5.qxrz.common.ui.AABBDrawer;
-import org.amityregion5.qxrz.common.ui.AssetDrawer;
-import org.amityregion5.qxrz.common.ui.DrawableObject;
-import org.amityregion5.qxrz.common.ui.IObjectDrawer;
+import org.amityregion5.qxrz.common.ui.NetworkDrawableEntity;
+import org.amityregion5.qxrz.common.ui.NetworkDrawableObject;
 import org.amityregion5.qxrz.server.DebugConstants;
 import org.amityregion5.qxrz.server.Game;
 import org.amityregion5.qxrz.server.world.DebugDraw;
 import org.amityregion5.qxrz.server.world.Landscape;
 import org.amityregion5.qxrz.server.world.Obstacle;
-import org.amityregion5.qxrz.server.world.gameplay.Weapon;
 import org.amityregion5.qxrz.server.world.vector2d.Vector2D;
 
-public class PlayerEntity extends GameEntity implements
-		DrawableObject<PlayerEntity>
+public class PlayerEntity extends GameEntity
 {
 
 	private String asset = "weapons/flamethrower";
-	private static List<IObjectDrawer<PlayerEntity>> drawers;
 
 	private final int PLAYER_SIZE = 400;
 
@@ -263,21 +256,7 @@ public class PlayerEntity extends GameEntity implements
 	}
 
 	@Override
-	public List<IObjectDrawer<PlayerEntity>> getDrawers()
-	{
-		if (drawers == null)
-		{
-			drawers = new ArrayList<IObjectDrawer<PlayerEntity>>();
-			drawers.add(new AssetDrawer<PlayerEntity>("weapons/*"));
-			drawers.add(new AABBDrawer<PlayerEntity>());
-		}
-		return drawers;
+	public NetworkDrawableEntity getNDE() {
+		return new NetworkDrawableEntity(new NetworkDrawableObject[] {new NetworkDrawableObject(asset, getHitbox().getAABB())}, getHitbox().getAABB());
 	}
-
-	@Override
-	public String getAsset()
-	{
-		return asset;
-	}
-
 }

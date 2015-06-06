@@ -6,7 +6,7 @@ import java.util.Iterator;
 
 import org.amityregion5.qxrz.common.world.Worlds;
 
-public class NetworkDrawablePacket implements Serializable, Iterable<NetworkDrawableObject>
+public class NetworkDrawablePacket implements Serializable, Iterable<NetworkDrawableEntity>
 {
 
 	/**
@@ -14,16 +14,16 @@ public class NetworkDrawablePacket implements Serializable, Iterable<NetworkDraw
 	 */
 	private static final long serialVersionUID = -9098804499975029270L;
 
-	private ArrayList<NetworkDrawableObject> drawables;
+	private ArrayList<NetworkDrawableEntity> drawables;
 	private int clientIndex;
 	private Worlds currentWorld;
 	
 	public NetworkDrawablePacket()
 	{
-		drawables = new ArrayList<NetworkDrawableObject>();
+		drawables = new ArrayList<NetworkDrawableEntity>();
 	}
 
-	public void add(NetworkDrawableObject ndo)
+	public void add(NetworkDrawableEntity ndo)
 	{
 		drawables.add(ndo);
 	}
@@ -33,7 +33,7 @@ public class NetworkDrawablePacket implements Serializable, Iterable<NetworkDraw
 		clientIndex = cid;
 	}
 	
-	public NetworkDrawableObject getClientObject()
+	public NetworkDrawableEntity getClientObject()
 	{
 		return drawables.get(clientIndex);
 	}
@@ -43,13 +43,13 @@ public class NetworkDrawablePacket implements Serializable, Iterable<NetworkDraw
 		return clientIndex;
 	}
 	
-	public ArrayList<NetworkDrawableObject> getDrawables()
+	public ArrayList<NetworkDrawableEntity> getDrawables()
 	{
 		return drawables;
 	}
 
 	@Override
-	public Iterator<NetworkDrawableObject> iterator()
+	public Iterator<NetworkDrawableEntity> iterator()
 	{
 		return drawables.iterator();
 	}

@@ -119,7 +119,7 @@ public class ServerNetworkManager extends AbstractNetworkManager
 				if (netObj.getPayload() instanceof BroadcastDiscoveryQuery)
 				{
 					l.info("Query received!");
-					System.out.println("query");
+					//System.out.println("query");
 					recvClient.send(info);
 				} else
 				{

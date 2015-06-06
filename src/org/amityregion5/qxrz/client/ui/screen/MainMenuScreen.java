@@ -32,8 +32,8 @@ public class MainMenuScreen extends AbstractScreen
 				(w)->gui.setCurrentScreen(new GameScreen(this, gui, new Game()))));*/
 
 		elements.add(new ElementRectangle(
-				(w)->{return new Point(w.getWidth()/2+50, 200);},
-				(w)->{return new Point(w.getWidth()/2-100, 50);},
+				(w)->{return new Point(100, 200);},
+				(w)->{return new Point(w.getWidth()-200, 50);},
 				Color.DARK_GRAY, Color.WHITE, -20f, Color.WHITE, "Join game",
 				(w)->gui.setCurrentScreen(new ServerSelectionScreen(this, gui))));
 

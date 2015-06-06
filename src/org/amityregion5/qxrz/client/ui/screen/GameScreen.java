@@ -7,10 +7,10 @@ import java.awt.event.MouseEvent;
 import java.awt.geom.Point2D;
 
 import org.amityregion5.qxrz.client.ui.MainGui;
+import org.amityregion5.qxrz.client.ui.util.GameUIHelper;
 import org.amityregion5.qxrz.common.control.NetworkInputData;
 import org.amityregion5.qxrz.common.control.NetworkInputMasks;
-import org.amityregion5.qxrz.common.ui.AssetDrawer;
-import org.amityregion5.qxrz.common.ui.NetworkDrawableObject;
+import org.amityregion5.qxrz.common.ui.NetworkDrawableEntity;
 import org.amityregion5.qxrz.common.ui.Viewport;
 import org.amityregion5.qxrz.common.world.WorldManager;
 import org.amityregion5.qxrz.server.world.Obstacle;
@@ -33,8 +33,8 @@ public class GameScreen extends AbstractScreen
 		//Set viewport defaults
 		vp.xCenter=0 * 100;
 		vp.yCenter=0 * 100;
-		vp.height=40 * 100 * 1.5;
-		vp.width=60 * 100 * 1.5;
+		vp.height=40 * 100 * 1.2;
+		vp.width=60 * 100 * 1.2;
 	}
 
 	@Override
@@ -45,21 +45,17 @@ public class GameScreen extends AbstractScreen
 		
 		if (gui.getNetworkDrawablePacket() != null) {
 			if (gui.getNetworkDrawablePacket().getClientIndex() != -1) {
-				NetworkDrawableObject player = gui.getNetworkDrawablePacket().getDrawables().get(gui.getNetworkDrawablePacket().getClientIndex());
+				NetworkDrawableEntity player = gui.getNetworkDrawablePacket().getDrawables().get(gui.getNetworkDrawablePacket().getClientIndex());
 				vp.xCenter = player.getBox().getCenterX();
 				vp.yCenter = player.getBox().getCenterY();
 			}
 			
 			for (Obstacle o : WorldManager.getWorld(gui.getNetworkDrawablePacket().getCurrentWorld()).getLandscape().getObstacles()) {
-				//If they have drawers (If they can be drawn)
-				if (o.getDrawers() != null) {
-					//Tell each of the drawers to draw the object
-					o.getDrawers().forEach((d)->d.draw(g, o, vp, windowData));
-				}
+				GameUIHelper.draw(g, o.getNDE(), vp, windowData);
 			}
 			
-			for (NetworkDrawableObject ndo : gui.getNetworkDrawablePacket().getDrawables()) {
-				AssetDrawer.sdraw(g, ndo, vp, windowData);
+			for (NetworkDrawableEntity nde : gui.getNetworkDrawablePacket().getDrawables()) {
+				GameUIHelper.draw(g, nde, vp, windowData);
 			}
 		}
 		

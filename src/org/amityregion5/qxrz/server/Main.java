@@ -1,6 +1,10 @@
 package org.amityregion5.qxrz.server;
 
 import java.io.Serializable;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
+import javax.swing.JOptionPane;
 
 import org.amityregion5.qxrz.common.control.NetworkInputData;
 import org.amityregion5.qxrz.common.net.AbstractNetworkNode;
@@ -20,8 +24,18 @@ public final class Main
 	
 	public static void main(String[] args) throws Exception
 	{
+		Logger.getGlobal().setLevel(Level.OFF);
 		
-		ServerNetworkManager netManager = new ServerNetworkManager("Not Sergey Server", 8000);
+		String s = (String)JOptionPane.showInputDialog(
+                null,
+                "Enter Server name",
+                "Server Name Query",
+                JOptionPane.PLAIN_MESSAGE,
+                null,
+                null,
+                "QXRZ Server");
+		
+		ServerNetworkManager netManager = new ServerNetworkManager(s, 8000);
 		//TODO maybe all the manager stuff should be created within the GUI
 		netManager.attachEventListener(new NetEventListener()
 		{
@@ -41,7 +55,7 @@ public final class Main
 				{
 					Player from = g.findPlayer(c);
 					from.input((NetworkInputData)netObj);
-					System.out.println((NetworkInputData)netObj);
+					//System.out.println((NetworkInputData)netObj);
 				}
 				else if(netObj instanceof Goodbye)
 				{
