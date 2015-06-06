@@ -2,6 +2,8 @@ package org.amityregion5.qxrz.client.ui;
 
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -11,8 +13,12 @@ import javax.swing.WindowConstants;
 import org.amityregion5.qxrz.client.net.ClientNetworkManager;
 import org.amityregion5.qxrz.client.ui.screen.IScreen;
 import org.amityregion5.qxrz.client.ui.screen.LoadingScreen;
+import org.amityregion5.qxrz.common.net.AbstractNetworkNode;
 import org.amityregion5.qxrz.common.net.ChatMessage;
+import org.amityregion5.qxrz.common.net.NetEventListener;
+import org.amityregion5.qxrz.common.net.NetworkNode;
 import org.amityregion5.qxrz.common.net.ServerInfo;
+import org.amityregion5.qxrz.common.ui.NetworkDrawablePacket;
 
 public class MainGui
 {
@@ -28,6 +34,7 @@ public class MainGui
 	private long lastRepaint;
 	private List<ServerInfo> queryInfo;
 	private List<ChatMessage> messages;
+	private NetworkDrawablePacket ndp;
 
 	private Thread renderThread;
 
@@ -38,11 +45,11 @@ public class MainGui
 	 * @param manager the network manager to use
 	 * @param chatMessages 
 	 */
-	public MainGui(ClientNetworkManager manager, List<ServerInfo> queryInfo, List<ChatMessage> chatMessages)
+	public MainGui(ClientNetworkManager manager)
 	{
-		networkManger = manager;
-		this.queryInfo = queryInfo;
-		this.messages = chatMessages;
+		setNetworkManager(manager);
+		this.queryInfo = new ArrayList<ServerInfo>();
+		this.messages = new ArrayList<ChatMessage>();
 
 		//Store 10 fps values
 		fps = new double[10];
@@ -173,6 +180,40 @@ public class MainGui
 	}
 
 	/**
+	 * @param networkManger the networkManger to set
+	 */
+	public void setNetworkManager(ClientNetworkManager networkManger) {
+		this.networkManger = networkManger;
+		networkManger.attachEventListener(new NetEventListener()
+		{
+
+			@Override
+			public void newNode(AbstractNetworkNode server)
+			{
+				if (queryInfo.contains(server))
+				{
+					queryInfo.set(queryInfo.indexOf((ServerInfo) server),
+							(ServerInfo) server);
+				} else
+				{
+					queryInfo.add((ServerInfo) server);
+				}
+			}
+
+			@Override
+			public void dataReceived(NetworkNode from, Serializable payload)
+			{
+				if (payload instanceof ChatMessage)
+				{
+					messages.add(0, (ChatMessage) payload);
+				} else if (payload instanceof NetworkDrawablePacket) {
+					ndp = (NetworkDrawablePacket)payload;
+				}
+			}
+		});
+	}
+
+	/**
 	 * @return the queryInfo
 	 */
 	public List<ServerInfo> getQueryInfo() {
@@ -185,5 +226,11 @@ public class MainGui
 	public List<ChatMessage> getMessages() {
 		return messages;
 	}
-	
+
+	/**
+	 * @return the NetworkDrawablePacket
+	 */
+	public NetworkDrawablePacket getNetworkDrawablePacket() {
+		return ndp;
+	}
 }
