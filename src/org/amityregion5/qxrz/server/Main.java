@@ -59,7 +59,7 @@ public final class Main
 				{
 					Player from = g.findPlayer(c);
 					from.input((NetworkInputData)netObj);
-					System.out.println((NetworkInputData)netObj);
+					//System.out.println((NetworkInputData)netObj);
 				}
 				else if(netObj instanceof Goodbye)
 				{

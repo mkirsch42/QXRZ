@@ -11,7 +11,7 @@ import org.amityregion5.qxrz.server.world.vector2d.Vector2D;
 public class ProjectileEntity extends GameEntity
 {
 	private Bullet gameModel;
-	private String asset = "weapons/revolv"; // TODO: change this pls pls pls
+	private String asset = "weapons/revolver"; // TODO: change this pls pls pls
 	private int projsize = 100; // depending on specific projectile?
 
 	public ProjectileEntity(Vector2D p, Vector2D v, Bullet b)
