@@ -6,7 +6,7 @@ public class NetworkObject implements Serializable
 {
 	private static final long serialVersionUID = 1L;
 
-	public final transient static int BUFFER_SIZE = 1024 * 5;
+	public final transient static int BUFFER_SIZE = 1024 * 16;
 	
 	private Serializable payload;
 	private int packetNumber;

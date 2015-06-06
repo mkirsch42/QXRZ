@@ -69,6 +69,7 @@ public class World
 	}
 	public void removeEntity(GameEntity e)
 	{
+		Thread.dumpStack();
 		System.out.println("removing entity #"+e.getId());
 		entities.remove(e);
 	}

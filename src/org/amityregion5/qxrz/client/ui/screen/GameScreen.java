@@ -111,8 +111,7 @@ public class GameScreen extends AbstractScreen {
 						isChatOpen = false;
 						return;
 					} else {
-						if (key.isActionKey() || Character.isSupplementaryCodePoint(key.getKeyChar()) || key.getKeyCode() == KeyEvent.VK_SHIFT) {
-						} else {
+						if (GuiUtil.isTextCharacter(key)) {
 							cooldownKeys.put(key, cooldownClearTime);
 							if (key.getKeyCode() == KeyEvent.VK_BACK_SPACE && text.length() >= 1) {
 								text = text.substring(0, text.length() - 1);
@@ -124,6 +123,9 @@ public class GameScreen extends AbstractScreen {
 				}
 			});
 
+			g.setColor(Color.LIGHT_GRAY);
+			g.fillRect(20, windowData.getHeight()-88, windowData.getWidth()/2-40, 16);
+			
 			g.setColor(Color.BLACK);
 			GuiUtil.drawString(g, text , CenterMode.LEFT, 20, windowData.getHeight() - 80);
 

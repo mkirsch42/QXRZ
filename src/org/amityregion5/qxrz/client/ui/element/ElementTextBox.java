@@ -141,11 +141,7 @@ public class ElementTextBox extends ElementRectangle {
 								if (key.getKeyCode() == KeyEvent.VK_ENTER
 										&& onEnterCallback != null)
 									onEnterCallback.run();
-								if (key.isActionKey()
-										|| Character
-												.isSupplementaryCodePoint(key
-														.getKeyChar())
-										|| key.getKeyCode() == KeyEvent.VK_SHIFT) {
+								if (!GuiUtil.isTextCharacter(key)) {
 									return;
 								}
 								cooldownKeys.put(key, cooldownClearTime);

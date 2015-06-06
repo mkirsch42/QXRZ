@@ -4,6 +4,7 @@ import java.awt.Font;
 import java.awt.Graphics2D;
 import java.awt.Rectangle;
 import java.awt.RenderingHints;
+import java.awt.event.KeyEvent;
 import java.awt.geom.Rectangle2D;
 
 /**
@@ -135,5 +136,12 @@ public class GuiUtil
 		}
 
 		return fnt;
+	}
+	
+	public static boolean isTextCharacter(KeyEvent k) {
+		if (k.isActionKey() || k.getKeyChar() == KeyEvent.CHAR_UNDEFINED) {
+			return false;
+		}
+		return true;
 	}
 }
