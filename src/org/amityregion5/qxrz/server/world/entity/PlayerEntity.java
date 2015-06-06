@@ -1,7 +1,6 @@
 package org.amityregion5.qxrz.server.world.entity;
 
 import java.awt.Rectangle;
-import java.awt.geom.Path2D;
 
 import org.amityregion5.qxrz.common.control.NetworkInputData;
 import org.amityregion5.qxrz.common.control.NetworkInputMasks;
@@ -9,23 +8,27 @@ import org.amityregion5.qxrz.common.ui.NetworkDrawableEntity;
 import org.amityregion5.qxrz.common.ui.NetworkDrawableObject;
 import org.amityregion5.qxrz.server.DebugConstants;
 import org.amityregion5.qxrz.server.Game;
-import org.amityregion5.qxrz.server.world.DebugDraw;
 import org.amityregion5.qxrz.server.world.Landscape;
 import org.amityregion5.qxrz.server.world.Obstacle;
+import org.amityregion5.qxrz.server.world.World;
+import org.amityregion5.qxrz.server.world.gameplay.Player;
 import org.amityregion5.qxrz.server.world.vector2d.Vector2D;
 
 public class PlayerEntity extends GameEntity
 {
 
+	private Player parent;
+	
 	private String asset = "weapons/flamethrower";
 
 	private final int PLAYER_SIZE = 400;
 
-	public PlayerEntity() // creates player vector
+	public PlayerEntity(Player p) // creates player vector
 	{
 		super();
 		pos = new Vector2D(0, 0);
 		vel = new Vector2D(0, 0);
+		parent = p;
 		//pos = new Vector2D(1500, 2500);
 		//pos = new Vector2D(0,0);
 		//vel = new Vector2D(200, 100).multiply(DebugConstants.PATH_LEN);
@@ -55,28 +58,6 @@ public class PlayerEntity extends GameEntity
 		return false;
 	}
 	
-	public boolean update(double tSinceUpdate, Landscape surroundings)
-	{
-		// System.out.println(pos);
-		Obstacle o = checkCollisions(vel.multiply(tSinceUpdate), surroundings);
-		if (o != null)
-		{
-			if (DebugConstants.DEBUG_PATH)
-			{
-				Game.debug.buffer.add(((RectangleHitbox) o.getHitbox())
-						.getBounds());
-			}
-			collide(o, surroundings, vel.multiply(tSinceUpdate));
-		}
-		else
-		{
-			pos = pos.add(vel.multiply(tSinceUpdate));
-		}
-		// System.out.println(pos);
-		Game.debug.pos(pos);
-		return false;
-	}
-
 	public RectangleHitbox getHitbox()
 	{
 		// Create 2x2 square around player
@@ -85,41 +66,9 @@ public class PlayerEntity extends GameEntity
 				PLAYER_SIZE));
 	}
 
-	public Obstacle checkCollisions(Vector2D v, Landscape surroundings)
+	public boolean collide(Hitboxed h, World w, Vector2D v)
 	{
-		Vector2D bak = pos;
-		Path2D.Double path = new Path2D.Double();
-		Rectangle hb = getHitbox().getBounds();
-
-		Vector2D p1 = new Vector2D(hb.getMinX(), hb.getMinY());
-		Vector2D p2 = new Vector2D(hb.getMinX(), hb.getMaxY());
-		Vector2D p3 = new Vector2D(hb.getMaxX(), hb.getMinY());
-		Vector2D p4 = new Vector2D(hb.getMaxX(), hb.getMaxY());
-
-		path.moveTo(p1.getX(), p1.getY());
-		path.lineTo(p1.add(v).getX(), p1.add(v).getY());
-
-		path.moveTo(p2.getX(), p2.getY());
-		path.lineTo(p2.add(v).getX(), p2.add(v).getY());
-
-		path.moveTo(p3.getX(), p3.getY());
-		path.lineTo(p3.add(v).getX(), p3.add(v).getY());
-
-		path.moveTo(p4.getX(), p4.getY());
-		path.lineTo(p4.add(v).getX(), p4.add(v).getY());
-
-		path.append(hb, false);
-		pos = pos.add(v);
-		path.append(getHitbox().getBounds(), false);
-		if (DebugConstants.DEBUG_PATH)
-			DebugDraw.buffer.add(path);
-		Obstacle o = surroundings.checkCollisions(new ShapeHitbox(path));
-		pos = bak;
-		return o;
-	}
-
-	public boolean collide(Hitboxed h, Landscape l, Vector2D v)
-	{
+		Landscape l = w.getLandscape();
 		// The stuff left after fully reaching the obstacle
 		Vector2D rem = fixCollisionWithVel(v, h, l, false);
 		// Obstacle normal
@@ -141,7 +90,7 @@ public class PlayerEntity extends GameEntity
 		// Use remaining velocity for this update in the usual direction
 		vel = new Vector2D(vel.angle()).multiply(rem.length());
 		// Recursively update until there is no more velocity
-		update(1, l);
+		update(1, w);
 		// Restore velocity
 		vel = bak;
 		return false;

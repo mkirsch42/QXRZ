@@ -4,59 +4,34 @@ import java.awt.Rectangle;
 
 import org.amityregion5.qxrz.common.ui.NetworkDrawableEntity;
 import org.amityregion5.qxrz.common.ui.NetworkDrawableObject;
-import org.amityregion5.qxrz.server.world.Landscape;
-import org.amityregion5.qxrz.server.world.Obstacle;
+import org.amityregion5.qxrz.server.world.World;
 import org.amityregion5.qxrz.server.world.gameplay.Bullet;
 import org.amityregion5.qxrz.server.world.vector2d.Vector2D;
 
 public class ProjectileEntity extends GameEntity
 {
-	private String asset = "weapons/revolv"; //TODO: change this pls pls pls
-	private int projsize; //depending on specific projectile?
-	private Bullet b = new Bullet(this);
-	
-	public ProjectileEntity(PlayerEntity source)
+	private Bullet gameModel;
+	private String asset = "weapons/revolv"; // TODO: change this pls pls pls
+	private int projsize = 100; // depending on specific projectile?
+
+	public ProjectileEntity(Vector2D p, Vector2D v, Bullet b)
 	{
 		super();
-		pos = source.pos;
-		vel = source.vel;
+		pos = p;
+		vel = v;
+		gameModel = b;
 	}
-	
-	public boolean update(double tSinceUpdate, Landscape surroundings)
+
+	public Hitbox getHitbox()
 	{
-		//
-		return false;
-	}
-	
-	public RectangleHitbox getHitBox()
-	{
-		return new RectangleHitbox(new Rectangle((int)pos.getX() - projsize,(int)pos.getY()- projsize,projsize,projsize));
-	}
-	public Obstacle checkCollisions(Vector2D v, Landscape surroundings)
-	{
-		Obstacle o = new Obstacle(null);
-		for (Obstacle obj: surroundings.getObstacles())
-		{
-			if (obj.getHitbox().intersects(this.getHitbox()))
-			{
-				o = obj;
-				break;
-			}
-		}
-		collide((Hitboxed) o.getHitbox(), surroundings, pos);
-		return o;
+		return new RectangleHitbox(new Rectangle((int) pos.getX() - projsize/2,
+				(int) pos.getY() - projsize/2, projsize, projsize));
 	}
 
 	@Override
-	public Hitbox getHitbox() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	protected boolean collide(Hitboxed h, Landscape l, Vector2D v) {
-		
-		return false;
+	protected boolean collide(Hitboxed h, World l, Vector2D v)
+	{
+		return true;
 	}
 
 	@Override
