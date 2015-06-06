@@ -17,6 +17,10 @@ import org.amityregion5.qxrz.server.world.vector2d.Vector2D;
 public class PlayerEntity extends GameEntity
 {
 
+	private Vector2D inputVel = new Vector2D();
+	
+	private int updateStackSize = 0;
+	
 	private Player parent;
 	
 	private String asset = "players/1";
@@ -34,6 +38,18 @@ public class PlayerEntity extends GameEntity
 		//vel = new Vector2D(200, 100).multiply(DebugConstants.PATH_LEN);
 	}
 
+	public boolean update(double tSinceUpdate, World w)
+	{
+		updateStackSize++;
+		boolean ret = super.update(tSinceUpdate, w);
+		updateStackSize--;
+		if(updateStackSize==0)
+		{
+			vel = inputVel;
+		}
+		return ret;
+	}
+	
 	public boolean input(NetworkInputData nid)
 	{
 		int vX = 0;
@@ -54,7 +70,7 @@ public class PlayerEntity extends GameEntity
 		{
 			vX = 100;
 		}
-		vel = new Vector2D(vX, vY).multiply(DebugConstants.PATH_LEN);
+		inputVel = new Vector2D(vX, vY).multiply(DebugConstants.PATH_LEN);
 		return false;
 	}
 	
@@ -73,10 +89,11 @@ public class PlayerEntity extends GameEntity
 		Vector2D rem = fixCollisionWithVel(v, h, l, false);
 		// Obstacle normal
 		Vector2D norm = h.getHitbox().getNearestNormal(getHitbox());
+		System.out.println(norm);
 		// Go a bit into the obstacle
 		pos = pos.subtract(norm.multiply(5 * Game.GAME_UNIT));
 		// Get the amount you can move along the side
-		Vector2D move = rem.project(norm.rotateQuad(1)).snap();
+		Vector2D move = rem.project(norm.rotateQuad(1));
 		rem = fixCollisionWithVel(move, h, l, true);
 
 		// Get back out of obstacle
@@ -175,7 +192,7 @@ public class PlayerEntity extends GameEntity
 		v = v.subtract(pathTemp);
 		pos = pos.add(pathTemp);
 		//while (getHitbox().intersects(h.getHitbox()))
-		while(!h.getHitbox().canGetNormal(getHitbox()))
+		while(!h.getHitbox().canGetNormal(getHitbox()) || getHitbox().intersects(h.getHitbox()))
 		{
 			if (unCollide)
 			{
