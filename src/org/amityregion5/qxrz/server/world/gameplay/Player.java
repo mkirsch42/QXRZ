@@ -75,7 +75,7 @@ public class Player {
 	
 	public boolean damaged(Bullet b) //tests if a given bullet hits player and acts accordingly
 	{
-		if(team!=null && b.friendlyFireTeam()==team.getId())
+		if(team!=null && b.friendlyFireTeam()==team.getId() && !w.getGame().friendlyFire())
 			return false;
 		if(b.getFriendlyFirePlayer()==id)
 			return false;

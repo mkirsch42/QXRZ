@@ -30,12 +30,15 @@ public class Game implements Runnable
 	private boolean running = true;
 	private Worlds world;
 
+	private boolean friendlyfire = false;
+	
 	public Game(ServerNetworkManager n)
 	{
 		net = n;
 		// Create world and add test objects
 		w = WorldManager.getWorld(Worlds.DEBUG);
 		w.attachNetworkManager(net);
+		w.attachParent(this);
 		//w.add(new PlayerEntity());
 		//debug = DebugDraw.setup(w);
 		// TODO finish compound hitbox normals then add some to the world
@@ -123,6 +126,21 @@ public class Game implements Runnable
 			}
 		}
 		return false;
+	}
+	
+	public boolean friendlyFire(boolean toggle)
+	{
+		if(friendlyfire==toggle)
+		{
+			return false;
+		}
+		friendlyfire=toggle;
+		return true;
+	}
+	
+	public boolean friendlyFire()
+	{
+		return friendlyfire;
 	}
 	
 	public void removePlayer(NetworkNode n)
