@@ -5,7 +5,7 @@ import org.amityregion5.qxrz.server.DebugConstants;
 public class Weapon {
 	private String type;
 	private int ccamount; //current clip amount
-	private int cleft;	  //clips left
+	//private int cleft;	  //clips left
 	private int cmaxammo; //maximum ammo per clip
 	private int maxclips; //maximum clips to hold
 	private int reserve; //reserve ammo;
@@ -24,10 +24,10 @@ public class Weapon {
 		if (type.equals("sg"))
 		{
 			ccamount = 8;
-			cleft = 3;
+			//cleft = 3;
 			cmaxammo = 8;
 			maxclips = 3;
-			reserve = 0;
+			reserve = 16;
 			rof = 3;
 			retime = 2;
 			damage = 6;
@@ -35,10 +35,10 @@ public class Weapon {
 		else if (type.equals("ro"))
 		{
 			ccamount = 4;
-			cleft = 2;
+			//cleft = 2;
 			cmaxammo = 4;
 			maxclips = 2;
-			reserve = 0;
+			reserve = 4;
 			rof  = 2;
 			retime = 3;
 			damage = 80;
@@ -54,10 +54,10 @@ public class Weapon {
 		else if (type.equals("ps"))
 		{
 			ccamount = 6;
-			cleft = 3;
+			//cleft = 3;
 			cmaxammo = 6;
 			maxclips = 3;
-			reserve = 0;
+			reserve = 6;
 			rof = 5;
 			retime = 1;
 			//damage = 13;
@@ -67,10 +67,10 @@ public class Weapon {
 		else if (type.equals("as"))
 		{
 			ccamount = 12;
-			cleft = 3;
+			//cleft = 3;
 			cmaxammo = 12;
 			maxclips = 3;
-			reserve = 0;
+			reserve = 24;
 			rof = 9;
 			retime = 2;
 			damage = 7;
@@ -78,10 +78,10 @@ public class Weapon {
 		else if (type.equals("bo"))
 		{
 			ccamount = 1;
-			cleft = 6;
+			//cleft = 6;
 			cmaxammo = 1;
 			maxclips = 6;
-			reserve = 0;
+			reserve = 5;
 			rof = 1;
 			retime = 2; 
 			damage = 100;
@@ -95,11 +95,21 @@ public class Weapon {
 		{
 			return true;
 		}
-		if (ccamount==0)
+		if(ccamount<=0)
 		{
-			if (cleft==0)
+			if(reserve<=0)
 			{
-				if (reserve==0)
+				return false;
+			}
+			reload();
+		}
+		ccamount--;
+		return true;
+		/*if (ccamount<=0)
+		{
+			if (cleft<=0)
+			{
+				if (reserve<=0)
 				{	
 					return false;
 				}
@@ -107,12 +117,21 @@ public class Weapon {
 			}
 			reload();
 		}
-		ccamount--;
-		return true;
+		else
+			ccamount--;*/
 	}
 	public void reload()
 	{
-		if (ccamount==0)
+		if(reserve<=cmaxammo-ccamount)
+		{
+			ccamount += reserve;
+			reserve = 0;
+			return;
+		}
+		reserve-=cmaxammo-ccamount;
+		ccamount = cmaxammo;
+		
+		/*if (ccamount==0)
 		{
 			if (cleft != 0)
 			{
@@ -125,7 +144,7 @@ public class Weapon {
 			reserve = ccamount;
 			ccamount += cmaxammo-ccamount; //clip fills up
 			cleft--;
-		}
+		}*/
 	}
 	public int getDamage()
 	{
@@ -152,5 +171,24 @@ public class Weapon {
 	{
 		cmaxammo += 4;
 	}
-
+	public void setAmmo(int count)
+	{
+		if(count>maxclips*cmaxammo)
+		{
+			count = maxclips*cmaxammo;
+		}
+		reserve = count;
+		reload();
+	}
+	public boolean addAmmo(int count)
+	{
+		if(reserve==(maxclips-1)*cmaxammo)
+			return false;
+		reserve += count;
+		if(reserve>(maxclips-1)*cmaxammo)
+		{
+			reserve=(maxclips-1)*cmaxammo;
+		}
+		return true;
+	}
 }

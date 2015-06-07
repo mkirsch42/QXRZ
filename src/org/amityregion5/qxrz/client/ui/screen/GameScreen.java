@@ -169,6 +169,7 @@ public class GameScreen extends AbstractScreen {
 			nid.set(NetworkInputMasks.A, windowData.getKeysDown().stream().anyMatch((k)->k.getKeyCode()==KeyEvent.VK_A));
 			nid.set(NetworkInputMasks.S, windowData.getKeysDown().stream().anyMatch((k)->k.getKeyCode()==KeyEvent.VK_S));
 			nid.set(NetworkInputMasks.D, windowData.getKeysDown().stream().anyMatch((k)->k.getKeyCode()==KeyEvent.VK_D));
+			nid.set(NetworkInputMasks.E, windowData.getKeysDown().stream().anyMatch((k)->k.getKeyCode()==KeyEvent.VK_E));
 			if (nid.get(NetworkInputMasks.W) || nid.get(NetworkInputMasks.A) || nid.get(NetworkInputMasks.S) || nid.get(NetworkInputMasks.D)) {
 				AudioHelper.play(AssetManager.getAudioAssets("footstep")[0], true);
 			} else {

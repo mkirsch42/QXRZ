@@ -36,6 +36,7 @@ public class AssetManager
 			imageAssets.put("weapons/launcher", ImageIO.read(FileUtil.getURLOfResource(Main.class, "/weapons/rl.png")));
 			imageAssets.put("weapons/shotgun", ImageIO.read(FileUtil.getURLOfResource(Main.class, "/weapons/shot.png")));
 			imageAssets.put("icons/refresh", ImageIO.read(FileUtil.getURLOfResource(Main.class, "/icons/refresh.png")));
+			imageAssets.put("icons/refreshDark", ImageIO.read(FileUtil.getURLOfResource(Main.class, "/icons/refreshDark.png")));
 		}
 		catch (IOException e)
 		{
