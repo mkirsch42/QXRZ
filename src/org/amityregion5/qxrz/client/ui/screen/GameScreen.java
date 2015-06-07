@@ -78,7 +78,7 @@ public class GameScreen extends AbstractScreen {
 			}
 		}
 
-		BufferedImage chat = GameUIHelper.getChatMessagesImage(windowData.getWidth()/2 - 20, windowData.getHeight() - 200, gui, Color.BLACK, Color.RED, 12f);
+		BufferedImage chat = GameUIHelper.getChatMessagesImage(windowData.getWidth()/2 - 20, windowData.getHeight() - 200, gui, Color.BLACK, Color.RED, 12f, (isChatOpen ? -1 : 10000));
 		g.drawImage(chat, null, 10, 100);
 
 		if (!isChatOpen && windowData.getKeysDown().stream().anyMatch((k)->k.getKeyCode()==KeyEvent.VK_T)) {

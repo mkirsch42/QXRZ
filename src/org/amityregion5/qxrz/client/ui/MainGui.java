@@ -228,11 +228,6 @@ public class MainGui {
 	 * @return the messages
 	 */
 	public List<ChatMessageTime> getMessages() {
-		for (ChatMessageTime c : new ArrayList<ChatMessageTime>(messages)) {
-			if (System.currentTimeMillis() - c.time > 10000) {
-				messages.remove(c);
-			}
-		}
 		return messages;
 	}
 

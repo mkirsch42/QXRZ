@@ -8,6 +8,7 @@ import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
+import java.util.stream.Collectors;
 
 import org.amityregion5.qxrz.client.ui.ChatMessageTime;
 import org.amityregion5.qxrz.client.ui.MainGui;
@@ -113,7 +114,7 @@ public class GameUIHelper {
 	}
 
 	public static BufferedImage getChatMessagesImage(int width, int height,
-			MainGui gui, Color textColor, Color fromServerTextColor, float textSize) {
+			MainGui gui, Color textColor, Color fromServerTextColor, float textSize, long deltaMilli) {
 		BufferedImage buff = ImageModification.createBlankBufferedImage(width,
 				height);
 
@@ -126,7 +127,7 @@ public class GameUIHelper {
 		gBuff.setColor(textColor);
 
 		int totalYTrans = 0;
-		for (ChatMessageTime c : gui.getMessages()) {
+		for (ChatMessageTime c : gui.getMessages().stream().filter((c)->(deltaMilli == -1 || System.currentTimeMillis() - c.time < deltaMilli)).collect(Collectors.toList())) {
 			if(c.msg.isFromServer())
 			{
 				gBuff.setFont(gBuff.getFont().deriveFont(Font.BOLD));
