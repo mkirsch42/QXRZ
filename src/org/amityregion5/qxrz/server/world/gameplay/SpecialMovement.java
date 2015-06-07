@@ -28,4 +28,12 @@ public class SpecialMovement {
 	{
 		//code
 	}
+	public boolean equals(SpecialMovement o)
+	{
+		if (this.getType().equals(o.getType()))
+		{
+			return true;
+		}
+		return false;
+	}
 }

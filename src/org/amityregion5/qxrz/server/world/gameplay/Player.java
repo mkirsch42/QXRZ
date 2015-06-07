@@ -165,20 +165,18 @@ public class Player {
 		pspecmove = sm;
 		
 	}
-	public void useSpecMove()
+	public void useSpecMove() //suggested buttons are f or e
 	{
-		if(pspecmove.getType().equals("roll"))
+		if (!(pspecmove.equals(null)))
 		{
-			pspecmove.roll(entity);
+			switch (pspecmove.getType())
+			{
+			case "roll":	pspecmove.roll(entity);
+			case "tele":	pspecmove.teleport(entity);
+			case "dash":	pspecmove.dash(entity);
+			}
 		}
-		else if (pspecmove.getType().equals("teleport"))
-		{
-			pspecmove.teleport(entity);
-		}
-		else if (pspecmove.getType().equals("dash"))
-		{
-			pspecmove.dash(entity);
-		}
+		else {}
 	}
 	public void input(NetworkInputData nid)
 	{

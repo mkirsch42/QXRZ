@@ -145,7 +145,7 @@ public class Weapon {
 	}
 	public void changeMaxAmmo()
 	{
-		//cleft	?
+		cleft += 4;
 		maxclips += 4;
 	}
 	public void changeCMax()
