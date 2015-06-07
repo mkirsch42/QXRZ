@@ -12,6 +12,7 @@ import org.amityregion5.qxrz.server.world.entity.GameEntity;
 import org.amityregion5.qxrz.server.world.entity.Hitbox;
 import org.amityregion5.qxrz.server.world.entity.PlayerEntity;
 import org.amityregion5.qxrz.server.world.entity.ShapeHitbox;
+import org.amityregion5.qxrz.server.world.gameplay.Player;
 
 public class World
 {
@@ -136,5 +137,29 @@ public class World
 			}
 		}
 		return null;
+	}
+	public Player Winner() //checks all player entities to determine a winner if one player is left alive
+	{
+		ArrayList<PlayerEntity> pl = new ArrayList<PlayerEntity>();
+		for (GameEntity e : entities)
+		{
+			if (e instanceof PlayerEntity)
+				pl.add((PlayerEntity) e);
+		}
+		int co = 0;
+		Player w = null;
+		for (PlayerEntity p : pl)
+		{
+			if (!(p.getGameModel().dead()))
+			{
+				co++;
+				w = p.getGameModel();
+			}
+		}
+		if (co==1)
+		{
+			return w;
+		}
+		else {return null;}
 	}
 }
