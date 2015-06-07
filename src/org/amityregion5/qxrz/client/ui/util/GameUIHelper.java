@@ -50,29 +50,26 @@ public class GameUIHelper {
 	private static void drawAABB(Graphics2D g, Rectangle2D box, Viewport vp,
 			WindowData d) {
 		// Do math to determine drawing points
-		double xFact = d.getWidth() / vp.width;
-		double xOff = vp.getXOff() * xFact;
-		double yFact = d.getHeight() / vp.height;
-		double yOff = vp.getYOff() * xFact;
-		int width = (int) (box.getWidth() * xFact);
-		int height = (int) (box.getHeight() * yFact);
+		Point2D.Double playerTL = vp.gameToScreen(new Point2D.Double(box.getX(), box.getY()), d);
+		Point2D.Double playerBR = vp.gameToScreen(new Point2D.Double(box.getMaxX(), box.getMaxY()), d);
+		double pW = playerBR.x - playerTL.x;
+		double pH = playerBR.y - playerTL.y;
 
 		// Draw it on a buffered image (to prevent antialiasing)
-		BufferedImage buff = ImageModification.createBlankBufferedImage(width,
-				height);
+		BufferedImage buff = ImageModification.createBlankBufferedImage((int)Math.ceil(pW),
+				(int)Math.ceil(pH));
 		Graphics2D g2 = buff.createGraphics();
 
 		// Set color to black
 		g2.setColor(Color.BLACK);
 		// Draw the rectangle
-		g2.drawRect(0, 0, width - 1, height - 1);
+		g2.drawRect(0, 0, buff.getWidth() - 1, buff.getHeight() - 1);
 
 		// get rid of new graphics object
 		g2.dispose();
 
 		// Draw the generated image
-		g.drawImage(buff, (int) (box.getX() * xFact - xOff), (int) (box.getY()
-				* yFact - yOff), width, height, null);
+		g.drawImage(buff, (int) (playerTL.x), (int) (playerTL.y), (int)pW, (int)pH, null);
 	}
 
 	private static void drawAsset(Graphics2D g, NetworkDrawableObject ndo,
