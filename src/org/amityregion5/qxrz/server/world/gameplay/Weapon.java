@@ -60,7 +60,8 @@ public class Weapon {
 			reserve = 0;
 			rof = 5;
 			retime = 1;
-			damage = 13;
+			//damage = 13;
+			damage=25;
 			speed = 1000;
 		}
 		else if (type.equals("as"))

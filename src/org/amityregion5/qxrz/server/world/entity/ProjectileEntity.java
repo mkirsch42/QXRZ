@@ -12,7 +12,7 @@ public class ProjectileEntity extends GameEntity
 {
 	private Bullet gameModel;
 	private String asset = "weapons/revolver"; // TODO: change this pls pls pls
-	private int projsize = 100; // depending on specific projectile?
+	public static int projsize = 100; // depending on specific projectile?
 
 	public ProjectileEntity(Vector2D p, Vector2D v, Bullet b)
 	{
@@ -28,6 +28,20 @@ public class ProjectileEntity extends GameEntity
 				(int) pos.getY() - projsize/2, projsize, projsize));
 	}
 
+	public boolean update(double tSinceUpdate, World w)
+	{
+		GameEntity e = checkEntityCollisions(vel.multiply(tSinceUpdate), w);
+		if(e==null)
+			return super.update(tSinceUpdate, w);
+		System.out.println("ProjectileEntity #" + getId() + " collided with Entity #" + e.getId());
+		if(e instanceof PlayerEntity)
+		{
+			((PlayerEntity)e).getGameModel().damaged(gameModel);
+		}
+		System.out.println("Killing ProjectileEntity #" + getId());
+		return true;
+	}
+	
 	@Override
 	protected boolean collide(Hitboxed h, World l, Vector2D v)
 	{

@@ -84,6 +84,39 @@ public abstract class GameEntity implements Hitboxed
 		return o;
 	}
 
+	public GameEntity checkEntityCollisions(Vector2D v, World surroundings)
+	{
+		Vector2D bak = pos;
+		Path2D.Double path = new Path2D.Double();
+		Rectangle2D hb = getHitbox().getAABB();
+
+		Vector2D p1 = new Vector2D(hb.getMinX(), hb.getMinY());
+		Vector2D p2 = new Vector2D(hb.getMinX(), hb.getMaxY());
+		Vector2D p3 = new Vector2D(hb.getMaxX(), hb.getMinY());
+		Vector2D p4 = new Vector2D(hb.getMaxX(), hb.getMaxY());
+
+		path.moveTo(p1.getX(), p1.getY());
+		path.lineTo(p1.add(v).getX(), p1.add(v).getY());
+
+		path.moveTo(p2.getX(), p2.getY());
+		path.lineTo(p2.add(v).getX(), p2.add(v).getY());
+
+		path.moveTo(p3.getX(), p3.getY());
+		path.lineTo(p3.add(v).getX(), p3.add(v).getY());
+
+		path.moveTo(p4.getX(), p4.getY());
+		path.lineTo(p4.add(v).getX(), p4.add(v).getY());
+
+		path.append(hb, false);
+		pos = pos.add(v);
+		path.append(getHitbox().getAABB(), false);
+		if (DebugConstants.DEBUG_PATH)
+			DebugDraw.buffer.add(path);
+		GameEntity o = surroundings.checkEntityCollisions(new ShapeHitbox(path),id);
+		pos = bak;
+		return o;
+	}
+	
 	public Vector2D getPos()
 	{
 		return pos;

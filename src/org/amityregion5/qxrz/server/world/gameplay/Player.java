@@ -4,6 +4,7 @@ import org.amityregion5.qxrz.common.control.NetworkInputData;
 import org.amityregion5.qxrz.common.control.NetworkInputMasks;
 import org.amityregion5.qxrz.server.world.World;
 import org.amityregion5.qxrz.server.world.entity.PlayerEntity;
+import org.amityregion5.qxrz.server.world.entity.ProjectileEntity;
 import org.amityregion5.qxrz.server.world.vector2d.Vector2D;
 
 public class Player {
@@ -60,6 +61,10 @@ public class Player {
 			return false;
 		}
 		//respawn code to add later
+		health = 100;
+		w.removeEntity(entity);
+		entity = new PlayerEntity(this);
+		w.add(entity);
 		return true;
 	}
 	public void setUpgrade(Upgrade u) //sets weapon upgrades from a given upgrade pickup
@@ -88,8 +93,20 @@ public class Player {
 	{
 		if (guns[equipped].shoot())
 		{
-		Bullet b = new Bullet(entity.getPos(), v, guns[equipped]);
-		w.add(b.getEntity());
+			int len = entity.PLAYER_SIZE/2 + ProjectileEntity.projsize/2;
+			Vector2D normVel = new Vector2D(v.snap().angle()).multiply(len).snap();
+			Vector2D pos;
+			if(normVel.getX()==0)
+			{
+				pos = entity.getPos().add(new Vector2D(v.angle()).multiply(1+Math.abs(len/Math.sin(v.angle()))));
+			}
+			else
+			{
+				pos = entity.getPos().add(new Vector2D(v.angle()).multiply(1+Math.abs(len/Math.cos(v.angle()))));
+			}
+			
+			Bullet b = new Bullet(pos, v, guns[equipped]);
+			w.add(b.getEntity());
 		}
 		else {}
 	}

@@ -25,7 +25,7 @@ public class PlayerEntity extends GameEntity
 	
 	private String asset = "players/1";
 
-	private final int PLAYER_SIZE = 400;
+	public final int PLAYER_SIZE = 400;
 
 	public PlayerEntity(Player p) // creates player vector
 	{
@@ -222,6 +222,11 @@ public class PlayerEntity extends GameEntity
 		return v;
 	}
 
+	public Player getGameModel()
+	{
+		return parent;
+	}
+	
 	@Override
 	public NetworkDrawableEntity getNDE() {
 		return new NetworkDrawableEntity(new NetworkDrawableObject[] {new NetworkDrawableObject(asset, getHitbox().getAABB())}, getHitbox().getAABB());

@@ -6,6 +6,7 @@ import java.util.List;
 
 import org.amityregion5.qxrz.common.ui.NetworkDrawablePacket;
 import org.amityregion5.qxrz.server.world.entity.GameEntity;
+import org.amityregion5.qxrz.server.world.entity.Hitbox;
 
 public class World
 {
@@ -21,6 +22,7 @@ public class World
 
 	public void add(GameEntity e)
 	{
+		System.out.println("Adding entity #" + e.getId());
 		entities.add(e);
 	}
 	
@@ -33,9 +35,10 @@ public class World
 	{
 		for (int i=0;i<entities.size();i++)
 		{
-			if(entities.get(i).update(tSinceUpdate, this))
+			GameEntity e = entities.get(i);
+			if(e.update(tSinceUpdate, this))
 			{
-				removeEntity(entities.get(i));
+				removeEntity(e);
 				i--;
 			}
 		}
@@ -43,11 +46,23 @@ public class World
 
 	public void draw(Graphics2D g2)
 	{
-		for (GameEntity t : entities)
+		for (GameEntity t : new ArrayList<GameEntity>(entities))
 		{
 			t.getHitbox().debugDraw(g2);
 		}
 		l.draw(g2);
+	}
+	
+	public GameEntity checkEntityCollisions(Hitbox h, int id)
+	{
+		for(GameEntity e : new ArrayList<GameEntity>(entities))
+		{
+			if(h.intersects(e.getHitbox()) && id!=e.getId())
+			{
+				return e;
+			}
+		}
+		return null;
 	}
 	
 	public Landscape getLandscape() {
@@ -69,7 +84,7 @@ public class World
 	}
 	public void removeEntity(GameEntity e)
 	{
-		Thread.dumpStack();
+		//Thread.dumpStack();
 		System.out.println("removing entity #"+e.getId());
 		entities.remove(e);
 	}

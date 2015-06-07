@@ -140,8 +140,6 @@ public class Vector2D
 		
 		double quad = Math.round(angle()/(Math.PI/2));
 		
-		System.out.println(quad);
-		
-		return null;
+		return new Vector2D(quad*Math.PI/2).multiply(length()).snap();
 	}
 }

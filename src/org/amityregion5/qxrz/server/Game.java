@@ -1,6 +1,5 @@
 package org.amityregion5.qxrz.server;
 
-import java.awt.Rectangle;
 import java.util.HashMap;
 
 import org.amityregion5.qxrz.common.net.NetworkNode;
@@ -9,9 +8,7 @@ import org.amityregion5.qxrz.common.world.WorldManager;
 import org.amityregion5.qxrz.common.world.Worlds;
 import org.amityregion5.qxrz.server.net.ServerNetworkManager;
 import org.amityregion5.qxrz.server.world.DebugDraw;
-import org.amityregion5.qxrz.server.world.Obstacle;
 import org.amityregion5.qxrz.server.world.World;
-import org.amityregion5.qxrz.server.world.entity.RectangleHitbox;
 import org.amityregion5.qxrz.server.world.gameplay.Player;
 
 public class Game implements Runnable
