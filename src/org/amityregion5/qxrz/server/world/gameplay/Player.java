@@ -23,6 +23,7 @@ public class Player {
 	private boolean hasShot = false;
 	private String name;
 	private Team team;
+	private boolean pickingUp = false;
 	//constructors
 	public Player(int forceId)
 	{
@@ -191,6 +192,7 @@ public class Player {
 		{
 			hasShot = false;
 		}
+		pickingUp = nid.get(NetworkInputMasks.E);
 	}
 	public PlayerEntity getEntity()
 	{
@@ -216,5 +218,30 @@ public class Player {
 	public Team getTeam()
 	{
 		return team;
+	}
+	
+	public void pickup(Pickup p)
+	{
+		if(!p.canPickup())
+		{
+			return;
+		}
+		String wep = p.getWeaponId();
+		if(guns[0]!=null && guns[0].getType().equals(wep))
+		{
+			if(!guns[0].addAmmo(p.getAmmoCount()))
+				return;
+		}
+		else if(guns[1]!=null && guns[1].getType().equals(wep))
+		{
+			if(!guns[1].addAmmo(p.getAmmoCount()))
+				return;
+		}
+		if(pickingUp)
+		{
+			guns[equipped] = new Weapon(wep);
+			guns[equipped].setAmmo(p.getAmmoCount());
+		}
+		p.pickup();
 	}
 }

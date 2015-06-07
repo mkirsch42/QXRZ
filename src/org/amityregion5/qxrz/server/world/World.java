@@ -11,6 +11,7 @@ import org.amityregion5.qxrz.server.net.ServerNetworkManager;
 import org.amityregion5.qxrz.server.world.entity.GameEntity;
 import org.amityregion5.qxrz.server.world.entity.Hitbox;
 import org.amityregion5.qxrz.server.world.entity.PlayerEntity;
+import org.amityregion5.qxrz.server.world.entity.ShapeHitbox;
 import org.amityregion5.qxrz.server.world.gameplay.Player;
 
 public class World
@@ -119,6 +120,23 @@ public class World
 	public void say(String msg)
 	{
 		net.sendObject(new ChatMessage(msg).fromServer());
+	}
+
+	public PlayerEntity checkPlayerCollisions(ShapeHitbox shapeHitbox, int id)
+	{
+		for(GameEntity ge : new ArrayList<GameEntity>(entities))
+		{
+			if(!(ge instanceof PlayerEntity))
+			{
+				continue;
+			}
+			PlayerEntity e = (PlayerEntity)ge;
+			if(shapeHitbox.intersects(e.getHitbox()) && id!=e.getId())
+			{
+				return e;
+			}
+		}
+		return null;
 	}
 	public Player winner() //checks all player entities to determine a winner if one player is left alive
 	{

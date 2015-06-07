@@ -17,6 +17,7 @@ import org.amityregion5.qxrz.server.ui.MainGui;
 import org.amityregion5.qxrz.server.util.ColorUtil;
 import org.amityregion5.qxrz.server.util.TextParseHelper;
 import org.amityregion5.qxrz.server.world.DebugDraw;
+import org.amityregion5.qxrz.server.world.gameplay.Pickup;
 import org.amityregion5.qxrz.server.world.gameplay.Player;
 import org.amityregion5.qxrz.server.world.gameplay.Team;
 
@@ -133,6 +134,8 @@ public final class Main {
 		if (DebugConstants.DEBUG_GUI) {
 			Game.debug = DebugDraw.setup(g.getWorld());
 		}
+		Pickup pe = new Pickup("ps", 10, 500, 0, 3000);
+		g.getWorld().add(pe.getEntity());
 		g.run();
 	}
 

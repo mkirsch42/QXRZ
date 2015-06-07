@@ -8,5 +8,5 @@ public final class DebugConstants
 	public static final boolean DEBUG_PATH = false;
 	public static final double PATH_LEN = 2;
 	public static final boolean DEBUG_GUI = false;
-	public static final boolean INFINITEAMMO = true;
+	public static final boolean INFINITEAMMO = false;
 }
