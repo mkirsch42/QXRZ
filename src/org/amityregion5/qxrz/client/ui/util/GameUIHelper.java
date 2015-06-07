@@ -1,8 +1,10 @@
 package org.amityregion5.qxrz.client.ui.util;
 
 import java.awt.Color;
+import java.awt.Font;
 import java.awt.Graphics2D;
 import java.awt.Rectangle;
+import java.awt.font.FontRenderContext;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
@@ -26,8 +28,46 @@ public class GameUIHelper {
 				drawAsset(g, ndo, vp, d);
 			}
 		}
+		drawAABB(g, nde.getBox(), vp, d);
+		if(nde.getNametag()!="")
+		{
+			System.out.println(nde.getBox().getWidth());
+			drawNT(g, nde.getNametag(), 10F, nde.getBox().getCenterX(), nde.getBox().getMaxY(), vp, d);
+		}
 	}
 
+	private static void drawNT(Graphics2D g, String nt, float fontSize, double midX, double y, Viewport vp,
+			WindowData d) {
+		// Do math to determine drawing points
+		double xFact = d.getWidth() / vp.width;
+		double xOff = vp.getXOff() * xFact;
+		double yFact = d.getHeight() / vp.height;
+		double yOff = vp.getYOff() * xFact;
+		//int width = (int) (box.getWidth() * xFact);
+		//int height = (int) (box.getHeight() * yFact);
+		g.setFont(g.getFont().deriveFont(fontSize));
+		Rectangle2D bounds = GuiMath.getStringBounds(g, nt, 0, 0);
+		//Rectangle2D bounds = g.getFont().getStringBounds(nt, new FontRenderContext(null, true, true));
+		float w = (float) (bounds.getWidth());
+		float h = (float) (bounds.getHeight());
+		System.out.println(w+" , "+h);
+		double x = midX - w/2;
+		// Draw it on a buffered image (to prevent antialiasing)
+		BufferedImage buff = ImageModification.createBlankBufferedImage((int)w, (int)h);
+		Graphics2D g2 = buff.createGraphics();
+		g2.setFont(g.getFont());
+		// Set color to black
+		g2.setColor(Color.BLACK);
+		// Draw the rectangle
+		GuiUtil.drawString(g2, nt, CenterMode.CENTER, (int)(w/2), (int)(h/2));
+		g2.drawRect(0, 0, (int)w, (int)h);
+		// get rid of new graphics object
+		g2.dispose();
+
+		// Draw the generated image
+		g.drawImage(buff, (int) (x * xFact - xOff), (int) (y * yFact - yOff), (int)w, (int)h, null);
+	}
+	
 	private static void drawAABB(Graphics2D g, Rectangle2D box, Viewport vp,
 			WindowData d) {
 		// Do math to determine drawing points
@@ -97,7 +137,7 @@ public class GameUIHelper {
 	}
 
 	public static BufferedImage getChatMessagesImage(int width, int height,
-			MainGui gui, Color textColor, float textSize) {
+			MainGui gui, Color textColor, Color fromServerTextColor, float textSize) {
 		BufferedImage buff = ImageModification.createBlankBufferedImage(width,
 				height);
 
@@ -106,10 +146,21 @@ public class GameUIHelper {
 		GuiUtil.applyRenderingHints(gBuff);
 
 		gBuff.setFont(gBuff.getFont().deriveFont(textSize));
+		Font noBold = gBuff.getFont();
 		gBuff.setColor(textColor);
 
 		int totalYTrans = 0;
 		for (ChatMessageTime c : gui.getMessages()) {
+			if(c.msg.isFromServer())
+			{
+				gBuff.setFont(gBuff.getFont().deriveFont(Font.BOLD));
+				gBuff.setColor(fromServerTextColor);
+			}
+			else
+			{
+				gBuff.setFont(noBold);
+				gBuff.setColor(textColor);
+			}
 			int x = 0;
 			int subIndex = 0;
 			int endIndex = c.msg.getMessage().length();
