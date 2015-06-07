@@ -188,6 +188,8 @@ public class ClientNetworkManager extends AbstractNetworkManager
 				 */
 				if (server != null)
 				{
+//					System.out.println(netObj.getPacketNumber() + "/" + server.getReceivedPacketCount());
+					System.out.println(netObj.getPayload().getClass().getSimpleName());
 					runHelper(server, netObj);
 				}
 
