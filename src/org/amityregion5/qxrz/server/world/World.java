@@ -120,7 +120,7 @@ public class World
 	{
 		net.sendObject(new ChatMessage(msg).fromServer());
 	}
-	public Player Winner() //checks all player entities to determine a winner if one player is left alive
+	public Player winner() //checks all player entities to determine a winner if one player is left alive
 	{
 		ArrayList<PlayerEntity> pl = new ArrayList<PlayerEntity>();
 		for (GameEntity e : entities)
