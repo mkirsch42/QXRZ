@@ -118,8 +118,8 @@ public class GameUIHelper {
 				(int) (playerCenter.y - height / 2.0), width, height, null);
 	}
 
-	public static BufferedImage getChatMessagesImage(int width, int height,
-			MainGui gui, Color textColor, Color fromServerTextColor, float textSize, long deltaMilli) {
+	public static DoubleReturn<BufferedImage, Integer> getChatMessagesImage(int width, int height,
+			MainGui gui, Color textColor, Color fromServerTextColor, float textSize, long deltaMilli, int offset) {
 		BufferedImage buff = ImageModification.createBlankBufferedImage(width,
 				height);
 
@@ -130,8 +130,9 @@ public class GameUIHelper {
 		gBuff.setFont(gBuff.getFont().deriveFont(textSize));
 		Font noBold = gBuff.getFont();
 		gBuff.setColor(textColor);
+		gBuff.translate(0, offset);
 
-		int totalYTrans = 0;
+		int totalYTrans = -offset;
 		for (ChatMessageTime c : gui.getMessages().stream().filter((c)->(deltaMilli == -1 || System.currentTimeMillis() - c.time < deltaMilli)).collect(Collectors.toList())) {
 			if(c.msg.isFromServer())
 			{
@@ -195,6 +196,11 @@ public class GameUIHelper {
 
 		gBuff.dispose();
 
-		return buff;
+		DoubleReturn<BufferedImage, Integer> br = new DoubleReturn<BufferedImage, Integer>();
+		
+		br.a = buff;
+		br.b = Math.max(offset + totalYTrans - buff.getHeight() + 14,0)/*totalYTrans - buff.getHeight(),0)*/;
+		
+		return br;
 	}
 }

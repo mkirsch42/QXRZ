@@ -10,15 +10,19 @@ import java.awt.event.KeyListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
+import java.awt.event.MouseWheelEvent;
+import java.awt.event.MouseWheelListener;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 import java.util.List;
+
 import javax.swing.JPanel;
+
 import org.amityregion5.qxrz.client.ui.screen.WindowData;
 import org.amityregion5.qxrz.client.ui.util.GuiUtil;
 import org.amityregion5.qxrz.client.ui.util.ImageModification;
 
-public class MainPanel extends JPanel implements MouseListener, MouseMotionListener, KeyListener
+public class MainPanel extends JPanel implements MouseListener, MouseMotionListener, KeyListener, MouseWheelListener
 {
 	private static final long serialVersionUID = 4938517709138642833L;
 
@@ -33,6 +37,7 @@ public class MainPanel extends JPanel implements MouseListener, MouseMotionListe
 	private int mouseX;
 	//Y coordinate relative to the top right of this panel of the mouse
 	private int mouseY;
+	private int mouseWheel;
 
 	/**
 	 * Create a Main Panel object
@@ -49,6 +54,7 @@ public class MainPanel extends JPanel implements MouseListener, MouseMotionListe
 		//Add event listeners
 		addMouseListener(this);
 		addMouseMotionListener(this);
+		addMouseWheelListener(this);
 		//addKeyListener(this);
 	}
 
@@ -70,7 +76,8 @@ public class MainPanel extends JPanel implements MouseListener, MouseMotionListe
 			GuiUtil.applyRenderingHints(screenGraphics);
 
 			//Get the current screen to draw on it
-			gui.getCurrentScreen().drawScreen(screenGraphics, new WindowData(getWidth(), getHeight(), keysDown, miceDown, mouseX, mouseY));
+			gui.getCurrentScreen().drawScreen(screenGraphics, new WindowData(getWidth(), getHeight(), keysDown, miceDown, mouseX, mouseY, mouseWheel));
+			mouseWheel = 0;
 			
 			//Get rid of the graphics object
 			screenGraphics.dispose();
@@ -150,4 +157,9 @@ public class MainPanel extends JPanel implements MouseListener, MouseMotionListe
 
 	@Override
 	public void mouseExited(MouseEvent e){}
+
+	@Override
+	public void mouseWheelMoved(MouseWheelEvent e) {
+		mouseWheel = e.getUnitsToScroll();
+	}
 }

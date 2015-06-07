@@ -20,6 +20,7 @@ public class WindowData
 	private int mouseX;
 	//Mouse Y Coordinate
 	private int mouseY;
+	private int mouseWheel;
 	
 	/**
 	 * @param width the width of the screen
@@ -30,7 +31,7 @@ public class WindowData
 	 * @param mouseY the mouse Y coordinate
 	 */
 	public WindowData(int width, int height, List<KeyEvent> keysDown,
-			List<Integer> miceDown, int mouseX, int mouseY)
+			List<Integer> miceDown, int mouseX, int mouseY, int mouseWheel)
 	{
 		//Set variables
 		this.width = width;
@@ -39,6 +40,7 @@ public class WindowData
 		this.miceDown = miceDown;
 		this.mouseX = mouseX;
 		this.mouseY = mouseY;
+		this.mouseWheel = mouseWheel;
 	}
 	/**
 	 * @return the width
@@ -124,5 +126,10 @@ public class WindowData
 	{
 		this.mouseY = mouseY;
 	}
-	
+	public int getMouseWheel() {
+		return mouseWheel;
+	}
+	public void setMouseWheel(int mouseWheel) {
+		this.mouseWheel = mouseWheel;
+	}
 }

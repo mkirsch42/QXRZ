@@ -11,6 +11,7 @@ import java.util.HashMap;
 
 import org.amityregion5.qxrz.client.ui.MainGui;
 import org.amityregion5.qxrz.client.ui.util.CenterMode;
+import org.amityregion5.qxrz.client.ui.util.DoubleReturn;
 import org.amityregion5.qxrz.client.ui.util.GameUIHelper;
 import org.amityregion5.qxrz.client.ui.util.GuiMath;
 import org.amityregion5.qxrz.client.ui.util.GuiUtil;
@@ -35,6 +36,7 @@ public class GameScreen extends AbstractScreen {
 	private static final int cooldownClearTime = 10;
 	private boolean cursorVisible = true;
 	private int cursorFlipTime = 0;
+	private int scrollOffset = 0;
 
 	/**
 	 * Create a game screen
@@ -78,17 +80,33 @@ public class GameScreen extends AbstractScreen {
 			}
 		}
 
-		BufferedImage chat = GameUIHelper.getChatMessagesImage(windowData.getWidth()/2 - 20, windowData.getHeight() - 200, gui, Color.BLACK, Color.RED, 12f, (isChatOpen ? -1 : 10000));
-		g.drawImage(chat, null, 10, 100);
+		DoubleReturn<BufferedImage, Integer> chat = GameUIHelper.getChatMessagesImage(windowData.getWidth()/2 - 20, windowData.getHeight() - 200, gui, Color.BLACK, Color.RED, 12f, (isChatOpen ? -1 : 10000), scrollOffset);
+		g.drawImage(chat.a, null, 10, 100);
 
 		if (!isChatOpen && windowData.getKeysDown().stream().anyMatch((k)->k.getKeyCode()==KeyEvent.VK_T)) {
 			isChatOpen = true;
 			cooldownKeys.put(windowData.getKeysDown().stream().filter((k)->k.getKeyCode()==KeyEvent.VK_T).findAny().get(), cooldownClearTime);
 			text = "";
+			scrollOffset = 0;
+		}
+		
+		if (!isChatOpen && windowData.getKeysDown().stream().anyMatch((k)->k.getKeyCode()==KeyEvent.VK_SLASH)) {
+			isChatOpen = true;
+			cooldownKeys.put(windowData.getKeysDown().stream().filter((k)->k.getKeyCode()==KeyEvent.VK_SLASH).findAny().get(), cooldownClearTime);
+			text = "/";
+			scrollOffset = 0;
 		}
 
 		//Do network input data stuff
 		if (isChatOpen) {
+			scrollOffset -= windowData.getMouseWheel()*5;
+			if (scrollOffset < 0) {
+				scrollOffset = 0;
+			}
+			if (scrollOffset > chat.b) {
+				scrollOffset = chat.b;
+			}
+			
 			cooldownKeys.keySet().removeIf((k)->cooldownKeys.get(k)<=0);
 			cooldownKeys.replaceAll((k, i)->i-1);
 
