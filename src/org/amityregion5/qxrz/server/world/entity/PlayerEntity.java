@@ -229,6 +229,6 @@ public class PlayerEntity extends GameEntity
 	
 	@Override
 	public NetworkDrawableEntity getNDE() {
-		return new NetworkDrawableEntity(new NetworkDrawableObject[] {new NetworkDrawableObject(asset, getHitbox().getAABB())}, getHitbox().getAABB());
+		return new NetworkDrawableEntity(new NetworkDrawableObject[] {new NetworkDrawableObject(asset, getHitbox().getAABB())}, getHitbox().getAABB()).setNametag(parent.getName());
 	}
 }

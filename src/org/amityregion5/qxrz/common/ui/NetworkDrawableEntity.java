@@ -8,7 +8,8 @@ public class NetworkDrawableEntity implements Serializable{
 	
 	private NetworkDrawableObject[] drawables;
 	private Rectangle2D box;
-
+	String nametag = "";
+	
 	/**
 	 * @param drawables
 	 */
@@ -32,5 +33,16 @@ public class NetworkDrawableEntity implements Serializable{
 	
 	public Rectangle2D getBox() {
 		return box;
+	}
+	
+	public String getNametag()
+	{
+		return nametag;
+	}
+	
+	public NetworkDrawableEntity setNametag(String nt)
+	{
+		nametag = nt;
+		return this;
 	}
 }

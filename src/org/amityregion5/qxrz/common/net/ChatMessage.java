@@ -9,7 +9,7 @@ public class ChatMessage implements Serializable
 
 	private String message;
 	private InetSocketAddress from;
-
+	private boolean fromServer;
 	// For clients
 	/**
 	 * Constructs a ChatMessage
@@ -55,6 +55,17 @@ public class ChatMessage implements Serializable
 	public ChatMessage setFrom(InetSocketAddress f)
 	{
 		from = f;
+		return this;
+	}
+	
+	public boolean isFromServer()
+	{
+		return fromServer;
+	}
+	
+	public ChatMessage fromServer()
+	{
+		fromServer = true;
 		return this;
 	}
 }

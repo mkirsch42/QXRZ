@@ -31,7 +31,7 @@ public class Game implements Runnable
 		net = n;
 		// Create world and add test objects
 		w = WorldManager.getWorld(Worlds.DEBUG);
-		
+		w.attachNetworkManager(net);
 		//w.add(new PlayerEntity());
 		//debug = DebugDraw.setup(w);
 		// TODO finish compound hitbox normals then add some to the world

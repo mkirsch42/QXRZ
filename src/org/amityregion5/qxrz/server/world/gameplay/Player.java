@@ -19,8 +19,9 @@ public class Player {
 	private PlayerEntity entity; //physics entity for player
 	private World w;
 	private boolean hasShot = false;
+	private String name;
 	//constructors
-	public Player(World parent) //creates a newly spawned player
+	public Player(World parent, String n) //creates a newly spawned player
 	{
 		id = lastId++;
 		guns[0] = new Weapon();
@@ -28,23 +29,27 @@ public class Player {
 		speed = 100;
 		entity = new PlayerEntity(this);
 		w = parent;
+		name = n;
+		w.say(name + " joined");
 	}
-	public Player(Upgrade u, World parent) //creates a newly spawned player with a weapon upgrade
+	public Player(Upgrade u, World parent, String n) //creates a newly spawned player with a weapon upgrade
 	{
-		this(parent);
+		this(parent, n);
 		pupgr = u;
 	}
-	public Player(PlayerEntity spawn, World parent) //spawned at a given entity
+	public Player(PlayerEntity spawn, World parent, String n) //spawned at a given entity
 	{
 		guns[0] = new Weapon();
 		health = 100;
 		speed = 100;
 		entity = spawn;
 		w = parent;
+		name = n;
+		w.say(name + " joined");
 	}
-	public Player(Upgrade u, PlayerEntity spawn, World parent) //previous two constructors in one
+	public Player(Upgrade u, PlayerEntity spawn, World parent, String n) //previous two constructors in one
 	{
-		this(spawn, parent);
+		this(spawn, parent, n);
 		pupgr = u;
 	}
 	
@@ -65,6 +70,7 @@ public class Player {
 		w.removeEntity(entity);
 		entity = new PlayerEntity(this);
 		w.add(entity);
+		w.say(name + " died");
 		return true;
 	}
 	public void setUpgrade(Upgrade u) //sets weapon upgrades from a given upgrade pickup
@@ -165,5 +171,9 @@ public class Player {
 			return false;
 		}
 		return ((Player)obj).getId()==id;
+	}
+	public String getName()
+	{
+		return name;
 	}
 }

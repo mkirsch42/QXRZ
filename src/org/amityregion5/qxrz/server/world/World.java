@@ -4,7 +4,9 @@ import java.awt.Graphics2D;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.amityregion5.qxrz.common.net.ChatMessage;
 import org.amityregion5.qxrz.common.ui.NetworkDrawablePacket;
+import org.amityregion5.qxrz.server.net.ServerNetworkManager;
 import org.amityregion5.qxrz.server.world.entity.GameEntity;
 import org.amityregion5.qxrz.server.world.entity.Hitbox;
 
@@ -13,13 +15,25 @@ public class World
 
 	private ArrayList<GameEntity> entities;
 	private Landscape l;	
+	private ServerNetworkManager net;
 	
 	public World()
 	{
+		this(null);
+	}
+	
+	public World(ServerNetworkManager n)
+	{
 		entities = new ArrayList<GameEntity>();
 		l = new Landscape();
+		net  = n;
 	}
-
+	
+	public void attachNetworkManager(ServerNetworkManager n)
+	{
+		net = n;
+	}
+	
 	public void add(GameEntity e)
 	{
 		System.out.println("Adding entity #" + e.getId());
@@ -87,5 +101,9 @@ public class World
 		//Thread.dumpStack();
 		System.out.println("removing entity #"+e.getId());
 		entities.remove(e);
+	}
+	public void say(String msg)
+	{
+		net.sendObject(new ChatMessage(msg).fromServer());
 	}
 }

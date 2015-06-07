@@ -38,8 +38,16 @@ public final class Main {
 		netManager.attachEventListener(new NetEventListener() {
 			@Override
 			public void newNode(AbstractNetworkNode c) {
-				Player p = new Player(g.getWorld());
+				Player p = new Player(g.getWorld(), c.getName());
 				g.addPlayer((NetworkNode) c, p);
+				try
+				{
+					((NetworkNode)c).send(new ChatMessage("Welcome to " + s).fromServer());
+				} catch (Exception e)
+				{
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
 				// TODO do stuff for new client (drawing, inventory whatever)
 				// You should cast c to a NetworkNode before using
 			}
