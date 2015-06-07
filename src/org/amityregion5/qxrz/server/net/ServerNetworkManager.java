@@ -85,7 +85,14 @@ public class ServerNetworkManager extends AbstractNetworkManager {
 			e.printStackTrace();
 		}
 	}
-
+	public void removeClient(int index) {
+		NetworkNode c = clients.remove(index);
+		try {
+			c.send(new Goodbye());
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
 	@Override
 	public void run() {
 		while (true) {
