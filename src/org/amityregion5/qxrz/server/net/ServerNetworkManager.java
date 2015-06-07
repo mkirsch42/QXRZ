@@ -43,16 +43,19 @@ public class ServerNetworkManager extends AbstractNetworkManager
 		{
 			public void run()
 			{
-				for (Iterator<NetworkNode> it = clients.iterator(); it
-						.hasNext();)
+				synchronized (clients)
 				{
-					NetworkNode n = it.next();
-					try
+					for (Iterator<NetworkNode> it = clients.iterator(); it
+							.hasNext();)
 					{
-						removeClient(n);
-					} catch (Exception e)
-					{
-						e.printStackTrace();
+						NetworkNode n = it.next();
+						try
+						{
+							removeClient(n);
+						} catch (Exception e)
+						{
+							e.printStackTrace();
+						}
 					}
 				}
 			}
@@ -90,7 +93,10 @@ public class ServerNetworkManager extends AbstractNetworkManager
 	 */
 	public void removeClient(NetworkNode c)
 	{
-		clients.remove(c);
+		synchronized (clients)
+		{
+			clients.remove(c);
+		}
 		try
 		{
 			c.send(new Goodbye());
