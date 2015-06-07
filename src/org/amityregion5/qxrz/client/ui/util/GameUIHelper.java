@@ -30,18 +30,18 @@ public class GameUIHelper {
 		//drawAABB(g, nde.getBox(), vp, d);
 		if(nde.getNametag()!="")
 		{
-			drawNT(g, nde.getNametag(), 10F, nde.getBox().getCenterX(), nde.getBox().getMaxY() + 40, vp, d);
+			drawNT(g, nde.getNametag(), 10F, nde.getNTColor(), nde.getBox().getCenterX(), nde.getBox().getMaxY() + 40, vp, d);
 		}
 	}
 
-	private static void drawNT(Graphics2D g, String nt, float fontSize, double x, double y, Viewport vp,
+	private static void drawNT(Graphics2D g, String nt, float fontSize, Color ntColor, double x, double y, Viewport vp,
 			WindowData d) {
 		// Do math to determine drawing points
 		Point2D.Double pnt = vp.gameToScreen(new Point2D.Double(x, y), d);
 
 		// Set Font stuffs
 		g.setFont(g.getFont().deriveFont(fontSize));
-		g.setColor(Color.BLACK);
+		g.setColor(ntColor);
 
 		// Draw the String
 		GuiUtil.drawString(g, nt, CenterMode.CENTER, (int)(pnt.x), (int)(pnt.y));

@@ -6,8 +6,8 @@ import java.util.ArrayList;
 public class Team
 {
 
-	Color teamColor;
-	ArrayList<Player> members;
+	private Color teamColor;
+	private ArrayList<Player> members = new ArrayList<Player>();
 	private int id;
 	private static int lastId = 0;
 	private String name;
@@ -57,6 +57,16 @@ public class Team
 	public void leave(Player p)
 	{
 		members.remove(p);
+	}
+	
+	public Color getColor()
+	{
+		return teamColor;
+	}
+	
+	public String getName()
+	{
+		return name;
 	}
 	
 	public boolean equals(Object o)

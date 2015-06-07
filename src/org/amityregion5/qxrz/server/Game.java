@@ -3,6 +3,7 @@ package org.amityregion5.qxrz.server;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import org.amityregion5.qxrz.common.net.ChatMessage;
 import org.amityregion5.qxrz.common.net.NetworkNode;
 import org.amityregion5.qxrz.common.ui.NetworkDrawablePacket;
 import org.amityregion5.qxrz.common.world.WorldManager;
@@ -107,6 +108,21 @@ public class Game implements Runnable
 	public void addTeam(Team t)
 	{
 		teams.add(t);
+	}
+	
+	public boolean addToTeamByName(Player p, String teamName)
+	{
+		p.leaveTeam();
+		for(Team t : teams)
+		{
+			if(t.getName().equalsIgnoreCase(teamName))
+			{
+				p.joinTeam(t);
+				net.sendObject(new ChatMessage(p.getName() + " joined " + t.getName()).fromServer());
+				return true;
+			}
+		}
+		return false;
 	}
 	
 	public void removePlayer(NetworkNode n)

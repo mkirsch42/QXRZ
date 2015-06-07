@@ -1,5 +1,7 @@
 package org.amityregion5.qxrz.server.world.gameplay;
 
+import java.awt.Color;
+
 import org.amityregion5.qxrz.common.control.NetworkInputData;
 import org.amityregion5.qxrz.common.control.NetworkInputMasks;
 import org.amityregion5.qxrz.server.world.World;
@@ -66,7 +68,8 @@ public class Player {
 	
 	public void leaveTeam()
 	{
-		team.leave(this);
+		if(team!=null)
+			team.leave(this);
 		team = null;
 	}
 	
@@ -81,6 +84,16 @@ public class Player {
 		dead();
 		return true;
 	}
+	
+	public Color getColor()
+	{
+		if(team==null)
+		{
+			return Color.GRAY; 
+		}
+		return team.getColor();
+	}
+	
 	public boolean dead() //tests for death
 	{
 		if (!(health <= 0))	
@@ -200,5 +213,10 @@ public class Player {
 	public String getName()
 	{
 		return name;
+	}
+	
+	public Team getTeam()
+	{
+		return team;
 	}
 }
