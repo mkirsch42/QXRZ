@@ -48,9 +48,11 @@ public class MainGui
 		
 		JPanel title = new JPanel();
 		JLabel t = new JLabel("Host Name and IP");
-		
+		InetAddress a = InetAddress.getLocalHost();
+		JLabel server = new JLabel(a.toString());
 		t.setFont(f);
 		title.add(t);
+		title.add(server);
 		title.setSize(300, 75);
 		title.setLocation(400, 0);
 		JPanel gamedata = new JPanel();
@@ -68,13 +70,7 @@ public class MainGui
 			b.add(x);
 			buttonPanel.add(x);
 		}
-		InetAddress a = InetAddress.getLocalHost();
-		table.add(a.toString(), 0);
-		Button x = new Button("X");
-		x.setSize(50, 30);
-		x.addActionListener(new ButtonListener());
-		b.add(x);
-		buttonPanel.add(x);
+		
 		JPanel panel = table.getPanel();
 		panel.add(buttonPanel);
 		scroll = new ScrollPane();
