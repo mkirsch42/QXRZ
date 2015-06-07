@@ -20,10 +20,10 @@ public class RTable {
 	}
 	
 	public void add(String h, int i) {
-	servers.add(new RTableUnits(h, i, new Button("X")));
+	servers.add(new RTableUnits(h, i));
 	}
 	
-	public ScrollPane getPanel() {
+	public JPanel getPanel() {
 		JPanel button = new JPanel();
 		button.setLayout(new BoxLayout(button, BoxLayout.PAGE_AXIS));
 		button.setSize(100, 100);
@@ -41,24 +41,19 @@ public class RTable {
 		RTableUnits r = servers.get(i);
 		JLabel hos = new JLabel(r.getHost());
 		JLabel ipnum = new JLabel(r.getIP() + "");
-		Button x = new Button("X");
 		hos.setSize(100, 30);
 		hos.setFont(f);
 		ipnum.setSize(100,30);
 		ipnum.setFont(f);
-		x.setSize(50, 30);
 		host.add(hos);
 		ip.add(ipnum);
-		button.add(x);
 		}
 		panel.add(host);
 		panel.add(ip);
-		panel.add(button);
-		scroll.add(panel);
-		return scroll;
+		return panel;
 	}
-	public void remove(Object o) {
-		
+	public void remove(int index) {
+		servers.remove(index);
 	}
 	public static void main(String [] args) {
 		int x = 40;
@@ -68,4 +63,5 @@ public class RTable {
 		}
 	}
 }
+
 
