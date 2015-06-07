@@ -17,6 +17,7 @@ import org.amityregion5.qxrz.server.ui.MainGui;
 import org.amityregion5.qxrz.server.util.ColorUtil;
 import org.amityregion5.qxrz.server.util.TextParseHelper;
 import org.amityregion5.qxrz.server.world.DebugDraw;
+import org.amityregion5.qxrz.server.world.gameplay.GameModes;
 import org.amityregion5.qxrz.server.world.gameplay.Pickup;
 import org.amityregion5.qxrz.server.world.gameplay.Player;
 import org.amityregion5.qxrz.server.world.gameplay.Team;
@@ -129,7 +130,7 @@ public final class Main {
 		// new MainGui().show();
 
 		new MainGui(netManager).show();
-		g = new Game(netManager); // TODO game needs access to network, too...
+		g = new Game(netManager, GameModes.LASTMAN); // TODO game needs access to network, too...
 		// TODO server panel should show actual IP, not 0.0.0.0
 		if (DebugConstants.DEBUG_GUI) {
 			Game.debug = DebugDraw.setup(g.getWorld());

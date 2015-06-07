@@ -11,6 +11,7 @@ import org.amityregion5.qxrz.common.world.Worlds;
 import org.amityregion5.qxrz.server.net.ServerNetworkManager;
 import org.amityregion5.qxrz.server.world.DebugDraw;
 import org.amityregion5.qxrz.server.world.World;
+import org.amityregion5.qxrz.server.world.gameplay.GameModes;
 import org.amityregion5.qxrz.server.world.gameplay.Player;
 import org.amityregion5.qxrz.server.world.gameplay.Team;
 
@@ -29,16 +30,17 @@ public class Game implements Runnable
 	private World w;
 	private boolean running = true;
 	private Worlds world;
-
+	private GameModes mode;
 	private boolean friendlyfire = false;
 	
-	public Game(ServerNetworkManager n)
+	public Game(ServerNetworkManager n, GameModes gm)
 	{
 		net = n;
 		// Create world and add test objects
 		w = WorldManager.getWorld(Worlds.DEBUG);
 		w.attachNetworkManager(net);
 		w.attachParent(this);
+		mode = gm;
 		//w.add(new PlayerEntity());
 		//debug = DebugDraw.setup(w);
 		// TODO finish compound hitbox normals then add some to the world
@@ -88,6 +90,11 @@ public class Game implements Runnable
 			} catch (Exception e) {
 			}
 		}
+	}
+	
+	public GameModes getGM()
+	{
+		return mode;
 	}
 	
 	public void close() {

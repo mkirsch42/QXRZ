@@ -2,6 +2,8 @@ package org.amityregion5.qxrz.server.world.gameplay;
 
 import java.awt.Color;
 
+import javafx.scene.Parent;
+
 import org.amityregion5.qxrz.common.control.NetworkInputData;
 import org.amityregion5.qxrz.common.control.NetworkInputMasks;
 import org.amityregion5.qxrz.server.world.World;
@@ -24,6 +26,7 @@ public class Player {
 	private String name;
 	private Team team;
 	private boolean pickingUp = false;
+	private boolean dead = false;
 	//constructors
 	public Player(int forceId)
 	{
@@ -76,6 +79,10 @@ public class Player {
 	
 	public boolean damaged(Bullet b) //tests if a given bullet hits player and acts accordingly
 	{
+		if(w.getGame().getGM().oneLife && dead)
+		{
+			return false;
+		}
 		if(team!=null && b.friendlyFireTeam()==team.getId() && !w.getGame().friendlyFire())
 			return false;
 		if(b.getFriendlyFirePlayer()==id)
@@ -107,7 +114,12 @@ public class Player {
 		entity = new PlayerEntity(this);
 		w.add(entity);
 		w.say(name + " died");
+		dead = true;
 		return true;
+	}
+	public boolean isDead()
+	{
+		return dead;
 	}
 	public void setUpgrade(Upgrade u) //sets weapon upgrades from a given upgrade pickup
 	{
@@ -250,5 +262,10 @@ public class Player {
 	public double getSpeed()
 	{
 		return speed;
+	}
+	
+	public World getParent()
+	{
+		return w;
 	}
 }

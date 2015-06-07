@@ -39,6 +39,12 @@ public class PlayerEntity extends GameEntity
 
 	public boolean update(double tSinceUpdate, World w)
 	{
+		if(parent.isDead() && w.getGame().getGM().oneLife)
+		{
+			vel = inputVel;
+			pos = pos.add(vel.multiply(tSinceUpdate*2));
+			return false;
+		}
 		updateStackSize++;
 		boolean ret = super.update(tSinceUpdate, w);
 		updateStackSize--;
@@ -229,8 +235,13 @@ public class PlayerEntity extends GameEntity
 	
 	@Override
 	public NetworkDrawableEntity getNDE() {
+		NetworkDrawableEntity nde = new NetworkDrawableEntity(new NetworkDrawableObject[] {new NetworkDrawableObject(asset, getHitbox().getAABB())}, getHitbox().getAABB()).setNametag(parent.getName(), parent.getColor());
 		if(parent.getTeam()==null)
-			return new NetworkDrawableEntity(new NetworkDrawableObject[] {new NetworkDrawableObject(asset, getHitbox().getAABB())}, getHitbox().getAABB()).setNametag(parent.getName(), parent.getColor()).setItalicized();
-		return new NetworkDrawableEntity(new NetworkDrawableObject[] {new NetworkDrawableObject(asset, getHitbox().getAABB())}, getHitbox().getAABB()).setNametag(parent.getName(), parent.getColor());
+			nde = new NetworkDrawableEntity(new NetworkDrawableObject[] {new NetworkDrawableObject(asset, getHitbox().getAABB())}, getHitbox().getAABB()).setNametag(parent.getName(), parent.getColor()).setItalicized();
+		if(parent.isDead() && parent.getParent().getGame().getGM().oneLife)
+		{
+			nde = new NetworkDrawableEntity(new NetworkDrawableObject[]{},getHitbox().getAABB());
+		}
+		return nde;
 	}
 }
