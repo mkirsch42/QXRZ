@@ -20,7 +20,12 @@ public class Player {
 	private World w;
 	private boolean hasShot = false;
 	private String name;
+	private Team team;
 	//constructors
+	public Player(int forceId)
+	{
+		id = forceId;
+	}
 	public Player(World parent, String n) //creates a newly spawned player
 	{
 		id = lastId++;
@@ -53,11 +58,28 @@ public class Player {
 		pupgr = u;
 	}
 	
-	public void damaged(Bullet b) //tests if a given bullet hits player and acts accordingly
+	public void joinTeam(Team t)
 	{
+		t.join(this);
+		team = t;
+	}
+	
+	public void leaveTeam()
+	{
+		team.leave(this);
+		team = null;
+	}
+	
+	public boolean damaged(Bullet b) //tests if a given bullet hits player and acts accordingly
+	{
+		if(team!=null && b.friendlyFireTeam()==team.getId())
+			return false;
+		if(b.getFriendlyFirePlayer()==id)
+			return false;
 		if (b.getEntity().getHitbox().intersects(entity.getHitbox()))
 		 health -= b.getDamage();
 		dead();
+		return true;
 	}
 	public boolean dead() //tests for death
 	{
@@ -112,6 +134,9 @@ public class Player {
 			}
 			
 			Bullet b = new Bullet(pos, v, guns[equipped]);
+			if(team != null)
+				b.setFriendlyFireTeam(team);
+			b.setFriendlyFirePlayer(this);
 			w.add(b.getEntity());
 		}
 		else {}

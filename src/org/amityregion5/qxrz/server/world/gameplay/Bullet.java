@@ -7,6 +7,8 @@ public class Bullet {
 	private String type;
 	private int damage;
 	private ProjectileEntity entity;
+	private int teamId = -1;
+	private int sourceId = -1;
 	//constructors
 	public Bullet()
 	{
@@ -28,6 +30,26 @@ public class Bullet {
 		damage = wep.getDamage();
 		type = wep.getType();
 		entity = new ProjectileEntity(pos, new Vector2D(vel.angle()).multiply(wep.getSpeed()), this);
+	}
+	
+	public void setFriendlyFireTeam(Team t)
+	{
+		teamId = t.getId();
+	}
+	
+	public int friendlyFireTeam()
+	{
+		return teamId;
+	}
+	
+	public void setFriendlyFirePlayer(Player p)
+	{
+		sourceId = p.getId();
+	}
+	
+	public int getFriendlyFirePlayer()
+	{
+		return sourceId;
 	}
 	
 	public int getDamage()

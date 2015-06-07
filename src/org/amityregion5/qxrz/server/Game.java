@@ -1,5 +1,6 @@
 package org.amityregion5.qxrz.server;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 
 import org.amityregion5.qxrz.common.net.NetworkNode;
@@ -10,6 +11,7 @@ import org.amityregion5.qxrz.server.net.ServerNetworkManager;
 import org.amityregion5.qxrz.server.world.DebugDraw;
 import org.amityregion5.qxrz.server.world.World;
 import org.amityregion5.qxrz.server.world.gameplay.Player;
+import org.amityregion5.qxrz.server.world.gameplay.Team;
 
 public class Game implements Runnable
 {
@@ -17,6 +19,7 @@ public class Game implements Runnable
 	ServerNetworkManager net;
 	
 	private HashMap<NetworkNode, Player> players = new HashMap<NetworkNode, Player>();
+	private ArrayList<Team> teams = new ArrayList<Team>();
 	
 	public static final int GAME_UNIT = 1;
 
@@ -100,6 +103,12 @@ public class Game implements Runnable
 		w.add(p.getEntity());
 		players.put(n, p);
 	}
+	
+	public void addTeam(Team t)
+	{
+		teams.add(t);
+	}
+	
 	public void removePlayer(NetworkNode n)
 	{
 		w.removeEntity(players.get(n).getEntity());
