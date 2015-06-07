@@ -17,10 +17,20 @@ public class WorldManager {
 		defaultWorld.addObstacle(new Obstacle(new RectangleHitbox(new Rectangle(1000,500,400,400))));
 		defaultWorld.addObstacle(new Obstacle(new RectangleHitbox(new Rectangle(2000,1500,500,1000))));
 		defaultWorld.addObstacle(new Obstacle(new RectangleHitbox(new Rectangle(1500,2900+2*Game.GAME_UNIT,2000,500))));
-		defaultWorld.addObstacle(new Obstacle(new RectangleHitbox(new Rectangle(-1000, -1000, 5000, 100))));
-		defaultWorld.addObstacle(new Obstacle(new RectangleHitbox(new Rectangle(-1000, -1000, 100, 5000))));
-		defaultWorld.addObstacle(new Obstacle(new RectangleHitbox(new Rectangle(3900, -1000, 100, 5000))));
-		defaultWorld.addObstacle(new Obstacle(new RectangleHitbox(new Rectangle(-1000, 3900, 5000, 100))));
+		
+		createBorder(defaultWorld, 2500, 1500, 1500);
+		//defaultWorld.addObstacle(new Obstacle(new RectangleHitbox(new Rectangle(-1000, -1000, 5000, 100))));
+		//defaultWorld.addObstacle(new Obstacle(new RectangleHitbox(new Rectangle(-1000, -1000, 100, 5000))));
+		//defaultWorld.addObstacle(new Obstacle(new RectangleHitbox(new Rectangle(3900, -1000, 100, 5000))));
+		//defaultWorld.addObstacle(new Obstacle(new RectangleHitbox(new Rectangle(-1000, 3900, 5000, 100))));
+	}
+	
+	private static void createBorder(World w, int radius, int xCenter, int yCenter) {
+		w.addObstacle(new Obstacle(new RectangleHitbox(new Rectangle(xCenter - radius - 100, yCenter - radius - 100, radius*2+200, 100))));
+		w.addObstacle(new Obstacle(new RectangleHitbox(new Rectangle(xCenter - radius - 100, yCenter + radius, radius*2 + 200, 100))));
+
+		w.addObstacle(new Obstacle(new RectangleHitbox(new Rectangle(xCenter - radius - 100, yCenter - radius - 100, 100, radius*2 + 200))));
+		w.addObstacle(new Obstacle(new RectangleHitbox(new Rectangle(xCenter + radius, yCenter - radius - 100, 100, radius*2 + 200))));
 	}
 	
 	public static World getWorld(Worlds world) {
