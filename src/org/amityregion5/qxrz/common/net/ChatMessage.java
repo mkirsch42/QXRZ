@@ -10,6 +10,8 @@ public class ChatMessage implements Serializable
 	private String message;
 	private InetSocketAddress from;
 	private boolean fromServer;
+	private long timestamp;
+	
 	// For clients
 	/**
 	 * Constructs a ChatMessage
@@ -67,5 +69,16 @@ public class ChatMessage implements Serializable
 	{
 		fromServer = true;
 		return this;
+	}
+	
+	public ChatMessage setTimestamp()
+	{
+		timestamp = System.currentTimeMillis();
+		return this;
+	}
+	
+	public long getTimestamp()
+	{
+		return timestamp;
 	}
 }

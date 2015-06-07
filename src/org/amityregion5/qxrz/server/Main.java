@@ -31,7 +31,7 @@ public final class Main {
 
 		String s = (String) JOptionPane.showInputDialog(null,
 				"Enter Server name", "Server Name Query",
-				JOptionPane.PLAIN_MESSAGE, null, null, "QXRZ Server");
+				JOptionPane.PLAIN_MESSAGE, null, null, System.getProperty("user.name") + "'s server");
 
 		if (s == null) {
 			return;
