@@ -6,6 +6,7 @@ import java.util.List;
 
 import org.amityregion5.qxrz.common.net.ChatMessage;
 import org.amityregion5.qxrz.common.ui.NetworkDrawablePacket;
+import org.amityregion5.qxrz.server.Game;
 import org.amityregion5.qxrz.server.net.ServerNetworkManager;
 import org.amityregion5.qxrz.server.world.entity.GameEntity;
 import org.amityregion5.qxrz.server.world.entity.Hitbox;
@@ -16,6 +17,7 @@ public class World
 	private ArrayList<GameEntity> entities;
 	private Landscape l;	
 	private ServerNetworkManager net;
+	private Game g;
 	
 	public World()
 	{
@@ -29,9 +31,19 @@ public class World
 		net  = n;
 	}
 	
+	public Game getGame()
+	{
+		return g;
+	}
+	
 	public void attachNetworkManager(ServerNetworkManager n)
 	{
 		net = n;
+	}
+	
+	public void attachParent(Game game)
+	{
+		g=game;
 	}
 	
 	public void add(GameEntity e)

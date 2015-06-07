@@ -1,5 +1,6 @@
 package org.amityregion5.qxrz.common.ui;
 
+import java.awt.Color;
 import java.awt.geom.Rectangle2D;
 import java.io.Serializable;
 
@@ -9,6 +10,8 @@ public class NetworkDrawableEntity implements Serializable{
 	private NetworkDrawableObject[] drawables;
 	private Rectangle2D box;
 	String nametag = "";
+	Color ntColor;
+	boolean ntItalics = false;
 	
 	/**
 	 * @param drawables
@@ -40,8 +43,25 @@ public class NetworkDrawableEntity implements Serializable{
 		return nametag;
 	}
 	
-	public NetworkDrawableEntity setNametag(String nt)
+	public Color getNTColor()
 	{
+		return ntColor;
+	}
+	
+	public boolean isNTItalicized()
+	{
+		return ntItalics;
+	}
+	
+	public NetworkDrawableEntity setItalicized()
+	{
+		ntItalics = true;
+		return this;
+	}
+	
+	public NetworkDrawableEntity setNametag(String nt, Color c)
+	{
+		ntColor = c;
 		nametag = nt;
 		return this;
 	}

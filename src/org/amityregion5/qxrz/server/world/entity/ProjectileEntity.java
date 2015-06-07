@@ -34,9 +34,10 @@ public class ProjectileEntity extends GameEntity
 		if(e==null)
 			return super.update(tSinceUpdate, w);
 		System.out.println("ProjectileEntity #" + getId() + " collided with Entity #" + e.getId());
+		super.update(tSinceUpdate, w);
 		if(e instanceof PlayerEntity)
 		{
-			((PlayerEntity)e).getGameModel().damaged(gameModel);
+			return ((PlayerEntity)e).getGameModel().damaged(gameModel);
 		}
 		System.out.println("Killing ProjectileEntity #" + getId());
 		return true;

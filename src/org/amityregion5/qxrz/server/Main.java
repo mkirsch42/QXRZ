@@ -14,8 +14,11 @@ import org.amityregion5.qxrz.common.net.NetEventListener;
 import org.amityregion5.qxrz.common.net.NetworkNode;
 import org.amityregion5.qxrz.server.net.ServerNetworkManager;
 import org.amityregion5.qxrz.server.ui.MainGui;
+import org.amityregion5.qxrz.server.util.ColorUtil;
+import org.amityregion5.qxrz.server.util.TextParseHelper;
 import org.amityregion5.qxrz.server.world.DebugDraw;
 import org.amityregion5.qxrz.server.world.gameplay.Player;
+import org.amityregion5.qxrz.server.world.gameplay.Team;
 
 //github.com/mkirsch42/QXRZ.gitimport org.amityregion5.qxrz.common.net.ChatMessage;
 
@@ -64,7 +67,58 @@ public final class Main {
 					netManager.removeClient(c);
 				} else if (netObj instanceof ChatMessage) {
 					// echo it back out
-					netManager.sendObject(new ChatMessage(c.getName() + ": " + ((ChatMessage)netObj).getMessage()).setFrom(c.getSocketAddress()));
+					String msg = ((ChatMessage)netObj).getMessage();
+					if(msg.charAt(0)=='/')
+					{
+						if(msg.length()>=10 && msg.substring(0,10).equalsIgnoreCase("/leaveteam"))
+						{
+							if(g.findPlayer(c).getTeam()==null)
+								return;
+							netManager.sendObject(new ChatMessage(g.findPlayer(c).getName() + " left " + g.findPlayer(c).getTeam().getName()).fromServer());
+							g.findPlayer(c).leaveTeam();
+						}
+						if(msg.length()>=6 && msg.substring(0,6).equalsIgnoreCase("/join "))
+						{
+							String[] args = msg.substring(6).split(" ");
+							if(!g.addToTeamByName(g.findPlayer(c), args[0]))
+							{
+								Team t;
+								if(args.length==1)
+								{
+									t = new Team(args[0]);
+								}
+								else
+								{
+									t = new Team(ColorUtil.stringToColor(args[1]), args[0]);
+								}
+								g.addTeam(t);
+								g.findPlayer(c).joinTeam(t);
+							}
+							netManager.sendObject(new ChatMessage(g.findPlayer(c).getName() + " joined " + g.findPlayer(c).getTeam().getName()).fromServer());
+						}
+						if(msg.length()>=3 && msg.substring(0,3).equalsIgnoreCase("/ff"))
+						{
+							String[] args = msg.substring(3).split(" ");
+							if(args.length==1)
+							{
+								g.friendlyFire(!g.friendlyFire());
+								netManager.sendObject(new ChatMessage("Friendly fire is " + TextParseHelper.boolToOnOff(g.friendlyFire())).fromServer());
+							}
+							else
+							{
+								try{
+									if(g.friendlyFire(TextParseHelper.onOffToBool(args[1])))
+									{
+										netManager.sendObject(new ChatMessage("Friendly fire is " + TextParseHelper.boolToOnOff(g.friendlyFire())).fromServer());
+									}
+								} catch(IllegalArgumentException e){try{c.send(new ChatMessage("Illegal argument- only use on or off").fromServer());}catch(Exception e2){}}
+							}
+						}
+					}
+					else
+					{
+						netManager.sendObject(new ChatMessage(c.getName() + ": " + msg).setFrom(c.getSocketAddress()));
+					}
 				}
 			}
 		});

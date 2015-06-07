@@ -1,7 +1,9 @@
 package org.amityregion5.qxrz.server;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 
+import org.amityregion5.qxrz.common.net.ChatMessage;
 import org.amityregion5.qxrz.common.net.NetworkNode;
 import org.amityregion5.qxrz.common.ui.NetworkDrawablePacket;
 import org.amityregion5.qxrz.common.world.WorldManager;
@@ -10,6 +12,7 @@ import org.amityregion5.qxrz.server.net.ServerNetworkManager;
 import org.amityregion5.qxrz.server.world.DebugDraw;
 import org.amityregion5.qxrz.server.world.World;
 import org.amityregion5.qxrz.server.world.gameplay.Player;
+import org.amityregion5.qxrz.server.world.gameplay.Team;
 
 public class Game implements Runnable
 {
@@ -17,6 +20,7 @@ public class Game implements Runnable
 	ServerNetworkManager net;
 	
 	private HashMap<NetworkNode, Player> players = new HashMap<NetworkNode, Player>();
+	private ArrayList<Team> teams = new ArrayList<Team>();
 	
 	public static final int GAME_UNIT = 1;
 
@@ -26,12 +30,15 @@ public class Game implements Runnable
 	private boolean running = true;
 	private Worlds world;
 
+	private boolean friendlyfire = false;
+	
 	public Game(ServerNetworkManager n)
 	{
 		net = n;
 		// Create world and add test objects
 		w = WorldManager.getWorld(Worlds.DEBUG);
 		w.attachNetworkManager(net);
+		w.attachParent(this);
 		//w.add(new PlayerEntity());
 		//debug = DebugDraw.setup(w);
 		// TODO finish compound hitbox normals then add some to the world
@@ -100,6 +107,42 @@ public class Game implements Runnable
 		w.add(p.getEntity());
 		players.put(n, p);
 	}
+	
+	public void addTeam(Team t)
+	{
+		teams.add(t);
+	}
+	
+	public boolean addToTeamByName(Player p, String teamName)
+	{
+		p.leaveTeam();
+		for(Team t : teams)
+		{
+			if(t.getName().equalsIgnoreCase(teamName))
+			{
+				p.joinTeam(t);
+				net.sendObject(new ChatMessage(p.getName() + " joined " + t.getName()).fromServer());
+				return true;
+			}
+		}
+		return false;
+	}
+	
+	public boolean friendlyFire(boolean toggle)
+	{
+		if(friendlyfire==toggle)
+		{
+			return false;
+		}
+		friendlyfire=toggle;
+		return true;
+	}
+	
+	public boolean friendlyFire()
+	{
+		return friendlyfire;
+	}
+	
 	public void removePlayer(NetworkNode n)
 	{
 		w.removeEntity(players.get(n).getEntity());
