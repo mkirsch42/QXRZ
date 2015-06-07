@@ -11,6 +11,7 @@ public class NetworkDrawableEntity implements Serializable{
 	private Rectangle2D box;
 	String nametag = "";
 	Color ntColor;
+	boolean ntItalics = false;
 	
 	/**
 	 * @param drawables
@@ -45,6 +46,17 @@ public class NetworkDrawableEntity implements Serializable{
 	public Color getNTColor()
 	{
 		return ntColor;
+	}
+	
+	public boolean isNTItalicized()
+	{
+		return ntItalics;
+	}
+	
+	public NetworkDrawableEntity setItalicized()
+	{
+		ntItalics = true;
+		return this;
 	}
 	
 	public NetworkDrawableEntity setNametag(String nt, Color c)
