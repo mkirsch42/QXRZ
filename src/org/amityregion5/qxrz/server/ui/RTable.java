@@ -2,17 +2,13 @@ package org.amityregion5.qxrz.server.ui;
 
 import java.awt.Button;
 import java.awt.Font;
-import java.awt.GridLayout;
 import java.awt.ScrollPane;
 import java.util.ArrayList;
 import java.util.List;
 
 import javax.swing.BoxLayout;
-import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
-import javax.swing.JTable;
-import javax.swing.WindowConstants;
 
 public class RTable {
 	private List<RTableUnits> servers;

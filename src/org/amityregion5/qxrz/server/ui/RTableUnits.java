@@ -2,7 +2,7 @@ package org.amityregion5.qxrz.server.ui;
 
 import java.awt.Button;
 
-public class RTableUnits implements Comparable{
+public class RTableUnits implements Comparable<RTableUnits>{
 	private String hostname;
 	private int ip;
 	private Button b;
@@ -22,12 +22,13 @@ public class RTableUnits implements Comparable{
 	public Button getButton() {
 		return b;
 	}
-	public int compareTo(Object o) {
-		if (o instanceof RTableUnits) {
+	public int compareTo(RTableUnits o) {
+		return hostname.compareTo((o.getHost()));
+		/*if (o instanceof RTableUnits) {
 			RTableUnits r = (RTableUnits) o;
 			return hostname.compareTo((r.getHost()));
 		}
 		else
-			return 0;
+			return 0;*/
 	}
 }

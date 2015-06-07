@@ -32,8 +32,8 @@ public class ClientNetworkTester
 			{
 				if(payload instanceof ChatMessage)
 				{
-					ChatMessage cm = (ChatMessage)payload;
-					String s = cm.getMessage();
+					//ChatMessage cm = (ChatMessage)payload;
+					//String s = cm.getMessage();
 				}
 			}
 		});

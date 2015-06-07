@@ -9,7 +9,6 @@ import org.amityregion5.qxrz.common.ui.NetworkDrawableObject;
 import org.amityregion5.qxrz.server.DebugConstants;
 import org.amityregion5.qxrz.server.Game;
 import org.amityregion5.qxrz.server.world.Landscape;
-import org.amityregion5.qxrz.server.world.Obstacle;
 import org.amityregion5.qxrz.server.world.World;
 import org.amityregion5.qxrz.server.world.gameplay.Player;
 import org.amityregion5.qxrz.server.world.vector2d.Vector2D;

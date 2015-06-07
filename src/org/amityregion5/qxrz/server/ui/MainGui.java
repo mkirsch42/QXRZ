@@ -5,7 +5,6 @@ import java.awt.ScrollPane;
 import java.net.InetAddress;
 import java.net.InetSocketAddress;
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.Iterator;
 
 import javax.swing.JFrame;
