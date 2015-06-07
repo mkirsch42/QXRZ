@@ -58,7 +58,7 @@ public class Game implements Runnable
 			w.update((System.currentTimeMillis() - lastMs)
 					/ (1000.0 / DebugConstants.UPDATE_RATE));
 			debug.draw();
-
+			
 			NetworkDrawablePacket ndp = w.constructDrawablePacket();
 			ndp.setCurrentWorld(world);
 			for(NetworkNode node : players.keySet())
@@ -73,6 +73,11 @@ public class Game implements Runnable
 					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
+			}
+			
+			if((int)(Math.random()*DebugConstants.DROPCHANCEPERUPDATE)==1)
+			{
+				w.drop();
 			}
 			
 			// Set current time for next update

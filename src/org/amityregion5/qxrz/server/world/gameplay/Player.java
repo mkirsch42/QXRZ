@@ -34,7 +34,7 @@ public class Player {
 		id = lastId++;
 		guns[0] = new Weapon();
 		health = 100;
-		speed = 100;
+		speed = 4;
 		entity = new PlayerEntity(this);
 		w = parent;
 		name = n;
@@ -49,7 +49,7 @@ public class Player {
 	{
 		guns[0] = new Weapon();
 		health = 100;
-		speed = 100;
+		speed = 4;
 		entity = spawn;
 		w = parent;
 		name = n;
@@ -220,22 +220,24 @@ public class Player {
 		return team;
 	}
 	
-	public void pickup(Pickup p)
+	public boolean pickup(Pickup p)
 	{
 		if(!p.canPickup())
 		{
-			return;
+			return false;
 		}
 		String wep = p.getWeaponId();
-		if(guns[0]!=null && guns[0].getType().equals(wep))
+		if(guns[0]!=null && guns[0]
+				.getType()
+				.equals(wep))
 		{
 			if(!guns[0].addAmmo(p.getAmmoCount()))
-				return;
+				return false;
 		}
 		else if(guns[1]!=null && guns[1].getType().equals(wep))
 		{
 			if(!guns[1].addAmmo(p.getAmmoCount()))
-				return;
+				return false;
 		}
 		if(pickingUp)
 		{
@@ -243,5 +245,10 @@ public class Player {
 			guns[equipped].setAmmo(p.getAmmoCount());
 		}
 		p.pickup();
+		return true;
+	}
+	public double getSpeed()
+	{
+		return speed;
 	}
 }

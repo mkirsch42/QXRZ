@@ -69,7 +69,7 @@ public class PlayerEntity extends GameEntity
 		{
 			vX = 100;
 		}
-		inputVel = new Vector2D(vX, vY).multiply(DebugConstants.PATH_LEN);
+		inputVel = new Vector2D(vX, vY).multiply(parent.getSpeed());
 		return false;
 	}
 	
@@ -145,7 +145,8 @@ public class PlayerEntity extends GameEntity
 				}
 				Vector2D b = pos;
 				pos = pos.add(pathTemp);
-				if (getHitbox().intersects(h.getHitbox()))
+				//if (getHitbox().intersects(h.getHitbox()))
+				if(l.checkCollisions(getHitbox())!=null)
 				{
 					pathTemp = pathTemp.add(new Vector2D(v.angle())
 							.multiply(accuracy));
