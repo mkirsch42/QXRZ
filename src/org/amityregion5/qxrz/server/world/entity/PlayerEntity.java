@@ -25,7 +25,9 @@ public class PlayerEntity extends GameEntity
 	private String asset = "players/1";
 
 	public final int PLAYER_SIZE = 400;
-
+	
+	private int stepcooldown = 10;
+	
 	public PlayerEntity(Player p) // creates player vector
 	{
 		super();
@@ -236,6 +238,24 @@ public class PlayerEntity extends GameEntity
 	@Override
 	public NetworkDrawableEntity getNDE() {
 		NetworkDrawableEntity nde = new NetworkDrawableEntity(new NetworkDrawableObject[] {new NetworkDrawableObject(asset, getHitbox().getAABB())}, getHitbox().getAABB()).setNametag(parent.getName(), parent.getColor());
+		stepcooldown--;
+		if(vel.equals(new Vector2D()))
+		{
+			asset = "players/1/stand";
+			stepcooldown=10;
+		}
+		else if(stepcooldown==0)
+		{
+			stepcooldown=10;
+			if(asset.equals("players/1/step0"))
+			{
+				asset = "players/1/step1";
+			}
+			else
+			{
+				asset = "players/1/step0";
+			}
+		}
 		if(parent.getTeam()==null)
 			nde = new NetworkDrawableEntity(new NetworkDrawableObject[] {new NetworkDrawableObject(asset, getHitbox().getAABB())}, getHitbox().getAABB()).setNametag(parent.getName(), parent.getColor()).setItalicized();
 		if(parent.isDead() && parent.getParent().getGame().getGM().oneLife)

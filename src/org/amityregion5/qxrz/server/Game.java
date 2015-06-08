@@ -77,7 +77,7 @@ public class Game implements Runnable
 				}
 			}
 			
-			if((int)(Math.random()*DebugConstants.DROPCHANCEPERUPDATE)==1)
+			if(players.size()>0 && (int)(Math.random()*DebugConstants.DROPCHANCEPERUPDATE)==1)
 			{
 				w.drop();
 			}

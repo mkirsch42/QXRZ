@@ -28,7 +28,9 @@ public class AssetManager
 	{
 		try
 		{
-			imageAssets.put("players/1", ImageIO.read(FileUtil.getURLOfResource(Main.class, "/players/char1.png")));
+			imageAssets.put("players/1/stand", ImageIO.read(FileUtil.getURLOfResource(Main.class, "/players/stand.png")));
+			imageAssets.put("players/1/step0", ImageIO.read(FileUtil.getURLOfResource(Main.class, "/players/step0.png")));
+			imageAssets.put("players/1/step1", ImageIO.read(FileUtil.getURLOfResource(Main.class, "/players/step1.png")));
 			imageAssets.put("weapons/flamethrower", ImageIO.read(FileUtil.getURLOfResource(Main.class, "/weapons/flamethrower.png")));
 			imageAssets.put("weapons/rifle", ImageIO.read(FileUtil.getURLOfResource(Main.class, "/weapons/ar.png")));
 			imageAssets.put("weapons/bow", ImageIO.read(FileUtil.getURLOfResource(Main.class, "/weapons/bow.png")));

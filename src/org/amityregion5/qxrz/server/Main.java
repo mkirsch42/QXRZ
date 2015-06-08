@@ -130,7 +130,7 @@ public final class Main {
 		// new MainGui().show();
 
 		new MainGui(netManager).show();
-		g = new Game(netManager, GameModes.LASTMAN); // TODO game needs access to network, too...
+		g = new Game(netManager, GameModes.ENDLESS); // TODO game needs access to network, too...
 		// TODO server panel should show actual IP, not 0.0.0.0
 		if (DebugConstants.DEBUG_GUI) {
 			Game.debug = DebugDraw.setup(g.getWorld());

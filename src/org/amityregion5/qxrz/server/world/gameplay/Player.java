@@ -152,14 +152,14 @@ public class Player {
 			Vector2D pos;
 			if(normVel.getX()==0)
 			{
-				pos = entity.getPos().add(new Vector2D(v.angle()).multiply(1+Math.abs(len/Math.sin(v.angle()))));
+				pos = entity.getPos().add(new Vector2D(v.angle()).multiply(1+Math.abs(len/Math.sin(v.angle()))).multiply(0.5));
 			}
 			else
 			{
-				pos = entity.getPos().add(new Vector2D(v.angle()).multiply(1+Math.abs(len/Math.cos(v.angle()))));
+				pos = entity.getPos().add(new Vector2D(v.angle()).multiply(1+Math.abs(len/Math.cos(v.angle()))).multiply(0.5));
 			}
 			
-			Bullet b = new Bullet(pos.multiply(0.5), v, guns[equipped]);
+			Bullet b = new Bullet(pos, v, guns[equipped]);
 			if(team != null)
 				b.setFriendlyFireTeam(team);
 			b.setFriendlyFirePlayer(this);
