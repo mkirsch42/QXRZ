@@ -14,6 +14,7 @@ import java.util.List;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.SwingConstants;
 import javax.swing.WindowConstants;
 
 import org.amityregion5.qxrz.common.net.NetworkNode;
@@ -47,20 +48,20 @@ public class MainGui
 		}
 		
 		JPanel title = new JPanel();
-		JLabel t = new JLabel("Host Name and IP");
+		JLabel t = new JLabel("Host Name and IP: ");
 		InetAddress a = InetAddress.getLocalHost();
 		JLabel server = new JLabel(a.toString());
 		t.setFont(f);
 		title.add(t);
 		title.add(server);
 		title.setSize(300, 75);
-		title.setLocation(400, 0);
+		title.setLocation(SwingConstants.CENTER, 0);
 		JPanel gamedata = new JPanel();
 		JLabel temp = new JLabel("Game Data");
 		temp.setFont(f);
 		gamedata.add(temp);
 		gamedata.setSize(400, 50);
-		gamedata.setLocation(0, 600);
+		gamedata.setLocation(0, SwingConstants.SOUTH_EAST);
 		JPanel buttonPanel = new JPanel();
 		b = new ArrayList<Button>();
 		for (int i = 0; i < c.size(); i++) {
