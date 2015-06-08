@@ -151,7 +151,7 @@ public class World
 		}
 		return null;
 	}
-	public void win(GameModes g) 
+	/*public void win(GameModes g) 
 	{
 		ArrayList<Player> pl = new ArrayList<Player>(); //arraylist of all players
 		for (GameEntity e : entities)
@@ -168,7 +168,7 @@ public class World
 	{
 		switch (gid)
 		{
-		/*last man standing*/
+		/*last man standing*
 		case 1:		int co = 0;
 					Player w = null;
 					for (Player p : pls)
@@ -182,7 +182,7 @@ public class World
 					if (co==1)
 						return w;
 					else {return null;}
-		/*endless	i figure it's implemented when the game is ended manually*/
+		/*endless	i figure it's implemented when the game is ended manually*
 		case 2:		Player win = pls.get(0);
 					for (Player p: pls)
 					{
@@ -190,11 +190,11 @@ public class World
 							win = p; 
 					}
 					return win;
-		/*will we have capture the flag?*/
+		/*will we have capture the flag?*
 		}
 		return null;
 	}
-	public Team winTeam(ArrayList<Player> pls int gid)
+	public Team winTeam(ArrayList<Player> pls, int gid)
 	{
 		Team t1 = g.getTeams().get(0);
 		Team t2 = g.getTeams().get(0);
@@ -228,7 +228,7 @@ public class World
 					return win;
 		}
 		return null;
-	}
+	}*/
 
 	public void drop()
 	{
