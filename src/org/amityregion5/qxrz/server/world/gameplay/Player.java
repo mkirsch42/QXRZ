@@ -28,6 +28,7 @@ public class Player {
 	private boolean pickingUp = false;
 	private boolean dead = false;
 	private int score;
+	private NetworkInputData downs;
 	//constructors
 	public Player(int forceId)
 	{
@@ -43,6 +44,7 @@ public class Player {
 		w = parent;
 		name = n;
 		w.say(name + " joined");
+		downs = new NetworkInputData();
 	}
 	public Player(Upgrade u, World parent, String n) //creates a newly spawned player with a weapon upgrade
 	{
@@ -58,6 +60,7 @@ public class Player {
 		w = parent;
 		name = n;
 		w.say(name + " joined");
+		downs = new NetworkInputData();
 	}
 	public Player(Upgrade u, PlayerEntity spawn, World parent, String n) //previous two constructors in one
 	{
@@ -195,17 +198,25 @@ public class Player {
 	public void input(NetworkInputData nid)
 	{
 		entity.input(nid);
-		if(nid.get(NetworkInputMasks.M1) && !hasShot)
+		if(nid.get(NetworkInputMasks.M1) && !downs.get(NetworkInputMasks.M1))
 		{
 			hasShot = true;
 			Vector2D v = new Vector2D(nid.getMouseX(), nid.getMouseY()).subtract(entity.getPos());
 			shoot(v);
 		}
-		if(!nid.get(NetworkInputMasks.M1))
+		if(nid.get(NetworkInputMasks.R) && !downs.get(NetworkInputMasks.R))
 		{
-			hasShot = false;
+			getEquipped().reload();
 		}
-		pickingUp = nid.get(NetworkInputMasks.E);
+		if(nid.get(NetworkInputMasks.E) && !downs.get(NetworkInputMasks.E))
+		{
+			pickingUp = true;
+		}
+		else
+		{
+			pickingUp = false;
+		}
+		downs = nid;
 	}
 	public PlayerEntity getEntity()
 	{
@@ -240,9 +251,7 @@ public class Player {
 			return false;
 		}
 		String wep = p.getWeaponId();
-		if(guns[0]!=null && guns[0]
-				.getType()
-				.equals(wep))
+		if(guns[0]!=null && guns[0].getType().equals(wep))
 		{
 			if(!guns[0].addAmmo(p.getAmmoCount()))
 				return false;
@@ -252,10 +261,14 @@ public class Player {
 			if(!guns[1].addAmmo(p.getAmmoCount()))
 				return false;
 		}
-		if(pickingUp)
+		else if(pickingUp)
 		{
 			guns[equipped] = new Weapon(wep);
 			guns[equipped].setAmmo(p.getAmmoCount());
+		}
+		else
+		{
+			return false;
 		}
 		p.pickup();
 		return true;

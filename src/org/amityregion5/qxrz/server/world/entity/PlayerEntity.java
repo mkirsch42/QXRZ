@@ -49,7 +49,7 @@ public class PlayerEntity extends GameEntity
 		updateStackSize++;
 		boolean ret = super.update(tSinceUpdate, w);
 		updateStackSize--;
-		if(updateStackSize==0)
+		//if(updateStackSize==0)
 		{
 			vel = inputVel;
 		}
@@ -84,6 +84,7 @@ public class PlayerEntity extends GameEntity
 		{
 			inputVel = new Vector2D(new Vector2D(vX, vY).angle()).multiply(parent.getSpeed());
 		}
+		vel = inputVel;
 		return false;
 	}
 	

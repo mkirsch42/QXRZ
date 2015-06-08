@@ -55,4 +55,20 @@ public class Pickup
 	{
 		return onePickup;
 	}
+	
+	public String getAsset()
+	{
+		if(!canPickup())
+		{
+			return "icons/refreshDark";
+		}
+		for(WeaponTypes t : WeaponTypes.values())
+		{
+			if(t.text.equals(weaponId))
+			{
+				return t.asset;
+			}
+		}
+		return "";
+	}
 }

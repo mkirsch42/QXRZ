@@ -11,7 +11,6 @@ import org.amityregion5.qxrz.server.world.vector2d.Vector2D;
 public class ProjectileEntity extends GameEntity
 {
 	private Bullet gameModel;
-	private String asset = "weapons/revolver"; // TODO: change this pls pls pls
 	public static int projsize = 100; // depending on specific projectile?
 
 	public ProjectileEntity(Vector2D p, Vector2D v, Bullet b)
@@ -46,6 +45,15 @@ public class ProjectileEntity extends GameEntity
 
 	@Override
 	public NetworkDrawableEntity getNDE() {
+		String asset = "projectiles/bullet";
+		if(gameModel.getType().equals("ro"))
+		{
+			asset = "projectiles/rocket";
+		}
+		if(gameModel.getType().equals("bo"))
+		{
+			asset = "projectiles/arrow";
+		}
 		return new NetworkDrawableEntity(new NetworkDrawableObject[] {new NetworkDrawableObject(asset, getHitbox().getAABB())}, getHitbox().getAABB());
 	}
 }
