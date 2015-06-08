@@ -38,7 +38,7 @@ public class Player {
 		id = lastId++;
 		guns[0] = new Weapon();
 		health = 100;
-		speed = 4;
+		speed = 600;
 		entity = new PlayerEntity(this);
 		w = parent;
 		name = n;
@@ -53,7 +53,7 @@ public class Player {
 	{
 		guns[0] = new Weapon();
 		health = 100;
-		speed = 4;
+		speed = 600;
 		entity = spawn;
 		w = parent;
 		name = n;

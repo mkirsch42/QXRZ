@@ -75,7 +75,14 @@ public class PlayerEntity extends GameEntity
 		{
 			vX = 100;
 		}
-		inputVel = new Vector2D(new Vector2D(vX, vY).angle()).multiply(parent.getSpeed());
+		if(vX==0 && vY==0)
+		{
+			inputVel = new Vector2D();
+		}
+		else
+		{
+			inputVel = new Vector2D(new Vector2D(vX, vY).angle()).multiply(parent.getSpeed());
+		}
 		return false;
 	}
 	
@@ -105,7 +112,14 @@ public class PlayerEntity extends GameEntity
 		pos = pos.add(norm.multiply(5 * Game.GAME_UNIT));
 		// If no more velocity, don't try to spend any more
 		if (rem.equals(new Vector2D()))
+		{
+			pos = pos.subtract(move);
+			Vector2D bak = vel;
+			vel = move;
+			update(1, w);
+			vel = bak;
 			return false;
+		}
 
 		// Backup velocity
 		Vector2D bak = vel;
@@ -149,10 +163,11 @@ public class PlayerEntity extends GameEntity
 				{
 					checkCollisions(pathTemp, l);
 				}
-				Vector2D b = pos;
-				pos = pos.add(pathTemp);
+				//Vector2D b = pos;
+				//pos = pos.add(pathTemp);
 				//if (getHitbox().intersects(h.getHitbox()))
-				if(l.checkCollisions(getHitbox())!=null)
+				//if(l.checkCollisions(getHitbox())!=null)
+				if(checkCollisions(pathTemp, l)!=null)
 				{
 					pathTemp = pathTemp.add(new Vector2D(v.angle())
 							.multiply(accuracy));
@@ -162,7 +177,7 @@ public class PlayerEntity extends GameEntity
 					pathTemp = pathTemp.subtract(new Vector2D(v.angle())
 							.multiply(accuracy));
 				}
-				pos = b;
+				//pos = b;
 			}
 			else
 			{
