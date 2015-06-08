@@ -29,7 +29,7 @@ Pronounced kew ecks ar zed
 
 ### Gameplay
 - ~~Random events: object appearance~~
-- Player load-out & switching
+- ~~Player load-out & switching~~
 - Upgrades for weapons (and ammo?)
 - Win/lose
 - Player classes (selection at beginning; information on each)

@@ -230,6 +230,11 @@ public class World
 		return null;
 	}*/
 
+	public Rectangle getBounds()
+	{
+		return bounds;
+	}
+	
 	public void drop()
 	{
 		Pickup p = null;

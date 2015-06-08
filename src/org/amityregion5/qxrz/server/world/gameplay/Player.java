@@ -1,14 +1,12 @@
 package org.amityregion5.qxrz.server.world.gameplay;
 
 import java.awt.Color;
-
-import javafx.scene.Parent;
+import java.util.Random;
 
 import org.amityregion5.qxrz.common.control.NetworkInputData;
 import org.amityregion5.qxrz.common.control.NetworkInputMasks;
 import org.amityregion5.qxrz.server.world.World;
 import org.amityregion5.qxrz.server.world.entity.PlayerEntity;
-import org.amityregion5.qxrz.server.world.entity.ProjectileEntity;
 import org.amityregion5.qxrz.server.world.vector2d.Vector2D;
 
 public class Player {
@@ -112,20 +110,29 @@ public class Player {
 			return false;
 		}
 		//respawn code to add later
-		health = 100;
-		w.removeEntity(entity);
-		entity = new PlayerEntity(this);
-		w.add(entity);
-		w.say(name + " died");
+		
 		dead = true;
-		guns[0] = new Weapon();
-		guns[1] = null;
-		equipped = 0;
+		respawn(!w.getGame().getGM().oneLife);
 		return true;
 	}
 	public boolean isDead()
 	{
 		return dead;
+	}
+	public void respawn(boolean revive)
+	{
+		if(revive)
+		{
+			dead = false;
+		}
+		health = 100;
+		w.removeEntity(entity);
+		entity = new PlayerEntity(this);
+		w.add(entity);
+		w.say(name + " died");
+		guns[0] = new Weapon();
+		guns[1] = null;
+		equipped = 0;
 	}
 	public void setUpgrade(Upgrade u) //sets weapon upgrades from a given upgrade pickup
 	{
@@ -204,6 +211,8 @@ public class Player {
 	public void input(NetworkInputData nid)
 	{
 		entity.input(nid);
+		if(dead && w.getGame().getGM().oneLife)
+			return;
 		if(nid.get(NetworkInputMasks.M1) && !downs.get(NetworkInputMasks.M1))
 		{
 			Vector2D v = new Vector2D(nid.getMouseX(), nid.getMouseY()).subtract(entity.getPos());
@@ -317,5 +326,17 @@ public class Player {
 		if(getEquipped()==null)
 			return getName() + " (" + getHealth() + ")";
 		return getName() + " (" + getHealth() + " , " + getEquipped().getType() + ":" + getEquipped().getInClip() + "+" + getEquipped().getReserve() + ")";
+	}
+	public void randomSpawn()
+	{
+		w.removeEntity(entity);
+		Random r = new Random();
+		do
+		{
+			Vector2D newPos = new Vector2D(r.nextInt((int)w.getBounds().getWidth())+(int)w.getBounds().getMinX(),
+					r.nextInt((int)w.getBounds().getHeight())+(int)w.getBounds().getMinY());
+			entity = new PlayerEntity(newPos, this);
+		} while(w.getLandscape().checkCollisions(entity.getHitbox())!=null);
+		w.add(entity);
 	}
 }

@@ -82,6 +82,11 @@ public class Game implements Runnable
 			if(winner!=null)
 			{
 				net.sendObject(new ChatMessage(winner.getName() + " won").fromServer());
+				for(NetworkNode n : players.keySet())
+				{
+					players.get(n).respawn(true);
+					players.get(n).randomSpawn();
+				}
 			}
 			
 			if(players.size()>0 && (int)(Math.random()*DebugConstants.DROPCHANCEPERUPDATE)==1)
@@ -123,7 +128,6 @@ public class Game implements Runnable
 					winner = p;
 				}
 			}
-			playerWon = true;
 			return winner;
 		}
 		return null;
@@ -165,6 +169,7 @@ public class Game implements Runnable
 	{
 		w.add(p.getEntity());
 		players.put(n, p);
+		p.randomSpawn();
 	}
 	
 	public void addTeam(Team t)

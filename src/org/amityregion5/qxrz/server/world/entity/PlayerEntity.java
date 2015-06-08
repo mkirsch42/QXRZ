@@ -37,6 +37,14 @@ public class PlayerEntity extends GameEntity
 		//vel = new Vector2D(200, 100).multiply(DebugConstants.PATH_LEN);
 	}
 
+	public PlayerEntity(Vector2D spawn, Player p)
+	{
+		super();
+		pos = spawn;
+		vel = new Vector2D(0, 0);
+		parent = p;
+	}
+	
 	public boolean update(double tSinceUpdate, World w)
 	{
 		if(parent.isDead() && w.getGame().getGM().oneLife)
