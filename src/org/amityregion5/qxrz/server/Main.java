@@ -53,6 +53,12 @@ public final class Main {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
+				try {
+					new MainGui(netManager).show();
+				} catch (Exception e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
 				// TODO do stuff for new client (drawing, inventory whatever)
 				// You should cast c to a NetworkNode before using
 			}
@@ -67,6 +73,13 @@ public final class Main {
 					// also stop drawing player and stuff
 					g.removePlayer(c);
 					netManager.removeClient(c);
+					try {
+						new MainGui(netManager).show();
+					} catch (Exception e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+					//here
 				} else if (netObj instanceof ChatMessage) {
 					// echo it back out
 					String msg = ((ChatMessage)netObj).getMessage();
@@ -81,6 +94,8 @@ public final class Main {
 						}
 						if(msg.length()>=6 && msg.substring(0,6).equalsIgnoreCase("/join "))
 						{
+							if(g.getGM().hasTeams)
+								return;
 							String[] args = msg.substring(6).split(" ");
 							if(!g.addToTeamByName(g.findPlayer(c), args[0]))
 							{
