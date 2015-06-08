@@ -77,5 +77,10 @@ public class Team
 		}
 		return ((Team)o).getId()==id;
 	}
+
+	public boolean empty()
+	{
+		return members.size()==0;
+	}
 	
 }

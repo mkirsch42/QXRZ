@@ -75,9 +75,15 @@ public class GameScreen extends AbstractScreen {
 				GameUIHelper.draw(g, o.getNDE(), vp, windowData);
 			}
 
-			for (NetworkDrawableEntity nde : gui.getNetworkDrawablePacket().getDrawables()) {
-				GameUIHelper.draw(g, nde, vp, windowData);
+			for(int i=0;i<gui.getNetworkDrawablePacket().getDrawables().size();i++)
+			{
+				if(i!=gui.getNetworkDrawablePacket().getClientIndex())
+				{
+					GameUIHelper.draw(g, gui.getNetworkDrawablePacket().getDrawables().get(i), vp, windowData);
+				}
 			}
+			
+			GameUIHelper.draw(g, gui.getNetworkDrawablePacket().getClientObject(), vp, windowData);
 		}
 
 		DoubleReturn<BufferedImage, Integer> chat = GameUIHelper.getChatMessagesImage(windowData.getWidth()/2 - 20, windowData.getHeight() - 200, gui, Color.BLACK, Color.RED, 12f, (isChatOpen ? -1 : 10000), scrollOffset);

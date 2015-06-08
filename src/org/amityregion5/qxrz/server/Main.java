@@ -39,6 +39,7 @@ public final class Main {
 		}
 
 		ServerNetworkManager netManager = new ServerNetworkManager(s, 8000);
+		MainGui gui = new MainGui(netManager);
 		// TODO maybe all the manager stuff should be created within the GUI
 		netManager.attachEventListener(new NetEventListener() {
 			@Override
@@ -54,7 +55,7 @@ public final class Main {
 					e.printStackTrace();
 				}
 				try {
-					new MainGui(netManager).show();
+					gui.redraw();
 				} catch (Exception e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
@@ -74,7 +75,7 @@ public final class Main {
 					g.removePlayer(c);
 					netManager.removeClient(c);
 					try {
-						new MainGui(netManager).show();
+						gui.redraw();
 					} catch (Exception e) {
 						// TODO Auto-generated catch block
 						e.printStackTrace();
@@ -145,7 +146,7 @@ public final class Main {
 
 		// new MainGui().show();
 
-		new MainGui(netManager).show();
+		gui.show();
 		g = new Game(netManager, GameModes.ENDLESS); // TODO game needs access to network, too...
 		// TODO server panel should show actual IP, not 0.0.0.0
 		if (DebugConstants.DEBUG_GUI) {
