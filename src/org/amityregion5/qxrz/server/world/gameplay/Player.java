@@ -159,7 +159,7 @@ public class Player {
 				pos = entity.getPos().add(new Vector2D(v.angle()).multiply(1+Math.abs(len/Math.cos(v.angle()))));
 			}
 			
-			Bullet b = new Bullet(pos, v, guns[equipped]);
+			Bullet b = new Bullet(pos.multiply(0.5), v, guns[equipped]);
 			if(team != null)
 				b.setFriendlyFireTeam(team);
 			b.setFriendlyFirePlayer(this);

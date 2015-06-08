@@ -72,7 +72,7 @@ public final class Main {
 					String msg = ((ChatMessage)netObj).getMessage();
 					if(msg.charAt(0)=='/')
 					{
-						if(msg.length()>=10 && msg.substring(0,10).equalsIgnoreCase("/leaveteam"))
+						if(msg.length()>=6 && msg.substring(0,6).equalsIgnoreCase("/leave"))
 						{
 							if(g.findPlayer(c).getTeam()==null)
 								return;
