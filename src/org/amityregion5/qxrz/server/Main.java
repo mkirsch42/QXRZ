@@ -39,6 +39,7 @@ public final class Main {
 		}
 
 		ServerNetworkManager netManager = new ServerNetworkManager(s, 8000);
+		MainGui gui = new MainGui(netManager);
 		// TODO maybe all the manager stuff should be created within the GUI
 		netManager.attachEventListener(new NetEventListener() {
 			@Override
@@ -50,6 +51,12 @@ public final class Main {
 					((NetworkNode)c).send(new ChatMessage("Welcome to " + s).fromServer());
 				} catch (Exception e)
 				{
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+				try {
+					gui.redraw();
+				} catch (Exception e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
@@ -67,6 +74,13 @@ public final class Main {
 					// also stop drawing player and stuff
 					g.removePlayer(c);
 					netManager.removeClient(c);
+					try {
+						gui.redraw();
+					} catch (Exception e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+					//here
 				} else if (netObj instanceof ChatMessage) {
 					// echo it back out
 					String msg = ((ChatMessage)netObj).getMessage();
@@ -81,7 +95,7 @@ public final class Main {
 						}
 						if(msg.length()>=6 && msg.substring(0,6).equalsIgnoreCase("/join "))
 						{
-							if(g.getGM().hasTeams)
+							if(!g.getGM().hasTeams)
 								return;
 							String[] args = msg.substring(6).split(" ");
 							if(!g.addToTeamByName(g.findPlayer(c), args[0]))
@@ -131,7 +145,7 @@ public final class Main {
 
 		// new MainGui().show();
 
-		new MainGui(netManager).show();
+		gui.show();
 		g = new Game(netManager, GameModes.ENDLESS); // TODO game needs access to network, too...
 		// TODO server panel should show actual IP, not 0.0.0.0
 		if (DebugConstants.DEBUG_GUI) {

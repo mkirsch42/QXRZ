@@ -29,8 +29,8 @@ public class AssetManager
 		try
 		{
 			imageAssets.put("players/1/stand", ImageIO.read(FileUtil.getURLOfResource(Main.class, "/players/stand.png")));
-			imageAssets.put("players/1/step0", ImageIO.read(FileUtil.getURLOfResource(Main.class, "/players/step0.png")));
-			imageAssets.put("players/1/step1", ImageIO.read(FileUtil.getURLOfResource(Main.class, "/players/step1.png")));
+			imageAssets.put("players/1/walk/0", ImageIO.read(FileUtil.getURLOfResource(Main.class, "/players/step0.png")));
+			imageAssets.put("players/1/walk/1", ImageIO.read(FileUtil.getURLOfResource(Main.class, "/players/step1.png")));
 			imageAssets.put("weapons/flamethrower", ImageIO.read(FileUtil.getURLOfResource(Main.class, "/weapons/flamethrower.png")));
 			imageAssets.put("weapons/rifle", ImageIO.read(FileUtil.getURLOfResource(Main.class, "/weapons/ar.png")));
 			imageAssets.put("weapons/bow", ImageIO.read(FileUtil.getURLOfResource(Main.class, "/weapons/bow.png")));
@@ -74,11 +74,11 @@ public class AssetManager
 	}
 	
 	public static BufferedImage[] getImageAssets(String name) {
-		return imageAssets.keySet().stream().filter((s)->s.matches(regexify(name))).map((k)->imageAssets.get(k)).collect(Collectors.toList()).toArray(new BufferedImage[] {});
+		return imageAssets.keySet().stream().sequential().filter((s)->s.matches(regexify(name))).map((k)->imageAssets.get(k)).collect(Collectors.toList()).toArray(new BufferedImage[] {});
 	}
 	
 	public static Clip[] getAudioAssets(String name) {
-		return audioAssets.keySet().stream().filter((s)->s.matches(regexify(name))).map((k)->audioAssets.get(k)).collect(Collectors.toList()).toArray(new Clip[] {});
+		return audioAssets.keySet().stream().sequential().filter((s)->s.matches(regexify(name))).map((k)->audioAssets.get(k)).collect(Collectors.toList()).toArray(new Clip[] {});
 	}
 	
 	private static String regexify(String str) {

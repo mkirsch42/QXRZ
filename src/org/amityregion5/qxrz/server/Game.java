@@ -22,6 +22,7 @@ public class Game implements Runnable
 	
 	private HashMap<NetworkNode, Player> players = new HashMap<NetworkNode, Player>();
 	private ArrayList<Team> teams = new ArrayList<Team>();
+	private boolean playerWon = false;
 	
 	public static final int GAME_UNIT = 1;
 
@@ -77,6 +78,12 @@ public class Game implements Runnable
 				}
 			}
 			
+			Player winner = winner();
+			if(winner!=null)
+			{
+				net.sendObject(new ChatMessage(winner.getName() + " won").fromServer());
+			}
+			
 			if(players.size()>0 && (int)(Math.random()*DebugConstants.DROPCHANCEPERUPDATE)==1)
 			{
 				w.drop();
@@ -89,6 +96,46 @@ public class Game implements Runnable
 				Thread.sleep(1000 / DebugConstants.DEBUG_FPS);
 			} catch (Exception e) {
 			}
+		}
+	}
+	
+	public Player winner() //checks all player entities to determine a winner if one player is left alive
+	{
+		if(players.size()<2 || playerWon)
+		{
+			return null;
+		}
+		switch (mode)
+		{
+		case ENDLESS:
+			return null;
+		case LASTMAN:
+			Player winner = null;
+			for(NetworkNode n : players.keySet())
+			{
+				Player p = players.get(n);
+				if(!p.isDead())
+				{
+					if(winner!=null)
+					{
+						return null;
+					}
+					winner = p;
+				}
+			}
+			playerWon = true;
+			return winner;
+		}
+		return null;
+	}
+
+	public 
+	
+	void playerLeftTeam(Team t)
+	{
+		if(t.empty())
+		{
+			teams.remove(t);
 		}
 	}
 	
@@ -159,5 +206,9 @@ public class Game implements Runnable
 	{
 		w.removeEntity(players.get(n).getEntity());
 		players.remove(n);
+	}
+	public ArrayList<Team> getTeams()
+	{
+		return teams;
 	}
 }

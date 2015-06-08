@@ -1,5 +1,6 @@
 package org.amityregion5.qxrz.server.world;
 
+import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.Rectangle;
 import java.util.ArrayList;
@@ -14,8 +15,10 @@ import org.amityregion5.qxrz.server.world.entity.GameEntity;
 import org.amityregion5.qxrz.server.world.entity.Hitbox;
 import org.amityregion5.qxrz.server.world.entity.PlayerEntity;
 import org.amityregion5.qxrz.server.world.entity.ShapeHitbox;
+import org.amityregion5.qxrz.server.world.gameplay.GameModes;
 import org.amityregion5.qxrz.server.world.gameplay.Pickup;
 import org.amityregion5.qxrz.server.world.gameplay.Player;
+import org.amityregion5.qxrz.server.world.gameplay.Team;
 import org.amityregion5.qxrz.server.world.gameplay.WeaponTypes;
 
 public class World
@@ -148,30 +151,84 @@ public class World
 		}
 		return null;
 	}
-	public Player winner() //checks all player entities to determine a winner if one player is left alive
+	/*public void win(GameModes g) 
 	{
-		ArrayList<PlayerEntity> pl = new ArrayList<PlayerEntity>();
+		ArrayList<Player> pl = new ArrayList<Player>(); //arraylist of all players
 		for (GameEntity e : entities)
 		{
 			if (e instanceof PlayerEntity)
-				pl.add((PlayerEntity) e);
+				pl.add(((PlayerEntity) e).getGameModel());
 		}
-		int co = 0;
-		Player w = null;
-		for (PlayerEntity p : pl)
-		{
-			if (!(p.getGameModel().dead()))
-			{
-				co++;
-				w = p.getGameModel();
-			}
-		}
-		if (co==1)
-		{
-			return w;
-		}
-		else {return null;}
+		if (g.teams)
+			winPlayer(pl, g.id);
+		else 
+			winTeam(pl, g.id);
 	}
+	public Player winPlayer(ArrayList<Player> pls, int gid)
+	{
+		switch (gid)
+		{
+		/*last man standing*
+		case 1:		int co = 0;
+					Player w = null;
+					for (Player p : pls)
+					{
+						if (!(p.dead()))
+						{
+							co++;
+							w = p;
+						}
+					}
+					if (co==1)
+						return w;
+					else {return null;}
+		/*endless	i figure it's implemented when the game is ended manually*
+		case 2:		Player win = pls.get(0);
+					for (Player p: pls)
+					{
+						if (p.getScore() > win.getScore())
+							win = p; 
+					}
+					return win;
+		/*will we have capture the flag?*
+		}
+		return null;
+	}
+	public Team winTeam(ArrayList<Player> pls, int gid)
+	{
+		Team t1 = g.getTeams().get(0);
+		Team t2 = g.getTeams().get(0);
+		for (Player p:pls)
+		{
+			
+		}
+		switch (gid)
+		{
+		//last man standing
+		case 1:		int co = 0;
+					Player w = null;
+					for (Player p : pls)
+					{
+						if (!(p.dead()))
+						{
+							co++;
+							w = p;
+						}
+					}
+					if (co==1)
+						return w;
+					else {return null;}
+		//endless
+		case 2:		Player win = pls.get(0);
+					for (Player p: pls)
+					{
+						if (p.getScore() > win.getScore())
+							win = p; 
+					}
+					return win;
+		}
+		return null;
+	}*/
 
 	public void drop()
 	{
