@@ -27,6 +27,7 @@ public class Player {
 	private Team team;
 	private boolean pickingUp = false;
 	private boolean dead = false;
+	private int score;
 	//constructors
 	public Player(int forceId)
 	{
@@ -267,5 +268,9 @@ public class Player {
 	public World getParent()
 	{
 		return w;
+	}
+	public int getScore()
+	{
+		return score;
 	}
 }

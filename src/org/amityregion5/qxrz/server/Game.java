@@ -207,4 +207,8 @@ public class Game implements Runnable
 		w.removeEntity(players.get(n).getEntity());
 		players.remove(n);
 	}
+	public ArrayList<Team> getTeams()
+	{
+		return teams;
+	}
 }
