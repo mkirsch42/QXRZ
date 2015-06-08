@@ -9,6 +9,7 @@ public class Bullet {
 	private ProjectileEntity entity;
 	private int teamId = -1;
 	private int sourceId = -1;
+	private int speed;
 	//constructors
 	public Bullet()
 	{
@@ -19,6 +20,7 @@ public class Bullet {
 		this(new Vector2D(), new Vector2D(), wep);
 		damage = wep.getDamage();
 		type = wep.getType();
+		speed = wep.getSpeed();
 		entity = new ProjectileEntity(new Vector2D(), new Vector2D(), this);
 	}
 	public Bullet(Vector2D pos, Vector2D vel)
@@ -29,6 +31,7 @@ public class Bullet {
 	{
 		damage = wep.getDamage();
 		type = wep.getType();
+		speed = wep.getSpeed();
 		entity = new ProjectileEntity(pos, new Vector2D(vel.angle()).multiply(wep.getSpeed()), this);
 	}
 	
@@ -63,6 +66,10 @@ public class Bullet {
 	public ProjectileEntity getEntity()
 	{
 		return entity;
+	}
+	public int getSpeed()
+	{
+		return speed;
 	}
 	
 }
