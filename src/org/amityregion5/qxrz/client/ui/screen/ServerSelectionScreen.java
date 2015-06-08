@@ -37,7 +37,7 @@ public class ServerSelectionScreen extends AbstractScreen {
 			return new Point(w.getWidth() - 100, 50);
 		}, (w) -> {
 			return new Point(50, 50);
-		}, Color.LIGHT_GRAY, Color.BLACK, "icons/refresh",
+		}, Colors.CLEAR, Colors.CLEAR, "icons/refreshDark",
 		(w) -> refreshServerList()));
 
 		elements.add(new ElementRectangle((w) -> {
