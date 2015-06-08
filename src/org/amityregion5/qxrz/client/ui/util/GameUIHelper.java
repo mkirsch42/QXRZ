@@ -105,8 +105,9 @@ public class GameUIHelper {
 				playerTL.y + pH / 2);
 
 		// Squarify and rotate(temporary) the image
-		BufferedImage before = ImageModification.squarifyImage(AssetManager
-				.getImageAssets(ndo.getAsset())[0]);
+		BufferedImage[] assets = AssetManager.getImageAssets(ndo.getAsset());
+		
+		BufferedImage before = ImageModification.squarifyImage(assets[(int) ((System.currentTimeMillis()/150)%assets.length)]);
 		BufferedImage newImage = before/*
 										 * ImageModification.rotateImage(before,
 										 * Math.toRadians(deg++))
