@@ -1,6 +1,7 @@
 package org.amityregion5.qxrz.server.ui;
 
 import java.awt.Button;
+import java.awt.Color;
 import java.awt.Font;
 import java.awt.ScrollPane;
 import java.util.ArrayList;
@@ -15,6 +16,8 @@ public class RTable {
 	private JPanel panel;
 	private ScrollPane scroll;
 	Font f = new Font("Helvetica", Font.PLAIN, 28);
+	private Color c1 = new Color(100,100,100);
+	private Color c2 = new Color(200, 200, 200);
 	public RTable() {
 		servers = new ArrayList<RTableUnits>();
 	}
@@ -41,6 +44,14 @@ public class RTable {
 		RTableUnits r = servers.get(i);
 		JLabel hos = new JLabel(r.getHost());
 		JLabel ipnum = new JLabel(r.getIP() + "");
+		if (i % 2 == 0)
+			{hos.setBackground(c1);
+			ipnum.setBackground(c2);
+			}
+		else
+			{hos.setBackground(c2);
+			ipnum.setBackground(c1);
+			}
 		hos.setSize(100, 30);
 		hos.setFont(f);
 		ipnum.setSize(100,30);
@@ -63,5 +74,4 @@ public class RTable {
 		}
 	}
 }
-
 
