@@ -95,7 +95,7 @@ public final class Main {
 						if(msg.length()>=6 && msg.substring(0,6).equalsIgnoreCase("/join "))
 						{
 							System.out.println(msg);
-							if(g.getGM().hasTeams)
+							if(!g.getGM().hasTeams)
 								return;
 							String[] args = msg.substring(6).split(" ");
 							if(!g.addToTeamByName(g.findPlayer(c), args[0]))
