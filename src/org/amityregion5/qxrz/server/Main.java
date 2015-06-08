@@ -86,14 +86,14 @@ public final class Main {
 					String msg = ((ChatMessage)netObj).getMessage();
 					if(msg.charAt(0)=='/')
 					{
-						if(msg.length()>=6 && msg.substring(0,6).equalsIgnoreCase("/leave"))
+						if(msg.toLowerCase().startsWith("/leave"))
 						{
 							if(g.findPlayer(c).getTeam()==null)
 								return;
 							netManager.sendObject(new ChatMessage(g.findPlayer(c).getName() + " left " + g.findPlayer(c).getTeam().getName()).fromServer());
 							g.findPlayer(c).leaveTeam();
 						}
-						if(msg.length()>=6 && msg.substring(0,6).equalsIgnoreCase("/join "))
+						if(msg.toLowerCase().startsWith("/join "))
 						{
 							System.out.println(msg);
 							if(!g.getGM().hasTeams)
@@ -108,14 +108,14 @@ public final class Main {
 								}
 								else
 								{
-									t = new Team(ColorUtil.stringToColor(args[1]), args[0]);
+									t = new Team(ColorUtil.stringToColor(args[1].toUpperCase()), args[0]);
 								}
 								g.addTeam(t);
 								g.findPlayer(c).joinTeam(t);
 							}
 							netManager.sendObject(new ChatMessage(g.findPlayer(c).getName() + " joined " + g.findPlayer(c).getTeam().getName()).fromServer());
 						}
-						if(msg.length()>=3 && msg.substring(0,3).equalsIgnoreCase("/ff"))
+						if(msg.toLowerCase().startsWith("/ff"))
 						{
 							String[] args = msg.substring(3).split(" ");
 							if(args.length==1)

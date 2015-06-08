@@ -51,6 +51,21 @@ Pronounced kew ecks ar zed
 - ~~bullets spawn closer to body~~
 - change helmet color to match team
 
+## Controls and commands
+
+- `/join {teamname} [teamcolor]` - Joins or creates team. If creating, team has given color or black if none given.
+- `/leave` - Leave current team
+- `/ff [on/off]` Toggles friendly fire or sets it to given value
+
+- WASD - Movement
+- M1 - Shoot
+- M2 - Stab
+- Q - Switch weapon
+- E - Pick up weapon
+- R - Reload
+- T - Chat
+- SPACE - Special movement (?)
+
 ## Authors
 - Eli Baum
 - Dan Chen
