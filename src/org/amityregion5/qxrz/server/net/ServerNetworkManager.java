@@ -160,7 +160,10 @@ public class ServerNetworkManager extends AbstractNetworkManager
 
 					if (!foundClient)
 					{
-						clients.add(recvClient);
+						synchronized (clients)
+						{
+							clients.add(recvClient);
+						}
 						callback.newNode(recvClient);
 						l.info("New client " + recvClient.getAddress());
 					}
