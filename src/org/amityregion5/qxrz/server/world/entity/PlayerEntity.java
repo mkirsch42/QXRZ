@@ -75,7 +75,7 @@ public class PlayerEntity extends GameEntity
 		{
 			vX = 100;
 		}
-		inputVel = new Vector2D(vX, vY).multiply(parent.getSpeed());
+		inputVel = new Vector2D(new Vector2D(vX, vY).angle()).multiply(parent.getSpeed());
 		return false;
 	}
 	
