@@ -77,6 +77,12 @@ public class Game implements Runnable
 				}
 			}
 			
+			Player winner = winner();
+			if(winner!=null)
+			{
+				net.sendObject(new ChatMessage(winner.getName() + " won").fromServer());
+			}
+			
 			if(players.size()>0 && (int)(Math.random()*DebugConstants.DROPCHANCEPERUPDATE)==1)
 			{
 				w.drop();
@@ -91,6 +97,32 @@ public class Game implements Runnable
 			}
 		}
 	}
+	
+	public Player winner() //checks all player entities to determine a winner if one player is left alive
+	{
+		switch (mode)
+		{
+		case ENDLESS:
+			return null;
+		case LASTMAN:
+			Player winner = null;
+			for(NetworkNode n : players.keySet())
+			{
+				Player p = players.get(n);
+				if(!p.isDead())
+				{
+					if(winner!=null)
+					{
+						return null;
+					}
+					winner = p;
+				}
+			}
+			return winner;
+		}
+		return null;
+	}
+
 	
 	public GameModes getGM()
 	{
