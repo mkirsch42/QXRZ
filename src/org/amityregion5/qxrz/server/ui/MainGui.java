@@ -61,7 +61,7 @@ public class MainGui
 		temp.setFont(f);
 		gamedata.add(temp);
 		gamedata.setSize(400, 50);
-		gamedata.setLocation(0, SwingConstants.SOUTH_EAST);
+		gamedata.setLocation(0, 600);
 		JPanel buttonPanel = new JPanel();
 		b = new ArrayList<Button>();
 		for (int i = 0; i < c.size(); i++) {
@@ -74,6 +74,7 @@ public class MainGui
 		
 		JPanel panel = table.getPanel();
 		panel.add(buttonPanel);
+		panel.setLocation(SwingConstants.CENTER, SwingConstants.CENTER);
 		scroll = new ScrollPane();
 		scroll.add(panel);
 		scroll.setSize(500, 500);
