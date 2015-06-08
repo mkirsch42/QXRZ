@@ -273,4 +273,17 @@ public class Player {
 	{
 		return score;
 	}
+	public int getHealth()
+	{
+		return health;
+	}
+	public Weapon getEquipped()
+	{
+		return guns[equipped];
+	}
+	
+	public String getNT()
+	{
+		return getName() + " (" + getHealth() + " , " + getEquipped().getType() + ":" + getEquipped().getInClip() + "+" + getEquipped().getReserve() + ")";
+	}
 }

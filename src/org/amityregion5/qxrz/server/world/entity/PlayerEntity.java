@@ -45,6 +45,7 @@ public class PlayerEntity extends GameEntity
 			pos = pos.add(vel.multiply(tSinceUpdate*2));
 			return false;
 		}
+		parent.getEquipped().update();
 		updateStackSize++;
 		boolean ret = super.update(tSinceUpdate, w);
 		updateStackSize--;
@@ -251,10 +252,10 @@ public class PlayerEntity extends GameEntity
 	@Override
 	public NetworkDrawableEntity getNDE() {
 		NetworkDrawableEntity nde = new NetworkDrawableEntity(new NetworkDrawableObject[] {new NetworkDrawableObject(
-(vel.equals(new Vector2D()) ? standing : asset), getHitbox().getAABB())}, getHitbox().getAABB()).setNametag(parent.getName(), parent.getColor());
+(vel.equals(new Vector2D()) ? standing : asset), getHitbox().getAABB())}, getHitbox().getAABB()).setNametag(parent.getNT(), parent.getColor());
 
 		if(parent.getTeam()==null)
-			nde = new NetworkDrawableEntity(new NetworkDrawableObject[] {new NetworkDrawableObject((vel.equals(new Vector2D()) ? standing : asset), getHitbox().getAABB())}, getHitbox().getAABB()).setNametag(parent.getName(), parent.getColor()).setItalicized();
+			nde.setItalicized();
 		if(parent.isDead() && parent.getParent().getGame().getGM().oneLife)
 		{
 			nde = new NetworkDrawableEntity(new NetworkDrawableObject[]{},getHitbox().getAABB());

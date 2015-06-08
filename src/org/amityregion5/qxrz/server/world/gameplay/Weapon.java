@@ -10,9 +10,11 @@ public class Weapon {
 	private int maxclips; //maximum clips to hold
 	private int reserve; //reserve ammo;
 	private int rof; //per half second
-	private int retime; //per half second
+	private int retime; // in updates (approx. 60/sec)
 	private int damage;
 	private int speed;
+	private int recooldown;
+	private boolean reloading;
 	//constructors
 	public Weapon()
 	{
@@ -36,7 +38,17 @@ public class Weapon {
 				break;
 			}
 		}
-
+		reloading = false;
+		recooldown = retime;
+	}
+	
+	public void update()
+	{
+		if(reloading)
+		{
+			recooldown--;
+			reload();
+		}
 	}
 	
 	public boolean shoot()
@@ -51,22 +63,32 @@ public class Weapon {
 			{
 				return false;
 			}
-			reload();
+			if(!reload())
+			{
+				return false;
+			}
 		}
 		ccamount--;
 		return true;
 	}
-	public void reload()
+	public boolean reload()
 	{
+		if(recooldown > 0)
+		{
+			reloading = true;
+			return false;
+		}
+		reloading = false;
+		recooldown = retime;
 		if(reserve<=cmaxammo-ccamount)
 		{
 			ccamount += reserve;
 			reserve = 0;
-			return;
+			return true;
 		}
 		reserve-=cmaxammo-ccamount;
 		ccamount = cmaxammo;
-		
+		return true;
 		/*if (ccamount==0)
 		{
 			if (cleft != 0)
@@ -112,8 +134,14 @@ public class Weapon {
 		{
 			count = maxclips*cmaxammo;
 		}
-		reserve = count;
-		reload();
+		if(count<=cmaxammo)
+		{
+			ccamount = count;
+			reserve = 0;
+			return;
+		}
+		ccamount = cmaxammo;
+		reserve = count-cmaxammo;
 	}
 	public boolean addAmmo(int count)
 	{
@@ -125,5 +153,13 @@ public class Weapon {
 			reserve=(maxclips-1)*cmaxammo;
 		}
 		return true;
+	}
+	public int getInClip()
+	{
+		return ccamount;
+	}
+	public int getReserve()
+	{
+		return reserve;
 	}
 }
