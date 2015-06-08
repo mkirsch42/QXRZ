@@ -144,7 +144,7 @@ public class World
 				continue;
 			}
 			PlayerEntity e = (PlayerEntity)ge;
-			if(shapeHitbox.intersects(e.getHitbox()) && id!=e.getId())
+			if(shapeHitbox.intersects(e.getHitbox()) && id!=e.getGameModel().getId())
 			{
 				return e;
 			}

@@ -22,7 +22,6 @@ public class Player {
 	private SpecialMovement pspecmove; //player special movement
 	private PlayerEntity entity; //physics entity for player
 	private World w;
-	private boolean hasShot = false;
 	private String name;
 	private Team team;
 	private boolean pickingUp = false;
@@ -37,7 +36,7 @@ public class Player {
 	public Player(World parent, String n) //creates a newly spawned player
 	{
 		id = lastId++;
-		guns[0] = new Weapon();
+		guns[0] = new Weapon("ps");
 		health = 100;
 		speed = 600;
 		entity = new PlayerEntity(this);
@@ -119,6 +118,9 @@ public class Player {
 		w.add(entity);
 		w.say(name + " died");
 		dead = true;
+		guns[0] = new Weapon();
+		guns[1] = null;
+		equipped = 0;
 		return true;
 	}
 	public boolean isDead()
@@ -149,9 +151,14 @@ public class Player {
 	}
 	public void shoot(Vector2D v) //shoots currently equipped weapon and creates a respective bullet
 	{
+		if(guns[equipped]==null)
+		{
+			stab(v);
+			return;
+		}
 		if (guns[equipped].shoot())
 		{
-			int len = entity.PLAYER_SIZE/2 + ProjectileEntity.projsize/2;
+			/*int len = entity.PLAYER_SIZE/2 + ProjectileEntity.projsize/2;
 			Vector2D normVel = new Vector2D(v.snap().angle()).multiply(len).snap();
 			Vector2D pos;
 			if(normVel.getX()==0)
@@ -161,15 +168,14 @@ public class Player {
 			else
 			{
 				pos = entity.getPos().add(new Vector2D(v.angle()).multiply(1+Math.abs(len/Math.cos(v.angle()))).multiply(0.5));
-			}
+			}*/
 			
-			Bullet b = new Bullet(pos, v, guns[equipped]);
+			Bullet b = new Bullet(entity.getPos(), v, guns[equipped]);
 			if(team != null)
 				b.setFriendlyFireTeam(team);
 			b.setFriendlyFirePlayer(this);
 			w.add(b.getEntity());
 		}
-		else {}
 	}
 	public void useHealthpack() //increase health by using health pack
 	{
@@ -200,7 +206,6 @@ public class Player {
 		entity.input(nid);
 		if(nid.get(NetworkInputMasks.M1) && !downs.get(NetworkInputMasks.M1))
 		{
-			hasShot = true;
 			Vector2D v = new Vector2D(nid.getMouseX(), nid.getMouseY()).subtract(entity.getPos());
 			shoot(v);
 		}
@@ -208,14 +213,16 @@ public class Player {
 		{
 			getEquipped().reload();
 		}
-		if(nid.get(NetworkInputMasks.E) && !downs.get(NetworkInputMasks.E))
+		if(nid.get(NetworkInputMasks.Q) && !downs.get(NetworkInputMasks.Q))
 		{
-			pickingUp = true;
+			equipped = (~equipped) & 1; //bc why not
 		}
-		else
+		if(nid.get(NetworkInputMasks.M2) && !downs.get(NetworkInputMasks.M2))
 		{
-			pickingUp = false;
+			Vector2D v = new Vector2D(nid.getMouseX(), nid.getMouseY()).subtract(entity.getPos());
+			stab(v);
 		}
+		pickingUp = nid.get(NetworkInputMasks.E);
 		downs = nid;
 	}
 	public PlayerEntity getEntity()
@@ -246,6 +253,7 @@ public class Player {
 	
 	public boolean pickup(Pickup p)
 	{
+		System.out.println(downs);
 		if(!p.canPickup())
 		{
 			return false;
@@ -295,8 +303,19 @@ public class Player {
 		return guns[equipped];
 	}
 	
+	private void stab(Vector2D v)
+	{		
+		Bullet b = new Bullet(entity.getPos(), v, true);
+		if(team != null)
+			b.setFriendlyFireTeam(team);
+		b.setFriendlyFirePlayer(this);
+		b.getEntity().update(1,w);
+	}
+	
 	public String getNT()
 	{
+		if(getEquipped()==null)
+			return getName() + " (" + getHealth() + ")";
 		return getName() + " (" + getHealth() + " , " + getEquipped().getType() + ":" + getEquipped().getInClip() + "+" + getEquipped().getReserve() + ")";
 	}
 }

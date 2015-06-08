@@ -1,5 +1,6 @@
 package org.amityregion5.qxrz.server.world.gameplay;
 
+import org.amityregion5.qxrz.server.world.entity.PlayerEntity;
 import org.amityregion5.qxrz.server.world.entity.ProjectileEntity;
 import org.amityregion5.qxrz.server.world.vector2d.Vector2D;
 
@@ -23,9 +24,16 @@ public class Bullet {
 		speed = wep.getSpeed();
 		entity = new ProjectileEntity(new Vector2D(), new Vector2D(), this);
 	}
-	public Bullet(Vector2D pos, Vector2D vel)
+	public Bullet(Vector2D pos, Vector2D vel, boolean isKnife)
 	{
 		this(pos, vel, new Weapon("ps"));
+		if(isKnife)
+		{
+			damage = 50;
+			type = "kn";
+			speed = PlayerEntity.PLAYER_SIZE;
+			entity = new ProjectileEntity(pos, new Vector2D(vel.angle()).multiply(speed), this);
+		}
 	}
 	public Bullet(Vector2D pos, Vector2D vel, Weapon wep)
 	{

@@ -178,12 +178,14 @@ public class GameScreen extends AbstractScreen {
 			nid.set(NetworkInputMasks.S, windowData.getKeysDown().stream().anyMatch((k)->k.getKeyCode()==KeyEvent.VK_S));
 			nid.set(NetworkInputMasks.D, windowData.getKeysDown().stream().anyMatch((k)->k.getKeyCode()==KeyEvent.VK_D));
 			nid.set(NetworkInputMasks.E, windowData.getKeysDown().stream().anyMatch((k)->k.getKeyCode()==KeyEvent.VK_E));
+			nid.set(NetworkInputMasks.Q, windowData.getKeysDown().stream().anyMatch((k)->k.getKeyCode()==KeyEvent.VK_Q));
 			if (nid.get(NetworkInputMasks.W) || nid.get(NetworkInputMasks.A) || nid.get(NetworkInputMasks.S) || nid.get(NetworkInputMasks.D)) {
 				AudioHelper.play(AssetManager.getAudioAssets("footstep")[0], true);
 			} else {
 				AudioHelper.stop(AssetManager.getAudioAssets("footstep")[0]);
 			}
 			nid.set(NetworkInputMasks.M1, windowData.getMiceDown().contains(MouseEvent.BUTTON1));
+			nid.set(NetworkInputMasks.M2, windowData.getMiceDown().contains(MouseEvent.BUTTON3));
 			nid.set(NetworkInputMasks.R, windowData.getKeysDown().stream().anyMatch((k)->k.getKeyCode()==KeyEvent.VK_R));
 			nid.set(NetworkInputMasks.SPACE, windowData.getKeysDown().stream().anyMatch((k)->k.getKeyCode()==KeyEvent.VK_SPACE));
 			nid.set(NetworkInputMasks.COMMA, windowData.getKeysDown().stream().anyMatch((k)->k.getKeyCode()==KeyEvent.VK_COMMA));

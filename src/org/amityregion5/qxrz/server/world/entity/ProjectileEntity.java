@@ -2,6 +2,8 @@ package org.amityregion5.qxrz.server.world.entity;
 
 import java.awt.Rectangle;
 
+import javafx.scene.Parent;
+
 import org.amityregion5.qxrz.common.ui.NetworkDrawableEntity;
 import org.amityregion5.qxrz.common.ui.NetworkDrawableObject;
 import org.amityregion5.qxrz.server.world.World;
@@ -29,7 +31,7 @@ public class ProjectileEntity extends GameEntity
 
 	public boolean update(double tSinceUpdate, World w)
 	{
-		PlayerEntity e = checkPlayerCollisions(vel.multiply(tSinceUpdate), w);
+		PlayerEntity e = checkPlayerCollisions(vel.multiply(tSinceUpdate), w, gameModel.getFriendlyFirePlayer());
 		if(e==null)
 			return super.update(tSinceUpdate, w);
 		System.out.println("ProjectileEntity #" + getId() + " collided with Entity #" + e.getId());

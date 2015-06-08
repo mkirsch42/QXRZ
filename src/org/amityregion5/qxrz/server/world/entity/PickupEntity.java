@@ -14,8 +14,6 @@ public class PickupEntity extends GameEntity
 
 	private final int HB_SIZE = 250;
 	private Pickup parent;
-	private String assetReload = "icons/refreshDark";
-	private String assetReady = "weapons/rifle";
 	
 	public PickupEntity(int x, int y, Pickup p)
 	{
@@ -27,7 +25,7 @@ public class PickupEntity extends GameEntity
 	
 	public boolean update(double tSinceUpdate, World w)
 	{
-		PlayerEntity e = checkPlayerCollisions(vel, w);
+		PlayerEntity e = checkPlayerCollisions(vel, w, -1);
 		if(e!=null)
 		{
 			if(parent.isOnePickup())

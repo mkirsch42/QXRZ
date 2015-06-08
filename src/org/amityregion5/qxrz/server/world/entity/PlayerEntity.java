@@ -24,7 +24,7 @@ public class PlayerEntity extends GameEntity
 	private String asset = "players/1/walk/*";
 	private String standing = "players/1/stand";
 
-	public final int PLAYER_SIZE = 400;
+	public final static int PLAYER_SIZE = 400;
 	
 	public PlayerEntity(Player p) // creates player vector
 	{
@@ -45,7 +45,8 @@ public class PlayerEntity extends GameEntity
 			pos = pos.add(vel.multiply(tSinceUpdate*2));
 			return false;
 		}
-		parent.getEquipped().update();
+		if(parent.getEquipped()!=null)
+			parent.getEquipped().update();
 		updateStackSize++;
 		boolean ret = super.update(tSinceUpdate, w);
 		updateStackSize--;
