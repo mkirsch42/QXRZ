@@ -31,6 +31,7 @@ public class WorldManager {
 
 		w.addObstacle(new Obstacle(new RectangleHitbox(new Rectangle(xCenter - radius - 100, yCenter - radius - 100, 100, radius*2 + 200))));
 		w.addObstacle(new Obstacle(new RectangleHitbox(new Rectangle(xCenter + radius, yCenter - radius - 100, 100, radius*2 + 200))));
+		w.bounds(new Rectangle(xCenter-radius, yCenter-radius, radius*2, radius*2));
 	}
 	
 	public static World getWorld(Worlds world) {

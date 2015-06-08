@@ -2,6 +2,8 @@ package org.amityregion5.qxrz.server.world.gameplay;
 
 import java.awt.Color;
 
+import javafx.scene.Parent;
+
 import org.amityregion5.qxrz.common.control.NetworkInputData;
 import org.amityregion5.qxrz.common.control.NetworkInputMasks;
 import org.amityregion5.qxrz.server.world.World;
@@ -24,6 +26,7 @@ public class Player {
 	private String name;
 	private Team team;
 	private boolean pickingUp = false;
+	private boolean dead = false;
 	//constructors
 	public Player(int forceId)
 	{
@@ -34,7 +37,7 @@ public class Player {
 		id = lastId++;
 		guns[0] = new Weapon();
 		health = 100;
-		speed = 100;
+		speed = 4;
 		entity = new PlayerEntity(this);
 		w = parent;
 		name = n;
@@ -49,7 +52,7 @@ public class Player {
 	{
 		guns[0] = new Weapon();
 		health = 100;
-		speed = 100;
+		speed = 4;
 		entity = spawn;
 		w = parent;
 		name = n;
@@ -76,6 +79,10 @@ public class Player {
 	
 	public boolean damaged(Bullet b) //tests if a given bullet hits player and acts accordingly
 	{
+		if(w.getGame().getGM().oneLife && dead)
+		{
+			return false;
+		}
 		if(team!=null && b.friendlyFireTeam()==team.getId() && !w.getGame().friendlyFire())
 			return false;
 		if(b.getFriendlyFirePlayer()==id)
@@ -107,7 +114,12 @@ public class Player {
 		entity = new PlayerEntity(this);
 		w.add(entity);
 		w.say(name + " died");
+		dead = true;
 		return true;
+	}
+	public boolean isDead()
+	{
+		return dead;
 	}
 	public void setUpgrade(Upgrade u) //sets weapon upgrades from a given upgrade pickup
 	{
@@ -147,7 +159,7 @@ public class Player {
 				pos = entity.getPos().add(new Vector2D(v.angle()).multiply(1+Math.abs(len/Math.cos(v.angle()))));
 			}
 			
-			Bullet b = new Bullet(pos, v, guns[equipped]);
+			Bullet b = new Bullet(pos.multiply(0.5), v, guns[equipped]);
 			if(team != null)
 				b.setFriendlyFireTeam(team);
 			b.setFriendlyFirePlayer(this);
@@ -220,22 +232,24 @@ public class Player {
 		return team;
 	}
 	
-	public void pickup(Pickup p)
+	public boolean pickup(Pickup p)
 	{
 		if(!p.canPickup())
 		{
-			return;
+			return false;
 		}
 		String wep = p.getWeaponId();
-		if(guns[0]!=null && guns[0].getType().equals(wep))
+		if(guns[0]!=null && guns[0]
+				.getType()
+				.equals(wep))
 		{
 			if(!guns[0].addAmmo(p.getAmmoCount()))
-				return;
+				return false;
 		}
 		else if(guns[1]!=null && guns[1].getType().equals(wep))
 		{
 			if(!guns[1].addAmmo(p.getAmmoCount()))
-				return;
+				return false;
 		}
 		if(pickingUp)
 		{
@@ -243,5 +257,15 @@ public class Player {
 			guns[equipped].setAmmo(p.getAmmoCount());
 		}
 		p.pickup();
+		return true;
+	}
+	public double getSpeed()
+	{
+		return speed;
+	}
+	
+	public World getParent()
+	{
+		return w;
 	}
 }

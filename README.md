@@ -20,15 +20,15 @@ Pronounced kew ecks ar zed
 - *View others' health*
 
 ### Networking
-- Choose server from list
-- *In-game text chat*
+- ~~Choose server from list~~
+- ~~*In-game text chat*~~
 
 ### Sounds
 - Soundtrack/background music
 - Action sounds (gun firing, movement, explosions)
 
 ### Gameplay
-- Random events: object appearance
+- ~~Random events: object appearance~~
 - Player load-out & switching
 - Upgrades for weapons (and ammo?)
 - Win/lose
@@ -46,9 +46,9 @@ Pronounced kew ecks ar zed
    - client list
 - remove italics from chat
 - should chat be closed immediately after message is sent? or stay open
-- `/leave` instead of `/leaveteam`
+- ~~`/leave` instead of `/leaveteam`~~
 - Dying sound effects
-- bullets spawn closer to body
+- ~~bullets spawn closer to body~~
 - change helmet color to match team
 
 ## Authors

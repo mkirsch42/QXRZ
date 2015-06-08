@@ -10,10 +10,10 @@ import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 import java.util.stream.Collectors;
 
-import org.amityregion5.qxrz.client.ui.ChatMessageTime;
 import org.amityregion5.qxrz.client.ui.MainGui;
 import org.amityregion5.qxrz.client.ui.screen.WindowData;
 import org.amityregion5.qxrz.common.asset.AssetManager;
+import org.amityregion5.qxrz.common.net.ChatMessage;
 import org.amityregion5.qxrz.common.ui.NetworkDrawableEntity;
 import org.amityregion5.qxrz.common.ui.NetworkDrawableObject;
 import org.amityregion5.qxrz.common.ui.Viewport;
@@ -133,8 +133,8 @@ public class GameUIHelper {
 		gBuff.translate(0, offset);
 
 		int totalYTrans = -offset;
-		for (ChatMessageTime c : gui.getMessages().stream().filter((c)->(deltaMilli == -1 || System.currentTimeMillis() - c.time < deltaMilli)).collect(Collectors.toList())) {
-			if(c.msg.isFromServer())
+		for (ChatMessage c : gui.getMessages().stream().filter((c)->(deltaMilli == -1 || System.currentTimeMillis() - c.getTimestamp() < deltaMilli)).collect(Collectors.toList())) {
+			if(c.isFromServer())
 			{
 				gBuff.setFont(gBuff.getFont().deriveFont(Font.BOLD));
 				gBuff.setColor(fromServerTextColor);
@@ -146,20 +146,20 @@ public class GameUIHelper {
 			}
 			int x = 0;
 			int subIndex = 0;
-			int endIndex = c.msg.getMessage().length();
+			int endIndex = c.getMessage().length();
 
 			ArrayList<String> lines = new ArrayList<String>();
 
 			while (subIndex < endIndex) {
-				Rectangle r = GuiMath.getStringBounds(gBuff, c.msg.getMessage()
+				Rectangle r = GuiMath.getStringBounds(gBuff, c.getMessage()
 						.substring(subIndex, endIndex), 0, 0);
 				if (r.width >= buff.getWidth() - 20) {
 					endIndex = (int) ((buff.getWidth() - 20) / (double) r.width * (endIndex - subIndex));
-					r = GuiMath.getStringBounds(gBuff, c.msg.getMessage()
+					r = GuiMath.getStringBounds(gBuff, c.getMessage()
 							.substring(subIndex, endIndex), 0, 0);
 					while (r.width >= buff.getWidth() - 20) {
 						endIndex--;
-						r = GuiMath.getStringBounds(gBuff, c.msg.getMessage()
+						r = GuiMath.getStringBounds(gBuff, c.getMessage()
 								.substring(subIndex, endIndex), 0, 0);
 					}
 				}
@@ -173,10 +173,10 @@ public class GameUIHelper {
 
 				totalYTrans += r.height + 2;
 
-				lines.add(c.msg.getMessage().substring(subIndex, endIndex));
+				lines.add(c.getMessage().substring(subIndex, endIndex));
 
 				subIndex = endIndex;
-				endIndex = c.msg.getMessage().length();
+				endIndex = c.getMessage().length();
 			}
 
 			for (int i = lines.size() - 1; i >= 0; i--) {

@@ -1,11 +1,15 @@
 package org.amityregion5.qxrz.server.ui;
 
+import java.awt.Button;
 import java.awt.Font;
 import java.awt.ScrollPane;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.net.InetAddress;
 import java.net.InetSocketAddress;
 import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.List;
 
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -23,14 +27,16 @@ public class MainGui
 	}
 	private JFrame frame;
 	private ServerNetworkManager networkManager;
-	
+	private List<Button> b;
+	private RTable table;
+	private ScrollPane scroll;
 	public MainGui(ServerNetworkManager manager) throws Exception
 	{	
 		networkManager = manager;
 		
 		frame = new JFrame("QXRZ");
-		frame.setSize(1080,1000);
-		RTable table = new RTable();
+		frame.setSize(600, 600);
+		table = new RTable();
 		ArrayList<NetworkNode> c = networkManager.getClients();
 			
 		for(Iterator<NetworkNode> i = c.iterator(); i.hasNext();) {
@@ -42,8 +48,11 @@ public class MainGui
 		
 		JPanel title = new JPanel();
 		JLabel t = new JLabel("Host Name and IP");
+		InetAddress a = InetAddress.getLocalHost();
+		JLabel server = new JLabel(a.toString());
 		t.setFont(f);
 		title.add(t);
+		title.add(server);
 		title.setSize(300, 75);
 		title.setLocation(400, 0);
 		JPanel gamedata = new JPanel();
@@ -52,9 +61,22 @@ public class MainGui
 		gamedata.add(temp);
 		gamedata.setSize(400, 50);
 		gamedata.setLocation(0, 600);
-		ScrollPane scroll = table.getPanel();
+		JPanel buttonPanel = new JPanel();
+		b = new ArrayList<Button>();
+		for (int i = 0; i < c.size(); i++) {
+			Button x = new Button("X");
+			x.setSize(50, 30);
+			x.addActionListener(new ButtonListener());
+			b.add(x);
+			buttonPanel.add(x);
+		}
+		
+		JPanel panel = table.getPanel();
+		panel.add(buttonPanel);
+		scroll = new ScrollPane();
+		scroll.add(panel);
 		scroll.setSize(500, 500);
-		scroll.setLocation(300,300);
+		scroll.setLocation(300,100);
 		
 
 		frame.add(scroll);
@@ -64,7 +86,27 @@ public class MainGui
 		frame.setVisible(true);
 		frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
 	}
-	
+	private class ButtonListener implements ActionListener {
+		public void actionPerformed(ActionEvent e) {
+			Object cause = e.getSource();
+			for(int i = 0; i < b.size(); i++)
+				if(cause == b.get(i))
+				{b.remove(i);
+				table.remove(i);
+				networkManager.removeClient(i);
+				}
+				frame.remove(scroll);
+				JPanel panel = table.getPanel();
+				JPanel buttonPanel = new JPanel();
+				for (int i = 0; i < b.size(); i++)
+					buttonPanel.add(b.get(i));
+				panel.add(buttonPanel);
+				scroll = new ScrollPane();
+				scroll.add(panel);
+				frame.add(scroll);
+		}
+		
+	}
 	public void show()
 	{
 		frame.setVisible(true);
@@ -74,7 +116,6 @@ public class MainGui
 	{
 		frame.setVisible(false);
 	}
-	
 	
 	
 }

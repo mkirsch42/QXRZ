@@ -17,6 +17,7 @@ import org.amityregion5.qxrz.server.ui.MainGui;
 import org.amityregion5.qxrz.server.util.ColorUtil;
 import org.amityregion5.qxrz.server.util.TextParseHelper;
 import org.amityregion5.qxrz.server.world.DebugDraw;
+import org.amityregion5.qxrz.server.world.gameplay.GameModes;
 import org.amityregion5.qxrz.server.world.gameplay.Pickup;
 import org.amityregion5.qxrz.server.world.gameplay.Player;
 import org.amityregion5.qxrz.server.world.gameplay.Team;
@@ -31,7 +32,7 @@ public final class Main {
 
 		String s = (String) JOptionPane.showInputDialog(null,
 				"Enter Server name", "Server Name Query",
-				JOptionPane.PLAIN_MESSAGE, null, null, "QXRZ Server");
+				JOptionPane.PLAIN_MESSAGE, null, null, System.getProperty("user.name") + "'s server");
 
 		if (s == null) {
 			return;
@@ -71,7 +72,7 @@ public final class Main {
 					String msg = ((ChatMessage)netObj).getMessage();
 					if(msg.charAt(0)=='/')
 					{
-						if(msg.length()>=10 && msg.substring(0,10).equalsIgnoreCase("/leaveteam"))
+						if(msg.length()>=6 && msg.substring(0,6).equalsIgnoreCase("/leave"))
 						{
 							if(g.findPlayer(c).getTeam()==null)
 								return;
@@ -129,7 +130,7 @@ public final class Main {
 		// new MainGui().show();
 
 		new MainGui(netManager).show();
-		g = new Game(netManager); // TODO game needs access to network, too...
+		g = new Game(netManager, GameModes.LASTMAN); // TODO game needs access to network, too...
 		// TODO server panel should show actual IP, not 0.0.0.0
 		if (DebugConstants.DEBUG_GUI) {
 			Game.debug = DebugDraw.setup(g.getWorld());

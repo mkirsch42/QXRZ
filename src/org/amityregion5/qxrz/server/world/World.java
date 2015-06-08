@@ -1,8 +1,10 @@
 package org.amityregion5.qxrz.server.world;
 
 import java.awt.Graphics2D;
+import java.awt.Rectangle;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 import org.amityregion5.qxrz.common.net.ChatMessage;
 import org.amityregion5.qxrz.common.ui.NetworkDrawablePacket;
@@ -12,7 +14,9 @@ import org.amityregion5.qxrz.server.world.entity.GameEntity;
 import org.amityregion5.qxrz.server.world.entity.Hitbox;
 import org.amityregion5.qxrz.server.world.entity.PlayerEntity;
 import org.amityregion5.qxrz.server.world.entity.ShapeHitbox;
+import org.amityregion5.qxrz.server.world.gameplay.Pickup;
 import org.amityregion5.qxrz.server.world.gameplay.Player;
+import org.amityregion5.qxrz.server.world.gameplay.WeaponTypes;
 
 public class World
 {
@@ -21,6 +25,7 @@ public class World
 	private Landscape l;	
 	private ServerNetworkManager net;
 	private Game g;
+	private Rectangle bounds;
 	
 	public World()
 	{
@@ -32,6 +37,11 @@ public class World
 		entities = new ArrayList<GameEntity>();
 		l = new Landscape();
 		net  = n;
+	}
+	
+	public void bounds(Rectangle r)
+	{
+		bounds = r;
 	}
 	
 	public Game getGame()
@@ -161,5 +171,21 @@ public class World
 			return w;
 		}
 		else {return null;}
+	}
+
+	public void drop()
+	{
+		Pickup p = null;
+		Random r = new Random();
+		do
+		{
+			WeaponTypes w = WeaponTypes.values()[r.nextInt(WeaponTypes.values().length)];
+			int maxammo = w.clips * w.cmaxammo;
+			p = new Pickup(w.text, r.nextInt(maxammo/2)+maxammo/2, r.nextInt((int)bounds.getWidth())+(int)bounds.getMinX(),
+					r.nextInt((int)bounds.getHeight())+(int)bounds.getMinY(), -1);
+			p.setOnePickup();
+		} while (checkEntityCollisions(p.getEntity().getHitbox(), p.getEntity().getId())!=null || l.checkCollisions(p.getEntity().getHitbox())!=null);
+		System.out.println("new pickup at " + p.getEntity().getPos());
+		add(p.getEntity());
 	}
 }

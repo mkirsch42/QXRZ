@@ -28,7 +28,11 @@ public class PickupEntity extends GameEntity
 	{
 		PlayerEntity e = checkPlayerCollisions(vel, w);
 		if(e!=null)
+		{
+			if(parent.isOnePickup())
+				return e.getGameModel().pickup(parent);
 			e.getGameModel().pickup(parent);
+		}
 		return false;
 	}
 	

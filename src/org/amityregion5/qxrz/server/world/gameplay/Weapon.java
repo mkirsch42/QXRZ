@@ -20,7 +20,23 @@ public class Weapon {
 	}
 	public Weapon(String pick)
 	{
-		type = pick;
+		for(WeaponTypes w : WeaponTypes.values())
+		{
+			if(w.text.equals(pick))
+			{
+				type=w.text;
+				ccamount = w.cmaxammo;
+				cmaxammo = w.cmaxammo;
+				maxclips = w.clips;
+				reserve = w.reserve;
+				rof = w.rof;
+				retime = w.retime;
+				damage = w.dmg;
+				speed = w.speed;
+				break;
+			}
+		}
+		/*type = pick;
 		if (type.equals("sg"))
 		{
 			ccamount = 8;
@@ -85,7 +101,7 @@ public class Weapon {
 			rof = 1;
 			retime = 2; 
 			damage = 100;
-		}
+		}*/
 
 	}
 	

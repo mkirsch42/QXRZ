@@ -10,6 +10,7 @@ public class Pickup
 	private PickupEntity entity;
 	private int timeout;
 	private long lastPickup;
+	private boolean onePickup = false;
 	
 	public Pickup(String wep, int count, int x, int y, int ms)
 	{
@@ -43,5 +44,15 @@ public class Pickup
 	public void pickup()
 	{
 		lastPickup = System.currentTimeMillis();
+	}
+
+	public void setOnePickup()
+	{
+		onePickup = true;
+	}
+	
+	public boolean isOnePickup()
+	{
+		return onePickup;
 	}
 }

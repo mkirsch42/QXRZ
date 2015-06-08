@@ -32,7 +32,7 @@ public class MainGui {
 	// The time since the last repaint
 	private long lastRepaint;
 	private List<AbstractNetworkNode> queryInfo;
-	private List<ChatMessageTime> messages;
+	private List<ChatMessage> messages;
 	private NetworkDrawablePacket ndp;
 
 	private Thread renderThread;
@@ -51,7 +51,7 @@ public class MainGui {
 		setUsername("Player " + RNG.r.nextInt(10000));
 
 		this.queryInfo = new ArrayList<AbstractNetworkNode>();
-		this.messages = new ArrayList<ChatMessageTime>();
+		this.messages = new ArrayList<ChatMessage>();
 
 		// Store 10 fps values
 		fps = new double[10];
@@ -208,8 +208,7 @@ public class MainGui {
 			@Override
 			public void dataReceived(NetworkNode from, Serializable payload) {
 				if (payload instanceof ChatMessage) {
-					messages.add(0, new ChatMessageTime((ChatMessage) payload,
-							System.currentTimeMillis()));
+					messages.add(0, ((ChatMessage) payload).setTimestamp());
 				} else if (payload instanceof NetworkDrawablePacket) {
 					ndp = (NetworkDrawablePacket) payload;
 				}
@@ -227,7 +226,7 @@ public class MainGui {
 	/**
 	 * @return the messages
 	 */
-	public List<ChatMessageTime> getMessages() {
+	public List<ChatMessage> getMessages() {
 		return messages;
 	}
 

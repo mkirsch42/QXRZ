@@ -1,16 +1,15 @@
+
 package org.amityregion5.qxrz.server.ui;
 
-import java.awt.Button;
 
-public class RTableUnits implements Comparable<RTableUnits>{
+public class RTableUnits implements Comparable{
 	private String hostname;
 	private int ip;
-	private Button b;
+
 	
-	public RTableUnits(String h, int i, Button button) {
+	public RTableUnits(String h, int i) {
 		hostname = h;
 		ip = i;
-		b = button;
 	}
 	
 	public String getHost(){
@@ -19,16 +18,13 @@ public class RTableUnits implements Comparable<RTableUnits>{
 	public int getIP() {
 		return ip;
 	}
-	public Button getButton() {
-		return b;
-	}
-	public int compareTo(RTableUnits o) {
-		return hostname.compareTo((o.getHost()));
-		/*if (o instanceof RTableUnits) {
+	public int compareTo(Object o) {
+		if (o instanceof RTableUnits) {
 			RTableUnits r = (RTableUnits) o;
 			return hostname.compareTo((r.getHost()));
 		}
 		else
-			return 0;*/
+			return 0;
 	}
 }
+
