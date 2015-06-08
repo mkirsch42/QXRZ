@@ -22,6 +22,7 @@ public class Game implements Runnable
 	
 	private HashMap<NetworkNode, Player> players = new HashMap<NetworkNode, Player>();
 	private ArrayList<Team> teams = new ArrayList<Team>();
+	private boolean playerWon = false;
 	
 	public static final int GAME_UNIT = 1;
 
@@ -100,6 +101,10 @@ public class Game implements Runnable
 	
 	public Player winner() //checks all player entities to determine a winner if one player is left alive
 	{
+		if(players.size()<2 || playerWon)
+		{
+			return null;
+		}
 		switch (mode)
 		{
 		case ENDLESS:
@@ -118,11 +123,21 @@ public class Game implements Runnable
 					winner = p;
 				}
 			}
+			playerWon = true;
 			return winner;
 		}
 		return null;
 	}
 
+	public 
+	
+	void playerLeftTeam(Team t)
+	{
+		if(t.empty())
+		{
+			teams.remove(t);
+		}
+	}
 	
 	public GameModes getGM()
 	{
