@@ -16,7 +16,6 @@ import org.amityregion5.qxrz.common.net.ChatMessage;
 import org.amityregion5.qxrz.common.net.NetEventListener;
 import org.amityregion5.qxrz.common.net.NetworkNode;
 import org.amityregion5.qxrz.common.ui.NetworkDrawablePacket;
-import org.amityregion5.qxrz.common.util.RNG;
 
 public class MainGui {
 	// The frame
@@ -46,7 +45,7 @@ public class MainGui {
 	 */
 	public MainGui(ClientNetworkManager manager) {
 		setNetworkManager(manager);
-		setUsername("Player " + RNG.r.nextInt(10000));
+		setUsername(System.getProperty("user.name"));
 
 		this.queryInfo = new ArrayList<AbstractNetworkNode>();
 		this.messages = new ArrayList<ChatMessage>();

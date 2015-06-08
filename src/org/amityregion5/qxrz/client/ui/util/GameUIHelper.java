@@ -9,7 +9,6 @@ import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 import java.util.stream.Collectors;
-
 import org.amityregion5.qxrz.client.ui.MainGui;
 import org.amityregion5.qxrz.client.ui.screen.WindowData;
 import org.amityregion5.qxrz.common.asset.AssetManager;
@@ -17,6 +16,7 @@ import org.amityregion5.qxrz.common.net.ChatMessage;
 import org.amityregion5.qxrz.common.ui.NetworkDrawableEntity;
 import org.amityregion5.qxrz.common.ui.NetworkDrawableObject;
 import org.amityregion5.qxrz.common.ui.Viewport;
+import org.amityregion5.qxrz.server.util.ColorUtil;
 
 public class GameUIHelper {
 	public static void draw(Graphics2D g, NetworkDrawableEntity nde,
@@ -24,6 +24,8 @@ public class GameUIHelper {
 		for (NetworkDrawableObject ndo : nde.getDrawables()) {
 			if (ndo.getAsset().equals("--AABB--")) {
 				drawAABB(g, ndo.getBox(), vp, d);
+			} else if (ndo.getAsset().startsWith("--LINE--")) {
+				drawLine(g, ndo.getBox(), vp, d, ColorUtil.stringToColor(ndo.getAsset().substring(8)));
 			} else {
 				drawAsset(g, ndo, vp, d);
 			}
@@ -76,6 +78,17 @@ public class GameUIHelper {
 
 		// Draw the generated image
 		g.drawImage(buff, (int) (playerTL.x), (int) (playerTL.y), (int)pW, (int)pH, null);
+	}
+	
+	private static void drawLine(Graphics2D g, Rectangle2D box, Viewport vp,
+			WindowData d, Color c) {
+		// Do math to determine drawing points
+		Point2D.Double playerTL = vp.gameToScreen(new Point2D.Double(box.getX(), box.getY()), d);
+		Point2D.Double playerBR = vp.gameToScreen(new Point2D.Double(box.getMaxX(), box.getMaxY()), d);
+
+		g.setColor(c);
+		g.drawLine((int)playerTL.x, (int)playerTL.y, (int) playerBR.x, (int)playerBR.y);
+		//g.drawImage(buff, (int) (playerTL.x), (int) (playerTL.y), (int)pW, (int)pH, null);
 	}
 
 	private static void drawAsset(Graphics2D g, NetworkDrawableObject ndo,

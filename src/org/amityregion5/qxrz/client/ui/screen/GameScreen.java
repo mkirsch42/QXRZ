@@ -193,5 +193,6 @@ public class GameScreen extends AbstractScreen {
 
 	@Override
 	protected void cleanup() {
+		gui.getNetworkManger().sendDisconnectNotification();
 	}
 }
