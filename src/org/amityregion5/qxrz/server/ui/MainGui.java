@@ -7,6 +7,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.net.InetAddress;
 import java.net.InetSocketAddress;
+import java.net.UnknownHostException;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -108,6 +109,39 @@ public class MainGui
 				frame.add(scroll);
 		}
 		
+	}
+	public void redraw() {
+		frame.remove(scroll);
+		table = new RTable();
+		ArrayList<NetworkNode> c = networkManager.getClients();
+			
+		for(Iterator<NetworkNode> i = c.iterator(); i.hasNext();) {
+				NetworkNode n = i.next();
+				InetSocketAddress a = n.getAddress();
+				InetAddress p = a.getAddress();
+				table.add(p.toString(), a.getPort());
+		}
+		
+		JPanel buttonPanel = new JPanel();
+		b = new ArrayList<Button>();
+		for (int i = 0; i < c.size(); i++) {
+			Button x = new Button("X");
+			x.setSize(50, 30);
+			x.addActionListener(new ButtonListener());
+			b.add(x);
+			buttonPanel.add(x);
+		}
+		
+		JPanel panel = table.getPanel();
+		panel.add(buttonPanel);
+		panel.setLocation(SwingConstants.CENTER, SwingConstants.CENTER);
+		scroll = new ScrollPane();
+		scroll.add(panel);
+		scroll.setSize(500, 500);
+		scroll.setLocation(300,100);
+		
+
+		frame.add(scroll);
 	}
 	public void show()
 	{
