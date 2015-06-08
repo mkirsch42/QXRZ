@@ -89,7 +89,7 @@ public class GameScreen extends AbstractScreen {
 			text = "";
 			scrollOffset = 0;
 		}
-		
+
 		if (!isChatOpen && windowData.getKeysDown().stream().anyMatch((k)->k.getKeyCode()==KeyEvent.VK_SLASH)) {
 			isChatOpen = true;
 			cooldownKeys.put(windowData.getKeysDown().stream().filter((k)->k.getKeyCode()==KeyEvent.VK_SLASH).findAny().get(), cooldownClearTime);
@@ -106,7 +106,7 @@ public class GameScreen extends AbstractScreen {
 			if (scrollOffset > chat.b) {
 				scrollOffset = chat.b;
 			}
-			
+
 			cooldownKeys.keySet().removeIf((k)->cooldownKeys.get(k)<=0);
 			cooldownKeys.replaceAll((k, i)->i-1);
 
@@ -143,7 +143,7 @@ public class GameScreen extends AbstractScreen {
 
 			g.setColor(Color.LIGHT_GRAY);
 			g.fillRect(20, windowData.getHeight()-88, windowData.getWidth()/2-40, 16);
-			
+
 			g.setColor(Color.BLACK);
 			GuiUtil.drawString(g, text , CenterMode.LEFT, 20, windowData.getHeight() - 80);
 
@@ -152,15 +152,17 @@ public class GameScreen extends AbstractScreen {
 				GuiUtil.drawString(g, "|", CenterMode.LEFT, (int)(b.getWidth() + 20 + 5), windowData.getHeight() - 80);
 			}
 
-			NetworkInputData nid = new NetworkInputData();
+			if (gui.getNetworkManger().isConnected()) {
+				NetworkInputData nid = new NetworkInputData();
 
-			Point2D.Double mc = vp.screenToGame(new Point2D.Double(windowData.getMouseX(), windowData.getMouseY()), windowData);
-			nid.setMouseX(mc.x);
-			nid.setMouseY(mc.y);
+				Point2D.Double mc = vp.screenToGame(new Point2D.Double(windowData.getMouseX(), windowData.getMouseY()), windowData);
+				nid.setMouseX(mc.x);
+				nid.setMouseY(mc.y);
 
-			//Send the object
-			gui.getNetworkManger().sendObject(nid);
-		} else {
+				//Send the object
+				gui.getNetworkManger().sendObject(nid);
+			}
+		} else if (gui.getNetworkManger().isConnected()) {
 			//Create a network input data object
 			NetworkInputData nid = new NetworkInputData();
 

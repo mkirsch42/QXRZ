@@ -154,7 +154,6 @@ public class ClientNetworkManager extends AbstractNetworkManager
 			{
 				server.send(s);
 				return true;
-			} else {
 			}
 		} catch (Exception e)
 		{
