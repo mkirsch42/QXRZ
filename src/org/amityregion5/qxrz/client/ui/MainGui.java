@@ -142,7 +142,6 @@ public class MainGui
 									Thread.sleep(1);
 								} catch (InterruptedException e)
 								{
-									// TODO Auto-generated catch block
 									e.printStackTrace();
 								}
 							}
@@ -151,6 +150,10 @@ public class MainGui
 							{
 								System.out.println("Update=" + update);
 								System.out.println("FPS=" + fps);
+								
+								//put code for processing fps data here!!!!
+								
+								
 								fps = 0;
 								update = 0;
 								fpsTimer = System.currentTimeMillis();
