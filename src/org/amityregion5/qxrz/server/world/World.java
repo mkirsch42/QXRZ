@@ -237,10 +237,19 @@ public class World
 		Random r = new Random();
 		do
 		{
-			WeaponTypes w = WeaponTypes.values()[r.nextInt(WeaponTypes.values().length)];
-			int maxammo = w.clips * w.cmaxammo;
-			p = new Pickup(w.text, r.nextInt(maxammo/2)+maxammo/2, r.nextInt((int)bounds.getWidth())+(int)bounds.getMinX(),
-					r.nextInt((int)bounds.getHeight())+(int)bounds.getMinY(), -1);
+			int i = r.nextInt(WeaponTypes.values().length+1)-1;
+			if(i==-1)
+			{
+				p = new Pickup(r.nextInt(25), r.nextInt((int)bounds.getWidth())+(int)bounds.getMinX(),
+						r.nextInt((int)bounds.getHeight())+(int)bounds.getMinY(), -1);
+			}
+			else
+			{
+				WeaponTypes w = WeaponTypes.values()[i];
+				int maxammo = w.clips * w.cmaxammo;
+				p = new Pickup(w.text, r.nextInt(maxammo/2)+maxammo/2, r.nextInt((int)bounds.getWidth())+(int)bounds.getMinX(),
+						r.nextInt((int)bounds.getHeight())+(int)bounds.getMinY(), -1);
+			}
 			p.setOnePickup();
 		} while (checkEntityCollisions(p.getEntity().getHitbox(), p.getEntity().getId())!=null || l.checkCollisions(p.getEntity().getHitbox())!=null);
 		System.out.println("new pickup at " + p.getEntity().getPos());

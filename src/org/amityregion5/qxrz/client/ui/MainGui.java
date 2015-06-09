@@ -76,7 +76,7 @@ public class MainGui
 			public void windowClosing(WindowEvent e)
 			{
 				setFrameInvisible = false;
-				Runtime.getRuntime().exit(0);
+				System.exit(0);
 			}
 		});
 
