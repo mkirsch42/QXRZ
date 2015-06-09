@@ -57,7 +57,6 @@ public class Game implements Runnable
 	@Override
 	public void run()
 	{
-<<<<<<< HEAD
 		long lastMs = System.currentTimeMillis();
 		while (running)
 		{
@@ -73,91 +72,87 @@ public class Game implements Runnable
 				int index = w.getEntities().indexOf(
 						players.get(node).getEntity());
 				ndp.setClientIndex(index);
-=======
-		int fps = 0;
-		int update = 0;
-		long fpsTimer = System.currentTimeMillis();
-		double nsPerUpdate = 1000000000.0 / 60.0;
+				int fps = 0;
+				int update = 0;
+				long fpsTimer = System.currentTimeMillis();
+				double nsPerUpdate = 1000000000.0 / 60.0;
 
-		// last update
+				// last update
 
-		double then = System.nanoTime();
-		double unprocessed = 0;
-		boolean shouldRender = false;
-		long lastMs = System.currentTimeMillis();
-		while (running)
-		{
-			double now = System.nanoTime();
-			unprocessed += (now - then) / nsPerUpdate;
-			then = now;
-			// update
-			while (unprocessed >= 1)
-			{
-				update++;
-				update(lastMs);
-				lastMs = System.currentTimeMillis();
-				unprocessed--;
-				shouldRender = true;
-			}
-
-			if (shouldRender)
-			{
-				fps++;
-				render();
-				shouldRender = false;
-			} else
-			{
->>>>>>> origin/master
-				try
+				double then = System.nanoTime();
+				double unprocessed = 0;
+				boolean shouldRender = false;
+				while (running)
 				{
-					Thread.sleep(1);
-				} catch (InterruptedException e)
-				{
-					// TODO Auto-generated catch block
-					e.printStackTrace();
+					double now = System.nanoTime();
+					unprocessed += (now - then) / nsPerUpdate;
+					then = now;
+					// update
+					while (unprocessed >= 1)
+					{
+						update++;
+						update(lastMs);
+						lastMs = System.currentTimeMillis();
+						unprocessed--;
+						shouldRender = true;
+					}
+
+					if (shouldRender)
+					{
+						fps++;
+						render();
+						shouldRender = false;
+					} else
+					{
+						try
+						{
+							Thread.sleep(1);
+						} catch (InterruptedException e)
+						{
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						}
+					}
+
+					Player winner = winner();
+					if (winner != null)
+					{
+						net.sendObject(new ChatMessage(winner.getName()
+								+ " won").fromServer());
+						for (NetworkNode n : players.keySet())
+						{
+							players.get(n).respawn(true);
+							players.get(n).randomSpawn();
+						}
+					}
+
+					if (players.size() > 0
+							&& (int) (Math.random() * DebugConstants.DROPCHANCEPERUPDATE) == 1)
+					{
+						w.drop();
+					}
+
+					// Set current time for next update
+					lastMs = System.currentTimeMillis();
+					// Sleep for next update
+					try
+					{
+						Thread.sleep(1000 / DebugConstants.DEBUG_FPS);
+					} catch (Exception e)
+					{
+
+						if (System.currentTimeMillis() - fpsTimer > 1000)
+						{
+							// System.out.println("Update=" + update);
+							// System.out.println("FPS=" + fps);
+							fps = 0;
+							update = 0;
+							fpsTimer = System.currentTimeMillis();
+						}
+					}
 				}
-			}
-<<<<<<< HEAD
-
-			Player winner = winner();
-			if (winner != null)
-			{
-				net.sendObject(new ChatMessage(winner.getName() + " won")
-						.fromServer());
-				for (NetworkNode n : players.keySet())
-				{
-					players.get(n).respawn(true);
-					players.get(n).randomSpawn();
-				}
-			}
-
-			if (players.size() > 0
-					&& (int) (Math.random() * DebugConstants.DROPCHANCEPERUPDATE) == 1)
-			{
-				w.drop();
-			}
-
-			// Set current time for next update
-			lastMs = System.currentTimeMillis();
-			// Sleep for next update
-			try
-			{
-				Thread.sleep(1000 / DebugConstants.DEBUG_FPS);
-			} catch (Exception e)
-			{
-=======
-			
-			if(System.currentTimeMillis() - fpsTimer > 1000)
-			{
-//				System.out.println("Update=" + update);
-//				System.out.println("FPS=" + fps);
-				fps = 0;
-				update = 0;
-				fpsTimer = System.currentTimeMillis();
->>>>>>> origin/master
 			}
 		}
-
 	}
 
 	public Player winner() // checks all player entities to determine a winner
