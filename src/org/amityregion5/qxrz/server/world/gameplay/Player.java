@@ -93,6 +93,16 @@ public class Player {
 		dead();
 		return true;
 	}
+	public boolean hurtme(int dmg)
+	{
+		if(w.getGame().getGM().oneLife && dead)
+		{
+			return false;
+		}
+		health -= dmg;
+		dead();
+		return true;
+	}
 	
 	public Color getColor()
 	{
@@ -266,6 +276,21 @@ public class Player {
 		if(!p.canPickup())
 		{
 			return false;
+		}
+		if(p.isHealth())
+		{
+			if(health>=100)
+			{
+				health = 100;
+				return false;
+			}
+			health += p.getAmmoCount();
+			if(health>=100)
+			{
+				health=100;
+			}
+			p.pickup();
+			return true;
 		}
 		String wep = p.getWeaponId();
 		if(guns[0]!=null && guns[0].getType().equals(wep))

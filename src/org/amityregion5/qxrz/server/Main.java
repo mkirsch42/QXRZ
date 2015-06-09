@@ -133,6 +133,14 @@ public final class Main {
 								} catch(IllegalArgumentException e){try{c.send(new ChatMessage("Illegal argument- only use on or off").fromServer());}catch(Exception e2){}}
 							}
 						}
+						if(msg.toLowerCase().startsWith("/hurtme "))
+						{
+							String[] args = msg.substring(8).split(" ");
+							if(args[0].matches("[0-9]*"))
+							{
+								g.findPlayer(c).hurtme(Integer.parseInt(args[0]));
+							}
+						}
 					}
 					else
 					{
@@ -153,6 +161,8 @@ public final class Main {
 			Game.debug = DebugDraw.setup(g.getWorld());
 		}
 		Pickup pe = new Pickup("ps", 10, 500, 0, 3000);
+		g.getWorld().add(pe.getEntity());
+		pe = new Pickup(17, 0, 1000, 5000);
 		g.getWorld().add(pe.getEntity());
 		g.run();
 	}

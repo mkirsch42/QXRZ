@@ -21,6 +21,15 @@ public class Pickup
 		lastPickup = -1;
 	}
 	
+	public Pickup(int healthCount, int x, int y, int ms)
+	{
+		weaponId = "<3";
+		entity = new PickupEntity(x, y, this);
+		ammoCount = healthCount;
+		timeout = ms;
+		lastPickup = -1;
+	}
+
 	public int getAmmoCount()
 	{
 		return ammoCount;
@@ -62,6 +71,10 @@ public class Pickup
 		{
 			return "icons/refreshDark";
 		}
+		if(isHealth())
+		{
+			return "projectiles/bullet";
+		}
 		for(WeaponTypes t : WeaponTypes.values())
 		{
 			if(t.text.equals(weaponId))
@@ -70,5 +83,10 @@ public class Pickup
 			}
 		}
 		return "";
+	}
+
+	public boolean isHealth()
+	{
+		return weaponId.equals("<3");
 	}
 }
