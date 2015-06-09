@@ -45,17 +45,9 @@ public class ServerNetworkManager extends AbstractNetworkManager
 			{
 				synchronized (clients)
 				{
-					for (Iterator<NetworkNode> it = clients.iterator(); it
-							.hasNext();)
+					for(int i = 0; i < clients.size(); i ++)
 					{
-						NetworkNode n = it.next();
-						try
-						{
-							removeClient(n);
-						} catch (Exception e)
-						{
-							e.printStackTrace();
-						}
+						removeClient(i);
 					}
 				}
 			}
@@ -70,8 +62,9 @@ public class ServerNetworkManager extends AbstractNetworkManager
 	 */
 	public boolean sendObject(Serializable obj)
 	{
-		for (NetworkNode c : clients)
+		for (int i = 0; i < clients.size(); i ++)
 		{
+			NetworkNode c = clients.get(i);
 			try
 			{
 				c.send(obj);
@@ -147,8 +140,9 @@ public class ServerNetworkManager extends AbstractNetworkManager
 						recvClient.setName(((Hello) netObj.getPayload())
 								.getName());
 					}
-					for (NetworkNode c : clients)
+					for (int i = 0; i < clients.size(); i ++)
 					{
+						NetworkNode c = clients.get(i);
 						if (c.equals(recvClient))
 						{
 							// Found a client

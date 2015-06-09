@@ -148,8 +148,8 @@ public class MainGui
 							
 							if(System.currentTimeMillis() - fpsTimer > 1000)
 							{
-								System.out.println("Update=" + update);
-								System.out.println("FPS=" + fps);
+//								System.out.println("Update=" + update);
+//								System.out.println("FPS=" + fps);
 								
 								//put code for processing fps data here!!!!
 								
