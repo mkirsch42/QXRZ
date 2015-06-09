@@ -76,7 +76,7 @@ public class MainGui
 			public void windowClosing(WindowEvent e)
 			{
 				setFrameInvisible = false;
-				Runtime.getRuntime().exit(0);
+				System.exit(0);
 			}
 		});
 
@@ -148,8 +148,8 @@ public class MainGui
 							
 							if(System.currentTimeMillis() - fpsTimer > 1000)
 							{
-								System.out.println("Update=" + update);
-								System.out.println("FPS=" + fps);
+//								System.out.println("Update=" + update);
+//								System.out.println("FPS=" + fps);
 								
 								//put code for processing fps data here!!!!
 								

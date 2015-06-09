@@ -89,7 +89,7 @@ public abstract class AbstractNetworkManager extends Thread
 		if (netObj.getPacketNumber() <= node.getReceivedPacketCount())
 		{
 			// should this fail silently?
-			throw new IOException("Out-of-order or duplicate packet received.");
+//			throw new IOException("Out-of-order or duplicate packet received.");
 		}
 
 		// We received an in-order packet!
