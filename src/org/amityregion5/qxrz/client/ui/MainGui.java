@@ -108,8 +108,8 @@ public class MainGui
 						int fps = 0;
 						int update = 0;
 						long fpsTimer = System.currentTimeMillis();
-						double nsPerUpdate = 1000000000.0 / 60.0;
-
+						int targetFPS = 60;
+						double nsPerUpdate = 1000000000.0 / targetFPS;
 						// last update
 
 						double then = System.nanoTime();
