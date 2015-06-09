@@ -28,7 +28,7 @@ public class MainPanel extends JPanel implements MouseListener, MouseMotionListe
 
 	//The gui object that we come from
 	private MainGui gui;
-	
+
 	//Keyboard buttons that are currently down
 	private List<KeyEvent> keysDown;
 	//Mouse buttons that are currently down
@@ -50,7 +50,7 @@ public class MainPanel extends JPanel implements MouseListener, MouseMotionListe
 		this.gui = gui;
 		keysDown = new ArrayList<KeyEvent>();
 		miceDown = new ArrayList<Integer>();
-		
+
 		//Add event listeners
 		addMouseListener(this);
 		addMouseMotionListener(this);
@@ -61,29 +61,33 @@ public class MainPanel extends JPanel implements MouseListener, MouseMotionListe
 	@Override
 	public void paint(Graphics g)
 	{
-		//Convert our graphics object to a Graphics2D object
-		Graphics2D g2 = (Graphics2D)g;
-		//Make everything look better
-		GuiUtil.applyRenderingHints(g2);
-		
-		//If we have something to draw
-		if (gui.getCurrentScreen() != null) {
-			//Create an image the size of the screen
-			BufferedImage scr = ImageModification.createBlankBufferedImage(getWidth(), getHeight());
-			//Get it's graphics object
-			Graphics2D screenGraphics = scr.createGraphics();
-			//Make it look better
-			GuiUtil.applyRenderingHints(screenGraphics);
+		try {
+			//Convert our graphics object to a Graphics2D object
+			Graphics2D g2 = (Graphics2D)g;
+			//Make everything look better
+			GuiUtil.applyRenderingHints(g2);
 
-			//Get the current screen to draw on it
-			gui.getCurrentScreen().drawScreen(screenGraphics, new WindowData(getWidth(), getHeight(), keysDown, miceDown, mouseX, mouseY, mouseWheel));
-			mouseWheel = 0;
-			
-			//Get rid of the graphics object
-			screenGraphics.dispose();
-			
-			//Draw our image on our screen
-			g2.drawImage(scr, null, 0, 0);
+			//If we have something to draw
+			if (gui.getCurrentScreen() != null) {
+				//Create an image the size of the screen
+				BufferedImage scr = ImageModification.createBlankBufferedImage(getWidth(), getHeight());
+				//Get it's graphics object
+				Graphics2D screenGraphics = scr.createGraphics();
+				//Make it look better
+				GuiUtil.applyRenderingHints(screenGraphics);
+
+				//Get the current screen to draw on it
+				gui.getCurrentScreen().drawScreen(screenGraphics, new WindowData(getWidth(), getHeight(), keysDown, miceDown, mouseX, mouseY, mouseWheel));
+				mouseWheel = 0;
+
+				//Get rid of the graphics object
+				screenGraphics.dispose();
+
+				//Draw our image on our screen
+				g2.drawImage(scr, null, 0, 0);
+			}
+		} catch(Exception e) {
+			e.printStackTrace();
 		}
 	}
 
@@ -109,7 +113,7 @@ public class MainPanel extends JPanel implements MouseListener, MouseMotionListe
 			}
 		}
 	}
-	
+
 	private boolean isKeyDown(KeyEvent e) {
 		for (KeyEvent k : keysDown) {
 			if (k.getKeyCode() == e.getKeyCode()) {
