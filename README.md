@@ -66,6 +66,9 @@ Pronounced kew ecks ar zed
 - T - Chat
 - SPACE - Special movement (?)
 
+## Needed assets
+- Health pack
+
 ## Authors
 - Eli Baum
 - Dan Chen
