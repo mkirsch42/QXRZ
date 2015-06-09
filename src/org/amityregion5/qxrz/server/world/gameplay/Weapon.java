@@ -14,6 +14,7 @@ public class Weapon {
 	private int damage;
 	private int speed;
 	private int recooldown;
+	private int firecooldown;
 	private boolean reloading;
 	//constructors
 	public Weapon()
@@ -40,6 +41,7 @@ public class Weapon {
 		}
 		reloading = false;
 		recooldown = retime;
+		firecooldown = 0;
 	}
 	
 	public void update()
@@ -49,6 +51,15 @@ public class Weapon {
 			recooldown--;
 			reload();
 		}
+		if(firecooldown>0)
+		{
+			firecooldown--;
+		}
+	}
+	
+	public boolean cooling()
+	{
+		return firecooldown>0;
 	}
 	
 	public boolean shoot()
@@ -56,6 +67,10 @@ public class Weapon {
 		if(DebugConstants.INFINITEAMMO)
 		{
 			return true;
+		}
+		if(firecooldown>0)
+		{
+			return false;
 		}
 		if(ccamount<=0)
 		{
@@ -69,6 +84,7 @@ public class Weapon {
 			}
 		}
 		ccamount--;
+		firecooldown = rof;
 		return true;
 	}
 	public boolean reload()
@@ -111,6 +127,17 @@ public class Weapon {
 	public String getType()
 	{
 		return type;
+	}
+	public WeaponTypes getEnumType()
+	{
+		for(WeaponTypes w : WeaponTypes.values())
+		{
+			if(w.text.equals(getType()))
+			{
+				return w;
+			}
+		}
+		return null;
 	}
 	public int getSpeed()
 	{

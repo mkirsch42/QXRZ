@@ -213,7 +213,7 @@ public class Player {
 		entity.input(nid);
 		if(dead && w.getGame().getGM().oneLife)
 			return;
-		if(nid.get(NetworkInputMasks.M1) && !downs.get(NetworkInputMasks.M1))
+		if(nid.get(NetworkInputMasks.M1) && !getEquipped().cooling() && (getEquipped().getEnumType().auto || !downs.get(NetworkInputMasks.M1)))
 		{
 			Vector2D v = new Vector2D(nid.getMouseX(), nid.getMouseY()).subtract(entity.getPos());
 			shoot(v);

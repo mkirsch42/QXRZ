@@ -2,8 +2,6 @@ package org.amityregion5.qxrz.server.world.entity;
 
 import java.awt.Rectangle;
 
-import javafx.scene.Parent;
-
 import org.amityregion5.qxrz.common.ui.NetworkDrawableEntity;
 import org.amityregion5.qxrz.common.ui.NetworkDrawableObject;
 import org.amityregion5.qxrz.server.world.World;

@@ -17,7 +17,7 @@ public class PlayerEntity extends GameEntity
 
 	private Vector2D inputVel = new Vector2D();
 	
-	private int updateStackSize = 0;
+	//private int updateStackSize = 0;
 	
 	private Player parent;
 	
@@ -55,9 +55,9 @@ public class PlayerEntity extends GameEntity
 		}
 		if(parent.getEquipped()!=null)
 			parent.getEquipped().update();
-		updateStackSize++;
+		//updateStackSize++;
 		boolean ret = super.update(tSinceUpdate, w);
-		updateStackSize--;
+		//updateStackSize--;
 		//if(updateStackSize==0)
 		{
 			vel = inputVel;

@@ -1,6 +1,5 @@
 package org.amityregion5.qxrz.server.world;
 
-import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.Rectangle;
 import java.util.ArrayList;
@@ -15,10 +14,7 @@ import org.amityregion5.qxrz.server.world.entity.GameEntity;
 import org.amityregion5.qxrz.server.world.entity.Hitbox;
 import org.amityregion5.qxrz.server.world.entity.PlayerEntity;
 import org.amityregion5.qxrz.server.world.entity.ShapeHitbox;
-import org.amityregion5.qxrz.server.world.gameplay.GameModes;
 import org.amityregion5.qxrz.server.world.gameplay.Pickup;
-import org.amityregion5.qxrz.server.world.gameplay.Player;
-import org.amityregion5.qxrz.server.world.gameplay.Team;
 import org.amityregion5.qxrz.server.world.gameplay.WeaponTypes;
 
 public class World
