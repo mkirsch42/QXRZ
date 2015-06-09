@@ -1,6 +1,5 @@
 package org.amityregion5.qxrz.server.world;
 
-import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.Rectangle;
 import java.util.ArrayList;
@@ -15,10 +14,7 @@ import org.amityregion5.qxrz.server.world.entity.GameEntity;
 import org.amityregion5.qxrz.server.world.entity.Hitbox;
 import org.amityregion5.qxrz.server.world.entity.PlayerEntity;
 import org.amityregion5.qxrz.server.world.entity.ShapeHitbox;
-import org.amityregion5.qxrz.server.world.gameplay.GameModes;
 import org.amityregion5.qxrz.server.world.gameplay.Pickup;
-import org.amityregion5.qxrz.server.world.gameplay.Player;
-import org.amityregion5.qxrz.server.world.gameplay.Team;
 import org.amityregion5.qxrz.server.world.gameplay.WeaponTypes;
 
 public class World
@@ -144,7 +140,7 @@ public class World
 				continue;
 			}
 			PlayerEntity e = (PlayerEntity)ge;
-			if(shapeHitbox.intersects(e.getHitbox()) && id!=e.getId())
+			if(shapeHitbox.intersects(e.getHitbox()) && id!=e.getGameModel().getId())
 			{
 				return e;
 			}
@@ -230,16 +226,30 @@ public class World
 		return null;
 	}*/
 
+	public Rectangle getBounds()
+	{
+		return bounds;
+	}
+	
 	public void drop()
 	{
 		Pickup p = null;
 		Random r = new Random();
 		do
 		{
-			WeaponTypes w = WeaponTypes.values()[r.nextInt(WeaponTypes.values().length)];
-			int maxammo = w.clips * w.cmaxammo;
-			p = new Pickup(w.text, r.nextInt(maxammo/2)+maxammo/2, r.nextInt((int)bounds.getWidth())+(int)bounds.getMinX(),
-					r.nextInt((int)bounds.getHeight())+(int)bounds.getMinY(), -1);
+			int i = r.nextInt(WeaponTypes.values().length+1)-1;
+			if(i==-1)
+			{
+				p = new Pickup(r.nextInt(25), r.nextInt((int)bounds.getWidth())+(int)bounds.getMinX(),
+						r.nextInt((int)bounds.getHeight())+(int)bounds.getMinY(), -1);
+			}
+			else
+			{
+				WeaponTypes w = WeaponTypes.values()[i];
+				int maxammo = w.clips * w.cmaxammo;
+				p = new Pickup(w.text, r.nextInt(maxammo/2)+maxammo/2, r.nextInt((int)bounds.getWidth())+(int)bounds.getMinX(),
+						r.nextInt((int)bounds.getHeight())+(int)bounds.getMinY(), -1);
+			}
 			p.setOnePickup();
 		} while (checkEntityCollisions(p.getEntity().getHitbox(), p.getEntity().getId())!=null || l.checkCollisions(p.getEntity().getHitbox())!=null);
 		System.out.println("new pickup at " + p.getEntity().getPos());

@@ -11,7 +11,9 @@ public enum NetworkInputMasks
 	SPACE(6), 
 	COMMA(7), 
 	PERIOD(8),
-	E(8);
+	E(9),
+	Q(10),
+	M2(11);
 	
 	private int maskIndex;
 	

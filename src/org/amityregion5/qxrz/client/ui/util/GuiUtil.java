@@ -103,7 +103,7 @@ public class GuiUtil
 		g.setRenderingHint(RenderingHints.KEY_DITHERING,
 				RenderingHints.VALUE_DITHER_ENABLE);
 		g.setRenderingHint(RenderingHints.KEY_RENDERING,
-				RenderingHints.VALUE_RENDER_QUALITY);
+				RenderingHints.VALUE_RENDER_SPEED);
 		g.setRenderingHint(RenderingHints.KEY_ANTIALIASING,
 				RenderingHints.VALUE_ANTIALIAS_ON);
 		g.setRenderingHint(RenderingHints.KEY_TEXT_LCD_CONTRAST, 100);

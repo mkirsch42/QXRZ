@@ -17,14 +17,14 @@ public class PlayerEntity extends GameEntity
 
 	private Vector2D inputVel = new Vector2D();
 	
-	private int updateStackSize = 0;
+	//private int updateStackSize = 0;
 	
 	private Player parent;
 	
 	private String asset = "players/1/walk/*";
 	private String standing = "players/1/stand";
 
-	public final int PLAYER_SIZE = 400;
+	public final static int PLAYER_SIZE = 400;
 	
 	public PlayerEntity(Player p) // creates player vector
 	{
@@ -37,6 +37,14 @@ public class PlayerEntity extends GameEntity
 		//vel = new Vector2D(200, 100).multiply(DebugConstants.PATH_LEN);
 	}
 
+	public PlayerEntity(Vector2D spawn, Player p)
+	{
+		super();
+		pos = spawn;
+		vel = new Vector2D(0, 0);
+		parent = p;
+	}
+	
 	public boolean update(double tSinceUpdate, World w)
 	{
 		if(parent.isDead() && w.getGame().getGM().oneLife)
@@ -45,10 +53,11 @@ public class PlayerEntity extends GameEntity
 			pos = pos.add(vel.multiply(tSinceUpdate*2));
 			return false;
 		}
-		parent.getEquipped().update();
-		updateStackSize++;
+		if(parent.getEquipped()!=null)
+			parent.getEquipped().update();
+		//updateStackSize++;
 		boolean ret = super.update(tSinceUpdate, w);
-		updateStackSize--;
+		//updateStackSize--;
 		//if(updateStackSize==0)
 		{
 			vel = inputVel;

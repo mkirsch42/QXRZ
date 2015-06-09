@@ -117,7 +117,7 @@ public abstract class GameEntity implements Hitboxed
 		return o;
 	}
 	
-	public PlayerEntity checkPlayerCollisions(Vector2D v, World surroundings)
+	public PlayerEntity checkPlayerCollisions(Vector2D v, World surroundings, int ignoreId)
 	{
 		Vector2D bak = pos;
 		Path2D.Double path = new Path2D.Double();
@@ -145,7 +145,7 @@ public abstract class GameEntity implements Hitboxed
 		path.append(getHitbox().getAABB(), false);
 		if (DebugConstants.DEBUG_PATH)
 			DebugDraw.buffer.add(path);
-		PlayerEntity o = surroundings.checkPlayerCollisions(new ShapeHitbox(path),id);
+		PlayerEntity o = surroundings.checkPlayerCollisions(new ShapeHitbox(path),ignoreId);
 		pos = bak;
 		return o;
 	}

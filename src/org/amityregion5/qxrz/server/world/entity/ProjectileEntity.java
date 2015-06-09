@@ -29,7 +29,7 @@ public class ProjectileEntity extends GameEntity
 
 	public boolean update(double tSinceUpdate, World w)
 	{
-		PlayerEntity e = checkPlayerCollisions(vel.multiply(tSinceUpdate), w);
+		PlayerEntity e = checkPlayerCollisions(vel.multiply(tSinceUpdate), w, gameModel.getFriendlyFirePlayer());
 		if(e==null)
 			return super.update(tSinceUpdate, w);
 		System.out.println("ProjectileEntity #" + getId() + " collided with Entity #" + e.getId());
