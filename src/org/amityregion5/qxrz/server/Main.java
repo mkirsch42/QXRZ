@@ -141,6 +141,11 @@ public final class Main {
 								g.findPlayer(c).hurtme(Integer.parseInt(args[0]));
 							}
 						}
+						if(msg.toLowerCase().startsWith("/equip "))
+						{
+							String[] args = msg.substring(7).split(" ");
+							g.findPlayer(c).equipWep(args[1]);
+						}
 					}
 					else
 					{

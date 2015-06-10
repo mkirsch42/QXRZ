@@ -92,7 +92,7 @@ public class Player {
 		 health -= b.getDamage();
 		dead();
 		if (isDead()) {b.getSource().getGameModel().addScore();} //gives player a point
-		w.win(w.getGame().getGM());
+		//w.win(w.getGame().getGM());
 		return true;
 	}
 	public boolean hurtme(int dmg)
@@ -103,7 +103,6 @@ public class Player {
 		}
 		health -= dmg;
 		dead();
-		w.win(w.getGame().getGM());
 		return true;
 	}
 	
@@ -369,8 +368,14 @@ public class Player {
 		} while(w.getLandscape().checkCollisions(entity.getHitbox())!=null);
 		w.add(entity);
 	}
+
 	public void addScore()
 	{
 		score++;
+	}
+	public void equipWep(String string)
+	{
+		guns[equipped] = new Weapon(string);
+
 	}
 }
