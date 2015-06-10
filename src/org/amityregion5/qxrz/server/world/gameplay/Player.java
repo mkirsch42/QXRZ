@@ -377,4 +377,16 @@ public class Player {
 		guns[equipped] = new Weapon(string);
 
 	}
+	public boolean isFlipped()
+	{
+		return downs!=null && Math.abs(new Vector2D(downs.getMouseX(), downs.getMouseY()).subtract(entity.getPos()).angle())<Math.PI/2;
+	}
+	public double rotatedAngle()
+	{
+		if(downs==null)
+		{
+			return 0;
+		}
+		return new Vector2D(downs.getMouseX(), downs.getMouseY()).subtract(entity.getPos()).angle();
+	}
 }

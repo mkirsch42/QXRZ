@@ -1,6 +1,8 @@
 package org.amityregion5.qxrz.server.world.entity;
 
 import java.awt.Rectangle;
+import java.awt.geom.Rectangle2D;
+
 import org.amityregion5.qxrz.common.control.NetworkInputData;
 import org.amityregion5.qxrz.common.control.NetworkInputMasks;
 import org.amityregion5.qxrz.common.ui.NetworkDrawableEntity;
@@ -10,6 +12,7 @@ import org.amityregion5.qxrz.server.Game;
 import org.amityregion5.qxrz.server.world.Landscape;
 import org.amityregion5.qxrz.server.world.World;
 import org.amityregion5.qxrz.server.world.gameplay.Player;
+import org.amityregion5.qxrz.server.world.gameplay.WeaponTypes;
 import org.amityregion5.qxrz.server.world.vector2d.Vector2D;
 
 public class PlayerEntity extends GameEntity
@@ -261,9 +264,16 @@ public class PlayerEntity extends GameEntity
 	
 	@Override
 	public NetworkDrawableEntity getNDE() {
-		NetworkDrawableEntity nde = new NetworkDrawableEntity(new NetworkDrawableObject[] {new NetworkDrawableObject(
-(vel.equals(new Vector2D()) ? standing : asset), getHitbox().getAABB())}, getHitbox().getAABB()).setNametag(parent.getNT(), parent.getColor());
+		NetworkDrawableObject ndo = new NetworkDrawableObject((vel.equals(new Vector2D()) ? standing : asset), getHitbox().getAABB());
+		if(parent.isFlipped())
+		{
+			ndo.flipH();
+		}
+		Rectangle2D r2d = getHitbox().getAABB();
+		NetworkDrawableObject gun = new NetworkDrawableObject(WeaponTypes.getTypeFromString(parent.getEquipped().getType()).asset, new Rectangle2D.Double(r2d.getCenterX(), r2d.getCenterY(), PLAYER_SIZE/2.0, PLAYER_SIZE/2.0)).rotate(parent.rotatedAngle());
+		NetworkDrawableEntity nde = new NetworkDrawableEntity(new NetworkDrawableObject[] {ndo, gun}, getHitbox().getAABB()).setNametag(parent.getNT(), parent.getColor());
 
+		
 		if(parent.getTeam()==null)
 			nde.setItalicized();
 		if(parent.isDead() && parent.getParent().getGame().getGM().oneLife)
