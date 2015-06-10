@@ -91,6 +91,7 @@ public class Player {
 		if (b.getEntity().getHitbox().intersects(entity.getHitbox()))
 		 health -= b.getDamage();
 		dead();
+		if (isDead()) {b.getSource().getGameModel().addScore();} //gives player a point
 		w.win(w.getGame().getGM());
 		return true;
 	}
@@ -193,6 +194,7 @@ public class Player {
 			if(team != null)
 				b.setFriendlyFireTeam(team);
 			b.setFriendlyFirePlayer(this);
+			b.setSource(entity);
 			w.add(b.getEntity());
 		}
 	}
@@ -345,6 +347,7 @@ public class Player {
 		if(team != null)
 			b.setFriendlyFireTeam(team);
 		b.setFriendlyFirePlayer(this);
+		b.setSource(entity);
 		b.getEntity().update(1,w);
 	}
 	
@@ -365,5 +368,9 @@ public class Player {
 			entity = new PlayerEntity(newPos, this);
 		} while(w.getLandscape().checkCollisions(entity.getHitbox())!=null);
 		w.add(entity);
+	}
+	public void addScore()
+	{
+		score++;
 	}
 }
