@@ -15,6 +15,9 @@ public class NetworkDrawableObject implements Serializable
 	private static final long serialVersionUID = -4205289169148579464L;
 	private String asset;
 	private Rectangle2D box;
+	private double rot = 0;
+	private boolean flipV = false;
+	private boolean flipH = false;
 	
 	public NetworkDrawableObject(String a, Rectangle2D b)
 	{
@@ -46,5 +49,38 @@ public class NetworkDrawableObject implements Serializable
 	 */
 	public Rectangle2D getBox() {
 		return box;
+	}
+	
+	public NetworkDrawableObject rotate(double rad)
+	{
+		rot += rad;
+		return this;
+	}
+	
+	public double getTheta()
+	{
+		return rot;
+	}
+	
+	public NetworkDrawableObject flipV()
+	{
+		flipV = !flipV;
+		return this;
+	}
+	
+	public NetworkDrawableObject flipH()
+	{
+		flipH = !flipH;;
+		return this;
+	}
+	
+	public boolean isFlipV()
+	{
+		return flipV;
+	}
+	
+	public boolean isFlipH()
+	{
+		return flipH;
 	}
 }

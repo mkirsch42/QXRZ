@@ -124,6 +124,7 @@ public class Player {
 		//respawn code to add later
 		
 		dead = true;
+		w.say(name + " died");
 		respawn(!w.getGame().getGM().oneLife);
 		return true;
 	}
@@ -141,7 +142,6 @@ public class Player {
 		w.removeEntity(entity);
 		entity = new PlayerEntity(this);
 		w.add(entity);
-		w.say(name + " died");
 		guns[0] = new Weapon();
 		guns[1] = null;
 		equipped = 0;
