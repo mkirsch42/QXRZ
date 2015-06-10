@@ -5,8 +5,10 @@ import java.awt.event.WindowEvent;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
+
 import javax.swing.JFrame;
 import javax.swing.WindowConstants;
+
 import org.amityregion5.qxrz.client.net.ClientNetworkManager;
 import org.amityregion5.qxrz.client.ui.screen.IScreen;
 import org.amityregion5.qxrz.client.ui.screen.LoadingScreen;
@@ -28,6 +30,7 @@ public class MainGui
 	// The current screen
 	private IScreen currentScreen;
 	// The time since the last repaint
+//	private long lastRepaint;
 	private List<AbstractNetworkNode> queryInfo;
 	private List<ChatMessage> messages;
 	private NetworkDrawablePacket ndp;
@@ -88,6 +91,9 @@ public class MainGui
 	{
 		if (!frame.isVisible())
 		{
+			// Set the last repaint value
+//			lastRepaint = System.currentTimeMillis();
+
 			// Set the frame as visible
 			frame.setVisible(true);
 
@@ -97,6 +103,10 @@ public class MainGui
 					() ->
 					{
 						// Stopping condition: when the frame is hidden
+						@SuppressWarnings("unused")
+						int fps = 0;
+						@SuppressWarnings("unused")
+						int update = 0;
 						//int update = 0;
 						long fpsTimer = System.currentTimeMillis();
 						int targetFPS = 60;
