@@ -151,7 +151,8 @@ public class GameScreen extends AbstractScreen {
 			g.fillRect(20, windowData.getHeight()-88, windowData.getWidth()/2-40, 16);
 
 			g.setColor(Color.BLACK);
-			GuiUtil.drawString(g, text , CenterMode.LEFT, 20, windowData.getHeight() - 80);
+			g.setFont(g.getFont().deriveFont(14f));
+			GuiUtil.drawString(g, text , CenterMode.LEFT, 20 + 5, windowData.getHeight() - 80);
 
 			if (cursorVisible) {
 				Rectangle b = GuiMath.getStringBounds(g, text, 0, 0);
