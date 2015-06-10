@@ -366,4 +366,8 @@ public class Player {
 		} while(w.getLandscape().checkCollisions(entity.getHitbox())!=null);
 		w.add(entity);
 	}
+	public void equipWep(String string)
+	{
+		guns[equipped] = new Weapon(string);
+	}
 }
