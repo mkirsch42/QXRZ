@@ -6,15 +6,14 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-
 import javax.swing.JFrame;
 import javax.swing.WindowConstants;
-
 import org.amityregion5.qxrz.client.net.ClientNetworkManager;
 import org.amityregion5.qxrz.client.ui.screen.IScreen;
 import org.amityregion5.qxrz.client.ui.screen.LoadingScreen;
 import org.amityregion5.qxrz.common.net.AbstractNetworkNode;
 import org.amityregion5.qxrz.common.net.ChatMessage;
+import org.amityregion5.qxrz.common.net.Goodbye;
 import org.amityregion5.qxrz.common.net.NetEventListener;
 import org.amityregion5.qxrz.common.net.NetworkNode;
 import org.amityregion5.qxrz.common.ui.NetworkDrawablePacket;
@@ -34,6 +33,7 @@ public class MainGui
 	private List<AbstractNetworkNode> queryInfo;
 	private List<ChatMessage> messages;
 	private NetworkDrawablePacket ndp;
+	private int frameID;
 
 	private Thread renderThread;
 
@@ -134,6 +134,8 @@ public class MainGui
 							{
 								fps++;
 								frame.repaint();
+								frameID++;
+								frameID%=60;
 								shouldRender = false;
 							} else
 							{
@@ -265,6 +267,9 @@ public class MainGui
 				} else if (payload instanceof NetworkDrawablePacket)
 				{
 					ndp = (NetworkDrawablePacket) payload;
+				} else if (payload instanceof Goodbye) {
+					System.err.println("YOU HAVE BEEN KICKED");
+					System.exit(0);
 				}
 			}
 		});
@@ -309,5 +314,9 @@ public class MainGui
 	public void setUsername(String username)
 	{
 		getNetworkManger().setUsername(username);
+	}
+	
+	public int getFrameID(){
+		return frameID;
 	}
 }

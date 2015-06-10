@@ -39,7 +39,7 @@ public final class Main {
 		}
 
 		ServerNetworkManager netManager = new ServerNetworkManager(s, 8000);
-		MainGui gui = new MainGui(netManager);
+		MainGui gui = new MainGui(netManager, g);
 		// TODO maybe all the manager stuff should be created within the GUI
 		netManager.attachEventListener(new NetEventListener() {
 			@Override

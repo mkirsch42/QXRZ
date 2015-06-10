@@ -99,7 +99,7 @@ public class ServerNetworkManager extends AbstractNetworkManager
 		}
 	}
 
-	public void removeClient(int index)
+	public NetworkNode removeClient(int index)
 	{
 		NetworkNode c = clients.remove(index);
 		try
@@ -109,6 +109,7 @@ public class ServerNetworkManager extends AbstractNetworkManager
 		{
 			e.printStackTrace();
 		}
+		return c;
 	}
 
 	@Override

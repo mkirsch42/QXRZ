@@ -21,7 +21,7 @@ public class PlayerEntity extends GameEntity
 	
 	private Player parent;
 	
-	private String asset = "players/1/walk/*";
+	private String asset = "players/1/walk";
 	private String standing = "players/1/stand";
 
 	public final static int PLAYER_SIZE = 400;

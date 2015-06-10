@@ -6,11 +6,13 @@ import java.awt.Point;
 import java.util.function.Consumer;
 import java.util.function.Function;
 import java.util.function.Supplier;
+import org.amityregion5.qxrz.client.ui.MainGui;
 import org.amityregion5.qxrz.client.ui.screen.WindowData;
 import org.amityregion5.qxrz.common.asset.AssetManager;
 
 public class ElementImageRectangle extends ElementRectangle
 {
+	private MainGui gui;
 
 	/**
 	 * @param topLeftFunction
@@ -25,10 +27,11 @@ public class ElementImageRectangle extends ElementRectangle
 	public ElementImageRectangle(Function<WindowData, Point> topLeftFunction,
 			Function<WindowData, Point> widthHeightFunction, Color background,
 			Color border, String imageName,
-			Consumer<WindowData> onClick)
+			Consumer<WindowData> onClick, MainGui gui)
 	{
 		super(topLeftFunction, widthHeightFunction, background, border, 0,
 				null, imageName, onClick);
+		this.gui = gui;
 		// TODO Auto-generated constructor stub
 	}
 
@@ -43,10 +46,11 @@ public class ElementImageRectangle extends ElementRectangle
 	 */
 	public ElementImageRectangle(Function<WindowData, Point> topLeftFunction,
 			Function<WindowData, Point> widthHeightFunction, Color background,
-			Color border, String imageName)
+			Color border, String imageName, MainGui gui)
 	{
 		super(topLeftFunction, widthHeightFunction, background, border, 0,
 				null, imageName);
+		this.gui = gui;
 		// TODO Auto-generated constructor stub
 	}
 
@@ -63,10 +67,11 @@ public class ElementImageRectangle extends ElementRectangle
 	public ElementImageRectangle(Function<WindowData, Point> topLeftFunction,
 			Function<WindowData, Point> widthHeightFunction,
 			Supplier<Color> background, Supplier<Color> border, Supplier<String> imageName,
-			Consumer<WindowData> onClick)
+			Consumer<WindowData> onClick, MainGui gui)
 	{
 		super(topLeftFunction, widthHeightFunction, background, border, 0,
 				null, imageName, onClick);
+		this.gui = gui;
 	}
 	
 	@Override
@@ -83,6 +88,6 @@ public class ElementImageRectangle extends ElementRectangle
 		g.setColor(border.get());
 		g.drawRect(getX(), getY(), getWidth(), getHeight());
 		
-		g.drawImage(AssetManager.getImageAssets(getName())[0], getX(), getY(), getWidth(), getHeight(), null);
+		g.drawImage(AssetManager.getImageAssets(getName())[0].getImage(gui.getFrameID()), getX(), getY(), getWidth(), getHeight(), null);
 	}
 }
