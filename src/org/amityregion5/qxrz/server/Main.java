@@ -144,7 +144,7 @@ public final class Main {
 						if(msg.toLowerCase().startsWith("/equip "))
 						{
 							String[] args = msg.substring(7).split(" ");
-							g.findPlayer(c).equipWep(args[1]);
+							g.findPlayer(c).equipWep(args[0]);
 						}
 					}
 					else
