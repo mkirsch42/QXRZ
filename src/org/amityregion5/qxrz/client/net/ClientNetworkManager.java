@@ -59,7 +59,7 @@ public class ClientNetworkManager extends AbstractNetworkManager
 	 * to disconnect from the server.
 	 * 
 	 */
-	public void sendDisconnectNotification()
+	public void sendGoodbye()
 	{
 		sendObject(new Goodbye());
 		isConnected = false;

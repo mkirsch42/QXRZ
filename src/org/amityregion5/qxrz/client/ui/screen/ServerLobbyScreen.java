@@ -137,6 +137,6 @@ public class ServerLobbyScreen extends AbstractScreen
 
 	@Override
 	protected void cleanup() {
-		gui.getNetworkManger().sendDisconnectNotification();
+		gui.getNetworkManger().sendGoodbye();
 	}
 }
