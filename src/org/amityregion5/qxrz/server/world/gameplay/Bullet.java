@@ -84,4 +84,8 @@ public class Bullet {
 	{
 		return source;
 	}
+	public void setSource(PlayerEntity p)
+	{
+		source = p;
+	}
 }
