@@ -40,11 +40,9 @@ Pronounced kew ecks ar zed
 
 *(these are last priority)*
 
-- fix space after text cursor
 - server UI
    - display IP
    - client list
-- remove italics from chat
 - should chat be closed immediately after message is sent? or stay open
 - ~~`/leave` instead of `/leaveteam`~~
 - Dying sound effects
