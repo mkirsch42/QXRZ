@@ -6,8 +6,10 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+
 import javax.swing.JFrame;
 import javax.swing.WindowConstants;
+
 import org.amityregion5.qxrz.client.net.ClientNetworkManager;
 import org.amityregion5.qxrz.client.ui.screen.IScreen;
 import org.amityregion5.qxrz.client.ui.screen.LoadingScreen;
@@ -17,7 +19,8 @@ import org.amityregion5.qxrz.common.net.NetEventListener;
 import org.amityregion5.qxrz.common.net.NetworkNode;
 import org.amityregion5.qxrz.common.ui.NetworkDrawablePacket;
 
-public class MainGui {
+public class MainGui
+{
 	// The frame
 	private JFrame frame;
 	private boolean setFrameInvisible = true;
@@ -43,7 +46,8 @@ public class MainGui {
 	 *            the network manager to use
 	 * @param chatMessages
 	 */
-	public MainGui(ClientNetworkManager manager) {
+	public MainGui(ClientNetworkManager manager)
+	{
 		setNetworkManager(manager);
 		setUsername(System.getProperty("user.name"));
 
@@ -66,11 +70,13 @@ public class MainGui {
 		frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
 
 		// Add a listener for when the window is closed and close the game
-		frame.addWindowListener(new WindowAdapter() {
+		frame.addWindowListener(new WindowAdapter()
+		{
 			@Override
-			public void windowClosing(WindowEvent e) {
+			public void windowClosing(WindowEvent e)
+			{
 				setFrameInvisible = false;
-				Runtime.getRuntime().exit(0);
+				System.exit(0);
 			}
 		});
 
@@ -83,8 +89,10 @@ public class MainGui {
 	/**
 	 * Show the frame and data represented by this Main Gui Object
 	 */
-	public void show() {
-		if (!frame.isVisible()) {
+	public void show()
+	{
+		if (!frame.isVisible())
+		{
 			// Set the last repaint value
 			lastRepaint = System.currentTimeMillis();
 
@@ -94,31 +102,63 @@ public class MainGui {
 			// Start a new thread which contains the repaint method (Render
 			// loop)
 			renderThread = new Thread(
-					() -> {
+					() ->
+					{
 						// Stopping condition: when the frame is hidden
-						while (frame.isVisible()) {
-							// Move the fps values down by 1
-							for (int i = 0; i < fps.length - 1; i++) {
-								fps[i] = fps[i + 1];
-							}
-							// Set the newest FPS value
-							fps[fps.length - 1] = 1000.0 / (System.currentTimeMillis() - lastRepaint);
-							// Set the last repaint time
-							lastRepaint = System.currentTimeMillis();
+						int fps = 0;
+						int update = 0;
+						long fpsTimer = System.currentTimeMillis();
+						int targetFPS = 60;
+						double nsPerUpdate = 1000000000.0 / targetFPS;
+						// last update
 
-							// Repaint the screen
-							frame.repaint();
+						double then = System.nanoTime();
+						double unprocessed = 0;
+						boolean shouldRender = false;
 
-							// Wait enough time to make it 60 fps
-							try {
-								// The 900 here is chosen because it makes it
-								// the closest to 60 FPS
-								Thread.sleep((900 / 60 - (System
-										.currentTimeMillis() - lastRepaint)));
-							} catch (Exception e) {
+						while (frame.isVisible())
+						{
+							double now = System.nanoTime();
+							unprocessed += (now - then) / nsPerUpdate;
+							then = now;
+							// update
+							while (unprocessed >= 1)
+							{
+								update++;
+//								update();
+								unprocessed--;
+								shouldRender = true;
 							}
-						}
-						System.out.println("MainGui.show()");
+
+							if (shouldRender)
+							{
+								fps++;
+								frame.repaint();
+								shouldRender = false;
+							} else
+							{
+								try
+								{
+									Thread.sleep(1);
+								} catch (InterruptedException e)
+								{
+									e.printStackTrace();
+								}
+							}
+							
+							if(System.currentTimeMillis() - fpsTimer > 1000)
+							{
+//								System.out.println("Update=" + update);
+//								System.out.println("FPS=" + fps);
+								
+								//put code for processing fps data here!!!!
+								
+								
+								fps = 0;
+								update = 0;
+								fpsTimer = System.currentTimeMillis();
+							}
+						}						System.out.println("MainGui.show()");
 					}, "Gui Refresh Thread");
 			renderThread.start();
 		}
@@ -127,9 +167,11 @@ public class MainGui {
 	/**
 	 * Hide the frame and data represented by this MainGui object
 	 */
-	public void hide() {
+	public void hide()
+	{
 		// Hide the frame (will also stop the render thread)
-		if (setFrameInvisible) {
+		if (setFrameInvisible)
+		{
 			frame.setVisible(false);
 		}
 	}
@@ -139,7 +181,8 @@ public class MainGui {
 	 * 
 	 * @return the current screen
 	 */
-	public synchronized IScreen getCurrentScreen() {
+	public synchronized IScreen getCurrentScreen()
+	{
 		return currentScreen;
 	}
 
@@ -149,12 +192,15 @@ public class MainGui {
 	 * @param currentScreen
 	 *            new current screen
 	 */
-	public synchronized void setCurrentScreen(IScreen currentScreen) {
-		if (this.currentScreen != null) {
+	public synchronized void setCurrentScreen(IScreen currentScreen)
+	{
+		if (this.currentScreen != null)
+		{
 			this.currentScreen.onScreenChange(true);
 		}
 		this.currentScreen = currentScreen;
-		if (this.currentScreen != null) {
+		if (this.currentScreen != null)
+		{
 			this.currentScreen.onScreenChange(false);
 		}
 	}
@@ -162,7 +208,8 @@ public class MainGui {
 	/**
 	 * @return the fps
 	 */
-	public double getFps() {
+	public double getFps()
+	{
 		// Get the average of the FPS values
 		return Arrays.stream(fps).average().orElse(0);
 	}
@@ -170,7 +217,8 @@ public class MainGui {
 	/**
 	 * Called to safely close the game (Should cut any networking communication)
 	 */
-	public void closeGame() {
+	public void closeGame()
+	{
 		// hide();
 
 		currentScreen.onGameClose();
@@ -181,7 +229,8 @@ public class MainGui {
 	/**
 	 * @return the networkManger
 	 */
-	public ClientNetworkManager getNetworkManger() {
+	public ClientNetworkManager getNetworkManger()
+	{
 		return networkManger;
 	}
 
@@ -189,24 +238,32 @@ public class MainGui {
 	 * @param networkManger
 	 *            the networkManger to set
 	 */
-	public void setNetworkManager(ClientNetworkManager networkManger) {
+	public void setNetworkManager(ClientNetworkManager networkManger)
+	{
 		this.networkManger = networkManger;
-		networkManger.attachEventListener(new NetEventListener() {
+		networkManger.attachEventListener(new NetEventListener()
+		{
 
 			@Override
-			public void newNode(AbstractNetworkNode server) {
-				if (queryInfo.contains(server)) {
+			public void newNode(AbstractNetworkNode server)
+			{
+				if (queryInfo.contains(server))
+				{
 					queryInfo.set(queryInfo.indexOf(server), server);
-				} else {
+				} else
+				{
 					queryInfo.add(server);
 				}
 			}
 
 			@Override
-			public void dataReceived(NetworkNode from, Serializable payload) {
-				if (payload instanceof ChatMessage) {
+			public void dataReceived(NetworkNode from, Serializable payload)
+			{
+				if (payload instanceof ChatMessage)
+				{
 					messages.add(0, ((ChatMessage) payload).setTimestamp());
-				} else if (payload instanceof NetworkDrawablePacket) {
+				} else if (payload instanceof NetworkDrawablePacket)
+				{
 					ndp = (NetworkDrawablePacket) payload;
 				}
 			}
@@ -216,28 +273,32 @@ public class MainGui {
 	/**
 	 * @return the queryInfo
 	 */
-	public List<AbstractNetworkNode> getQueryInfo() {
+	public List<AbstractNetworkNode> getQueryInfo()
+	{
 		return queryInfo;
 	}
 
 	/**
 	 * @return the messages
 	 */
-	public List<ChatMessage> getMessages() {
+	public List<ChatMessage> getMessages()
+	{
 		return messages;
 	}
 
 	/**
 	 * @return the NetworkDrawablePacket
 	 */
-	public NetworkDrawablePacket getNetworkDrawablePacket() {
+	public NetworkDrawablePacket getNetworkDrawablePacket()
+	{
 		return ndp;
 	}
 
 	/**
 	 * @return the username
 	 */
-	public String getUsername() {
+	public String getUsername()
+	{
 		return getNetworkManger().getUsername();
 	}
 
@@ -245,7 +306,8 @@ public class MainGui {
 	 * @param username
 	 *            the username to set
 	 */
-	public void setUsername(String username) {
+	public void setUsername(String username)
+	{
 		getNetworkManger().setUsername(username);
 	}
 }

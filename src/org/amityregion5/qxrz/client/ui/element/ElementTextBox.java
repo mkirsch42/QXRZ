@@ -109,7 +109,7 @@ public class ElementTextBox extends ElementRectangle {
 		if (selected && cursorVisible) {
 			Rectangle b = GuiMath.getStringBounds(g, text, 0, 0);
 			GuiUtil.drawString(g, "|", CenterMode.LEFT, (int) (b.getWidth()
-					+ getX() + 10 + 5), getY() + getHeight() / 2);
+					+ getX() + 10), getY() + getHeight() / 2);
 		}
 	}
 

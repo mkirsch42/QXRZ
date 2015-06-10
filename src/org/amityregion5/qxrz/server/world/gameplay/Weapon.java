@@ -10,9 +10,12 @@ public class Weapon {
 	private int maxclips; //maximum clips to hold
 	private int reserve; //reserve ammo;
 	private int rof; //per half second
-	private int retime; //per half second
+	private int retime; // in updates (approx. 60/sec)
 	private int damage;
 	private int speed;
+	private int recooldown;
+	private int firecooldown;
+	private boolean reloading;
 	//constructors
 	public Weapon()
 	{
@@ -36,7 +39,27 @@ public class Weapon {
 				break;
 			}
 		}
-
+		reloading = false;
+		recooldown = retime;
+		firecooldown = 0;
+	}
+	
+	public void update()
+	{
+		if(reloading)
+		{
+			recooldown--;
+			reload();
+		}
+		if(firecooldown>0)
+		{
+			firecooldown--;
+		}
+	}
+	
+	public boolean cooling()
+	{
+		return firecooldown>0;
 	}
 	
 	public boolean shoot()
@@ -45,42 +68,43 @@ public class Weapon {
 		{
 			return true;
 		}
+		if(firecooldown>0)
+		{
+			return false;
+		}
 		if(ccamount<=0)
 		{
 			if(reserve<=0)
 			{
 				return false;
 			}
-			reload();
+			if(!reload())
+			{
+				return false;
+			}
 		}
 		ccamount--;
+		firecooldown = rof;
 		return true;
 	}
-	public void reload()
+	public boolean reload()
 	{
+		if(recooldown > 0)
+		{
+			reloading = true;
+			return false;
+		}
+		reloading = false;
+		recooldown = retime;
 		if(reserve<=cmaxammo-ccamount)
 		{
 			ccamount += reserve;
 			reserve = 0;
-			return;
+			return true;
 		}
 		reserve-=cmaxammo-ccamount;
 		ccamount = cmaxammo;
-		
-		/*if (ccamount==0)
-		{
-			if (cleft != 0)
-			{
-				ccamount = cmaxammo;
-				cleft--;
-			}
-		}
-		else //still ammo left in clip
-		{
-			reserve = ccamount;
-			ccamount += cmaxammo-ccamount; //clip fills up
-			cleft--;
-		}*/
+		return true;
 	}
 	public int getDamage()
 	{
@@ -89,6 +113,17 @@ public class Weapon {
 	public String getType()
 	{
 		return type;
+	}
+	public WeaponTypes getEnumType()
+	{
+		for(WeaponTypes w : WeaponTypes.values())
+		{
+			if(w.text.equals(getType()))
+			{
+				return w;
+			}
+		}
+		return null;
 	}
 	public int getSpeed()
 	{
@@ -112,8 +147,14 @@ public class Weapon {
 		{
 			count = maxclips*cmaxammo;
 		}
-		reserve = count;
-		reload();
+		if(count<=cmaxammo)
+		{
+			ccamount = count;
+			reserve = 0;
+			return;
+		}
+		ccamount = cmaxammo;
+		reserve = count-cmaxammo;
 	}
 	public boolean addAmmo(int count)
 	{
@@ -125,5 +166,13 @@ public class Weapon {
 			reserve=(maxclips-1)*cmaxammo;
 		}
 		return true;
+	}
+	public int getInClip()
+	{
+		return ccamount;
+	}
+	public int getReserve()
+	{
+		return reserve;
 	}
 }

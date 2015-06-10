@@ -17,14 +17,14 @@ public class PlayerEntity extends GameEntity
 
 	private Vector2D inputVel = new Vector2D();
 	
-	private int updateStackSize = 0;
+	//private int updateStackSize = 0;
 	
 	private Player parent;
 	
 	private String asset = "players/1/walk/*";
 	private String standing = "players/1/stand";
 
-	public final int PLAYER_SIZE = 400;
+	public final static int PLAYER_SIZE = 400;
 	
 	public PlayerEntity(Player p) // creates player vector
 	{
@@ -37,6 +37,14 @@ public class PlayerEntity extends GameEntity
 		//vel = new Vector2D(200, 100).multiply(DebugConstants.PATH_LEN);
 	}
 
+	public PlayerEntity(Vector2D spawn, Player p)
+	{
+		super();
+		pos = spawn;
+		vel = new Vector2D(0, 0);
+		parent = p;
+	}
+	
 	public boolean update(double tSinceUpdate, World w)
 	{
 		if(parent.isDead() && w.getGame().getGM().oneLife)
@@ -45,10 +53,12 @@ public class PlayerEntity extends GameEntity
 			pos = pos.add(vel.multiply(tSinceUpdate*2));
 			return false;
 		}
-		updateStackSize++;
+		if(parent.getEquipped()!=null)
+			parent.getEquipped().update();
+		//updateStackSize++;
 		boolean ret = super.update(tSinceUpdate, w);
-		updateStackSize--;
-		if(updateStackSize==0)
+		//updateStackSize--;
+		//if(updateStackSize==0)
 		{
 			vel = inputVel;
 		}
@@ -75,7 +85,15 @@ public class PlayerEntity extends GameEntity
 		{
 			vX = 100;
 		}
-		inputVel = new Vector2D(new Vector2D(vX, vY).angle()).multiply(parent.getSpeed());
+		if(vX==0 && vY==0)
+		{
+			inputVel = new Vector2D();
+		}
+		else
+		{
+			inputVel = new Vector2D(new Vector2D(vX, vY).angle()).multiply(parent.getSpeed());
+		}
+		vel = inputVel;
 		return false;
 	}
 	
@@ -105,7 +123,14 @@ public class PlayerEntity extends GameEntity
 		pos = pos.add(norm.multiply(5 * Game.GAME_UNIT));
 		// If no more velocity, don't try to spend any more
 		if (rem.equals(new Vector2D()))
+		{
+			pos = pos.subtract(move);
+			Vector2D bak = vel;
+			vel = move;
+			update(1, w);
+			vel = bak;
 			return false;
+		}
 
 		// Backup velocity
 		Vector2D bak = vel;
@@ -149,10 +174,11 @@ public class PlayerEntity extends GameEntity
 				{
 					checkCollisions(pathTemp, l);
 				}
-				Vector2D b = pos;
-				pos = pos.add(pathTemp);
+				//Vector2D b = pos;
+				//pos = pos.add(pathTemp);
 				//if (getHitbox().intersects(h.getHitbox()))
-				if(l.checkCollisions(getHitbox())!=null)
+				//if(l.checkCollisions(getHitbox())!=null)
+				if(checkCollisions(pathTemp, l)!=null)
 				{
 					pathTemp = pathTemp.add(new Vector2D(v.angle())
 							.multiply(accuracy));
@@ -162,7 +188,7 @@ public class PlayerEntity extends GameEntity
 					pathTemp = pathTemp.subtract(new Vector2D(v.angle())
 							.multiply(accuracy));
 				}
-				pos = b;
+				//pos = b;
 			}
 			else
 			{
@@ -236,10 +262,10 @@ public class PlayerEntity extends GameEntity
 	@Override
 	public NetworkDrawableEntity getNDE() {
 		NetworkDrawableEntity nde = new NetworkDrawableEntity(new NetworkDrawableObject[] {new NetworkDrawableObject(
-(vel.equals(new Vector2D()) ? standing : asset), getHitbox().getAABB())}, getHitbox().getAABB()).setNametag(parent.getName(), parent.getColor());
+(vel.equals(new Vector2D()) ? standing : asset), getHitbox().getAABB())}, getHitbox().getAABB()).setNametag(parent.getNT(), parent.getColor());
 
 		if(parent.getTeam()==null)
-			nde = new NetworkDrawableEntity(new NetworkDrawableObject[] {new NetworkDrawableObject((vel.equals(new Vector2D()) ? standing : asset), getHitbox().getAABB())}, getHitbox().getAABB()).setNametag(parent.getName(), parent.getColor()).setItalicized();
+			nde.setItalicized();
 		if(parent.isDead() && parent.getParent().getGame().getGM().oneLife)
 		{
 			nde = new NetworkDrawableEntity(new NetworkDrawableObject[]{},getHitbox().getAABB());

@@ -50,11 +50,16 @@ public class GameUIHelper {
 		{
 			g.setFont(g.getFont().deriveFont(Font.ITALIC));
 		}
-		
+
 		// Draw the String
 		GuiUtil.drawString(g, nt, CenterMode.CENTER, (int)(pnt.x), (int)(pnt.y));
+
+		if(isItalicized)
+		{
+			g.setFont(g.getFont().deriveFont(Font.PLAIN));
+		}
 	}
-	
+
 	private static void drawAABB(Graphics2D g, Rectangle2D box, Viewport vp,
 			WindowData d) {
 		// Do math to determine drawing points
@@ -79,7 +84,7 @@ public class GameUIHelper {
 		// Draw the generated image
 		g.drawImage(buff, (int) (playerTL.x), (int) (playerTL.y), (int)pW, (int)pH, null);
 	}
-	
+
 	private static void drawLine(Graphics2D g, Rectangle2D box, Viewport vp,
 			WindowData d, Color c) {
 		// Do math to determine drawing points
@@ -93,43 +98,48 @@ public class GameUIHelper {
 
 	private static void drawAsset(Graphics2D g, NetworkDrawableObject ndo,
 			Viewport vp, WindowData d) {
-		// Do math to determine positioning
-		Point2D.Double playerTL = vp.gameToScreen(new Point2D.Double(ndo
-				.getBox().getX(), ndo.getBox().getY()), d);
-		Point2D.Double playerBR = vp.gameToScreen(new Point2D.Double(ndo
-				.getBox().getMaxX(), ndo.getBox().getMaxY()), d);
-		double pW = playerBR.x - playerTL.x;
-		double pH = playerBR.y - playerTL.y;
-
-		Point2D.Double playerCenter = new Point2D.Double(playerTL.x + pW / 2,
-				playerTL.y + pH / 2);
-
 		// Squarify and rotate(temporary) the image
 		BufferedImage[] assets = AssetManager.getImageAssets(ndo.getAsset());
-		
-		BufferedImage before = ImageModification.squarifyImage(assets[(int) ((System.currentTimeMillis()/150)%assets.length)]);
-		BufferedImage newImage = before/*
-										 * ImageModification.rotateImage(before,
-										 * Math.toRadians(deg++))
-										 */;
 
-		int width = (int) (pW * newImage.getWidth() / before.getWidth());
-		int height = (int) (pH * newImage.getHeight() / before.getHeight());
+		if (assets == null || assets.length <= 0) {
+			drawAABB(g, ndo.getBox(), vp, d);
+			System.err.println("ASSETS LENGTH IS 0.");
+		} else {
+			// Do math to determine positioning
+			Point2D.Double playerTL = vp.gameToScreen(new Point2D.Double(ndo
+					.getBox().getX(), ndo.getBox().getY()), d);
+			Point2D.Double playerBR = vp.gameToScreen(new Point2D.Double(ndo
+					.getBox().getMaxX(), ndo.getBox().getMaxY()), d);
+			double pW = playerBR.x - playerTL.x;
+			double pH = playerBR.y - playerTL.y;
 
-		// Draw on a buffered image to prevent antialiasing
-		BufferedImage buff = ImageModification.createBlankBufferedImage(width,
-				height);
-		Graphics2D g2 = buff.createGraphics();
+			Point2D.Double playerCenter = new Point2D.Double(playerTL.x + pW / 2,
+					playerTL.y + pH / 2);
 
-		// Draw the image
-		g2.drawImage(newImage, 0, 0, width - 1, height - 1, null);
+			BufferedImage before = ImageModification.squarifyImage(assets[(int) ((System.currentTimeMillis()/150)%assets.length)]);
+			BufferedImage newImage = before/*
+			 * ImageModification.rotateImage(before,
+			 * Math.toRadians(deg++))
+			 */;
 
-		// Dispose of the new graphics object
-		g2.dispose();
+			int width = (int) (pW * newImage.getWidth() / before.getWidth());
+			int height = (int) (pH * newImage.getHeight() / before.getHeight());
 
-		// Draw the buffer to the screen
-		g.drawImage(buff, (int) (playerCenter.x - width / 2.0),
-				(int) (playerCenter.y - height / 2.0), width, height, null);
+			// Draw on a buffered image to prevent antialiasing
+			BufferedImage buff = ImageModification.createBlankBufferedImage(width,
+					height);
+			Graphics2D g2 = buff.createGraphics();
+
+			// Draw the image
+			g2.drawImage(newImage, 0, 0, width - 1, height - 1, null);
+
+			// Dispose of the new graphics object
+			g2.dispose();
+
+			// Draw the buffer to the screen
+			g.drawImage(buff, (int) (playerCenter.x - width / 2.0),
+					(int) (playerCenter.y - height / 2.0), width, height, null);
+		}
 	}
 
 	public static DoubleReturn<BufferedImage, Integer> getChatMessagesImage(int width, int height,
@@ -211,10 +221,10 @@ public class GameUIHelper {
 		gBuff.dispose();
 
 		DoubleReturn<BufferedImage, Integer> br = new DoubleReturn<BufferedImage, Integer>();
-		
+
 		br.a = buff;
 		br.b = Math.max(offset + totalYTrans - buff.getHeight() + 14,0)/*totalYTrans - buff.getHeight(),0)*/;
-		
+
 		return br;
 	}
 }

@@ -11,7 +11,6 @@ import org.amityregion5.qxrz.server.world.vector2d.Vector2D;
 public class ProjectileEntity extends GameEntity
 {
 	private Bullet gameModel;
-	private String asset = "weapons/revolver"; // TODO: change this pls pls pls
 	public static int projsize = 100; // depending on specific projectile?
 
 	public ProjectileEntity(Vector2D p, Vector2D v, Bullet b)
@@ -30,12 +29,12 @@ public class ProjectileEntity extends GameEntity
 
 	public boolean update(double tSinceUpdate, World w)
 	{
-		PlayerEntity e = checkPlayerCollisions(vel.multiply(tSinceUpdate), w);
+		PlayerEntity e = checkPlayerCollisions(vel.multiply(tSinceUpdate), w, gameModel.getFriendlyFirePlayer());
 		if(e==null)
 			return super.update(tSinceUpdate, w);
 		System.out.println("ProjectileEntity #" + getId() + " collided with Entity #" + e.getId());
-		super.update(tSinceUpdate, w);
-		return ((PlayerEntity)e).getGameModel().damaged(gameModel);
+		boolean ret = super.update(tSinceUpdate, w);
+		return ((PlayerEntity)e).getGameModel().damaged(gameModel) || ret;
 	}
 	
 	@Override
@@ -46,6 +45,15 @@ public class ProjectileEntity extends GameEntity
 
 	@Override
 	public NetworkDrawableEntity getNDE() {
+		String asset = "projectiles/bullet";
+		if(gameModel.getType().equals("ro"))
+		{
+			asset = "projectiles/rocket";
+		}
+		if(gameModel.getType().equals("bo"))
+		{
+			asset = "projectiles/arrow";
+		}
 		return new NetworkDrawableEntity(new NetworkDrawableObject[] {new NetworkDrawableObject(asset, getHitbox().getAABB())}, getHitbox().getAABB());
 	}
 }

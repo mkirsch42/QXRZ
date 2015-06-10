@@ -1,6 +1,5 @@
 package org.amityregion5.qxrz.server.world;
 
-import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.Rectangle;
 import java.util.ArrayList;
@@ -144,14 +143,14 @@ public class World
 				continue;
 			}
 			PlayerEntity e = (PlayerEntity)ge;
-			if(shapeHitbox.intersects(e.getHitbox()) && id!=e.getId())
+			if(shapeHitbox.intersects(e.getHitbox()) && id!=e.getGameModel().getId())
 			{
 				return e;
 			}
 		}
 		return null;
 	}
-	/*public void win(GameModes g) 
+	public void win(GameModes g) 
 	{
 		ArrayList<Player> pl = new ArrayList<Player>(); //arraylist of all players
 		for (GameEntity e : entities)
@@ -159,49 +158,13 @@ public class World
 			if (e instanceof PlayerEntity)
 				pl.add(((PlayerEntity) e).getGameModel());
 		}
-		if (g.teams)
+		if (g.hasTeams) //players and teams
 			winPlayer(pl, g.id);
 		else 
 			winTeam(pl, g.id);
 	}
 	public Player winPlayer(ArrayList<Player> pls, int gid)
 	{
-		switch (gid)
-		{
-		/*last man standing*
-		case 1:		int co = 0;
-					Player w = null;
-					for (Player p : pls)
-					{
-						if (!(p.dead()))
-						{
-							co++;
-							w = p;
-						}
-					}
-					if (co==1)
-						return w;
-					else {return null;}
-		/*endless	i figure it's implemented when the game is ended manually*
-		case 2:		Player win = pls.get(0);
-					for (Player p: pls)
-					{
-						if (p.getScore() > win.getScore())
-							win = p; 
-					}
-					return win;
-		/*will we have capture the flag?*
-		}
-		return null;
-	}
-	public Team winTeam(ArrayList<Player> pls, int gid)
-	{
-		Team t1 = g.getTeams().get(0);
-		Team t2 = g.getTeams().get(0);
-		for (Player p:pls)
-		{
-			
-		}
 		switch (gid)
 		{
 		//last man standing
@@ -218,7 +181,7 @@ public class World
 					if (co==1)
 						return w;
 					else {return null;}
-		//endless
+		//endless (highest score)	i figure it's implemented when the game is ended manually
 		case 2:		Player win = pls.get(0);
 					for (Player p: pls)
 					{
@@ -228,18 +191,84 @@ public class World
 					return win;
 		}
 		return null;
-	}*/
+	}
+	public Team winTeam(ArrayList<Player> pls, int gid)
+	{
+		ArrayList<Player> t0 = new ArrayList<Player>();
+		ArrayList<Player> t1 = new ArrayList<Player>();
+		//assuming a limit of two teams
+		for (Player p:pls)
+		{
+			if (p.getTeam().equals(g.getTeams().get(0)))
+				t0.add(p);
+			else if (p.getTeam().equals(g.getTeams().get(1)))
+				t1.add(p);
+		}
+		switch (gid)
+		{
+		//last man standing
+		case 1:		boolean[] alldead = {true, true};
+					for (Player p: t0)
+					{
+						if (!p.dead())
+							alldead[0] = false;
+					}
+					for (Player p: t1)
+					{
+						if (!p.dead())
+							alldead[1] = false;
+					}
+					if (alldead[0]==alldead[1])
+						return null; //null for tie
+					else if (!alldead[0] && alldead[1])
+						return t0.get(0).getTeam();
+					else if (alldead[0] && !alldead[1])
+						return t1.get(0).getTeam();
+					
+		//endless
+		case 2:		int[] sumscore = new int[2];
+					for (Player p: t0)
+					{
+						sumscore[0] += p.getScore();
+					}
+					for (Player p: t1)
+					{
+						sumscore[1] += p.getScore();
+					}
+					if (sumscore[0]==sumscore[1])
+						return null; //tie
+					else if (sumscore[0] > sumscore[1])
+						return t0.get(0).getTeam();
+					else if (sumscore[0] < sumscore[1])
+						return t1.get(0).getTeam();
+		}
+		return null;
+	}
 
+	public Rectangle getBounds()
+	{
+		return bounds;
+	}
+	
 	public void drop()
 	{
 		Pickup p = null;
 		Random r = new Random();
 		do
 		{
-			WeaponTypes w = WeaponTypes.values()[r.nextInt(WeaponTypes.values().length)];
-			int maxammo = w.clips * w.cmaxammo;
-			p = new Pickup(w.text, r.nextInt(maxammo/2)+maxammo/2, r.nextInt((int)bounds.getWidth())+(int)bounds.getMinX(),
-					r.nextInt((int)bounds.getHeight())+(int)bounds.getMinY(), -1);
+			int i = r.nextInt(WeaponTypes.values().length+1)-1;
+			if(i==-1)
+			{
+				p = new Pickup(r.nextInt(25), r.nextInt((int)bounds.getWidth())+(int)bounds.getMinX(),
+						r.nextInt((int)bounds.getHeight())+(int)bounds.getMinY(), -1);
+			}
+			else
+			{
+				WeaponTypes w = WeaponTypes.values()[i];
+				int maxammo = w.clips * w.cmaxammo;
+				p = new Pickup(w.text, r.nextInt(maxammo/2)+maxammo/2, r.nextInt((int)bounds.getWidth())+(int)bounds.getMinX(),
+						r.nextInt((int)bounds.getHeight())+(int)bounds.getMinY(), -1);
+			}
 			p.setOnePickup();
 		} while (checkEntityCollisions(p.getEntity().getHitbox(), p.getEntity().getId())!=null || l.checkCollisions(p.getEntity().getHitbox())!=null);
 		System.out.println("new pickup at " + p.getEntity().getPos());

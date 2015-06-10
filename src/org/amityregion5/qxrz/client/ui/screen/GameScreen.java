@@ -75,9 +75,15 @@ public class GameScreen extends AbstractScreen {
 				GameUIHelper.draw(g, o.getNDE(), vp, windowData);
 			}
 
-			for (NetworkDrawableEntity nde : gui.getNetworkDrawablePacket().getDrawables()) {
-				GameUIHelper.draw(g, nde, vp, windowData);
+			for(int i=0;i<gui.getNetworkDrawablePacket().getDrawables().size();i++)
+			{
+				if(i!=gui.getNetworkDrawablePacket().getClientIndex())
+				{
+					GameUIHelper.draw(g, gui.getNetworkDrawablePacket().getDrawables().get(i), vp, windowData);
+				}
 			}
+			
+			GameUIHelper.draw(g, gui.getNetworkDrawablePacket().getClientObject(), vp, windowData);
 		}
 
 		DoubleReturn<BufferedImage, Integer> chat = GameUIHelper.getChatMessagesImage(windowData.getWidth()/2 - 20, windowData.getHeight() - 200, gui, Color.BLACK, Color.RED, 12f, (isChatOpen ? -1 : 10000), scrollOffset);
@@ -145,7 +151,8 @@ public class GameScreen extends AbstractScreen {
 			g.fillRect(20, windowData.getHeight()-88, windowData.getWidth()/2-40, 16);
 
 			g.setColor(Color.BLACK);
-			GuiUtil.drawString(g, text , CenterMode.LEFT, 20, windowData.getHeight() - 80);
+			g.setFont(g.getFont().deriveFont(14f));
+			GuiUtil.drawString(g, text , CenterMode.LEFT, 20 + 5, windowData.getHeight() - 80);
 
 			if (cursorVisible) {
 				Rectangle b = GuiMath.getStringBounds(g, text, 0, 0);
@@ -172,12 +179,14 @@ public class GameScreen extends AbstractScreen {
 			nid.set(NetworkInputMasks.S, windowData.getKeysDown().stream().anyMatch((k)->k.getKeyCode()==KeyEvent.VK_S));
 			nid.set(NetworkInputMasks.D, windowData.getKeysDown().stream().anyMatch((k)->k.getKeyCode()==KeyEvent.VK_D));
 			nid.set(NetworkInputMasks.E, windowData.getKeysDown().stream().anyMatch((k)->k.getKeyCode()==KeyEvent.VK_E));
+			nid.set(NetworkInputMasks.Q, windowData.getKeysDown().stream().anyMatch((k)->k.getKeyCode()==KeyEvent.VK_Q));
 			if (nid.get(NetworkInputMasks.W) || nid.get(NetworkInputMasks.A) || nid.get(NetworkInputMasks.S) || nid.get(NetworkInputMasks.D)) {
 				AudioHelper.play(AssetManager.getAudioAssets("footstep")[0], true);
 			} else {
 				AudioHelper.stop(AssetManager.getAudioAssets("footstep")[0]);
 			}
 			nid.set(NetworkInputMasks.M1, windowData.getMiceDown().contains(MouseEvent.BUTTON1));
+			nid.set(NetworkInputMasks.M2, windowData.getMiceDown().contains(MouseEvent.BUTTON3));
 			nid.set(NetworkInputMasks.R, windowData.getKeysDown().stream().anyMatch((k)->k.getKeyCode()==KeyEvent.VK_R));
 			nid.set(NetworkInputMasks.SPACE, windowData.getKeysDown().stream().anyMatch((k)->k.getKeyCode()==KeyEvent.VK_SPACE));
 			nid.set(NetworkInputMasks.COMMA, windowData.getKeysDown().stream().anyMatch((k)->k.getKeyCode()==KeyEvent.VK_COMMA));
