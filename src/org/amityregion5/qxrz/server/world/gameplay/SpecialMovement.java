@@ -1,10 +1,8 @@
 package org.amityregion5.qxrz.server.world.gameplay;
 
 import org.amityregion5.qxrz.server.world.Landscape;
-import org.amityregion5.qxrz.server.world.Obstacle;
 import org.amityregion5.qxrz.server.world.World;
 import org.amityregion5.qxrz.server.world.entity.PlayerEntity;
-import org.amityregion5.qxrz.server.world.vector2d.Vector2D;
 
 public class SpecialMovement {
 	private String type;

@@ -15,11 +15,12 @@ import java.awt.event.MouseWheelListener;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 import java.util.List;
+
 import javax.swing.JPanel;
+
 import org.amityregion5.qxrz.client.ui.screen.WindowData;
 import org.amityregion5.qxrz.client.ui.util.GuiUtil;
 import org.amityregion5.qxrz.client.ui.util.ImageModification;
-import org.amityregion5.qxrz.common.audio.AudioHelper;
 
 public class MainPanel extends JPanel implements MouseListener, MouseMotionListener, KeyListener, MouseWheelListener
 {
