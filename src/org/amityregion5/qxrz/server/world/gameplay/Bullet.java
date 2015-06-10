@@ -8,6 +8,7 @@ public class Bullet {
 	private String type;
 	private int damage;
 	private ProjectileEntity entity;
+	private PlayerEntity source; //tracking score
 	private int teamId = -1;
 	private int sourceId = -1;
 	private int speed;
@@ -79,5 +80,8 @@ public class Bullet {
 	{
 		return speed;
 	}
-	
+	public PlayerEntity getSource()
+	{
+		return source;
+	}
 }

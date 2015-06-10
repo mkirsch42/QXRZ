@@ -105,20 +105,6 @@ public class Weapon {
 		reserve-=cmaxammo-ccamount;
 		ccamount = cmaxammo;
 		return true;
-		/*if (ccamount==0)
-		{
-			if (cleft != 0)
-			{
-				ccamount = cmaxammo;
-				cleft--;
-			}
-		}
-		else //still ammo left in clip
-		{
-			reserve = ccamount;
-			ccamount += cmaxammo-ccamount; //clip fills up
-			cleft--;
-		}*/
 	}
 	public int getDamage()
 	{
