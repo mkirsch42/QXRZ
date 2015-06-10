@@ -4,7 +4,6 @@ import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 import javax.swing.JFrame;
@@ -27,7 +26,7 @@ public class MainGui
 	private boolean setFrameInvisible = true;
 	private MainPanel panel;
 	// The previous few FPS values
-	private double[] fps;
+	private int fps;
 	// The current screen
 	private IScreen currentScreen;
 	// The time since the last repaint
@@ -55,9 +54,6 @@ public class MainGui
 
 		this.queryInfo = new ArrayList<AbstractNetworkNode>();
 		this.messages = new ArrayList<ChatMessage>();
-
-		// Store 10 fps values
-		fps = new double[10];
 
 		// Create the frame
 		frame = new JFrame("QXRZ");
@@ -111,6 +107,7 @@ public class MainGui
 						int fps = 0;
 						@SuppressWarnings("unused")
 						int update = 0;
+						//int update = 0;
 						long fpsTimer = System.currentTimeMillis();
 						int targetFPS = 60;
 						double nsPerUpdate = 1000000000.0 / targetFPS;
@@ -128,7 +125,7 @@ public class MainGui
 							// update
 							while (unprocessed >= 1)
 							{
-								update++;
+								//update++;
 //								update();
 								unprocessed--;
 								shouldRender = true;
@@ -161,7 +158,7 @@ public class MainGui
 								
 								
 								fps = 0;
-								update = 0;
+								//update = 0;
 								fpsTimer = System.currentTimeMillis();
 							}
 						}						System.out.println("MainGui.show()");
@@ -214,10 +211,10 @@ public class MainGui
 	/**
 	 * @return the fps
 	 */
-	public double getFps()
+	public int getFps()
 	{
 		// Get the average of the FPS values
-		return Arrays.stream(fps).average().orElse(0);
+		return fps;
 	}
 
 	/**

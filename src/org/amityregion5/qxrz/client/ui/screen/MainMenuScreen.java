@@ -28,11 +28,11 @@ public class MainMenuScreen extends AbstractScreen
 		//Debug/Single player mode
 		/*
 		elements.add(new ElementRectangle(
-				(w)->{return new Point(100, 200);},
+				(w)->{return new Point(100, 300);},
 				(w)->{return new Point(w.getWidth()/2-100, 50);},
-				Color.DARK_GRAY, Color.WHITE, -20f, Color.WHITE, "Debug game",
-				(w)->gui.setCurrentScreen(new GameScreen(this, gui, new Game()))));*/
-
+				Color.DARK_GRAY, Color.WHITE, -20f, Color.WHITE, "Tutorial",
+				(w)->gui.setCurrentScreen(new TutorialScreen(this, gui))));
+				*/
 		elements.add(new ElementRectangle(
 				(w)->{return new Point(100, 200);},
 				(w)->{return new Point(w.getWidth()-200, 50);},
