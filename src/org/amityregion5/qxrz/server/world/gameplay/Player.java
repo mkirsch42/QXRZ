@@ -177,33 +177,24 @@ public class Player {
 		}
 		if (guns[equipped].shoot())
 		{
-			Bullet b = new Bullet(entity.getPos(), v, guns[equipped]);
-			if(team != null)
-				b.setFriendlyFireTeam(team);
-			b.setFriendlyFirePlayer(this);
-			b.setSource(entity);
-			w.add(b.getEntity());
 			if(getEquipped().getType().equals(WeaponTypes.SHOTGUN.text))
 			{
-				shotgunShoot(v);
+				SpecialWeapons.shotgun(w, this, v);
+			}
+			else if(getEquipped().getType().equals(WeaponTypes.FIREGUN.text))
+			{
+				
+			}
+			else
+			{
+				Bullet b = new Bullet(entity.getPos(), v, guns[equipped]);
+				if(team != null)
+					b.setFriendlyFireTeam(team);
+				b.setFriendlyFirePlayer(this);
+				b.setSource(entity);
+				w.add(b.getEntity());
 			}
 		}
-	}
-	public void shotgunShoot(Vector2D v)
-	{
-		Bullet b = new Bullet(entity.getPos(), new Vector2D(v.angle()+0.5).multiply(v.length()), guns[equipped]);
-		if(team != null)
-			b.setFriendlyFireTeam(team);
-		b.setFriendlyFirePlayer(this);
-		b.setSource(entity);
-		w.add(b.getEntity());
-		
-		b = new Bullet(entity.getPos(), new Vector2D(v.angle()-0.5).multiply(v.length()), guns[equipped]);
-		if(team != null)
-			b.setFriendlyFireTeam(team);
-		b.setFriendlyFirePlayer(this);
-		b.setSource(entity);
-		w.add(b.getEntity());
 	}
 	public void useHealthpack() //increase health by using health pack
 	{
