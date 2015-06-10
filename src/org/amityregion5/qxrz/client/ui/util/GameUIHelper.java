@@ -119,10 +119,7 @@ public class GameUIHelper {
 					playerTL.y + pH / 2);
 
 			BufferedImage before = ImageModification.squarifyImage(asset.getImage(gui.getFrameID()));
-			BufferedImage newImage = before/*
-			 * ImageModification.rotateImage(before,
-			 * Math.toRadians(deg++))
-			 */;
+			BufferedImage newImage = ImageModification.rotateImage(before,ndo.getTheta());
 
 			int width = (int) (pW * newImage.getWidth() / before.getWidth());
 			int height = (int) (pH * newImage.getHeight() / before.getHeight());
