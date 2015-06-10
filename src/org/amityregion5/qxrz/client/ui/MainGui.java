@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 import javax.swing.WindowConstants;
 
 import org.amityregion5.qxrz.client.net.ClientNetworkManager;
@@ -30,7 +31,7 @@ public class MainGui
 	// The current screen
 	private IScreen currentScreen;
 	// The time since the last repaint
-//	private long lastRepaint;
+	// private long lastRepaint;
 	private List<AbstractNetworkNode> queryInfo;
 	private List<ChatMessage> messages;
 	private NetworkDrawablePacket ndp;
@@ -92,77 +93,76 @@ public class MainGui
 		if (!frame.isVisible())
 		{
 			// Set the last repaint value
-//			lastRepaint = System.currentTimeMillis();
+			// lastRepaint = System.currentTimeMillis();
 
 			// Set the frame as visible
 			frame.setVisible(true);
 
 			// Start a new thread which contains the repaint method (Render
 			// loop)
-			renderThread = new Thread(
-					() ->
+			renderThread = new Thread(() ->
+			{
+				// Stopping condition: when the frame is hidden
+					@SuppressWarnings("unused")
+					int fps = 0;
+					@SuppressWarnings("unused")
+					int update = 0;
+					// int update = 0;
+					long fpsTimer = System.currentTimeMillis();
+					int targetFPS = 60;
+					double nsPerUpdate = 1000000000.0 / targetFPS;
+					// last update
+
+					double then = System.nanoTime();
+					double unprocessed = 0;
+					boolean shouldRender = false;
+
+					while (frame.isVisible())
 					{
-						// Stopping condition: when the frame is hidden
-						@SuppressWarnings("unused")
-						int fps = 0;
-						@SuppressWarnings("unused")
-						int update = 0;
-						//int update = 0;
-						long fpsTimer = System.currentTimeMillis();
-						int targetFPS = 60;
-						double nsPerUpdate = 1000000000.0 / targetFPS;
-						// last update
-
-						double then = System.nanoTime();
-						double unprocessed = 0;
-						boolean shouldRender = false;
-
-						while (frame.isVisible())
+						double now = System.nanoTime();
+						unprocessed += (now - then) / nsPerUpdate;
+						then = now;
+						// update
+						while (unprocessed >= 1)
 						{
-							double now = System.nanoTime();
-							unprocessed += (now - then) / nsPerUpdate;
-							then = now;
-							// update
-							while (unprocessed >= 1)
-							{
-								//update++;
-//								update();
-								unprocessed--;
-								shouldRender = true;
-							}
+							// update++;
+							// update();
+							unprocessed--;
+							shouldRender = true;
+						}
 
-							if (shouldRender)
+						if (shouldRender)
+						{
+							fps++;
+							frame.repaint();
+							frameID++;
+							frameID %= 60;
+							shouldRender = false;
+						} else
+						{
+							try
 							{
-								fps++;
-								frame.repaint();
-								frameID++;
-								frameID%=60;
-								shouldRender = false;
-							} else
+								Thread.sleep(1);
+							} catch (InterruptedException e)
 							{
-								try
-								{
-									Thread.sleep(1);
-								} catch (InterruptedException e)
-								{
-									e.printStackTrace();
-								}
+								e.printStackTrace();
 							}
-							
-							if(System.currentTimeMillis() - fpsTimer > 1000)
-							{
-//								System.out.println("Update=" + update);
-//								System.out.println("FPS=" + fps);
-								
-								//put code for processing fps data here!!!!
-								
-								
-								fps = 0;
-								//update = 0;
-								fpsTimer = System.currentTimeMillis();
-							}
-						}						System.out.println("MainGui.show()");
-					}, "Gui Refresh Thread");
+						}
+
+						if (System.currentTimeMillis() - fpsTimer > 1000)
+						{
+							// System.out.println("Update=" + update);
+							// System.out.println("FPS=" + fps);
+
+							// put code for processing fps data here!!!!
+
+							fps = 0;
+							// update = 0;
+							fpsTimer = System.currentTimeMillis();
+						}
+					}
+					System.out.println("MainGui.show()");
+				}, "Gui Refresh Thread");
 			renderThread.start();
 		}
 	}
@@ -268,8 +268,10 @@ public class MainGui
 				} else if (payload instanceof NetworkDrawablePacket)
 				{
 					ndp = (NetworkDrawablePacket) payload;
-				} else if (payload instanceof Goodbye) {
+				} else if (payload instanceof Goodbye)
+				{
 					System.err.println("YOU HAVE BEEN KICKED");
+					JOptionPane.showMessageDialog(null, "YOU HAVE BEEN KICKED");
 					System.exit(0);
 				}
 			}
@@ -316,8 +318,9 @@ public class MainGui
 	{
 		getNetworkManger().setUsername(username);
 	}
-	
-	public int getFrameID(){
+
+	public int getFrameID()
+	{
 		return frameID;
 	}
 }
