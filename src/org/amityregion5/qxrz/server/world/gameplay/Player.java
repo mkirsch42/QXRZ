@@ -177,25 +177,33 @@ public class Player {
 		}
 		if (guns[equipped].shoot())
 		{
-			/*int len = entity.PLAYER_SIZE/2 + ProjectileEntity.projsize/2;
-			Vector2D normVel = new Vector2D(v.snap().angle()).multiply(len).snap();
-			Vector2D pos;
-			if(normVel.getX()==0)
-			{
-				pos = entity.getPos().add(new Vector2D(v.angle()).multiply(1+Math.abs(len/Math.sin(v.angle()))).multiply(0.5));
-			}
-			else
-			{
-				pos = entity.getPos().add(new Vector2D(v.angle()).multiply(1+Math.abs(len/Math.cos(v.angle()))).multiply(0.5));
-			}*/
-			
 			Bullet b = new Bullet(entity.getPos(), v, guns[equipped]);
 			if(team != null)
 				b.setFriendlyFireTeam(team);
 			b.setFriendlyFirePlayer(this);
 			b.setSource(entity);
 			w.add(b.getEntity());
+			if(getEquipped().getType().equals(WeaponTypes.SHOTGUN.text))
+			{
+				shotgunShoot(v);
+			}
 		}
+	}
+	public void shotgunShoot(Vector2D v)
+	{
+		Bullet b = new Bullet(entity.getPos(), new Vector2D(v.angle()+0.5).multiply(v.length()), guns[equipped]);
+		if(team != null)
+			b.setFriendlyFireTeam(team);
+		b.setFriendlyFirePlayer(this);
+		b.setSource(entity);
+		w.add(b.getEntity());
+		
+		b = new Bullet(entity.getPos(), new Vector2D(v.angle()-0.5).multiply(v.length()), guns[equipped]);
+		if(team != null)
+			b.setFriendlyFireTeam(team);
+		b.setFriendlyFirePlayer(this);
+		b.setSource(entity);
+		w.add(b.getEntity());
 	}
 	public void useHealthpack() //increase health by using health pack
 	{
