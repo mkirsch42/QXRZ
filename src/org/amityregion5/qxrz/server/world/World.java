@@ -14,10 +14,7 @@ import org.amityregion5.qxrz.server.world.entity.GameEntity;
 import org.amityregion5.qxrz.server.world.entity.Hitbox;
 import org.amityregion5.qxrz.server.world.entity.PlayerEntity;
 import org.amityregion5.qxrz.server.world.entity.ShapeHitbox;
-import org.amityregion5.qxrz.server.world.gameplay.GameModes;
 import org.amityregion5.qxrz.server.world.gameplay.Pickup;
-import org.amityregion5.qxrz.server.world.gameplay.Player;
-import org.amityregion5.qxrz.server.world.gameplay.Team;
 import org.amityregion5.qxrz.server.world.gameplay.WeaponTypes;
 
 public class World
@@ -147,100 +144,6 @@ public class World
 			{
 				return e;
 			}
-		}
-		return null;
-	}
-	public void win(GameModes g) 
-	{
-		ArrayList<Player> pl = new ArrayList<Player>(); //arraylist of all players
-		for (GameEntity e : entities)
-		{
-			if (e instanceof PlayerEntity)
-				pl.add(((PlayerEntity) e).getGameModel());
-		}
-		if (g.hasTeams) //players and teams
-			winPlayer(pl, g.id);
-		else 
-			winTeam(pl, g.id);
-	}
-	public Player winPlayer(ArrayList<Player> pls, int gid)
-	{
-		switch (gid)
-		{
-		//last man standing
-		case 1:		int co = 0;
-					Player w = null;
-					for (Player p : pls)
-					{
-						if (!(p.dead()))
-						{
-							co++;
-							w = p;
-						}
-					}
-					if (co==1)
-						return w;
-					else {return null;}
-		//endless (highest score)	i figure it's implemented when the game is ended manually
-		case 2:		Player win = pls.get(0);
-					for (Player p: pls)
-					{
-						if (p.getScore() > win.getScore())
-							win = p; 
-					}
-					return win;
-		}
-		return null;
-	}
-	public Team winTeam(ArrayList<Player> pls, int gid)
-	{
-		ArrayList<Player> t0 = new ArrayList<Player>();
-		ArrayList<Player> t1 = new ArrayList<Player>();
-		//assuming a limit of two teams
-		for (Player p:pls)
-		{
-			if (p.getTeam().equals(g.getTeams().get(0)))
-				t0.add(p);
-			else if (p.getTeam().equals(g.getTeams().get(1)))
-				t1.add(p);
-		}
-		switch (gid)
-		{
-		//last man standing
-		case 1:		boolean[] alldead = {true, true};
-					for (Player p: t0)
-					{
-						if (!p.dead())
-							alldead[0] = false;
-					}
-					for (Player p: t1)
-					{
-						if (!p.dead())
-							alldead[1] = false;
-					}
-					if (alldead[0]==alldead[1])
-						return null; //null for tie
-					else if (!alldead[0] && alldead[1])
-						return t0.get(0).getTeam();
-					else if (alldead[0] && !alldead[1])
-						return t1.get(0).getTeam();
-					
-		//endless
-		case 2:		int[] sumscore = new int[2];
-					for (Player p: t0)
-					{
-						sumscore[0] += p.getScore();
-					}
-					for (Player p: t1)
-					{
-						sumscore[1] += p.getScore();
-					}
-					if (sumscore[0]==sumscore[1])
-						return null; //tie
-					else if (sumscore[0] > sumscore[1])
-						return t0.get(0).getTeam();
-					else if (sumscore[0] < sumscore[1])
-						return t1.get(0).getTeam();
 		}
 		return null;
 	}

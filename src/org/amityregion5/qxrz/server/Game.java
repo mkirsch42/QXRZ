@@ -72,8 +72,10 @@ public class Game implements Runnable
 				int index = w.getEntities().indexOf(
 						players.get(node).getEntity());
 				ndp.setClientIndex(index);
-				int fps = 0;
-				int update = 0;
+				@SuppressWarnings("unused")
+					int fps = 0;
+				@SuppressWarnings("unused")
+					int update = 0;
 				long fpsTimer = System.currentTimeMillis();
 				double nsPerUpdate = 1000000000.0 / 60.0;
 

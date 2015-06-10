@@ -91,7 +91,6 @@ public class Player {
 		if (b.getEntity().getHitbox().intersects(entity.getHitbox()))
 		 health -= b.getDamage();
 		dead();
-		w.win(w.getGame().getGM());
 		return true;
 	}
 	public boolean hurtme(int dmg)
@@ -102,7 +101,6 @@ public class Player {
 		}
 		health -= dmg;
 		dead();
-		w.win(w.getGame().getGM());
 		return true;
 	}
 	
