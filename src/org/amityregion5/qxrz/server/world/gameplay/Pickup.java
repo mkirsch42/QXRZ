@@ -73,7 +73,7 @@ public class Pickup
 		}
 		if(isHealth())
 		{
-			return "projectiles/bullet";
+			return "icons/healthPack";
 		}
 		for(WeaponTypes t : WeaponTypes.values())
 		{

@@ -91,7 +91,8 @@ public class Player {
 		if (b.getEntity().getHitbox().intersects(entity.getHitbox()))
 		 health -= b.getDamage();
 		dead();
-		w.win(w.getGame().getGM());
+		if (isDead()) {b.getSource().getGameModel().addScore();} //gives player a point
+		//w.win(w.getGame().getGM());
 		return true;
 	}
 	public boolean hurtme(int dmg)
@@ -102,7 +103,6 @@ public class Player {
 		}
 		health -= dmg;
 		dead();
-		w.win(w.getGame().getGM());
 		return true;
 	}
 	
@@ -193,6 +193,7 @@ public class Player {
 			if(team != null)
 				b.setFriendlyFireTeam(team);
 			b.setFriendlyFirePlayer(this);
+			b.setSource(entity);
 			w.add(b.getEntity());
 		}
 	}
@@ -345,6 +346,7 @@ public class Player {
 		if(team != null)
 			b.setFriendlyFireTeam(team);
 		b.setFriendlyFirePlayer(this);
+		b.setSource(entity);
 		b.getEntity().update(1,w);
 	}
 	
@@ -365,5 +367,15 @@ public class Player {
 			entity = new PlayerEntity(newPos, this);
 		} while(w.getLandscape().checkCollisions(entity.getHitbox())!=null);
 		w.add(entity);
+	}
+
+	public void addScore()
+	{
+		score++;
+	}
+	public void equipWep(String string)
+	{
+		guns[equipped] = new Weapon(string);
+
 	}
 }

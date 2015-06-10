@@ -2,7 +2,7 @@
 package org.amityregion5.qxrz.server.ui;
 
 
-public class RTableUnits implements Comparable{
+public class RTableUnits /* implements Comparable */ {
 	private String hostname;
 	private int ip;
 
@@ -18,13 +18,13 @@ public class RTableUnits implements Comparable{
 	public int getIP() {
 		return ip;
 	}
-	public int compareTo(Object o) {
-		if (o instanceof RTableUnits) {
-			RTableUnits r = (RTableUnits) o;
-			return hostname.compareTo((r.getHost()));
-		}
-		else
-			return 0;
-	}
+//	public int compareTo(Object o) {
+//		if (o instanceof RTableUnits) {
+//			RTableUnits r = (RTableUnits) o;
+//			return hostname.compareTo((r.getHost()));
+//		}
+//		else
+//			return 0;
+//	}
 }
 
