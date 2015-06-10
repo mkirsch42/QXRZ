@@ -4,11 +4,13 @@ import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics2D;
 import java.awt.Rectangle;
+import java.awt.geom.AffineTransform;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 import java.util.stream.Collectors;
+
 import org.amityregion5.qxrz.client.ui.MainGui;
 import org.amityregion5.qxrz.client.ui.screen.WindowData;
 import org.amityregion5.qxrz.common.asset.AssetManager;
@@ -104,7 +106,7 @@ public class GameUIHelper {
 		
 		if (assets == null || assets.length == 0) {
 			drawAABB(g, ndo.getBox(), vp, d);
-			System.err.println("MISSING ASSETS: " + ndo.getAsset());
+			System.err.println("MISSING ASSET: " + ndo.getAsset());
 		} else {
 			ImageContainer asset = assets[0];
 			// Do math to determine positioning
@@ -115,29 +117,20 @@ public class GameUIHelper {
 			double pW = playerBR.x - playerTL.x;
 			double pH = playerBR.y - playerTL.y;
 
-			Point2D.Double playerCenter = new Point2D.Double(playerTL.x + pW / 2,
-					playerTL.y + pH / 2);
+			BufferedImage img = ImageModification.squarifyImage(asset.getImage(gui.getFrameID()));
 
-			BufferedImage before = ImageModification.squarifyImage(asset.getImage(gui.getFrameID()));
-			BufferedImage newImage = ImageModification.rotateImage(before,ndo.getTheta());
+			AffineTransform old = g.getTransform();
 
-			int width = (int) (pW * newImage.getWidth() / before.getWidth());
-			int height = (int) (pH * newImage.getHeight() / before.getHeight());
-
-			// Draw on a buffered image to prevent antialiasing
-			BufferedImage buff = ImageModification.createBlankBufferedImage(width,
-					height);
-			Graphics2D g2 = buff.createGraphics();
-
-			// Draw the image
-			g2.drawImage(newImage, 0, 0, width - 1, height - 1, null);
-
-			// Dispose of the new graphics object
-			g2.dispose();
+			AffineTransform at = new AffineTransform();
+			at.setToIdentity();
+			at.translate(playerTL.x, playerTL.y);
+			at.rotate(ndo.getTheta());
+			g.setTransform(at);
 
 			// Draw the buffer to the screen
-			g.drawImage(buff, (int) (playerCenter.x - width / 2.0),
-					(int) (playerCenter.y - height / 2.0), width, height, null);
+			g.drawImage(img, 0, 0, (int)Math.ceil(pW), (int)Math.ceil(pH), null);
+			
+			g.setTransform(old);
 		}
 	}
 
