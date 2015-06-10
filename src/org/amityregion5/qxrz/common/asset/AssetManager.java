@@ -53,6 +53,13 @@ public class AssetManager
 			audioAssets.put("test/BHT", getAudioClip(FileUtil.getURLOfResource(Main.class, "/audio/benny.wav")));
 			audioAssets.put("test/elevator", getAudioClip(FileUtil.getURLOfResource(Main.class, "/audio/elevator.wav")));
 			audioAssets.put("footstep", getAudioClip(FileUtil.getURLOfResource(Main.class, "/audio/footsteps.wav")));
+			audioAssets.put("arrow", getAudioClip(FileUtil.getURLOfResource(Main.class, "/audio/arrow.wav")));
+			audioAssets.put("explode", getAudioClip(FileUtil.getURLOfResource(Main.class, "/audio/explode.wav")));
+			audioAssets.put("flameloop", getAudioClip(FileUtil.getURLOfResource(Main.class, "/audio/flameloop.wav")));
+			audioAssets.put("revolvershot", getAudioClip(FileUtil.getURLOfResource(Main.class, "/audio/revolvershot.wav")));
+			audioAssets.put("rocket", getAudioClip(FileUtil.getURLOfResource(Main.class, "/audio/rocket.wav")));
+			audioAssets.put("shotgun", getAudioClip(FileUtil.getURLOfResource(Main.class, "/audio/shotgun.wav")));
+			audioAssets.put("weaponswitch", getAudioClip(FileUtil.getURLOfResource(Main.class, "/audio/weaponswitch.wav")));
 		}
 		catch (IOException | UnsupportedAudioFileException | LineUnavailableException e)
 		{
