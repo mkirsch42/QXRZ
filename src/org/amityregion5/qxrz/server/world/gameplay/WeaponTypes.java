@@ -6,7 +6,7 @@ public enum WeaponTypes {
     REVOLVER(	"ps", 	6, 		3, 	6, 	10,	30,	10,		5000,	false,	"weapons/revolver"),
     RIFLE(		"as", 	12,		3,	24, 9,	2,	7, 		5000,	false,	"weapons/rifle"),
     ARROWGUN(	"bo", 	1, 		6, 	5, 	1,	2,	100, 	5000,	false,	"weapons/bow"),
-    ROCKETGUN(	"ro", 	4, 		2, 	4, 	2,	3,	80, 	5000,	false,	"weapons/rocket");
+    ROCKETGUN(	"ro", 	4, 		2, 	4, 	2,	3,	80, 	5000,	false,	"weapons/launcher");
 
     public final String text;
     public final int cmaxammo;
