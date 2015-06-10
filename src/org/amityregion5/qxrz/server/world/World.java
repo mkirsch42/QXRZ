@@ -12,6 +12,7 @@ import org.amityregion5.qxrz.server.Game;
 import org.amityregion5.qxrz.server.net.ServerNetworkManager;
 import org.amityregion5.qxrz.server.world.entity.GameEntity;
 import org.amityregion5.qxrz.server.world.entity.Hitbox;
+import org.amityregion5.qxrz.server.world.entity.PickupEntity;
 import org.amityregion5.qxrz.server.world.entity.PlayerEntity;
 import org.amityregion5.qxrz.server.world.entity.ShapeHitbox;
 import org.amityregion5.qxrz.server.world.gameplay.Pickup;
@@ -153,8 +154,21 @@ public class World
 		return bounds;
 	}
 	
+	private int numPickups()
+	{
+		int count = 0;
+		for(GameEntity e : entities)
+		{
+			if(e instanceof PickupEntity)
+				count++;
+		}
+		return count;
+	}
+	
 	public void drop()
 	{
+		if(numPickups()>=15)
+			return;
 		Pickup p = null;
 		Random r = new Random();
 		do
