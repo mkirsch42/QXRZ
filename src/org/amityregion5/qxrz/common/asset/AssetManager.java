@@ -31,7 +31,7 @@ public class AssetManager
 			imageAssets.put("players/1/walk", new AnimatedImageContainer(new BufferedImage[] {
 					ImageIO.read(FileUtil.getURLOfResource(Main.class, "/players/step0.png")),
 					ImageIO.read(FileUtil.getURLOfResource(Main.class, "/players/step1.png"))
-			}, 150));
+			}, 8));
 			imageAssets.put("weapons/flamethrower", new ImageContainer(ImageIO.read(FileUtil.getURLOfResource(Main.class, "/weapons/flamethrower.png"))));
 			imageAssets.put("weapons/rifle", new ImageContainer(ImageIO.read(FileUtil.getURLOfResource(Main.class, "/weapons/ar.png"))));
 			imageAssets.put("weapons/bow", new ImageContainer(ImageIO.read(FileUtil.getURLOfResource(Main.class, "/weapons/bow.png"))));
@@ -43,6 +43,7 @@ public class AssetManager
 			imageAssets.put("projectiles/arrow", new ImageContainer(ImageIO.read(FileUtil.getURLOfResource(Main.class, "/projectiles/arrow.png"))));
 			imageAssets.put("projectiles/bullet", new ImageContainer(ImageIO.read(FileUtil.getURLOfResource(Main.class, "/projectiles/bullet.png"))));
 			imageAssets.put("projectiles/rocket", new ImageContainer(ImageIO.read(FileUtil.getURLOfResource(Main.class, "/projectiles/rocket.png"))));
+			imageAssets.put("icons/healthPack", new ImageContainer(ImageIO.read(FileUtil.getURLOfResource(Main.class, "/icons/health.png"))));
 		}
 		catch (IOException e)
 		{

@@ -17,7 +17,7 @@ public class AnimatedImageContainer extends ImageContainer
 	@Override
 	public void subUpdate(){
 		framesUntilChange++;
-		if (framesPerChange >= framesUntilChange) {
+		if (framesPerChange <= framesUntilChange) {
 			index++;
 			index%=images.length;
 			img = images[index];
