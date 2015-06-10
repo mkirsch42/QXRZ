@@ -6,7 +6,6 @@ import java.net.InetSocketAddress;
 import java.net.SocketAddress;
 import java.net.UnknownHostException;
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.logging.Logger;
 
 import org.amityregion5.qxrz.common.net.AbstractNetworkManager;

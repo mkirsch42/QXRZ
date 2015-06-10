@@ -124,6 +124,7 @@ public class Player {
 		//respawn code to add later
 		
 		dead = true;
+		w.say(name + " died");
 		respawn(!w.getGame().getGM().oneLife);
 		return true;
 	}
@@ -141,7 +142,6 @@ public class Player {
 		w.removeEntity(entity);
 		entity = new PlayerEntity(this);
 		w.add(entity);
-		w.say(name + " died");
 		guns[0] = new Weapon();
 		guns[1] = null;
 		equipped = 0;
@@ -177,24 +177,23 @@ public class Player {
 		}
 		if (guns[equipped].shoot())
 		{
-			/*int len = entity.PLAYER_SIZE/2 + ProjectileEntity.projsize/2;
-			Vector2D normVel = new Vector2D(v.snap().angle()).multiply(len).snap();
-			Vector2D pos;
-			if(normVel.getX()==0)
+			if(getEquipped().getType().equals(WeaponTypes.SHOTGUN.text))
 			{
-				pos = entity.getPos().add(new Vector2D(v.angle()).multiply(1+Math.abs(len/Math.sin(v.angle()))).multiply(0.5));
+				SpecialWeapons.shotgun(w, this, v);
+			}
+			else if(getEquipped().getType().equals(WeaponTypes.FIREGUN.text))
+			{
+				
 			}
 			else
 			{
-				pos = entity.getPos().add(new Vector2D(v.angle()).multiply(1+Math.abs(len/Math.cos(v.angle()))).multiply(0.5));
-			}*/
-			
-			Bullet b = new Bullet(entity.getPos(), v, guns[equipped]);
-			if(team != null)
-				b.setFriendlyFireTeam(team);
-			b.setFriendlyFirePlayer(this);
-			b.setSource(entity);
-			w.add(b.getEntity());
+				Bullet b = new Bullet(entity.getPos(), v, guns[equipped]);
+				if(team != null)
+					b.setFriendlyFireTeam(team);
+				b.setFriendlyFirePlayer(this);
+				b.setSource(entity);
+				w.add(b.getEntity());
+			}
 		}
 	}
 	public void useHealthpack() //increase health by using health pack

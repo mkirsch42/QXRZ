@@ -34,4 +34,16 @@ public enum WeaponTypes {
         this.asset = asset;
         this.auto = auto;
     }
+    
+    public static WeaponTypes getTypeFromString(String str)
+    {
+    	for(WeaponTypes w : values())
+    	{
+    		if(w.text.equals(str))
+    		{
+    			return w;
+    		}
+    	}
+    	return null;
+    }
 }

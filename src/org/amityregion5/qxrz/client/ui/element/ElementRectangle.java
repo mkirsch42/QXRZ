@@ -7,6 +7,7 @@ import java.awt.geom.Rectangle2D;
 import java.util.function.Consumer;
 import java.util.function.Function;
 import java.util.function.Supplier;
+
 import org.amityregion5.qxrz.client.ui.screen.WindowData;
 import org.amityregion5.qxrz.client.ui.util.CenterMode;
 import org.amityregion5.qxrz.client.ui.util.GuiUtil;

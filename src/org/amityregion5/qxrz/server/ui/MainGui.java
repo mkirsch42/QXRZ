@@ -54,7 +54,7 @@ public class MainGui
 		title.add(server);
 
 		table = new RTable();
-
+		scroll = new ScrollPane();
 		redraw();
 		// frame.add(gamedata);
 		frame.add(title);
@@ -71,24 +71,27 @@ public class MainGui
 			b.remove(i);
 			table.remove(i);
 
-			g.removePlayer(networkManager.removeClient(i));
+			//g.removePlayer(networkManager.removeClient(i));
 
-			frame.remove(scroll);
+			scroll.remove(i);
+			/*frame.remove(scroll);
 			JPanel panel = table.getPanel();
 			JPanel buttonPanel = new JPanel();
 			for (int i1 = 0; i1 < b.size(); i1++)
 				buttonPanel.add(b.get(i1));
 			panel.add(buttonPanel);
 			scroll = new ScrollPane();
+			scroll.setSize(300, 300);
+			scroll.setLocation(100, 100);
 			scroll.add(panel);
-			frame.add(scroll);
+			frame.add(scroll);*/
 		}
 
 	}
 
 	public void redraw()
 	{
-		// frame.remove(scroll);
+		frame.remove(scroll);
 		// table = new RTable();
 		ArrayList<NetworkNode> c = networkManager.getClients();
 
@@ -115,9 +118,10 @@ public class MainGui
 		panel.add(buttonPanel);
 		panel.setLocation(SwingConstants.CENTER, SwingConstants.CENTER);
 		scroll = new ScrollPane();
-		scroll.add(panel);
+
 		scroll.setSize(300, 300);
 		scroll.setLocation(100, 100);
+		scroll.add(buttonPanel);
 
 		frame.add(scroll);
 	}

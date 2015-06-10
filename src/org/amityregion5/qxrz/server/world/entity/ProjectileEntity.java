@@ -54,6 +54,6 @@ public class ProjectileEntity extends GameEntity
 		{
 			asset = "projectiles/arrow";
 		}
-		return new NetworkDrawableEntity(new NetworkDrawableObject[] {new NetworkDrawableObject(asset, getHitbox().getAABB())}, getHitbox().getAABB());
+		return new NetworkDrawableEntity(new NetworkDrawableObject[] {new NetworkDrawableObject(asset, getHitbox().getAABB()).rotate(vel.angle())}, getHitbox().getAABB());
 	}
 }
