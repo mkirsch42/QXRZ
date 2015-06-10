@@ -53,6 +53,11 @@ public class GameUIHelper {
 
 		// Draw the String
 		GuiUtil.drawString(g, nt, CenterMode.CENTER, (int)(pnt.x), (int)(pnt.y));
+
+		if(isItalicized)
+		{
+			g.setFont(g.getFont().deriveFont(Font.PLAIN));
+		}
 	}
 
 	private static void drawAABB(Graphics2D g, Rectangle2D box, Viewport vp,
