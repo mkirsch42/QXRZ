@@ -12,6 +12,7 @@ import java.util.stream.Collectors;
 import org.amityregion5.qxrz.client.ui.MainGui;
 import org.amityregion5.qxrz.client.ui.screen.WindowData;
 import org.amityregion5.qxrz.common.asset.AssetManager;
+import org.amityregion5.qxrz.common.asset.ImageContainer;
 import org.amityregion5.qxrz.common.net.ChatMessage;
 import org.amityregion5.qxrz.common.ui.NetworkDrawableEntity;
 import org.amityregion5.qxrz.common.ui.NetworkDrawableObject;
@@ -20,14 +21,14 @@ import org.amityregion5.qxrz.server.util.ColorUtil;
 
 public class GameUIHelper {
 	public static void draw(Graphics2D g, NetworkDrawableEntity nde,
-			Viewport vp, WindowData d) {
+			Viewport vp, WindowData d, MainGui gui) {
 		for (NetworkDrawableObject ndo : nde.getDrawables()) {
 			if (ndo.getAsset().equals("--AABB--")) {
 				drawAABB(g, ndo.getBox(), vp, d);
 			} else if (ndo.getAsset().startsWith("--LINE--")) {
 				drawLine(g, ndo.getBox(), vp, d, ColorUtil.stringToColor(ndo.getAsset().substring(8)));
 			} else {
-				drawAsset(g, ndo, vp, d);
+				drawAsset(g, ndo, vp, d, gui);
 			}
 		}
 		//drawAABB(g, nde.getBox(), vp, d);
@@ -97,14 +98,15 @@ public class GameUIHelper {
 	}
 
 	private static void drawAsset(Graphics2D g, NetworkDrawableObject ndo,
-			Viewport vp, WindowData d) {
+			Viewport vp, WindowData d, MainGui gui) {
 		// Squarify and rotate(temporary) the image
-		BufferedImage[] assets = AssetManager.getImageAssets(ndo.getAsset());
-
-		if (assets == null || assets.length <= 0) {
+		ImageContainer[] assets = AssetManager.getImageAssets(ndo.getAsset());
+		
+		if (assets == null || assets.length == 0) {
 			drawAABB(g, ndo.getBox(), vp, d);
-			System.err.println("ASSETS LENGTH IS 0.");
+			System.err.println("MISSING ASSETS: " + ndo.getAsset());
 		} else {
+			ImageContainer asset = assets[0];
 			// Do math to determine positioning
 			Point2D.Double playerTL = vp.gameToScreen(new Point2D.Double(ndo
 					.getBox().getX(), ndo.getBox().getY()), d);
@@ -116,7 +118,7 @@ public class GameUIHelper {
 			Point2D.Double playerCenter = new Point2D.Double(playerTL.x + pW / 2,
 					playerTL.y + pH / 2);
 
-			BufferedImage before = ImageModification.squarifyImage(assets[(int) ((System.currentTimeMillis()/150)%assets.length)]);
+			BufferedImage before = ImageModification.squarifyImage(asset.getImage(gui.getFrameID()));
 			BufferedImage newImage = before/*
 			 * ImageModification.rotateImage(before,
 			 * Math.toRadians(deg++))
