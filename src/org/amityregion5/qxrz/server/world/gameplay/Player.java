@@ -274,7 +274,6 @@ public class Player {
 	
 	public boolean pickup(Pickup p)
 	{
-		System.out.println(downs);
 		if(!p.canPickup())
 		{
 			return false;
