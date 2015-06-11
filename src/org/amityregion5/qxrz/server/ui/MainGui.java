@@ -67,8 +67,14 @@ public class MainGui
 //		
 //		mainPanel.add(listPanel);
 		
-		Object [][] data = new Object[][] {{"Name 1", "10.7.123.543", "Remove 1"}, {"Name 2", "20.4.5", "Remove2"}, {"Name 3", "30.43", "Remove3"}, {"Name 4", "40.85", "Remove4"}, {"Name 5", "50.34", "Remove5"}};
-		
+		Object [][] data; //= new Object[][] {{"Name 1", "10.7.123.543", "Remove1"}, {"Name 2", "20.4.5", "Remove2"}, {"Name 3", "30.43", "Remove3"}, {"Name 4", "40.85", "Remove4"}, {"Name 5", "50.34", "Remove5"}};
+		data = new Object[5][3];
+		for (int i = 0; i < 5; i++)
+		{data[i][0] = "Name " +i;
+		data[i][1] = i +"0.21";
+		data[i][2] = new Button("X");
+			
+		}
 		DefaultTableModel dm = new DefaultTableModel(data, new Object [] {"Name", "IP", "(Remove)"});
 		table = new JTable(dm);
 		
