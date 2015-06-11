@@ -25,6 +25,10 @@ import org.amityregion5.qxrz.server.util.ColorUtil;
 public class GameUIHelper {
 	public static void draw(Graphics2D g, NetworkDrawableEntity nde,
 			Viewport vp, WindowData d, MainGui gui) {
+		if(nde==null)
+		{
+			return;
+		}
 		for (NetworkDrawableObject ndo : nde.getDrawables()) {
 			if (ndo.getAsset().equals("--AABB--")) {
 				drawAABB(g, ndo.getBox(), vp, d);

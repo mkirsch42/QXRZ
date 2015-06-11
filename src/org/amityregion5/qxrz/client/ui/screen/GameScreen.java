@@ -212,6 +212,9 @@ public class GameScreen extends AbstractScreen {
 
 	private void drawHUD(Graphics2D g, WindowData windowData) {
 		
+		if (gui.getNetworkDrawablePacket() == null) {
+			return;
+		}
 		NetworkDrawablePlayer client = gui.getNetworkDrawablePacket().getClientObject();
 		if (client != null) {
 			int width = 300;
