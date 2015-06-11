@@ -55,7 +55,7 @@ public final class Main {
 					e.printStackTrace();
 				}
 				try {
-					gui.redraw();
+					//gui.redraw();
 				} catch (Exception e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
@@ -75,7 +75,7 @@ public final class Main {
 					g.removePlayer(c);
 					netManager.removeClient(c);
 					try {
-						gui.redraw();
+						//gui.redraw();
 					} catch (Exception e) {
 						// TODO Auto-generated catch block
 						e.printStackTrace();
@@ -159,7 +159,7 @@ public final class Main {
 
 		// new MainGui().show();
 
-		gui.show();
+		//gui.show();
 		g = new Game(netManager, GameModes.LASTMAN); // TODO game needs access to network, too...
 		// TODO server panel should show actual IP, not 0.0.0.0
 		if (DebugConstants.DEBUG_GUI) {
