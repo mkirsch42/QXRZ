@@ -44,6 +44,9 @@ public class AssetManager
 			imageAssets.put("projectiles/bullet", new ImageContainer(ImageIO.read(FileUtil.getURLOfResource(Main.class, "/projectiles/bullet.png"))));
 			imageAssets.put("projectiles/rocket", new ImageContainer(ImageIO.read(FileUtil.getURLOfResource(Main.class, "/projectiles/rocket.png"))));
 			imageAssets.put("icons/healthPack", new ImageContainer(ImageIO.read(FileUtil.getURLOfResource(Main.class, "/icons/health.png"))));
+			imageAssets.put("tutAnim", new AnimatedImageContainer(new BufferedImage[] {
+					null
+			}, 10*60));
 		}
 		catch (IOException e)
 		{

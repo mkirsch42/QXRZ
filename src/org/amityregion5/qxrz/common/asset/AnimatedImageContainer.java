@@ -18,10 +18,25 @@ public class AnimatedImageContainer extends ImageContainer
 	public void subUpdate(){
 		framesUntilChange++;
 		if (framesPerChange <= framesUntilChange) {
-			index++;
-			index%=images.length;
-			img = images[index];
-			framesUntilChange = 0;
+			setIndex(index + 1);
 		}
+	}
+	
+	public void setIndex(int index)
+	{
+		this.index = index;
+		index%=images.length;
+		img = images[index];
+		framesUntilChange = 0;
+	}
+	
+	public int getIndex()
+	{
+		return index;
+	}
+	
+	public int getFrames()
+	{
+		return images.length;
 	}
 }
