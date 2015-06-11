@@ -19,7 +19,7 @@ public class Weapon {
 	//constructors
 	public Weapon()
 	{
-		this("ps");
+		this("kn");
 	}
 	public Weapon(String pick)
 	{

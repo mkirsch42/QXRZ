@@ -14,7 +14,7 @@ public class Player {
 	private int id;
 	private int health;
 	private int speed;
-	private Weapon[] guns = new Weapon[2];
+	private Weapon[] guns = {new Weapon("ps"), new Weapon()};
 	private int equipped; //index for currently equipped weapon
 	private Upgrade pupgr; //player upgrade
 	private SpecialMovement pspecmove; //player special movement
@@ -142,8 +142,8 @@ public class Player {
 		w.removeEntity(entity);
 		entity = new PlayerEntity(this);
 		w.add(entity);
-		guns[0] = new Weapon();
-		guns[1] = null;
+		guns[0] = new Weapon("ps");
+		guns[1] = new Weapon();
 		equipped = 0;
 	}
 	public void setUpgrade(Upgrade u) //sets weapon upgrades from a given upgrade pickup
@@ -170,7 +170,7 @@ public class Player {
 	}
 	public void shoot(Vector2D v) //shoots currently equipped weapon and creates a respective bullet
 	{
-		if(guns[equipped]==null)
+		if(getEquipped().getType().equals(WeaponTypes.KNIFE.text))
 		{
 			stab(v);
 			return;
@@ -351,7 +351,7 @@ public class Player {
 	
 	public String getNT()
 	{
-		if(getEquipped()==null)
+		if(getEquipped().getType().equals(WeaponTypes.KNIFE.text))
 			return getName() + " (" + getHealth() + ")";
 		return getName() + " (" + getHealth() + " , " + getEquipped().getType() + ":" + getEquipped().getInClip() + "+" + getEquipped().getReserve() + ")";
 	}

@@ -57,8 +57,7 @@ public class PlayerEntity extends GameEntity
 			pos = pos.add(vel.multiply(tSinceUpdate*2));
 			return false;
 		}
-		if(parent.getEquipped()!=null)
-			parent.getEquipped().update();
+		parent.getEquipped().update();
 		//updateStackSize++;
 		boolean ret = super.update(tSinceUpdate, w);
 		//updateStackSize--;
