@@ -274,6 +274,10 @@ public class Player {
 	
 	public boolean pickup(Pickup p)
 	{
+		if(isDead())
+		{
+			return false;
+		}
 		if(!p.canPickup())
 		{
 			return false;
