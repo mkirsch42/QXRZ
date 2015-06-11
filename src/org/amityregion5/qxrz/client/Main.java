@@ -7,7 +7,6 @@ import org.amityregion5.qxrz.client.net.ClientNetworkManager;
 import org.amityregion5.qxrz.client.ui.MainGui;
 import org.amityregion5.qxrz.client.ui.screen.MainMenuScreen;
 import org.amityregion5.qxrz.common.asset.AssetManager;
-import org.amityregion5.qxrz.common.net.Goodbye;
 
 public class Main
 {
