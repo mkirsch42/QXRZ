@@ -20,7 +20,7 @@ import org.amityregion5.qxrz.server.net.ServerNetworkManager;
 public class MainGui
 {
 	private Font f = new Font("Sans Serif", Font.PLAIN, 32);
-
+	private  JTable table;
 	public static void main(String[] args) throws Exception
 	{
 		System.err
@@ -31,7 +31,6 @@ public class MainGui
 	private JFrame frame;
 	private ServerNetworkManager manager;
 	private List<Button> b;
-	private RTable table;
 	private Game g;
 
 	public MainGui(ServerNetworkManager _manager, Game g) throws Exception
@@ -59,8 +58,6 @@ public class MainGui
 		mainPanel.add(iplbl);
 		mainPanel.add(namelbl);
 		
-		table = new RTable();
-		
 //		//JPanel listPanel = table.getPanel();
 //		listPanel.setLayout(null);
 //		
@@ -70,8 +67,10 @@ public class MainGui
 //		
 //		mainPanel.add(listPanel);
 		
-		DefaultTableModel dm = new DefaultTableModel(new Object[] {"Username", "IP", "(Remove)"}, 5);
-		JTable table = new JTable(dm);
+		Object [][] data = new Object[][] {{"Name 1", "10.7.123.543", "Remove 1"}, {"Name 2", "20.4.5", "Remove2"}, {"Name 3", "30.43", "Remove3"}, {"Name 4", "40.85", "Remove4"}, {"Name 5", "50.34", "Remove5"}};
+		
+		DefaultTableModel dm = new DefaultTableModel(data, new Object [] {"Name", "IP", "(Remove)"});
+		table = new JTable(dm);
 		
 		JScrollPane scroll = new JScrollPane(table);
 		scroll.setLocation(10, 60);
