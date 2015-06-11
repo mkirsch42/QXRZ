@@ -17,7 +17,7 @@ public class Player {
 	private Weapon[] guns = {new Weapon("ps"), new Weapon()};
 	private int equipped; //index for currently equipped weapon
 	private Upgrade pupgr; //player upgrade
-	private SpecialMovement pspecmove; //player special movement
+	private SpecialMovement psmove; //player special movement
 	private PlayerEntity entity; //physics entity for player
 	private World w;
 	private String name;
@@ -204,18 +204,18 @@ public class Player {
 	}
 	public void setSpecMove(SpecialMovement sm)
 	{
-		pspecmove = sm;
+		psmove = sm;
 		
 	}
-	public void useSpecMove() //suggested buttons are f or e
+	public void useSpecMove() 
 	{
-		if (!(pspecmove.equals(null)))
+		if (!(psmove.equals(null)))
 		{
-			switch (pspecmove.getType())
+			switch (psmove.getType())
 			{
-			case "roll":	pspecmove.roll(entity);
-			case "tele":	pspecmove.teleport(entity);
-			case "dash":	pspecmove.dash(entity);
+			case "roll":	psmove.roll(entity, (int) System.currentTimeMillis());
+			case "tele":	psmove.teleport(entity, (int) System.currentTimeMillis());
+			case "dash":	psmove.dash(entity, (int) System.currentTimeMillis());
 			}
 		}
 		else {}
