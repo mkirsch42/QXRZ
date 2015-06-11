@@ -173,15 +173,15 @@ public class World
 		Random r = new Random();
 		do
 		{
-			int i = r.nextInt(WeaponTypes.values().length+1)-1;
-			if(i==-1)
+			int i = r.nextInt(WeaponTypes.values().length);
+			WeaponTypes w = WeaponTypes.values()[i];
+			if(w.equals(WeaponTypes.KNIFE))
 			{
 				p = new Pickup(r.nextInt(25), r.nextInt((int)bounds.getWidth())+(int)bounds.getMinX(),
 						r.nextInt((int)bounds.getHeight())+(int)bounds.getMinY(), -1);
 			}
 			else
 			{
-				WeaponTypes w = WeaponTypes.values()[i];
 				int maxammo = w.clips * w.cmaxammo;
 				p = new Pickup(w.text, r.nextInt(maxammo/2)+maxammo/2, r.nextInt((int)bounds.getWidth())+(int)bounds.getMinX(),
 						r.nextInt((int)bounds.getHeight())+(int)bounds.getMinY(), -1);
