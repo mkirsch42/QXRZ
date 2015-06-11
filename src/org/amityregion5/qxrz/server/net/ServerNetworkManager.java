@@ -196,4 +196,9 @@ public class ServerNetworkManager extends AbstractNetworkManager
 	{
 		return clients;
 	}
+	
+	public String getServerName()
+	{
+		return info.getName();
+	}
 }
