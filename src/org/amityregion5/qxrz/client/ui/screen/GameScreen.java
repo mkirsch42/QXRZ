@@ -213,33 +213,33 @@ public class GameScreen extends AbstractScreen {
 	private void drawHUD(Graphics2D g, WindowData windowData) {
 		
 		NetworkDrawablePlayer client = gui.getNetworkDrawablePacket().getClientObject();
-		
-		int width = 300;
-		int height = 200;
-		int x = windowData.getWidth() - width;
-		int y = windowData.getHeight() - height;
-		
-		g.setColor(Colors.TRANS_GRAY);
-		g.fillRect(x, y, width, height);
-		
-		g.setColor(Color.WHITE);
-		g.setFont(g.getFont().deriveFont(14F));
-		GuiUtil.drawString(g, gui.getUsername(), CenterMode.LEFT, x + 10, y + 10);
-		
-		g.setColor(Color.RED);
-		g.fillRect(x + 10, y + 10 + 8, 200, 25);
-		
-		g.setColor(Color.GREEN);
-		g.fillRect(x + 10, y + 10 + 8, (int)Math.round(200 * (double)client.getHealth()/client.getMaxHealth()), 25);
-		
-		g.setXORMode(Color.RED);
-		GuiUtil.drawString(g, client.getHealth() + "/" + client.getMaxHealth(), CenterMode.CENTER, x + 10 + 100, y + 10 + 9 + 25/2);
-		
-		g.setPaintMode();
-		g.setColor(Color.WHITE);
-		GuiUtil.drawString(g, client.getGun(), CenterMode.LEFT, x + 10, y + 10 + 14*3);
-		GuiUtil.drawString(g, client.getAmmo() + " + " + client.getTotalAmmo(), CenterMode.LEFT, x + 10, y + 10 + 14*4);
-		
+		if (client != null) {
+			int width = 300;
+			int height = 200;
+			int x = windowData.getWidth() - width;
+			int y = windowData.getHeight() - height;
+			
+			g.setColor(Colors.TRANS_GRAY);
+			g.fillRect(x, y, width, height);
+			
+			g.setColor(Color.WHITE);
+			g.setFont(g.getFont().deriveFont(14F));
+			GuiUtil.drawString(g, gui.getUsername(), CenterMode.LEFT, x + 10, y + 10);
+			
+			g.setColor(Color.RED);
+			g.fillRect(x + 10, y + 10 + 8, 200, 25);
+			
+			g.setColor(Color.GREEN);
+			g.fillRect(x + 10, y + 10 + 8, (int)Math.round(200 * (double)client.getHealth()/client.getMaxHealth()), 25);
+			
+			g.setXORMode(Color.RED);
+			GuiUtil.drawString(g, client.getHealth() + "/" + client.getMaxHealth(), CenterMode.CENTER, x + 10 + 100, y + 10 + 9 + 25/2);
+			
+			g.setPaintMode();
+			g.setColor(Color.WHITE);
+			GuiUtil.drawString(g, client.getGun(), CenterMode.LEFT, x + 10, y + 10 + 14*3);
+			GuiUtil.drawString(g, client.getAmmo() + " + " + client.getTotalAmmo(), CenterMode.LEFT, x + 10, y + 10 + 14*4);
+		}
 	}
 	
 	@Override

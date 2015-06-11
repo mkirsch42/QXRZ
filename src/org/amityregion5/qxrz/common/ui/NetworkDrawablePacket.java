@@ -35,7 +35,7 @@ public class NetworkDrawablePacket implements Serializable, Iterable<NetworkDraw
 	
 	public NetworkDrawablePlayer getClientObject()
 	{
-		return (NetworkDrawablePlayer)drawables.get(clientIndex);
+		return (drawables.get(clientIndex) instanceof NetworkDrawablePlayer ? (NetworkDrawablePlayer)drawables.get(clientIndex) : null);
 	}
 	
 	public int getClientIndex()
