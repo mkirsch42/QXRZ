@@ -3,7 +3,6 @@ package org.amityregion5.qxrz.client.ui.screen;
 import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.Point;
-
 import org.amityregion5.qxrz.client.ui.MainGui;
 import org.amityregion5.qxrz.client.ui.element.ElementRectangle;
 import org.amityregion5.qxrz.common.asset.AssetManager;
