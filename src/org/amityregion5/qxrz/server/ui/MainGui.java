@@ -9,6 +9,7 @@ import java.util.List;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.WindowConstants;
 import javax.swing.table.DefaultTableModel;
@@ -52,14 +53,8 @@ public class MainGui
 		
 		iplbl.setLocation(10, 30);
 		iplbl.setSize(frame.getWidth(), 15);
-
-		namelbl.setOpaque(true);
-		namelbl.setBackground(new Color(0, 255, 255));
 		
-		iplbl.setOpaque(true);
-		iplbl.setBackground(new Color(255, 255, 0));
-		
-		mainPanel.setBackground(new Color(255, 0, 0));
+		//mainPanel.setBackground(new Color(255, 0, 0));
 		
 		mainPanel.add(iplbl);
 		mainPanel.add(namelbl);
@@ -77,7 +72,12 @@ public class MainGui
 		
 		DefaultTableModel dm = new DefaultTableModel(new Object[] {"Username", "IP", "(Remove)"}, 5);
 		JTable table = new JTable(dm);
-		mainPanel.add(table);
+		
+		JScrollPane scroll = new JScrollPane(table);
+		scroll.setLocation(10, 60);
+		scroll.setSize(frame.getWidth() - 35, frame.getHeight() - 110);
+		
+		frame.add(scroll);
 		
 		frame.add(mainPanel);
 
