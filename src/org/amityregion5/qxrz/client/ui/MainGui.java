@@ -75,6 +75,7 @@ public class MainGui
 			public void windowClosing(WindowEvent e)
 			{
 				setFrameInvisible = false;
+				getNetworkManger().sendGoodbye();
 				System.exit(0);
 			}
 		});
@@ -103,10 +104,7 @@ public class MainGui
 			renderThread = new Thread(() ->
 			{
 				// Stopping condition: when the frame is hidden
-					@SuppressWarnings("unused")
-					int fps = 0;
-					@SuppressWarnings("unused")
-					int update = 0;
+					//int update = 0;
 					// int update = 0;
 					long fpsTimer = System.currentTimeMillis();
 					int targetFPS = 60;

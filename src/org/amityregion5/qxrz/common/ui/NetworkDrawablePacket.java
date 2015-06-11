@@ -33,9 +33,9 @@ public class NetworkDrawablePacket implements Serializable, Iterable<NetworkDraw
 		clientIndex = cid;
 	}
 	
-	public NetworkDrawableEntity getClientObject()
+	public NetworkDrawablePlayer getClientObject()
 	{
-		return drawables.get(clientIndex);
+		return (NetworkDrawablePlayer)drawables.get(clientIndex);
 	}
 	
 	public int getClientIndex()

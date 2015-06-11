@@ -14,9 +14,9 @@ public class Main
 	public static void main(String[] args) throws Exception
 	{
 		Logger.getGlobal().setLevel(Level.OFF);
-		
+
 		ClientNetworkManager manager = new ClientNetworkManager();
-		
+
 		MainGui gui = new MainGui(manager);
 
 		// Show the gui
@@ -26,26 +26,19 @@ public class Main
 		{
 			manager.start();
 			manager.broadcastQuery();
-			
+
 			gui.setNetworkManager(manager);
-			
+
 			// Called when the JRE closes
 			Runtime.getRuntime().addShutdownHook(new Thread(() ->
 			{
 				System.out.println("Start Shutdown Hook");
 				//Clean up gui stuff
 				gui.closeGame();
-				
-				//Send a disconnect notification packet to the server
-				manager.sendObject(new Goodbye());
-				
 
-					// Send a disconnect notification packet to the server
-					manager.sendObject(new Goodbye());
+				// manager.close();
+			}, "Shutdown Hook thread"));
 
-					// manager.close();
-				}, "Shutdown Hook thread"));
-			
 			AssetManager.loadAssets();
 		}
 

@@ -18,6 +18,7 @@ import org.amityregion5.qxrz.common.asset.ImageContainer;
 import org.amityregion5.qxrz.common.net.ChatMessage;
 import org.amityregion5.qxrz.common.ui.NetworkDrawableEntity;
 import org.amityregion5.qxrz.common.ui.NetworkDrawableObject;
+import org.amityregion5.qxrz.common.ui.NetworkDrawablePlayer;
 import org.amityregion5.qxrz.common.ui.Viewport;
 import org.amityregion5.qxrz.server.util.ColorUtil;
 
@@ -29,15 +30,20 @@ public class GameUIHelper {
 				drawAABB(g, ndo.getBox(), vp, d);
 			} else if (ndo.getAsset().startsWith("--LINE--")) {
 				drawLine(g, ndo.getBox(), vp, d, ColorUtil.stringToColor(ndo.getAsset().substring(8)));
+			} else if (ndo.getAsset().startsWith("--STRING--")) {
+				drawNT(g, ndo.getAsset().substring(10), 10F, Color.BLACK, false, ndo.getBox().getCenterX(), ndo.getBox().getMaxY() + 40, vp, d);
 			} else {
 				drawAsset(g, ndo, vp, d, gui);
 			}
 		}
-		//drawAABB(g, nde.getBox(), vp, d);
-		if(nde.getNametag()!="")
-		{
-			drawNT(g, nde.getNametag(), 10F, nde.getNTColor(), nde.isNTItalicized(), nde.getBox().getCenterX(), nde.getBox().getMaxY() + 40, vp, d);
+		if (nde instanceof NetworkDrawablePlayer) {
+			NetworkDrawablePlayer ndp = (NetworkDrawablePlayer)nde;
+			if(ndp.getNametag()!="")
+			{
+				drawNT(g, ndp.getNametag(), 10F, ndp.getNameColor(), ndp.isItalics(), nde.getBox().getCenterX(), nde.getBox().getMaxY() + 40, vp, d);
+			}
 		}
+		//drawAABB(g, nde.getBox(), vp, d);
 	}
 
 	private static void drawNT(Graphics2D g, String nt, float fontSize, Color ntColor, boolean isItalicized, double x, double y, Viewport vp,
@@ -123,12 +129,13 @@ public class GameUIHelper {
 
 			AffineTransform at = new AffineTransform();
 			at.setToIdentity();
-			at.translate(playerTL.x, playerTL.y);
+			at.translate(playerTL.x + pW/2, playerTL.y + pH/2);
 			at.rotate(ndo.getTheta());
+			at.scale(ndo.isFlipH() ? -1 : 1, ndo.isFlipV() ? -1 : 1);
 			g.setTransform(at);
 
 			// Draw the buffer to the screen
-			g.drawImage(img, 0, 0, (int)Math.ceil(pW), (int)Math.ceil(pH), null);
+			g.drawImage(img, -(int)pW/2, -(int)pH/2, (int)pW, (int)pH, null);
 			
 			g.setTransform(old);
 		}

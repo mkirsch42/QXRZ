@@ -1,6 +1,5 @@
 package org.amityregion5.qxrz.server.world.entity;
 
-import java.awt.Color;
 import java.awt.Rectangle;
 
 import org.amityregion5.qxrz.common.ui.NetworkDrawableEntity;
@@ -56,9 +55,12 @@ public class PickupEntity extends GameEntity
 	@Override
 	public NetworkDrawableEntity getNDE()
 	{
-		NetworkDrawableEntity nde = new NetworkDrawableEntity(new NetworkDrawableObject[] {new NetworkDrawableObject(parent.getAsset(), getHitbox().getAABB())}, getHitbox().getAABB());
-		if(parent.canPickup())
-			nde.setNametag(""+parent.getAmmoCount(), Color.BLACK);
+		NetworkDrawableObject pickup = new NetworkDrawableObject(parent.getAsset(), getHitbox().getAABB());
+		NetworkDrawableObject nametag = new NetworkDrawableObject("--STRING--" + parent.getAmmoCount(), getHitbox().getAABB());
+		
+		NetworkDrawableObject ndos[] = (parent.canPickup() ? new NetworkDrawableObject[] {pickup, nametag} : new NetworkDrawableObject[] {pickup});
+		
+		NetworkDrawableEntity nde = new NetworkDrawableEntity(ndos, getHitbox().getAABB());
 		return nde;
 	}
 

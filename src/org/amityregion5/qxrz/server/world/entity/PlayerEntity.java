@@ -7,6 +7,7 @@ import org.amityregion5.qxrz.common.control.NetworkInputData;
 import org.amityregion5.qxrz.common.control.NetworkInputMasks;
 import org.amityregion5.qxrz.common.ui.NetworkDrawableEntity;
 import org.amityregion5.qxrz.common.ui.NetworkDrawableObject;
+import org.amityregion5.qxrz.common.ui.NetworkDrawablePlayer;
 import org.amityregion5.qxrz.server.DebugConstants;
 import org.amityregion5.qxrz.server.Game;
 import org.amityregion5.qxrz.server.world.Landscape;
@@ -264,22 +265,35 @@ public class PlayerEntity extends GameEntity
 	
 	@Override
 	public NetworkDrawableEntity getNDE() {
-		NetworkDrawableObject ndo = new NetworkDrawableObject((vel.equals(new Vector2D()) ? standing : asset), getHitbox().getAABB());
-		if(parent.isFlipped())
-		{
-			ndo.flipH();
-		}
-		Rectangle2D r2d = getHitbox().getAABB();
-		NetworkDrawableObject gun = new NetworkDrawableObject(WeaponTypes.getTypeFromString(parent.getEquipped().getType()).asset, new Rectangle2D.Double(r2d.getCenterX(), r2d.getCenterY(), PLAYER_SIZE/2.0, PLAYER_SIZE/2.0)).rotate(parent.rotatedAngle());
-		NetworkDrawableEntity nde = new NetworkDrawableEntity(new NetworkDrawableObject[] {ndo, gun}, getHitbox().getAABB()).setNametag(parent.getNT(), parent.getColor());
-
-		
-		if(parent.getTeam()==null)
-			nde.setItalicized();
 		if(parent.isDead() && parent.getParent().getGame().getGM().oneLife)
 		{
-			nde = new NetworkDrawableEntity(new NetworkDrawableObject[]{},getHitbox().getAABB());
+			return new NetworkDrawableEntity(new NetworkDrawableObject[]{},getHitbox().getAABB());
 		}
-		return nde;
+		
+		NetworkDrawableObject playerNDO = new NetworkDrawableObject((vel.equals(new Vector2D()) ? standing : asset), getHitbox().getAABB());
+		if(parent.isFlipped())
+		{
+			playerNDO.flipH();
+		}
+		Rectangle2D r2d = getHitbox().getAABB();
+		NetworkDrawableObject gun = new NetworkDrawableObject(WeaponTypes.getTypeFromString(parent.getEquipped().getType()).asset, new Rectangle2D.Double(r2d.getCenterX() - PLAYER_SIZE/4.0, r2d.getCenterY() - PLAYER_SIZE/4.0, PLAYER_SIZE/2.0, PLAYER_SIZE/2.0)).rotate(parent.rotatedAngle());
+		double aRef = parent.rotatedAngle()%(Math.PI*2);
+		if (Math.abs(aRef) > Math.PI/2) {
+			gun.flipV();
+		}
+		NetworkDrawablePlayer player= new NetworkDrawablePlayer(new NetworkDrawableObject[] {playerNDO, gun}, getHitbox().getAABB());
+		player.setNametag(parent.getName());
+		player.setAmmo(parent.getEquipped().getInClip());
+		player.setGun(parent.getEquipped().getEnumType().fullName);
+		player.setTotalAmmo(parent.getEquipped().getReserve());
+		player.setHealth(parent.getHealth());
+		player.setMaxHealth(100); //TODO: REMOVE MAGIC NUMBER
+		
+		if(parent.getTeam()==null){
+			player.setItalics(true);
+		}else {
+			player.setNameColor(parent.getTeam().getColor());
+		}
+		return player;
 	}
 }

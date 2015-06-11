@@ -21,7 +21,9 @@ import org.amityregion5.qxrz.common.control.NetworkInputData;
 import org.amityregion5.qxrz.common.control.NetworkInputMasks;
 import org.amityregion5.qxrz.common.net.ChatMessage;
 import org.amityregion5.qxrz.common.ui.NetworkDrawableEntity;
+import org.amityregion5.qxrz.common.ui.NetworkDrawablePlayer;
 import org.amityregion5.qxrz.common.ui.Viewport;
+import org.amityregion5.qxrz.common.util.Colors;
 import org.amityregion5.qxrz.common.world.WorldManager;
 import org.amityregion5.qxrz.server.world.Obstacle;
 
@@ -61,9 +63,15 @@ public class GameScreen extends AbstractScreen {
 	@Override
 	protected void draw(Graphics2D g, WindowData windowData) {
 		//Fill the screen with white
+		GuiUtil.applyRenderingHints(g);
 		g.setColor(Color.WHITE);
 		g.fillRect(0,0, windowData.getWidth(), windowData.getHeight());
 
+		drawGame(g, windowData);
+		drawHUD(g, windowData);
+	}
+	
+	private void drawGame(Graphics2D g, WindowData windowData) {
 		if (gui.getNetworkDrawablePacket() != null) {
 			if (gui.getNetworkDrawablePacket().getClientIndex() != -1) {
 				NetworkDrawableEntity player = gui.getNetworkDrawablePacket().getDrawables().get(gui.getNetworkDrawablePacket().getClientIndex());
@@ -202,6 +210,38 @@ public class GameScreen extends AbstractScreen {
 		}
 	}
 
+	private void drawHUD(Graphics2D g, WindowData windowData) {
+		
+		NetworkDrawablePlayer client = gui.getNetworkDrawablePacket().getClientObject();
+		
+		int width = 300;
+		int height = 200;
+		int x = windowData.getWidth() - width;
+		int y = windowData.getHeight() - height;
+		
+		g.setColor(Colors.TRANS_GRAY);
+		g.fillRect(x, y, width, height);
+		
+		g.setColor(Color.WHITE);
+		g.setFont(g.getFont().deriveFont(14F));
+		GuiUtil.drawString(g, gui.getUsername(), CenterMode.LEFT, x + 10, y + 10);
+		
+		g.setColor(Color.RED);
+		g.fillRect(x + 10, y + 10 + 8, 200, 25);
+		
+		g.setColor(Color.GREEN);
+		g.fillRect(x + 10, y + 10 + 8, (int)Math.round(200 * (double)client.getHealth()/client.getMaxHealth()), 25);
+		
+		g.setXORMode(Color.RED);
+		GuiUtil.drawString(g, client.getHealth() + "/" + client.getMaxHealth(), CenterMode.CENTER, x + 10 + 100, y + 10 + 9 + 25/2);
+		
+		g.setPaintMode();
+		g.setColor(Color.WHITE);
+		GuiUtil.drawString(g, client.getGun(), CenterMode.LEFT, x + 10, y + 10 + 14*3);
+		GuiUtil.drawString(g, client.getAmmo() + " + " + client.getTotalAmmo(), CenterMode.LEFT, x + 10, y + 10 + 14*4);
+		
+	}
+	
 	@Override
 	protected void cleanup() {
 		gui.getNetworkManger().sendGoodbye();
