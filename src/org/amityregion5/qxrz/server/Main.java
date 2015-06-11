@@ -117,6 +117,7 @@ public final class Main {
 						}
 						if(msg.toLowerCase().startsWith("/ff"))
 						{
+							
 							String[] args = msg.substring(3).split(" ");
 							if(args.length==1)
 							{
