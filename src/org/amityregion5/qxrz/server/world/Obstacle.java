@@ -10,15 +10,17 @@ public class Obstacle implements Hitboxed
 {
 	
 	Hitbox hb;
+	private String assName;
 	
 	public Hitbox getHitbox()
 	{
 		return hb;
 	}
 	
-	public Obstacle(Hitbox h)
+	public Obstacle(Hitbox h, String assetName)
 	{
 		hb = h;
+		assName = assetName;
 	}
 
 	public Vector2D getCollidedNormal(Hitboxed h)
@@ -27,6 +29,6 @@ public class Obstacle implements Hitboxed
 	}
 	
 	public NetworkDrawableEntity getNDE() {
-		return new NetworkDrawableEntity(new NetworkDrawableObject[] {new NetworkDrawableObject("--AABB--", getHitbox().getAABB())}, getHitbox().getAABB());
+		return new NetworkDrawableEntity(new NetworkDrawableObject[] {new NetworkDrawableObject(assName, getHitbox().getAABB())}, getHitbox().getAABB());
 	}
 }

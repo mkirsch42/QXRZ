@@ -5,12 +5,11 @@ import java.awt.event.WindowEvent;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
-
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.WindowConstants;
-
 import org.amityregion5.qxrz.client.net.ClientNetworkManager;
+import org.amityregion5.qxrz.client.settings.Settings;
 import org.amityregion5.qxrz.client.ui.screen.IScreen;
 import org.amityregion5.qxrz.client.ui.screen.LoadingScreen;
 import org.amityregion5.qxrz.common.net.AbstractNetworkNode;
@@ -36,6 +35,7 @@ public class MainGui
 	private List<ChatMessage> messages;
 	private NetworkDrawablePacket ndp;
 	private int frameID;
+	private Settings settings;
 
 	private Thread renderThread;
 
@@ -320,5 +320,13 @@ public class MainGui
 	public int getFrameID()
 	{
 		return frameID;
+	}
+
+	public void setSettings(Settings settings)
+	{
+		this.settings = settings;
+	}
+	public Settings getSettings(){
+		return settings;
 	}
 }
