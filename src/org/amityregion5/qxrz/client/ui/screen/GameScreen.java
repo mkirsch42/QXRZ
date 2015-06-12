@@ -219,7 +219,7 @@ public class GameScreen extends AbstractScreen {
 		NetworkDrawablePlayer client = gui.getNetworkDrawablePacket().getClientObject();
 		if (client != null) {
 			int width = 300;
-			int height = 200;
+			int height = 150;
 			int x = windowData.getWidth() - width;
 			int y = windowData.getHeight() - height;
 			

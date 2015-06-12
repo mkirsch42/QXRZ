@@ -3,8 +3,10 @@
  */
 package org.amityregion5.qxrz.client.ui;
 
+import java.awt.Cursor;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
+import java.awt.Toolkit;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.event.MouseEvent;
@@ -134,6 +136,7 @@ public class MainPanel extends JPanel implements MouseListener, MouseMotionListe
 	{
 		mouseX = e.getX();
 		mouseY = e.getY();
+		gui.setCursor();
 	}
 
 	@Override
@@ -156,7 +159,8 @@ public class MainPanel extends JPanel implements MouseListener, MouseMotionListe
 	}
 
 	@Override
-	public void mouseEntered(MouseEvent e){}
+	public void mouseEntered(MouseEvent e){
+	}
 
 	@Override
 	public void mouseExited(MouseEvent e){}

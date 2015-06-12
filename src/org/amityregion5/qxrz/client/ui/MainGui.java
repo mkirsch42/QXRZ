@@ -1,17 +1,23 @@
 package org.amityregion5.qxrz.client.ui;
 
+import java.awt.Point;
+import java.awt.Toolkit;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.awt.image.BufferedImage;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
+
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.WindowConstants;
+
 import org.amityregion5.qxrz.client.net.ClientNetworkManager;
 import org.amityregion5.qxrz.client.settings.Settings;
 import org.amityregion5.qxrz.client.ui.screen.IScreen;
 import org.amityregion5.qxrz.client.ui.screen.LoadingScreen;
+import org.amityregion5.qxrz.common.asset.AssetManager;
 import org.amityregion5.qxrz.common.net.AbstractNetworkNode;
 import org.amityregion5.qxrz.common.net.ChatMessage;
 import org.amityregion5.qxrz.common.net.Goodbye;
@@ -328,5 +334,10 @@ public class MainGui
 	}
 	public Settings getSettings(){
 		return settings;
+	}
+
+	public void setCursor() {
+		BufferedImage c = AssetManager.getImageAssets("icons/cursor")[0].getImage(getFrameID());
+		frame.getRootPane().setCursor(Toolkit.getDefaultToolkit().createCustomCursor(c, new Point(c.getWidth()/2, c.getHeight()/2), "Cursor"));
 	}
 }

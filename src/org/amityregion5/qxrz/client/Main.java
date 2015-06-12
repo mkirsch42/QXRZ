@@ -43,9 +43,12 @@ public class Main
 			Settings settings = new Settings();
 			settings.save();
 			gui.setSettings(settings);
+			
+			gui.setCursor();
 		}
 
 		// Set the screen to the main menu screen
 		gui.setCurrentScreen(new MainMenuScreen(gui));
+		
 	}
 }

@@ -40,6 +40,7 @@ public class AssetManager
 			imageAssets.put("weapons/shotgun", new ImageContainer(ImageIO.read(FileUtil.getURLOfResource(Main.class, "/weapons/shot.png"))));
 			imageAssets.put("icons/refresh",new ImageContainer( ImageIO.read(FileUtil.getURLOfResource(Main.class, "/icons/refresh.png"))));
 			imageAssets.put("icons/refreshDark",new ImageContainer( ImageIO.read(FileUtil.getURLOfResource(Main.class, "/icons/refreshDark.png"))));
+			imageAssets.put("icons/cursor",new ImageContainer( ImageIO.read(FileUtil.getURLOfResource(Main.class, "/icons/cursor.png"))));
 			imageAssets.put("projectiles/arrow", new ImageContainer(ImageIO.read(FileUtil.getURLOfResource(Main.class, "/projectiles/arrow.png"))));
 			imageAssets.put("projectiles/bullet", new ImageContainer(ImageIO.read(FileUtil.getURLOfResource(Main.class, "/projectiles/bullet.png"))));
 			imageAssets.put("projectiles/rocket", new ImageContainer(ImageIO.read(FileUtil.getURLOfResource(Main.class, "/projectiles/rocket.png"))));
