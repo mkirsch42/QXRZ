@@ -1,9 +1,15 @@
 package org.amityregion5.qxrz.common.audio;
 
 import java.awt.Point;
+import java.io.Serializable;
 
-public class AudioMessage
+public class AudioMessage implements Serializable
 {
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 2165375561208124385L;
 
 	private boolean start = true;
 	
