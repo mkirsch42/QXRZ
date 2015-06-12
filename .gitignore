@@ -18,3 +18,4 @@ hs_err_pid*
 #/src/org/amityregion5/qxrz/server/DebugConstants.java
 src/org/amityregion5/qxrz/common/net/ClientTest.java
 src/org/amityregion5/qxrz/common/net/ServerTest.java
+/QXRZ_Settings.ini
