@@ -16,6 +16,7 @@ public class Weapon {
 	private int recooldown;
 	private int firecooldown;
 	private boolean reloading;
+	private boolean[] ups = new boolean[3];
 	//constructors
 	public Weapon()
 	{
@@ -129,17 +130,23 @@ public class Weapon {
 	{
 		return speed;
 	}
-	public void changeROF()
+	public void upROF()
 	{
 		rof += 4;
+		ups[0] = true;
+		if (ups[1])
+			maxclips -= 4;
+		else if(ups[2])
+			cmaxammo -= 4;
 	}
-	public void changeMaxAmmo()
-	{
-		maxclips += 4;
-	}
-	public void changeCMax()
+	public void upCMax()
 	{
 		cmaxammo += 4;
+		ups[2] = true;
+		if (ups[0])
+			rof -= 4;
+		else if(ups[1])
+			maxclips -= 4;
 	}
 	public void setAmmo(int count)
 	{
@@ -174,5 +181,14 @@ public class Weapon {
 	public int getReserve()
 	{
 		return reserve;
+	}
+	public void upMaxClips() {
+		// TODO Auto-generated method stub
+		maxclips += 4;
+		ups[1] = true;
+		if (ups[0])
+			rof -= 4;
+		else if(ups[2])
+			cmaxammo -= 4;
 	}
 }

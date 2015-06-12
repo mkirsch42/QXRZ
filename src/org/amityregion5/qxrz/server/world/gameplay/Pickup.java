@@ -11,6 +11,7 @@ public class Pickup
 	private int timeout;
 	private long lastPickup;
 	private boolean onePickup = false;
+	private Upgrade u;
 	
 	public Pickup(String wep, int count, int x, int y, int ms)
 	{
@@ -29,7 +30,13 @@ public class Pickup
 		timeout = ms;
 		lastPickup = -1;
 	}
-
+	public Pickup(Upgrade u, int x, int y, int ms)
+	{
+		weaponId = "WU";
+		this.u = u;
+		entity = new PickupEntity(x, y, this);
+		timeout = ms;
+	}
 	public int getAmmoCount()
 	{
 		return ammoCount;
@@ -88,5 +95,13 @@ public class Pickup
 	public boolean isHealth()
 	{
 		return weaponId.equals("<3");
+	}
+	public boolean isWepUpgrade()
+	{
+		return weaponId.equals("WU");
+	}
+	public Upgrade getUp()
+	{
+		return u;
 	}
 }

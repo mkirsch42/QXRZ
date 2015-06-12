@@ -25,6 +25,7 @@ public class Player {
 	private boolean pickingUp = false;
 	private boolean dead = false;
 	private int score;
+	private boolean specmoving;
 	private NetworkInputData downs;
 	//constructors
 	public Player(int forceId)
@@ -81,6 +82,10 @@ public class Player {
 	public boolean damaged(Bullet b) //tests if a given bullet hits player and acts accordingly
 	{
 		if(w.getGame().getGM().oneLife && dead)
+		{
+			return false;
+		}
+		if (this.isSpecMoving())
 		{
 			return false;
 		}
@@ -146,20 +151,16 @@ public class Player {
 		guns[1] = new Weapon();
 		equipped = 0;
 	}
-	public void setUpgrade(Upgrade u) //sets weapon upgrades from a given upgrade pickup
+	public void setWepUpgrade(Upgrade u) //sets weapon upgrades from a given upgrade pickup
 	{
+		if (!(u.getType().equals(null)))
+		{
 		pupgr = u;
-		if (!(pupgr.getType().equals(null)))
+		switch (u.getType())
 		{
-		
-		switch (pupgr.getType())
-		{
-		case "maxclips": guns[0].changeMaxAmmo();
-						 guns[1].changeMaxAmmo();
-		case "rof":		 guns[0].changeROF();
-						 guns[1].changeROF();
-		case "cmax":	 guns[0].changeCMax();
-						 guns[1].changeCMax();
+			case "maxclips": 	guns[equipped].upMaxClips();
+			case "rof":		 	guns[equipped].upROF();
+			case "cmax":		guns[equipped].upCMax();
 		}
 		}
 		else {};
@@ -297,6 +298,10 @@ public class Player {
 			p.pickup();
 			return true;
 		}
+		if (p.isWepUpgrade())
+		{
+			setWepUpgrade(p.getUp());
+		}
 		String wep = p.getWeaponId();
 		if(guns[0]!=null && guns[0].getType().equals(wep))
 		{
@@ -391,5 +396,12 @@ public class Player {
 			return 0;
 		}
 		return new Vector2D(downs.getMouseX(), downs.getMouseY()).subtract(entity.getPos()).angle();
+	}
+	public void setSpecMoving(boolean on){
+		specmoving = on;
+	}
+	public boolean isSpecMoving()
+	{
+		return specmoving;
 	}
 }
