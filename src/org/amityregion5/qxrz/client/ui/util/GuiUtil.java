@@ -7,6 +7,8 @@ import java.awt.RenderingHints;
 import java.awt.event.KeyEvent;
 import java.awt.geom.Rectangle2D;
 
+import org.amityregion5.qxrz.client.ui.MainGui;
+
 /**
  * 
  * Utility methods for Gui stuffs
@@ -96,25 +98,27 @@ public class GuiUtil
 	 * 
 	 * @param g the graphics object
 	 */
-	public static void applyRenderingHints(Graphics2D g)
+	public static void applyRenderingHints(Graphics2D g, MainGui gui)
 	{
-		g.setRenderingHint(RenderingHints.KEY_TEXT_ANTIALIASING,
-				RenderingHints.VALUE_TEXT_ANTIALIAS_ON);
-		g.setRenderingHint(RenderingHints.KEY_DITHERING,
-				RenderingHints.VALUE_DITHER_ENABLE);
-		g.setRenderingHint(RenderingHints.KEY_RENDERING,
-				RenderingHints.VALUE_RENDER_SPEED);
-		g.setRenderingHint(RenderingHints.KEY_ANTIALIASING,
-				RenderingHints.VALUE_ANTIALIAS_ON);
-		g.setRenderingHint(RenderingHints.KEY_TEXT_LCD_CONTRAST, 100);
-		g.setRenderingHint(RenderingHints.KEY_FRACTIONALMETRICS,
-				RenderingHints.VALUE_FRACTIONALMETRICS_ON);
-		g.setRenderingHint(RenderingHints.KEY_ALPHA_INTERPOLATION,
-				RenderingHints.VALUE_ALPHA_INTERPOLATION_QUALITY);
-		g.setRenderingHint(RenderingHints.KEY_COLOR_RENDERING,
-				RenderingHints.VALUE_COLOR_RENDER_QUALITY);
-		g.setRenderingHint(RenderingHints.KEY_STROKE_CONTROL,
-				RenderingHints.VALUE_STROKE_PURE);
+		if (gui != null && gui.getSettings() != null) {
+			g.setRenderingHint(RenderingHints.KEY_TEXT_ANTIALIASING,
+					gui.getSettings().getValue("TextAntialias"));
+			g.setRenderingHint(RenderingHints.KEY_DITHERING,
+					gui.getSettings().getValue("Dither"));
+			g.setRenderingHint(RenderingHints.KEY_RENDERING,
+					gui.getSettings().getValue("RenderQuality"));
+			g.setRenderingHint(RenderingHints.KEY_ANTIALIASING,
+					gui.getSettings().getValue("Antialias"));
+			g.setRenderingHint(RenderingHints.KEY_TEXT_LCD_CONTRAST, 100);
+			g.setRenderingHint(RenderingHints.KEY_FRACTIONALMETRICS,
+					gui.getSettings().getValue("FactionalMetrics"));
+			g.setRenderingHint(RenderingHints.KEY_ALPHA_INTERPOLATION,
+					gui.getSettings().getValue("AlphaInterpolation"));
+			g.setRenderingHint(RenderingHints.KEY_COLOR_RENDERING,
+					gui.getSettings().getValue("ColorRenderQuality"));
+			g.setRenderingHint(RenderingHints.KEY_STROKE_CONTROL,
+					gui.getSettings().getValue("Stroke"));
+		}
 	}
 
 	/**

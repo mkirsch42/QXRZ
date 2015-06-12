@@ -142,7 +142,7 @@ public class ServerSelectionScreen extends AbstractScreen {
 
 		Graphics2D gBuff = buff.createGraphics();
 
-		GuiUtil.applyRenderingHints(gBuff);
+		GuiUtil.applyRenderingHints(gBuff, gui);
 
 		// TODO: Scrolling
 		int w = buff.getWidth();

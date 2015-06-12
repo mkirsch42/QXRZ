@@ -152,7 +152,7 @@ public class GameUIHelper {
 
 		Graphics2D gBuff = buff.createGraphics();
 
-		GuiUtil.applyRenderingHints(gBuff);
+		GuiUtil.applyRenderingHints(gBuff, gui);
 
 		gBuff.setFont(gBuff.getFont().deriveFont(textSize));
 		Font noBold = gBuff.getFont();

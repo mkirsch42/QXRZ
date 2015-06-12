@@ -65,7 +65,7 @@ public class MainPanel extends JPanel implements MouseListener, MouseMotionListe
 			//Convert our graphics object to a Graphics2D object
 			Graphics2D g2 = (Graphics2D)g;
 			//Make everything look better
-			GuiUtil.applyRenderingHints(g2);
+			GuiUtil.applyRenderingHints(g2, gui);
 
 			//If we have something to draw
 			if (gui.getCurrentScreen() != null) {
@@ -74,7 +74,7 @@ public class MainPanel extends JPanel implements MouseListener, MouseMotionListe
 				//Get it's graphics object
 				Graphics2D screenGraphics = scr.createGraphics();
 				//Make it look better
-				GuiUtil.applyRenderingHints(screenGraphics);
+				GuiUtil.applyRenderingHints(screenGraphics, gui);
 
 				//Get the current screen to draw on it
 				gui.getCurrentScreen().drawScreen(screenGraphics, new WindowData(getWidth(), getHeight(), keysDown, miceDown, mouseX, mouseY, mouseWheel));

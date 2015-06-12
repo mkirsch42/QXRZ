@@ -8,13 +8,13 @@ import java.awt.event.MouseEvent;
 import java.awt.geom.Point2D;
 import java.awt.image.BufferedImage;
 import java.util.HashMap;
+
 import org.amityregion5.qxrz.client.ui.MainGui;
 import org.amityregion5.qxrz.client.ui.util.CenterMode;
 import org.amityregion5.qxrz.client.ui.util.DoubleReturn;
 import org.amityregion5.qxrz.client.ui.util.GameUIHelper;
 import org.amityregion5.qxrz.client.ui.util.GuiMath;
 import org.amityregion5.qxrz.client.ui.util.GuiUtil;
-import org.amityregion5.qxrz.common.asset.AssetManager;
 import org.amityregion5.qxrz.common.audio.AudioHelper;
 import org.amityregion5.qxrz.common.audio.AudioMessage;
 import org.amityregion5.qxrz.common.control.NetworkInputData;
@@ -63,7 +63,7 @@ public class GameScreen extends AbstractScreen {
 	@Override
 	protected void draw(Graphics2D g, WindowData windowData) {
 		//Fill the screen with white
-		GuiUtil.applyRenderingHints(g);
+		GuiUtil.applyRenderingHints(g, gui);
 		g.setColor(Color.WHITE);
 		g.fillRect(0,0, windowData.getWidth(), windowData.getHeight());
 

@@ -74,7 +74,7 @@ public class ServerLobbyScreen extends AbstractScreen
 
 		Graphics2D gBuff = buff.createGraphics();
 
-		GuiUtil.applyRenderingHints(gBuff);
+		GuiUtil.applyRenderingHints(gBuff, gui);
 
 		gBuff.setFont(gBuff.getFont().deriveFont(14f));
 		gBuff.setColor(Color.WHITE);

@@ -84,13 +84,13 @@ public class DebugDraw extends JApplet
 	{
 		Graphics2D rg = (Graphics2D) g;
 		
-		GuiUtil.applyRenderingHints(rg);
+		//GuiUtil.applyRenderingHints(rg);
 		
 		BufferedImage buff = ImageModification.createBlankBufferedImage(getWidth(), getHeight());
 		
 		Graphics2D g2 = buff.createGraphics();
 		
-		GuiUtil.applyRenderingHints(g2);
+		//GuiUtil.applyRenderingHints(g2);
 		
 		rg.setColor(Color.WHITE);
 		rg.fillRect(0, 0, getWidth(), getHeight());
