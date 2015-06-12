@@ -9,12 +9,15 @@ import java.awt.geom.Point2D;
 import java.awt.image.BufferedImage;
 import java.util.HashMap;
 
+import javax.sound.sampled.Clip;
+
 import org.amityregion5.qxrz.client.ui.MainGui;
 import org.amityregion5.qxrz.client.ui.util.CenterMode;
 import org.amityregion5.qxrz.client.ui.util.DoubleReturn;
 import org.amityregion5.qxrz.client.ui.util.GameUIHelper;
 import org.amityregion5.qxrz.client.ui.util.GuiMath;
 import org.amityregion5.qxrz.client.ui.util.GuiUtil;
+import org.amityregion5.qxrz.common.asset.AssetManager;
 import org.amityregion5.qxrz.common.audio.AudioHelper;
 import org.amityregion5.qxrz.common.audio.AudioMessage;
 import org.amityregion5.qxrz.common.control.NetworkInputData;
@@ -69,14 +72,18 @@ public class GameScreen extends AbstractScreen {
 
 		drawGame(g, windowData);
 		drawHUD(g, windowData);
-		
+
 		for (AudioMessage a : gui.getNetworkDrawablePacket().getPlayables()) {
 			if (a.isStarting()) {
-				AudioHelper.playCopyClip(a.getAsset());
+				Clip c = AudioHelper.playCopyClip(a.getAsset());
+				AudioHelper.setPercentVolume(c, 1/a.getLocation().distanceSq(vp.xCenter, vp.yCenter));
+			}
+			if (a.isEnding()) {
+
 			}
 		}
 	}
-	
+
 	private void drawGame(Graphics2D g, WindowData windowData) {
 		if (gui.getNetworkDrawablePacket() != null) {
 			if (gui.getNetworkDrawablePacket().getClientIndex() != -1) {
@@ -96,7 +103,7 @@ public class GameScreen extends AbstractScreen {
 					GameUIHelper.draw(g, gui.getNetworkDrawablePacket().getDrawables().get(i), vp, windowData, gui);
 				}
 			}
-			
+
 			GameUIHelper.draw(g, gui.getNetworkDrawablePacket().getClientObject(), vp, windowData, gui);
 		}
 
@@ -200,6 +207,11 @@ public class GameScreen extends AbstractScreen {
 			nid.set(NetworkInputMasks.SPACE, windowData.getKeysDown().stream().anyMatch((k)->k.getKeyCode()==KeyEvent.VK_SPACE));
 			nid.set(NetworkInputMasks.COMMA, windowData.getKeysDown().stream().anyMatch((k)->k.getKeyCode()==KeyEvent.VK_COMMA));
 			nid.set(NetworkInputMasks.PERIOD, windowData.getKeysDown().stream().anyMatch((k)->k.getKeyCode()==KeyEvent.VK_PERIOD));
+			if (nid.get(NetworkInputMasks.W) || nid.get(NetworkInputMasks.A) || nid.get(NetworkInputMasks.S) || nid.get(NetworkInputMasks.D)) {
+				AudioHelper.play(AssetManager.getAudioAssets("footstep")[0], true);
+			} else {
+				AudioHelper.stop(AssetManager.getAudioAssets("footstep")[0]);
+			}
 
 			//Set mouse coordinate data
 			Point2D.Double mc = vp.screenToGame(new Point2D.Double(windowData.getMouseX(), windowData.getMouseY()), windowData);
@@ -212,7 +224,7 @@ public class GameScreen extends AbstractScreen {
 	}
 
 	private void drawHUD(Graphics2D g, WindowData windowData) {
-		
+
 		if (gui.getNetworkDrawablePacket() == null) {
 			return;
 		}
@@ -222,32 +234,32 @@ public class GameScreen extends AbstractScreen {
 			int height = 150;
 			int x = windowData.getWidth() - width;
 			int y = windowData.getHeight() - height;
-			
+
 			g.setColor(Colors.TRANS_GRAY);
 			g.fillRect(x, y, width, height);
-			
+
 			g.setColor(Color.WHITE);
 			g.setFont(g.getFont().deriveFont(14F));
 			GuiUtil.drawString(g, gui.getUsername(), CenterMode.LEFT, x + 10, y + 10);
-			
+
 			g.setColor(Color.RED);
 			g.fillRect(x + 10, y + 10 + 8, 200, 25);
-			
+
 			g.setColor(Color.GREEN);
 			g.fillRect(x + 10, y + 10 + 8, (int)Math.round(200 * (double)client.getHealth()/client.getMaxHealth()), 25);
-			
+
 			g.setXORMode(Color.RED);
 			GuiUtil.drawString(g, client.getHealth() + "/" + client.getMaxHealth(), CenterMode.CENTER, x + 10 + 100, y + 10 + 9 + 25/2);
-			
+
 			g.setPaintMode();
 			g.setColor(Color.WHITE);
 			GuiUtil.drawString(g, client.getGun(), CenterMode.LEFT, x + 10, y + 10 + 14*3);
 			GuiUtil.drawString(g, client.getAmmo() + " + " + client.getTotalAmmo(), CenterMode.LEFT, x + 10, y + 10 + 14*4);
 		}
 	}
-	
+
 	@Override
 	protected void cleanup() {
-		gui.getNetworkManger().sendGoodbye();
+		//gui.getNetworkManger().sendGoodbye();
 	}
 }

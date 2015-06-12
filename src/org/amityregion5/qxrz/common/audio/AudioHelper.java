@@ -12,14 +12,16 @@ public class AudioHelper {
 	}
 	
 	public static void setVolume(Clip clip, float db) {
-		
-		Clip c = AssetManager.getAudioAssets("test/BHT")[0];
 		FloatControl gainControl = 
-			    (FloatControl) c.getControl(FloatControl.Type.MASTER_GAIN);
+			    (FloatControl) clip.getControl(FloatControl.Type.MASTER_GAIN);
 		db = Math.max(Math.min(db, gainControl.getMaximum()), gainControl.getMinimum());
 		gainControl.setValue(db); // Reduce volume by 10 decibels.
-
-
+	}
+	
+	public static void setPercentVolume(Clip clip, double percent) {
+		FloatControl gainControl = 
+			    (FloatControl) clip.getControl(FloatControl.Type.MASTER_GAIN);
+		setVolume(clip, gainControl.getMinimum() + (float)(percent * (gainControl.getMaximum() - gainControl.getMinimum())));
 	}
 	
 	public static Clip playCopyClip(String clipName) {
