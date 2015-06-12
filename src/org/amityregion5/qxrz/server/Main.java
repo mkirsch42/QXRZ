@@ -46,6 +46,7 @@ public final class Main {
 			public void newNode(AbstractNetworkNode c) {
 				Player p = new Player(g.getWorld(), c.getName());
 				g.addPlayer((NetworkNode) c, p);
+				gui.addClient((NetworkNode) c);
 				try
 				{
 					((NetworkNode)c).send(new ChatMessage("Welcome to " + s).fromServer());
