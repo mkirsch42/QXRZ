@@ -29,7 +29,7 @@ public class MainGui extends JFrame
 	private ServerNetworkManager manager;
 
 	private final String removeName = "(Remove)";
-	
+
 	private DefaultTableModel dm;
 
 	public MainGui(ServerNetworkManager _manager, Game g) throws Exception
@@ -56,8 +56,7 @@ public class MainGui extends JFrame
 		mainPanel.add(iplbl);
 		mainPanel.add(namelbl);
 
-		dm = new DefaultTableModel(new Object[] { "Name", "IP",
-				removeName }, 0);
+		dm = new DefaultTableModel(new Object[] { "Name", "IP", removeName }, 0);
 
 		dm.addTableModelListener(new TableModelListener()
 		{
@@ -65,12 +64,12 @@ public class MainGui extends JFrame
 			@Override
 			public void tableChanged(TableModelEvent e)
 			{
-				dm.removeTableModelListener(this);
-				dm.removeRow(e.getFirstRow());
-				dm.addTableModelListener(this);
+				if (e.getType() == TableModelEvent.UPDATE)
+				{
+					dm.removeRow(e.getFirstRow());
+					manager.removeClient(e.getFirstRow());
+				}
 
-				manager.removeClient(e.getFirstRow());
-				
 			}
 		});
 		table = new JTable(dm)
@@ -106,10 +105,11 @@ public class MainGui extends JFrame
 		setVisible(true);
 		setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
 	}
-	
+
 	public void addClient(NetworkNode c)
 	{
-		dm.addRow(new String[] {c.getName(), c.getSocketAddress().getHostName(), "X"});
+		dm.addRow(new String[] { c.getName(), c.getSocketAddress().getHostName(),
+				"X" });
 	}
 
 }
