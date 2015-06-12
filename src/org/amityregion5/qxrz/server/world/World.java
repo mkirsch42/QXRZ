@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
+import org.amityregion5.qxrz.common.audio.AudioMessage;
 import org.amityregion5.qxrz.common.net.ChatMessage;
 import org.amityregion5.qxrz.common.ui.NetworkDrawablePacket;
 import org.amityregion5.qxrz.server.Game;
@@ -22,6 +23,7 @@ public class World
 {
 
 	private ArrayList<GameEntity> entities;
+	private ArrayList<AudioMessage> sounds;
 	private Landscape l;	
 	private ServerNetworkManager net;
 	private Game g;
@@ -35,6 +37,7 @@ public class World
 	public World(ServerNetworkManager n)
 	{
 		entities = new ArrayList<GameEntity>();
+		sounds = new ArrayList<AudioMessage>();
 		l = new Landscape();
 		net  = n;
 	}
@@ -119,6 +122,10 @@ public class World
 		{
 			ndp.add(e.getNDE());
 		}
+		while(sounds.size()>0)
+		{
+			ndp.add(sounds.get(0));
+		}
 		return ndp;
 	}
 	public void removeEntity(GameEntity e)
@@ -164,7 +171,12 @@ public class World
 		}
 		return count;
 	}
-	
+
+	public void addSound(AudioMessage am)
+	{
+		sounds.add(am);
+	}
+
 	public void drop()
 	{
 		if(numPickups()>=15)
