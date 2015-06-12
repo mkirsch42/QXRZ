@@ -1,5 +1,7 @@
 package org.amityregion5.qxrz.server.world.vector2d;
 
+import java.awt.Point;
+
 //physics class 
 public class Vector2D
 {
@@ -24,6 +26,11 @@ public class Vector2D
 	{
 		x = Math.cos(rad);
 		y = Math.sin(rad);
+	}
+	
+	public Point toIntPoint()
+	{
+		return new Point((int)Math.round(x),(int)Math.round(y));
 	}
 	
 	public Vector2D multiply(double scalar)
