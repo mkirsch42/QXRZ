@@ -124,7 +124,7 @@ public class World
 		}
 		while(sounds.size()>0)
 		{
-			ndp.add(sounds.get(0));
+			ndp.add(sounds.remove(0));
 		}
 		return ndp;
 	}
