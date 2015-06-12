@@ -3,6 +3,7 @@ package org.amityregion5.qxrz.client;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.amityregion5.qxrz.client.net.ClientNetworkManager;
+import org.amityregion5.qxrz.client.settings.Settings;
 import org.amityregion5.qxrz.client.ui.MainGui;
 import org.amityregion5.qxrz.client.ui.screen.MainMenuScreen;
 import org.amityregion5.qxrz.common.asset.AssetManager;
@@ -38,6 +39,10 @@ public class Main
 			}, "Shutdown Hook thread"));
 
 			AssetManager.loadAssets();
+			
+			Settings settings = new Settings();
+			settings.save();
+			gui.setSettings(settings);
 		}
 
 		// Set the screen to the main menu screen

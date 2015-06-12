@@ -3,5 +3,5 @@ package org.amityregion5.qxrz.common.world;
 import java.io.Serializable;
 
 public enum Worlds implements Serializable {
-	DEBUG;
+	DEBUG, DAN_WORLD;
 }
