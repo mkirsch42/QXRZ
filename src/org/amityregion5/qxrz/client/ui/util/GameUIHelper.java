@@ -24,7 +24,7 @@ import org.amityregion5.qxrz.server.util.ColorUtil;
 
 public class GameUIHelper {
 	public static void draw(Graphics2D g, NetworkDrawableEntity nde,
-			Viewport vp, WindowData d, MainGui gui) {
+			Viewport vp, WindowData d, MainGui gui, boolean drawHealthBarIfNDP) {
 		if(nde==null)
 		{
 			return;
@@ -45,6 +45,22 @@ public class GameUIHelper {
 			if(ndp.getNametag()!="")
 			{
 				drawNT(g, ndp.getNametag(), 10F, ndp.getNameColor(), ndp.isItalics(), nde.getBox().getCenterX(), nde.getBox().getMaxY() + 40, vp, d);
+
+				if (drawHealthBarIfNDP) {
+					Point2D.Double playerTL = vp.gameToScreen(new Point2D.Double(ndp.getBox().getX(), ndp.getBox().getY()), d);
+					Point2D.Double playerBR = vp.gameToScreen(new Point2D.Double(ndp.getBox().getMaxX(), ndp.getBox().getMaxY()), d);
+					double pW = playerBR.x - playerTL.x;
+					//double pH = playerBR.y - playerTL.y;
+					
+					g.setColor(Color.RED);
+					g.fillRect((int)playerTL.x, (int)playerTL.y - 6, (int)pW, 5);
+
+					g.setColor(Color.GREEN);
+					g.fillRect((int)playerTL.x, (int)playerTL.y - 6,
+							(int)Math.round(pW * (double)ndp.getHealth()/ndp.getMaxHealth()), 5);
+					
+					g.setColor(Color.BLACK);
+				}
 			}
 		}
 		//drawAABB(g, nde.getBox(), vp, d);
@@ -113,7 +129,7 @@ public class GameUIHelper {
 			Viewport vp, WindowData d, MainGui gui) {
 		// Squarify and rotate(temporary) the image
 		ImageContainer[] assets = AssetManager.getImageAssets(ndo.getAsset());
-		
+
 		if (assets == null || assets.length == 0) {
 			drawAABB(g, ndo.getBox(), vp, d);
 			System.err.println("MISSING ASSET: " + ndo.getAsset());
@@ -140,7 +156,7 @@ public class GameUIHelper {
 
 			// Draw the buffer to the screen
 			g.drawImage(img, -(int)pW/2, -(int)pH/2, (int)pW, (int)pH, null);
-			
+
 			g.setTransform(old);
 		}
 	}

@@ -94,18 +94,18 @@ public class GameScreen extends AbstractScreen {
 			}
 
 			for (Obstacle o : WorldManager.getWorld(gui.getNetworkDrawablePacket().getCurrentWorld()).getLandscape().getObstacles()) {
-				GameUIHelper.draw(g, o.getNDE(), vp, windowData, gui);
+				GameUIHelper.draw(g, o.getNDE(), vp, windowData, gui, true);
 			}
 
 			for(int i=0;i<gui.getNetworkDrawablePacket().getDrawables().size();i++)
 			{
 				if(i!=gui.getNetworkDrawablePacket().getClientIndex())
 				{
-					GameUIHelper.draw(g, gui.getNetworkDrawablePacket().getDrawables().get(i), vp, windowData, gui);
+					GameUIHelper.draw(g, gui.getNetworkDrawablePacket().getDrawables().get(i), vp, windowData, gui, true);
 				}
 			}
 
-			GameUIHelper.draw(g, gui.getNetworkDrawablePacket().getClientObject(), vp, windowData, gui);
+			GameUIHelper.draw(g, gui.getNetworkDrawablePacket().getClientObject(), vp, windowData, gui, false);
 		}
 
 		DoubleReturn<BufferedImage, Integer> chat = GameUIHelper.getChatMessagesImage(windowData.getWidth()/2 - 20, windowData.getHeight() - 200, gui, Color.BLACK, Color.RED, 12f, (isChatOpen ? -1 : 10000), scrollOffset);
