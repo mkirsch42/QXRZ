@@ -9,6 +9,8 @@ Pronounced kew ecks ar zed
 
 ## TODO
 
+[Full spec](https://drive.google.com/file/d/0B-XTOcM1I4MJSEV4dHliN0xsWms/view?usp=sharing)
+
 *Bonus*
 
 ### Graphics & UI
