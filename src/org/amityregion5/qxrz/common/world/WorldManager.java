@@ -21,7 +21,7 @@ public class WorldManager {
 			defaultWorld.addObstacle(new Obstacle(new RectangleHitbox(new Rectangle(2000,1500,500,1000)), "--AABB--"));
 			defaultWorld.addObstacle(new Obstacle(new RectangleHitbox(new Rectangle(1500,2900+2*Game.GAME_UNIT,2000,500)), "--AABB--"));
 			
-			defaultWorld.add(new Pickup("ps", 10, 500, 0, 3000).getEntity());
+			defaultWorld.add(new Pickup("ro", 10, 500, 0, 3000).getEntity());
 			defaultWorld.add(new Pickup(17, 0, 1000, 5000).getEntity());
 
 			createBorder(defaultWorld, 2500, 1500, 1500);
