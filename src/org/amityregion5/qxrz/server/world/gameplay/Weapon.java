@@ -136,7 +136,7 @@ public class Weapon {
 		ups[0] = true;
 		if (ups[1])
 			maxclips -= 4;
-		else if(ups[2])
+		if(ups[2])
 			cmaxammo -= 4;
 	}
 	public void upCMax()
@@ -145,7 +145,7 @@ public class Weapon {
 		ups[2] = true;
 		if (ups[0])
 			rof -= 4;
-		else if(ups[1])
+		if(ups[1])
 			maxclips -= 4;
 	}
 	public void setAmmo(int count)
@@ -188,7 +188,7 @@ public class Weapon {
 		ups[1] = true;
 		if (ups[0])
 			rof -= 4;
-		else if(ups[2])
+		if (ups[2])
 			cmaxammo -= 4;
 	}
 }
