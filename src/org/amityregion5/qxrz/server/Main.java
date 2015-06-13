@@ -36,20 +36,24 @@ public final class Main {
 	private String s;
 
 	public static void main(String[] args) throws Exception {
-		new Main();
+		new Main(args);
 	}
-	
-	public Main() throws Exception {
+
+	public Main(String[] args) throws Exception {
 		Logger.getGlobal().setLevel(Level.OFF);
 
 		gs = GameState.LOBBY;
 
-		s = (String) JOptionPane.showInputDialog(null,
-				"Enter Server name", "Server Name Query",
-				JOptionPane.PLAIN_MESSAGE, null, null, System.getProperty("user.name") + "'s server");
+		if (args.length > 0) {
+			s = args[0];
+		} else {
+			s = (String) JOptionPane.showInputDialog(null,
+					"Enter Server name", "Server Name Query",
+					JOptionPane.PLAIN_MESSAGE, null, null, System.getProperty("user.name") + "'s server");
 
-		if (s == null) {
-			return;
+			if (s == null) {
+				return;
+			}
 		}
 
 		netManager = new ServerNetworkManager(s, 8000);
@@ -73,7 +77,7 @@ public final class Main {
 		//gui.show();
 		//g.run();
 	}
-	
+
 	public void returnToLobby() {
 		gs = GameState.LOBBY;
 		g.close();
@@ -83,7 +87,7 @@ public final class Main {
 			p.setReady(false);
 		}
 	}
-	
+
 	private void startLobby() {
 		double nsPerUpdate = 1000000000.0 / DebugConstants.DEBUG_FPS;
 
@@ -110,7 +114,7 @@ public final class Main {
 			else{try{Thread.sleep(1);} catch (InterruptedException e){}}
 		}
 	}
-	
+
 	private void doLobbyUpdate() {
 		for (NetworkNode n : g.getPlayers().keySet()) {
 			Player p  = g.getPlayers().get(n);
@@ -119,8 +123,8 @@ public final class Main {
 			} catch (Exception e) {e.printStackTrace();}
 		}
 	}
-	
-	
+
+
 	private void attachEventListener() {
 		netManager.attachEventListener(new NetEventListener() {
 			@Override
@@ -128,7 +132,7 @@ public final class Main {
 				gui.addClient((NetworkNode) c);
 				Player p = new Player(g.getWorld(), c.getName());
 				g.addPlayer((NetworkNode) c, p);
-				
+
 				try
 				{
 					((NetworkNode)c).send(new ChatMessage("Welcome to " + s).fromServer());

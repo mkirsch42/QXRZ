@@ -25,6 +25,10 @@ public class Main
 		{
 			manager.start();
 			manager.broadcastQuery();
+			
+			if (args.length > 0) {
+				manager.setUsername(args[0]);
+			}
 
 			gui.setNetworkManager(manager);
 
