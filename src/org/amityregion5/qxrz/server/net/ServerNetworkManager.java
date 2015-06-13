@@ -91,7 +91,7 @@ public class ServerNetworkManager extends AbstractNetworkManager
 		}
 		try
 		{
-//			c.send(new Goodbye());
+			c.send(new Goodbye());
 		} catch (Exception e)
 		{
 			e.printStackTrace();
