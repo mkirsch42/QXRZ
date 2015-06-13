@@ -50,6 +50,7 @@ Pronounced kew ecks ar zed
 - Dying sound effects
 - ~~bullets spawn closer to body~~
 - change helmet color to match team
+- No footsteps when dead / observing.
 
 ## Controls and commands
 
