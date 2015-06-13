@@ -40,7 +40,7 @@ public class UDPOutputStream
 		
 		// This shouldn't ever happen...
 		if(data.length > NetworkObject.BUFFER_SIZE) throw new Exception("Object is too large!");
-		l.info("sendObj()" + addr.getAddress() + ":" + addr.getPort());
+		//System.out.println("sendObj() " + o.toString());
 		sock.send(new DatagramPacket(data, data.length, addr.getAddress(), addr.getPort()));
 	}
 	
