@@ -66,7 +66,6 @@ public class MainGui extends JFrame
 			{
 				if (e.getType() == TableModelEvent.UPDATE)
 				{
-					dm.removeRow(e.getFirstRow());
 					manager.removeClient(e.getFirstRow());
 				}
 
@@ -110,6 +109,11 @@ public class MainGui extends JFrame
 	{
 		dm.addRow(new String[] { c.getName(), c.getSocketAddress().getHostName(),
 				"X" });
+	}
+	
+	public void removeClient(int i)
+	{
+		dm.removeRow(i);
 	}
 
 }

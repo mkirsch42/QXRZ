@@ -155,6 +155,12 @@ public final class Main {
 					}
 				}
 			}
+
+			@Override
+			public void nodeRemoved(int i)
+			{
+				gui.removeClient(i);
+			}
 		});
 
 		netManager.start();
@@ -162,8 +168,7 @@ public final class Main {
 		// new MainGui().show();
 
 		//gui.show();
-		g = new Game(netManager, GameModes.LASTMAN); // TODO game needs access to network, too...
-		// TODO server panel should show actual IP, not 0.0.0.0
+		g = new Game(netManager, GameModes.LASTMAN); 
 		if (DebugConstants.DEBUG_GUI) {
 			Game.debug = DebugDraw.setup(g.getWorld());
 		}

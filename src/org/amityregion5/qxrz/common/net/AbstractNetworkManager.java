@@ -90,6 +90,7 @@ public abstract class AbstractNetworkManager extends Thread
 		{
 			// should this fail silently?
 //			throw new IOException("Out-of-order or duplicate packet received.");
+			return;
 		}
 
 		// We received an in-order packet!
