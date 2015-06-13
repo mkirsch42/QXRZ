@@ -12,16 +12,19 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutput;
 import java.io.ObjectOutputStream;
 import java.io.OutputStream;
+import java.io.Serializable;
 import java.util.Arrays;
 import java.util.HashMap;
 
-public class Settings
+public class Settings implements Serializable
 {
+	private static final long serialVersionUID = -777324776814351476L;
+
 	private static HashMap<String, Object> defaultSettings;
 
 	private transient HashMap<String, Object> renderSettings;
 	private HashMap<String, Integer> storage;
-	private int width, height;
+	private Integer width, height;
 
 	static {
 		defaultSettings = new HashMap<String, Object>();
@@ -102,10 +105,13 @@ public class Settings
 			writeIntFromObj(renderSettings, storage, "AlphaInterpolation", RenderingHints.VALUE_ALPHA_INTERPOLATION_QUALITY, RenderingHints.VALUE_ALPHA_INTERPOLATION_SPEED);
 			writeIntFromObj(renderSettings, storage, "ColorRenderQuality", RenderingHints.VALUE_COLOR_RENDER_QUALITY, RenderingHints.VALUE_COLOR_RENDER_SPEED);
 			writeIntFromObj(renderSettings, storage, "Stroke", RenderingHints.VALUE_STROKE_PURE, RenderingHints.VALUE_STROKE_NORMALIZE);
+			
 			output.writeObject(this);
 			output.close();
 			storage = null;
-		}catch (IOException e){}
+		}catch (IOException e){
+			e.printStackTrace();
+		}
 	}
 
 	private static void putAllIfAbsent(HashMap<String, Object> to, HashMap<String, Object> from) {
