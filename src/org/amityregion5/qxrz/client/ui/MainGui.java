@@ -341,8 +341,10 @@ public class MainGui
 	}
 
 	public void setCursor() {
-		BufferedImage c = AssetManager.getImageAssets("icons/cursor")[0].getImage(getFrameID());
-		frame.getRootPane().setCursor(Toolkit.getDefaultToolkit().createCustomCursor(c, new Point(c.getWidth()/2, c.getHeight()/2), "Cursor"));
+		if (AssetManager.getImageAssets("icons/cursor").length>0) {
+			BufferedImage c = AssetManager.getImageAssets("icons/cursor")[0].getImage(getFrameID());
+			frame.getRootPane().setCursor(Toolkit.getDefaultToolkit().createCustomCursor(c, new Point(c.getWidth()/2, c.getHeight()/2), "Cursor"));
+		}
 	}
 	
 	public void setSize(int width, int height) {
