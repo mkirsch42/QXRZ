@@ -20,7 +20,6 @@ import org.amityregion5.qxrz.client.ui.screen.LoadingScreen;
 import org.amityregion5.qxrz.common.asset.AssetManager;
 import org.amityregion5.qxrz.common.net.AbstractNetworkNode;
 import org.amityregion5.qxrz.common.net.ChatMessage;
-import org.amityregion5.qxrz.common.net.Goodbye;
 import org.amityregion5.qxrz.common.net.NetEventListener;
 import org.amityregion5.qxrz.common.net.NetworkNode;
 import org.amityregion5.qxrz.common.ui.NetworkDrawablePacket;
