@@ -189,7 +189,8 @@ public final class Main {
 				if (netObj instanceof Goodbye) {
 					// also stop drawing player and stuff
 					g.removePlayer(c);
-					netManager.removeClient(c);
+					int i = netManager.removeClient(c);
+					gui.removeRow(i);
 					try {
 						//gui.redraw();
 					} catch (Exception e) {
