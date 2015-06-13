@@ -272,15 +272,12 @@ public class MainGui
 				} else if (payload instanceof NetworkDrawablePacket)
 				{
 					ndp = (NetworkDrawablePacket) payload;
+				} else if (payload instanceof Goodbye)
+				{
+					System.err.println("YOU HAVE BEEN KICKED");
+					JOptionPane.showMessageDialog(null, "YOU HAVE BEEN KICKED");
+					System.exit(0);
 				}
-			}
-
-			@Override
-			public void nodeRemoved(int i)
-			{
-				System.err.println("YOU HAVE BEEN KICKED");
-				JOptionPane.showMessageDialog(null, "YOU HAVE BEEN KICKED");
-				System.exit(0);
 			}
 		});
 	}

@@ -11,8 +11,6 @@ import java.net.UnknownHostException;
 import java.util.Enumeration;
 import java.util.logging.Logger;
 
-import javax.media.j3d.NodeReferenceTable;
-
 import org.amityregion5.qxrz.common.net.AbstractNetworkManager;
 import org.amityregion5.qxrz.common.net.AbstractNetworkNode;
 import org.amityregion5.qxrz.common.net.BroadcastDiscoveryQuery;
@@ -182,18 +180,13 @@ public class ClientNetworkManager extends AbstractNetworkManager
 					callback.newNode(info);
 				}
 
-				else if (netObj.getPayload() instanceof Goodbye)
-				{
-					callback.nodeRemoved(0); // only one node for the client (the server)
-				}
-				else if (server != null)
-				{
 				/*
 				 * If server has not been set yet, ignore all other packets.
 				 * Though we probably shouldn't be receiving any packets if we
 				 * haven't joined the game yet
 				 */
-					
+				if (server != null)
+				{
 //					System.out.println(netObj.getPacketNumber() + "/" + server.getReceivedPacketCount());
 //					System.out.println(netObj.getPayload().getClass().getSimpleName());
 					runHelper(server, netObj);

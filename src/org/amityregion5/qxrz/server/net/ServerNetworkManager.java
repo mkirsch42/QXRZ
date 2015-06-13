@@ -28,11 +28,11 @@ public class ServerNetworkManager extends AbstractNetworkManager
 	 * To construct a server, pass in a name and a port to listen on
 	 * 
 	 * @param name
-	 *           Name of the server.
+	 *            Name of the server.
 	 * @param p
-	 *           port to listen to
+	 *            port to listen to
 	 * @throws Exception
-	 *            Throw exception if failed to open a socket.
+	 *             Throw exception if failed to open a socket.
 	 */
 	public ServerNetworkManager(String name, int p) throws Exception
 	{
@@ -44,7 +44,7 @@ public class ServerNetworkManager extends AbstractNetworkManager
 			{
 				synchronized (clients)
 				{
-					for (int i = 0; i < clients.size(); i++)
+					for(int i = 0; i < clients.size(); i ++)
 					{
 						removeClient(i);
 					}
@@ -57,18 +57,17 @@ public class ServerNetworkManager extends AbstractNetworkManager
 	 * Sends given object to all clients.
 	 * 
 	 * @param obj
-	 *           Object that needs to be send.
+	 *            Object that needs to be send.
 	 */
 	public boolean sendObject(Serializable obj)
 	{
-		for (int i = 0; i < clients.size(); i++)
+		for (int i = 0; i < clients.size(); i ++)
 		{
 			NetworkNode c = clients.get(i);
 			try
 			{
 				c.send(obj);
-			}
-			catch (Exception e)
+			} catch (Exception e)
 			{
 				e.printStackTrace();
 			}
@@ -82,7 +81,7 @@ public class ServerNetworkManager extends AbstractNetworkManager
 	 * client disconnects, it will be automatically removed.
 	 * 
 	 * @param c
-	 *           Client that need to be removed
+	 *            Client that need to be removed
 	 */
 	public void removeClient(NetworkNode c)
 	{
@@ -93,8 +92,7 @@ public class ServerNetworkManager extends AbstractNetworkManager
 		try
 		{
 			c.send(new Goodbye());
-		}
-		catch (Exception e)
+		} catch (Exception e)
 		{
 			e.printStackTrace();
 		}
@@ -102,16 +100,11 @@ public class ServerNetworkManager extends AbstractNetworkManager
 
 	public NetworkNode removeClient(int index)
 	{
-		NetworkNode c;
-		synchronized (clients)
-		{
-			c = clients.remove(index);
-		}
+		NetworkNode c = clients.remove(index);
 		try
 		{
 			c.send(new Goodbye());
-		}
-		catch (Exception e)
+		} catch (Exception e)
 		{
 			e.printStackTrace();
 		}
@@ -127,10 +120,12 @@ public class ServerNetworkManager extends AbstractNetworkManager
 			{
 				NetworkObject netObj = (NetworkObject) inStream.recvObject();
 				NetworkNode recvClient = new NetworkNode(outStream,
-						(InetSocketAddress) inStream.getPacket().getSocketAddress());
+						(InetSocketAddress) inStream.getPacket()
+								.getSocketAddress());
 				boolean foundClient = false;
 
-				l.info("#" + netObj.getPacketNumber() + " " + netObj.getPayload());
+				l.info("#" + netObj.getPacketNumber() + " "
+						+ netObj.getPayload());
 
 				// if this is a discovery query, echo back at the server
 				if (netObj.getPayload() instanceof BroadcastDiscoveryQuery)
@@ -138,51 +133,40 @@ public class ServerNetworkManager extends AbstractNetworkManager
 					l.info("Query received!");
 					// System.out.println("query");
 					recvClient.send(info);
-				}
-				else
+				} else
 				{
-
-					if (netObj.getPayload() instanceof Goodbye)
+					if (netObj.getPayload() instanceof Hello)
 					{
-						clients.remove(clients.indexOf(recvClient));
+						recvClient.setName(((Hello) netObj.getPayload())
+								.getName());
 					}
-					else
+					for (int i = 0; i < clients.size(); i ++)
 					{
-						if (netObj.getPayload() instanceof Hello)
+						NetworkNode c = clients.get(i);
+						if (c.equals(recvClient))
 						{
-							recvClient
-									.setName(((Hello) netObj.getPayload()).getName());
+							// Found a client
+							recvClient = c;
+							foundClient = true;
+							break;
 						}
-						
-						for (int i = 0; i < clients.size(); i++)
-						{
-							NetworkNode c = clients.get(i);
-							if (c.equals(recvClient))
-							{
-								// Found a client
-								recvClient = c;
-								foundClient = true;
-								break;
-							}
-						}
-
-						if (!foundClient)
-						{
-							synchronized (clients)
-							{
-								clients.add(recvClient);
-							}
-							callback.newNode(recvClient);
-							l.info("New client " + recvClient.getAddress());
-						}
-
-						runHelper(recvClient, netObj);
 					}
+
+					if (!foundClient)
+					{
+						synchronized (clients)
+						{
+							clients.add(recvClient);
+						}
+						callback.newNode(recvClient);
+						l.info("New client " + recvClient.getAddress());
+					}
+
+					runHelper(recvClient, netObj);
 				}
 
 				l.info("Object Received from: " + netObj.toString());
-			}
-			catch (Exception e)
+			} catch (Exception e)
 			{
 				e.printStackTrace();
 			}
@@ -200,8 +184,7 @@ public class ServerNetworkManager extends AbstractNetworkManager
 		{
 			return new InetSocketAddress(InetAddress.getLocalHost(),
 					this.sock.getLocalPort());
-		}
-		catch (UnknownHostException e)
+		} catch (UnknownHostException e)
 		{
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -213,7 +196,7 @@ public class ServerNetworkManager extends AbstractNetworkManager
 	{
 		return clients;
 	}
-
+	
 	public String getServerName()
 	{
 		return info.getName();

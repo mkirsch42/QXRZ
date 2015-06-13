@@ -16,7 +16,5 @@ public interface NetEventListener
 	 * @param c node that just connected
 	 */
 	public void newNode(AbstractNetworkNode c);
-	
-	public void nodeRemoved(int i);
 
 }
