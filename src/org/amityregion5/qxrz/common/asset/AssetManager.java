@@ -22,6 +22,7 @@ public class AssetManager
 	
 	private static HashMap<String, ImageContainer> imageAssets = new HashMap<String, ImageContainer>();
 	private static HashMap<String, AudioData> audioAssets = new HashMap<String, AudioData>();
+	private static boolean isLoaded = false;
 
 	public static void loadAssets()
 	{
@@ -74,6 +75,7 @@ public class AssetManager
 		catch (IOException | UnsupportedAudioFileException | LineUnavailableException e)
 		{
 		}
+		isLoaded = true;
 	}
 	
 	private static AudioData getAudioClip(URL fileURL) throws UnsupportedAudioFileException, IOException, LineUnavailableException {
@@ -85,10 +87,16 @@ public class AssetManager
 	}
 	
 	public static ImageContainer[] getImageAssets(String name) {
+		if (!isLoaded) {
+			return new ImageContainer[]{};
+		}
 		return imageAssets.keySet().stream().sequential().filter((s)->s.matches(regexify(name))).map((k)->imageAssets.get(k)).collect(Collectors.toList()).toArray(new ImageContainer[] {});
 	}
 	
 	public static AudioData[] getAudioAssets(String name) {
+		if (!isLoaded) {
+			return new AudioData[]{};
+		}
 		return audioAssets.keySet().stream().sequential().filter((s)->s.matches(regexify(name))).map((k)->audioAssets.get(k)).collect(Collectors.toList()).toArray(new AudioData[] {});
 	}
 	
