@@ -190,14 +190,8 @@ public class GameUIHelper {
 								.substring(subIndex, endIndex), 0, 0);
 					}
 				}
-				/*
-				 * while (r.width >= buff.getWidth() - 20) { if (r.width/2 >=
-				 * buff.getWidth()-20 && subIndex > 0) { subIndex*=2; } else {
-				 * subIndex++; }
-				 * 
-				 * }
-				 */
 
+				r.height=(int) textSize;
 				totalYTrans += r.height + 2;
 
 				lines.add(c.getMessage().substring(subIndex, endIndex));
@@ -210,6 +204,7 @@ public class GameUIHelper {
 				String str = lines.get(i);
 
 				Rectangle r = GuiMath.getStringBounds(gBuff, str, 0, 0);
+				r.height=(int) textSize;
 
 				gBuff.translate(0, -(r.height + 2));
 				GuiUtil.drawString(gBuff, str, CenterMode.LEFT, x + 10,

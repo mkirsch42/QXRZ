@@ -33,10 +33,12 @@ public class Game implements Runnable
 	private Worlds world;
 	private GameModes mode;
 	private boolean friendlyfire = false;
+	private Main m;
 
-	public Game(ServerNetworkManager n, GameModes gm)
+	public Game(ServerNetworkManager n, GameModes gm, Main main)
 	{
 		net = n;
+		m = main;
 		// Create world and add test objects
 		w = WorldManager.getWorld(Worlds.DEBUG);
 		w.attachNetworkManager(net);
@@ -57,6 +59,7 @@ public class Game implements Runnable
 	@Override
 	public void run()
 	{
+		running = true;
 		long lastMs = System.currentTimeMillis();
 		double nsPerUpdate = 1000000000.0 / DebugConstants.DEBUG_FPS;
 
@@ -224,6 +227,8 @@ public class Game implements Runnable
 		{
 			net.sendObject(new ChatMessage(winner.getName() + " won")
 					.fromServer());
+			m.returnToLobby();
+			
 			for (NetworkNode n : players.keySet())
 			{
 				players.get(n).respawn(true);

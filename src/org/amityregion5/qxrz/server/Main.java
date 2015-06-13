@@ -29,13 +29,17 @@ import org.amityregion5.qxrz.server.world.gameplay.Team;
 //github.com/mkirsch42/QXRZ.gitimport org.amityregion5.qxrz.common.net.ChatMessage;
 
 public final class Main {
-	private static Game g;
-	private static ServerNetworkManager netManager;
-	private static MainGui gui;
-	private static GameState gs;
-	private static String s;
+	private Game g;
+	private ServerNetworkManager netManager;
+	private MainGui gui;
+	private GameState gs;
+	private String s;
 
 	public static void main(String[] args) throws Exception {
+		new Main();
+	}
+	
+	public Main() throws Exception {
 		Logger.getGlobal().setLevel(Level.OFF);
 
 		gs = GameState.LOBBY;
@@ -57,13 +61,30 @@ public final class Main {
 		netManager.setAllowConnections(true);
 		netManager.start();
 
-		g = new Game(netManager, GameModes.LASTMAN); // TODO game needs access to network, too...
+		g = new Game(netManager, GameModes.LASTMAN, this); // TODO game needs access to network, too...
 		// TODO server panel should show actual IP, not 0.0.0.0
 		if (DebugConstants.DEBUG_GUI) {
 			Game.debug = DebugDraw.setup(g.getWorld());
 		}
 
-		
+		returnToLobby();
+		// new MainGui().show();
+
+		//gui.show();
+		//g.run();
+	}
+	
+	public void returnToLobby() {
+		gs = GameState.LOBBY;
+		g.close();
+		startLobby();
+		netManager.setAllowConnections(true);
+		for (Player p : g.getPlayers().values()) {
+			p.setReady(false);
+		}
+	}
+	
+	private void startLobby() {
 		double nsPerUpdate = 1000000000.0 / DebugConstants.DEBUG_FPS;
 
 		double then = System.nanoTime();
@@ -88,13 +109,9 @@ public final class Main {
 			}
 			else{try{Thread.sleep(1);} catch (InterruptedException e){}}
 		}
-		// new MainGui().show();
-
-		//gui.show();
-		//g.run();
 	}
 	
-	private static void doLobbyUpdate() {
+	private void doLobbyUpdate() {
 		for (NetworkNode n : g.getPlayers().keySet()) {
 			Player p  = g.getPlayers().get(n);
 			try {
@@ -104,7 +121,7 @@ public final class Main {
 	}
 	
 	
-	private static void attachEventListener() {
+	private void attachEventListener() {
 		netManager.attachEventListener(new NetEventListener() {
 			@Override
 			public void newNode(AbstractNetworkNode c) {
@@ -137,6 +154,7 @@ public final class Main {
 						g.findPlayer(c).setReady(((ReadyPacket)netObj).isReady());
 						if (g.allPlayersReady()) {
 							gs = GameState.INGAME;
+							netManager.setAllowConnections(false);
 							new Thread(g, "Server Game Thread").start();
 						}
 					} else if (netObj instanceof ChangeClassPacket) {

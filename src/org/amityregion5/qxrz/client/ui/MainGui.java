@@ -284,6 +284,9 @@ public class MainGui
 					}
 				} else if (payload instanceof LobbyInformationPacket) {
 					lip = (LobbyInformationPacket)payload;
+					if (currentScreen instanceof GameScreen) {
+						setCurrentScreen(currentScreen.getReturnScreen());
+					}
 				} else if (payload instanceof Goodbye)
 				{
 					System.err.println("YOU HAVE BEEN KICKED");
