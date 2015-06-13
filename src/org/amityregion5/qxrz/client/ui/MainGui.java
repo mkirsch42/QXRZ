@@ -276,6 +276,7 @@ public class MainGui
 				} else if (payload instanceof Goodbye)
 				{
 					System.err.println("YOU HAVE BEEN KICKED");
+					closeGame();
 					JOptionPane.showMessageDialog(null, "YOU HAVE BEEN KICKED");
 					System.exit(0);
 				}

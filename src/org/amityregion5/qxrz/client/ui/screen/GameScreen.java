@@ -77,7 +77,7 @@ public class GameScreen extends AbstractScreen {
 			if (a.isStarting()) {
 				System.out.println("Start sound: " + a.getAsset());
 				Clip c = AudioHelper.playCopyClip(a.getAsset());
-				//AudioHelper.setPercentVolume(c, 1/a.getLocation().distanceSq(vp.xCenter, vp.yCenter));
+				AudioHelper.setPercentVolume(c, 1/a.getLocation().distance(vp.xCenter, vp.yCenter));
 			}
 			if (a.isEnding()) {
 
