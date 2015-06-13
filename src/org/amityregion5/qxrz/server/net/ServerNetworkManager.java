@@ -84,19 +84,11 @@ public class ServerNetworkManager extends AbstractNetworkManager
 	 * @param c
 	 *            Client that need to be removed
 	 */
-	public void removeClient(NetworkNode c)
+	public int removeClient(NetworkNode c)
 	{
-		synchronized (clients)
-		{
-			clients.remove(c);
-		}
-		try
-		{
-			c.send(new Goodbye());
-		} catch (Exception e)
-		{
-			e.printStackTrace();
-		}
+		int i = clients.indexOf(c);
+		removeClient(i);
+		return i;
 	}
 
 	public NetworkNode removeClient(int index)

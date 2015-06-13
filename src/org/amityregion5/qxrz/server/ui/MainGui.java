@@ -111,5 +111,10 @@ public class MainGui extends JFrame
 		dm.addRow(new String[] { c.getName(), c.getSocketAddress().getHostName(),
 				"X" });
 	}
+	
+	public void removeRow(int i)
+	{
+		dm.removeRow(i);
+	}
 
 }
