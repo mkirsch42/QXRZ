@@ -98,6 +98,10 @@ public abstract class AbstractNetworkManager extends Thread
 		// {
 		// return;
 		// }
+		if(callback == null)
+		{
+			return;
+		}
 		callback.dataReceived(node, netObj.getPayload());
 	}
 
