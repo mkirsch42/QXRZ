@@ -76,7 +76,7 @@ public class ServerLobbyScreen extends AbstractScreen
 		elements.add(new ElementRectangle(
 				(w)->{return new Point(w.getWidth()/2 + 150, 425);}, 
 				(w)->{return new Point(200, 50);}, 
-				()->Color.DARK_GRAY, ()->Color.BLACK, 14f, ()->Color.WHITE, ()->(gui.getLip().isReady()?"Ready":"Not Ready"),
+				()->Color.DARK_GRAY, ()->Color.BLACK, 14f, ()->Color.WHITE, ()->(gui.getLip().isReady()?"Ready":"Click When Ready"),
 				(w)->gui.getNetworkManger().sendObject(new ReadyPacket(!gui.getLip().isReady()))));
 
 	} 
