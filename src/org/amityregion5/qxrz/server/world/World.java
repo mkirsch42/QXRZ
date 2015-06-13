@@ -64,7 +64,7 @@ public class World
 	
 	public void add(GameEntity e)
 	{
-		System.out.println("Adding entity #" + e.getId());
+		//System.out.println("Adding entity #" + e.getId());
 		entities.add(e);
 	}
 	
@@ -124,6 +124,7 @@ public class World
 		}
 		while(sounds.size()>0)
 		{
+			System.out.println("sending sound: " + sounds.get(0).getAsset());
 			ndp.add(sounds.remove(0));
 		}
 		return ndp;
@@ -131,7 +132,7 @@ public class World
 	public void removeEntity(GameEntity e)
 	{
 		//Thread.dumpStack();
-		System.out.println("removing entity #"+e.getId());
+		//System.out.println("removing entity #"+e.getId());
 		entities.remove(e);
 	}
 	public void say(String msg)

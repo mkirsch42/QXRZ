@@ -80,4 +80,8 @@ public class NetworkDrawablePacket implements Serializable, Iterable<NetworkDraw
 	public Worlds getCurrentWorld() {
 		return currentWorld;
 	}
+
+	public void setPlayables(ArrayList<AudioMessage> sounds) {
+		playables = sounds;
+	}
 }

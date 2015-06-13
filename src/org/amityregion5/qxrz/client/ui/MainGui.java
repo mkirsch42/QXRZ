@@ -70,6 +70,7 @@ public class MainGui
 
 		// Set the size of the frame
 		frame.setSize(1200, 800);
+		frame.setResizable(false);
 
 		// Set the default close operation of the frame
 		frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
@@ -339,5 +340,9 @@ public class MainGui
 	public void setCursor() {
 		BufferedImage c = AssetManager.getImageAssets("icons/cursor")[0].getImage(getFrameID());
 		frame.getRootPane().setCursor(Toolkit.getDefaultToolkit().createCustomCursor(c, new Point(c.getWidth()/2, c.getHeight()/2), "Cursor"));
+	}
+	
+	public void setSize(int width, int height) {
+		frame.setSize(width, height);
 	}
 }

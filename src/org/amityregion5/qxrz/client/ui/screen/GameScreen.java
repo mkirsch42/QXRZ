@@ -75,8 +75,9 @@ public class GameScreen extends AbstractScreen {
 
 		for (AudioMessage a : gui.getNetworkDrawablePacket().getPlayables()) {
 			if (a.isStarting()) {
+				System.out.println("Start sound: " + a.getAsset());
 				Clip c = AudioHelper.playCopyClip(a.getAsset());
-				AudioHelper.setPercentVolume(c, 1/a.getLocation().distanceSq(vp.xCenter, vp.yCenter));
+				//AudioHelper.setPercentVolume(c, 1/a.getLocation().distanceSq(vp.xCenter, vp.yCenter));
 			}
 			if (a.isEnding()) {
 
@@ -208,9 +209,9 @@ public class GameScreen extends AbstractScreen {
 			nid.set(NetworkInputMasks.COMMA, windowData.getKeysDown().stream().anyMatch((k)->k.getKeyCode()==KeyEvent.VK_COMMA));
 			nid.set(NetworkInputMasks.PERIOD, windowData.getKeysDown().stream().anyMatch((k)->k.getKeyCode()==KeyEvent.VK_PERIOD));
 			if (nid.get(NetworkInputMasks.W) || nid.get(NetworkInputMasks.A) || nid.get(NetworkInputMasks.S) || nid.get(NetworkInputMasks.D)) {
-				AudioHelper.play(AssetManager.getAudioAssets("footstep")[0], true);
+				AudioHelper.play(AssetManager.getAudioAssets("footstep")[0].getMaster(), true);
 			} else {
-				AudioHelper.stop(AssetManager.getAudioAssets("footstep")[0]);
+				AudioHelper.stop(AssetManager.getAudioAssets("footstep")[0].getMaster());
 			}
 
 			//Set mouse coordinate data

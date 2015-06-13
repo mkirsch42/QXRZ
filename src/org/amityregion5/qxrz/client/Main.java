@@ -43,6 +43,7 @@ public class Main
 			Settings settings = new Settings();
 			settings.save();
 			gui.setSettings(settings);
+			gui.setSize(settings.getWidth(), settings.getHeight());
 			
 			gui.setCursor();
 		}

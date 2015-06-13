@@ -63,9 +63,9 @@ public class MainMenuScreen extends AbstractScreen
 	@Override
 	public void onScreenChange(boolean leaving) {
 		if (leaving) {
-			AudioHelper.stop(AssetManager.getAudioAssets("test/BHT")[0]);
+			AudioHelper.stop(AssetManager.getAudioAssets("test/BHT")[0].getMaster());
 		} else {
-			AudioHelper.play(AssetManager.getAudioAssets("test/BHT")[0], true);
+			AudioHelper.play(AssetManager.getAudioAssets("test/BHT")[0].getMaster(), true);
 		}
 	}
 

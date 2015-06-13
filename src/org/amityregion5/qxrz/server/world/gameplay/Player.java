@@ -172,7 +172,6 @@ public class Player {
 	}
 	public void shoot(Vector2D v) //shoots currently equipped weapon and creates a respective bullet
 	{
-		w.addSound(new AudioMessage(entity.getPos().toIntPoint(), WeaponTypes.getTypeFromString(getEquipped().getType()).sound, true));
 		if(getEquipped().getType().equals(WeaponTypes.KNIFE.text) || getEquipped().getInClip()+getEquipped().getReserve()==0)
 		{
 			stab(v);
@@ -180,6 +179,7 @@ public class Player {
 		}
 		if (guns[equipped].shoot())
 		{
+			w.addSound(new AudioMessage(entity.getPos().toIntPoint(), WeaponTypes.getTypeFromString(getEquipped().getType()).sound, true));
 			if(getEquipped().getType().equals(WeaponTypes.SHOTGUN.text))
 			{
 				SpecialWeapons.shotgun(w, this, v);

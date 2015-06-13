@@ -25,7 +25,7 @@ public class AudioHelper {
 	}
 	
 	public static Clip playCopyClip(String clipName) {
-		Clip c = AssetManager.getCopyClip(clipName);
+		Clip c = AssetManager.getAudioAssets(clipName)[0].getCopy();
 		
 		play(c, false);
 		

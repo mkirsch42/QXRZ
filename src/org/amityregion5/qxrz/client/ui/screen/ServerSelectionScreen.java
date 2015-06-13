@@ -216,9 +216,9 @@ public class ServerSelectionScreen extends AbstractScreen {
 	@Override
 	public void onScreenChange(boolean leaving) {
 		if (leaving) {
-			AudioHelper.stop(AssetManager.getAudioAssets("test/elevator")[0]);
+			AudioHelper.stop(AssetManager.getAudioAssets("test/elevator")[0].getMaster());
 		} else {
-			AudioHelper.play(AssetManager.getAudioAssets("test/elevator")[0],
+			AudioHelper.play(AssetManager.getAudioAssets("test/elevator")[0].getMaster(),
 					true);
 		}
 	}

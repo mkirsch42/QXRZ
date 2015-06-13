@@ -6,14 +6,14 @@ import java.net.URL;
 import java.util.HashMap;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
+
 import javax.imageio.ImageIO;
 import javax.sound.sampled.AudioInputStream;
 import javax.sound.sampled.AudioSystem;
-import javax.sound.sampled.Clip;
 import javax.sound.sampled.LineUnavailableException;
 import javax.sound.sampled.UnsupportedAudioFileException;
+
 import org.amityregion5.qxrz.client.Main;
-import org.amityregion5.qxrz.client.ui.util.DoubleReturn;
 import org.amityregion5.qxrz.common.util.FileUtil;
 
 
@@ -21,7 +21,7 @@ public class AssetManager
 {
 	
 	private static HashMap<String, ImageContainer> imageAssets = new HashMap<String, ImageContainer>();
-	private static HashMap<String, DoubleReturn<Clip, URL>> audioAssets = new HashMap<String, DoubleReturn<Clip, URL>>();
+	private static HashMap<String, AudioData> audioAssets = new HashMap<String, AudioData>();
 
 	public static void loadAssets()
 	{
@@ -72,31 +72,20 @@ public class AssetManager
 		}
 	}
 	
-	private static DoubleReturn<Clip, URL> getAudioClip(URL fileURL) throws UnsupportedAudioFileException, IOException, LineUnavailableException {
+	private static AudioData getAudioClip(URL fileURL) throws UnsupportedAudioFileException, IOException, LineUnavailableException {
 		AudioInputStream ain = AudioSystem.getAudioInputStream(fileURL);
-		Clip c = AudioSystem.getClip();
-		c.open(ain);
-		return new DoubleReturn<Clip, URL>(c, fileURL);
-	}
-	
-	public static Clip getCopyClip(String assetName) {
-		try
-		{
-			return getAudioClip(audioAssets.get(assetName).b).a;
-		}
-		catch (UnsupportedAudioFileException | IOException | LineUnavailableException e)
-		{
-			e.printStackTrace();
-		}
-		return null;
+		byte[] bytes = new byte[ain.available()];
+		ain.read(bytes);
+		AudioData ad = new AudioData(bytes, ain.getFormat());
+		return ad;
 	}
 	
 	public static ImageContainer[] getImageAssets(String name) {
 		return imageAssets.keySet().stream().sequential().filter((s)->s.matches(regexify(name))).map((k)->imageAssets.get(k)).collect(Collectors.toList()).toArray(new ImageContainer[] {});
 	}
 	
-	public static Clip[] getAudioAssets(String name) {
-		return audioAssets.keySet().stream().sequential().filter((s)->s.matches(regexify(name))).map((k)->audioAssets.get(k)).map((dr)->dr.a).collect(Collectors.toList()).toArray(new Clip[] {});
+	public static AudioData[] getAudioAssets(String name) {
+		return audioAssets.keySet().stream().sequential().filter((s)->s.matches(regexify(name))).map((k)->audioAssets.get(k)).collect(Collectors.toList()).toArray(new AudioData[] {});
 	}
 	
 	private static String regexify(String str) {

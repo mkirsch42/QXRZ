@@ -21,6 +21,7 @@ public class Settings
 
 	private transient HashMap<String, Object> renderSettings;
 	private HashMap<String, Integer> storage;
+	private int width, height;
 
 	static {
 		defaultSettings = new HashMap<String, Object>();
@@ -42,14 +43,19 @@ public class Settings
 		retainKeys(renderSettings, defaultSettings);
 	}
 
-	@SuppressWarnings("unchecked")
 	public void load() {
 		try{
 			InputStream file = new FileInputStream("QXRZ_Settings.ini");
 			InputStream buffer = new BufferedInputStream(file);
 			ObjectInput input = new ObjectInputStream (buffer);
 
-			storage = (HashMap<String, Integer>)input.readObject();
+			Settings s = (Settings)input.readObject();
+			
+			storage = s.storage;
+			width = s.width;
+			height = s.height;
+			
+			s = null;
 			input.close();
 			
 			renderSettings = new HashMap<String, Object>();
@@ -63,7 +69,9 @@ public class Settings
 			readIntToObj(renderSettings, storage, "Stroke", RenderingHints.VALUE_STROKE_PURE, RenderingHints.VALUE_STROKE_NORMALIZE);
 			storage = null;
 		}catch (IOException | ClassNotFoundException e){
-			renderSettings = defaultSettings;;
+			renderSettings = defaultSettings;
+			width = 1200;
+			height = 800;
 		}
 	}
 
@@ -94,7 +102,7 @@ public class Settings
 			writeIntFromObj(renderSettings, storage, "AlphaInterpolation", RenderingHints.VALUE_ALPHA_INTERPOLATION_QUALITY, RenderingHints.VALUE_ALPHA_INTERPOLATION_SPEED);
 			writeIntFromObj(renderSettings, storage, "ColorRenderQuality", RenderingHints.VALUE_COLOR_RENDER_QUALITY, RenderingHints.VALUE_COLOR_RENDER_SPEED);
 			writeIntFromObj(renderSettings, storage, "Stroke", RenderingHints.VALUE_STROKE_PURE, RenderingHints.VALUE_STROKE_NORMALIZE);
-			output.writeObject(storage);
+			output.writeObject(this);
 			output.close();
 			storage = null;
 		}catch (IOException e){}
@@ -119,5 +127,13 @@ public class Settings
 
 	public void setValue(String key, Object value) {
 		renderSettings.put(key, value);
+	}
+
+	public int getWidth() {
+		return width;
+	}
+
+	public int getHeight() {
+		return height;
 	}
 }
