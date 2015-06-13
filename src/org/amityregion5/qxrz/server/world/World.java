@@ -201,7 +201,7 @@ public class World
 			}
 			p.setOnePickup();
 		} while (checkEntityCollisions(p.getEntity().getHitbox(), p.getEntity().getId())!=null || l.checkCollisions(p.getEntity().getHitbox())!=null);
-		System.out.println("new pickup at " + p.getEntity().getPos());
+		//System.out.println("new pickup at " + p.getEntity().getPos());
 		add(p.getEntity());
 	}
 }

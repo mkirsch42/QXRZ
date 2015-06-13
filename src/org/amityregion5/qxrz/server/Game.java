@@ -34,6 +34,8 @@ public class Game implements Runnable
 	private GameModes mode;
 	private boolean friendlyfire = false;
 	private Main m;
+	private int renderCounter = 0;
+	private static final int renderSendPacket = 3;
 
 	public Game(ServerNetworkManager n, GameModes gm, Main main)
 	{
@@ -102,7 +104,7 @@ public class Game implements Runnable
 	}
 
 	public Player winner() // checks all player entities to determine a winner
-							// if one player is left alive
+	// if one player is left alive
 	{
 		if (players.size() < 2 || playerWon)
 		{
@@ -226,9 +228,9 @@ public class Game implements Runnable
 		if (winner != null)
 		{
 			net.sendObject(new ChatMessage(winner.getName() + " won")
-					.fromServer());
+			.fromServer());
 			m.returnToLobby();
-			
+
 			for (NetworkNode n : players.keySet())
 			{
 				players.get(n).respawn(true);
@@ -251,27 +253,31 @@ public class Game implements Runnable
 	{
 		debug.draw();
 
-		NetworkDrawablePacket ndp = w.constructDrawablePacket();
-		ndp.setCurrentWorld(world);
-		for (NetworkNode node : players.keySet())
-		{
-			int index = w.getEntities().indexOf(players.get(node).getEntity());
-			ndp.setClientIndex(index);
-			try
+		renderCounter++;
+		if (renderCounter >= renderSendPacket) {
+			renderCounter = 0;
+			NetworkDrawablePacket ndp = w.constructDrawablePacket();
+			ndp.setCurrentWorld(world);
+			for (NetworkNode node : players.keySet())
 			{
-				node.send(ndp);
-			} catch (Exception e)
-			{
-				// TODO Auto-generated catch block
-				e.printStackTrace();
+				int index = w.getEntities().indexOf(players.get(node).getEntity());
+				ndp.setClientIndex(index);
+				try
+				{
+					node.send(ndp);
+				} catch (Exception e)
+				{
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
 			}
 		}
 	}
-	
+
 	public boolean allPlayersReady() {
 		return players.values().stream().parallel().allMatch((p)->p.isReady());
 	}
-	
+
 	public HashMap<NetworkNode, Player> getPlayers() {
 		return players;
 	}

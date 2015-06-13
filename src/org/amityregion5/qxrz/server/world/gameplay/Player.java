@@ -197,6 +197,9 @@ public class Player {
 					b.setFriendlyFireTeam(team);
 				b.setFriendlyFirePlayer(this);
 				b.setSource(entity);
+				if (guns[equipped].getEnumType() == WeaponTypes.ROCKETGUN) {
+					b.getEntity().setOnHitCallback(()->w.addSound(new AudioMessage(b.getEntity().getPos().toIntPoint(), "explode", true)));
+				}
 				w.add(b.getEntity());
 			}
 		}

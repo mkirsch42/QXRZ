@@ -11,6 +11,7 @@ import org.amityregion5.qxrz.server.world.vector2d.Vector2D;
 public class ProjectileEntity extends GameEntity
 {
 	private Bullet gameModel;
+	private Runnable onHitCallback;
 	public static int projsize = 100; // depending on specific projectile?
 
 	public ProjectileEntity(Vector2D p, Vector2D v, Bullet b)
@@ -32,7 +33,7 @@ public class ProjectileEntity extends GameEntity
 		PlayerEntity e = checkPlayerCollisions(vel.multiply(tSinceUpdate), w, gameModel.getFriendlyFirePlayer());
 		if(e==null)
 			return super.update(tSinceUpdate, w);
-		System.out.println("ProjectileEntity #" + getId() + " collided with Entity #" + e.getId());
+		//System.out.println("ProjectileEntity #" + getId() + " collided with Entity #" + e.getId());
 		boolean ret = super.update(tSinceUpdate, w);
 		return ((PlayerEntity)e).getGameModel().damaged(gameModel) || ret;
 	}
@@ -40,6 +41,7 @@ public class ProjectileEntity extends GameEntity
 	@Override
 	protected boolean collide(Hitboxed h, World l, Vector2D v)
 	{
+		if (onHitCallback != null) onHitCallback.run();
 		return true;
 	}
 
@@ -55,5 +57,10 @@ public class ProjectileEntity extends GameEntity
 			asset = "projectiles/arrow";
 		}
 		return new NetworkDrawableEntity(new NetworkDrawableObject[] {new NetworkDrawableObject(asset, getHitbox().getAABB()).rotate(vel.angle())}, getHitbox().getAABB());
+	}
+	
+	
+	public void setOnHitCallback(Runnable onHitCallback) {
+		this.onHitCallback = onHitCallback;
 	}
 }

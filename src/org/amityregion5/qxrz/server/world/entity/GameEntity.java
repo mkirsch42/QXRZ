@@ -32,7 +32,7 @@ public abstract class GameEntity implements Hitboxed
 		Obstacle o = checkCollisions(vel.multiply(tSinceUpdate), surroundings);
 		if (o != null)
 		{
-			System.out.println("Entity #" + id + " collided");
+			//System.out.println("Entity #" + id + " collided");
 			if (DebugConstants.DEBUG_PATH)
 			{
 				DebugDraw.buffer.add(((RectangleHitbox) o.getHitbox())
