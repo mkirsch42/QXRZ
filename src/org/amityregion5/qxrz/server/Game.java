@@ -240,6 +240,9 @@ public class Game implements Runnable
 				&& (int) (Math.random() * DebugConstants.DROPCHANCEPERUPDATE) == 1)
 		{
 			w.drop();
+		} 
+		if (players.isEmpty()){
+			m.returnToLobby();
 		}
 
 	}

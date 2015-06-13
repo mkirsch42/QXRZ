@@ -1,6 +1,7 @@
 package org.amityregion5.qxrz.server.world.entity;
 
 import java.awt.Rectangle;
+import java.awt.geom.Path2D.Double;
 import java.awt.geom.Rectangle2D;
 
 import org.amityregion5.qxrz.common.control.NetworkInputData;

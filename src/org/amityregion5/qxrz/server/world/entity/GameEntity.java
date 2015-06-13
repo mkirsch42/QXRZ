@@ -175,6 +175,14 @@ public abstract class GameEntity implements Hitboxed
 	}
 	
 	public void remove(){}
+	
+	public void setPos(Vector2D pos) {
+		this.pos = pos;
+	}
+	
+	public void setVel(Vector2D vel) {
+		this.vel = vel;
+	}
 
 	public abstract NetworkDrawableEntity getNDE();
 }

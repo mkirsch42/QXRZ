@@ -261,6 +261,7 @@ public class GameScreen extends AbstractScreen {
 
 	@Override
 	protected void cleanup() {
+		AudioHelper.stop(AssetManager.getAudioAssets("footstep")[0].getMaster());
 		//gui.getNetworkManger().sendGoodbye();
 	}
 }

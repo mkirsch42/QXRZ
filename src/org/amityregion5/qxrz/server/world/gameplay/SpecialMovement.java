@@ -1,86 +1,84 @@
 package org.amityregion5.qxrz.server.world.gameplay;
 
-import java.awt.geom.Path2D;
-
-import org.amityregion5.qxrz.server.world.Landscape;
 import org.amityregion5.qxrz.server.world.World;
 import org.amityregion5.qxrz.server.world.entity.PlayerEntity;
 import org.amityregion5.qxrz.server.world.vector2d.Vector2D;
 
 public class SpecialMovement {
 	private SpecialMovements type;
-	private Landscape la;
-	private int timeused;
-	private static final int TELEPORTTIME = 8;
-	private static final int DASHTIME = 6;
-	private static final int ROLLTIME = 4;
+	//private Landscape la;
+	private long timeused;
+	private long cooldownUse;
+	
+	private static final int TELEPORT_LEN = 10;
+	private static final int TELEPORT_COOLDOWN = 25000;
+	private static final int TELEPORT_MULT = 50;
+	
+	private static final int DASH_LEN = 50;
+	private static final int DASH_COOLDOWN = 10000;
+	private static final int DASH_MULT = 10;
+	
+	private static final int ROLL_LEN = 100;
+	private static final int ROLL_COOLDOWN = 5000;
+	private static final int ROLL_MULT = 5;
 	
 	public SpecialMovement(SpecialMovements t, World wo)
 	{
 		type = t;
-		la = wo.getLandscape();
+		//la = wo.getLandscape();
 	}
 	
-	public void dash(PlayerEntity p, int call)
+	public void dash(PlayerEntity p, long call)
 	{
 		//maybe some animation
-		if (call - timeused < DASHTIME)
+		if (call < cooldownUse)
 		{	/*invalid*/ }
 		else
 		{
-			PlayerEntity port = new PlayerEntity(p.getPos().add(p.getVel().subtract(new Vector2D(3,3))),p.getGameModel()); //nonexistent entity to test for the validity of dash
-																														   //distance will be 2 units lower than teleport distance												
-			if (port.checkCollisions(port.getPos(), la).equals(null)) 
-			{
-				//dash assets?
-				p.getGameModel().setSpecMoving(true);
-				Path2D.Double pa = new Path2D.Double();				   //
-				pa.moveTo(port.getPos().getX(), port.getPos().getY()); //i don't know
-				p.getGameModel().setSpecMoving(false);				   //
-				timeused = (int) System.currentTimeMillis();
+			if (!p.getVel().equals(new Vector2D())) {
+				p.setVel(p.getVel().multiply(DASH_MULT));
+				timeused++;
+				if (timeused >= DASH_LEN) {
+					timeused = 0;
+					cooldownUse = call + DASH_COOLDOWN;
+				}
 			}
-			else {/*invalid*/}
 		}
 	}
 	
-	public void roll(PlayerEntity p, int call)
+	public void roll(PlayerEntity p, long call)
 	{
-		if (call - timeused < ROLLTIME)
+		//maybe some animation
+		if (call < cooldownUse)
 		{	/*invalid*/ }
 		else
 		{
-			PlayerEntity port = new PlayerEntity(p.getPos().add(p.getVel().subtract(new Vector2D(3,3))),p.getGameModel()); //nonexistent entity to test for the validity of roll
-																														   //distance will be 3 units lower than teleport distance												
-			if (port.checkCollisions(port.getPos(), la).equals(null)) 
-			{
-				//roll assets?
-				p.getGameModel().setSpecMoving(true);
-				Path2D.Double pa = new Path2D.Double();				   //
-				pa.moveTo(port.getPos().getX(), port.getPos().getY()); //i don't know
-				timeused = (int) System.currentTimeMillis();		   //
-				p.getGameModel().setSpecMoving(false);
+			if (!p.getVel().equals(new Vector2D())) {
+				p.setVel(p.getVel().multiply(ROLL_MULT));
+				timeused++;
+				if (timeused >= ROLL_LEN) {
+					timeused = 0;
+					cooldownUse = call + ROLL_COOLDOWN;
+				}
 			}
-			else {/*invalid*/}
 		}
 	}
-	public void teleport(PlayerEntity p, int call)
+	public void teleport(PlayerEntity p, long call)
 	{
-		//no animation for this movement
-		if (call - timeused < TELEPORTTIME)
+		//maybe some animation
+		if (call < cooldownUse)
 		{	/*invalid*/ }
 		else
 		{
-			PlayerEntity port = new PlayerEntity(p.getPos().add(p.getVel()),p.getGameModel()); //nonexistent entity to test for the validity of teleport
-																							   //teleport distance will be the max distance for all special moves
-			if (port.checkCollisions(port.getPos(), la).equals(null))
-			{
-				p.getGameModel().setSpecMoving(true);
-				p = port;
-				p.getGameModel().setSpecMoving(false);
-				timeused = (int) System.currentTimeMillis();
+			if (!p.getVel().equals(new Vector2D())) {
+				p.setVel(p.getVel().multiply(TELEPORT_MULT));
+				timeused++;
+				if (timeused >= TELEPORT_LEN) {
+					timeused = 0;
+					cooldownUse = call + TELEPORT_COOLDOWN;
+				}
 			}
-			else {/*invalid*/}
-		}	
+		}
 	}
 	
 	public SpecialMovements getType()
@@ -89,13 +87,13 @@ public class SpecialMovement {
 	}
 	public boolean equals(SpecialMovement o)
 	{
-		if (this.getType().equals(o.getType()))
+		if (o != null && getType() == o.getType())
 		{
 			return true;
 		}
 		return false;
 	}
-	public int getTimeUsed()
+	public long getTimeUsed()
 	{
 		return timeused;
 	}

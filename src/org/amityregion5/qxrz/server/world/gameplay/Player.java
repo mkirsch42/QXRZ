@@ -219,22 +219,18 @@ public class Player {
 	}
 	public void useSpecMove() 
 	{
-		if (!(psmove.equals(null)))
+		switch (psmove.getType())
 		{
-			switch (psmove.getType())
-			{
-			case ROLL:	
-				psmove.roll(entity, (int) System.currentTimeMillis());
-				break;
-			case TELEPORT:	
-				psmove.teleport(entity, (int) System.currentTimeMillis());
-				break;
-			case DASH:	
-				psmove.dash(entity, (int) System.currentTimeMillis());
-				break;
-			}
+		case ROLL:	
+			psmove.roll(entity, System.currentTimeMillis());
+			break;
+		case TELEPORT:	
+			psmove.teleport(entity, System.currentTimeMillis());
+			break;
+		case DASH:	
+			psmove.dash(entity, System.currentTimeMillis());
+			break;
 		}
-		else {}
 	}
 	public void input(NetworkInputData nid)
 	{
@@ -427,5 +423,8 @@ public class Player {
 	}
 	public boolean isReady() {
 		return ready;
+	}
+	public NetworkInputData getDowns() {
+		return downs;
 	}
 }

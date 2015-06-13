@@ -62,7 +62,7 @@ public final class Main {
 
 		attachEventListener();
 
-		netManager.setAllowConnections(true);
+		netManager.setAllowConnections(false);
 		netManager.start();
 
 		g = new Game(netManager, GameModes.LASTMAN, this); // TODO game needs access to network, too...
@@ -79,10 +79,10 @@ public final class Main {
 	}
 
 	public void returnToLobby() {
+		netManager.setAllowConnections(true);
 		gs = GameState.LOBBY;
 		g.close();
 		startLobby();
-		netManager.setAllowConnections(true);
 		for (Player p : g.getPlayers().values()) {
 			p.setReady(false);
 		}
