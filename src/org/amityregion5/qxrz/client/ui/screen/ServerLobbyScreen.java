@@ -3,22 +3,23 @@ package org.amityregion5.qxrz.client.ui.screen;
 import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.Point;
-import java.awt.Rectangle;
 import java.awt.image.BufferedImage;
-import java.util.ArrayList;
 
 import org.amityregion5.qxrz.client.ui.MainGui;
+import org.amityregion5.qxrz.client.ui.element.ElementImageRectangle;
+import org.amityregion5.qxrz.client.ui.element.ElementRectangle;
 import org.amityregion5.qxrz.client.ui.element.ElementTextBox;
-import org.amityregion5.qxrz.client.ui.util.CenterMode;
-import org.amityregion5.qxrz.client.ui.util.GuiMath;
-import org.amityregion5.qxrz.client.ui.util.GuiUtil;
-import org.amityregion5.qxrz.client.ui.util.ImageModification;
+import org.amityregion5.qxrz.client.ui.util.DoubleReturn;
+import org.amityregion5.qxrz.client.ui.util.GameUIHelper;
+import org.amityregion5.qxrz.common.game.ChangeClassPacket;
+import org.amityregion5.qxrz.common.game.ReadyPacket;
 import org.amityregion5.qxrz.common.net.ChatMessage;
+import org.amityregion5.qxrz.common.util.Colors;
 
 public class ServerLobbyScreen extends AbstractScreen
 {
 	private ElementTextBox chatBox;
-
+	private int scrollOffset;
 
 
 	/**
@@ -48,7 +49,37 @@ public class ServerLobbyScreen extends AbstractScreen
 			gui.getNetworkManger().sendObject(new ChatMessage(chatBox.getString()));
 			chatBox.setName("");
 		});
-	}
+		
+		elements.add(new ElementRectangle(
+				(w)->{return new Point(w.getWidth()/2 + 150, 180);}, 
+				(w)->{return new Point(150, 20);}, 
+				()->Colors.CLEAR, ()->Colors.CLEAR, 14f, ()->Color.BLACK, ()->gui.getLip().getPlayerClass().toString(),
+				(w)->{}));
+		
+		elements.add(new ElementImageRectangle(
+				(w)->{return new Point(w.getWidth()/2 + 175, 200);}, 
+				(w)->{return new Point(100, 100);}, 
+				()->Colors.CLEAR, ()->Colors.CLEAR, ()->gui.getLip().getPlayerClass().getAssetName(),
+				(w)->{}, gui));
+		
+		elements.add(new ElementRectangle(
+				(w)->{return new Point(w.getWidth()/2 + 150, 325);}, 
+				(w)->{return new Point(50, 50);}, 
+				Color.DARK_GRAY, Color.BLACK, -5f, Color.WHITE, "<",
+				(w)->gui.getNetworkManger().sendObject(new ChangeClassPacket(false))));
+		elements.add(new ElementRectangle(
+				(w)->{return new Point(w.getWidth()/2 + 250, 325);}, 
+				(w)->{return new Point(50, 50);}, 
+				Color.DARK_GRAY, Color.BLACK, -5f, Color.WHITE, ">",
+				(w)->gui.getNetworkManger().sendObject(new ChangeClassPacket(true))));
+		
+		elements.add(new ElementRectangle(
+				(w)->{return new Point(w.getWidth()/2 + 150, 425);}, 
+				(w)->{return new Point(200, 50);}, 
+				()->Color.DARK_GRAY, ()->Color.BLACK, 14f, ()->Color.WHITE, ()->(gui.getLip().isReady()?"Ready":"Not Ready"),
+				(w)->gui.getNetworkManger().sendObject(new ReadyPacket(!gui.getLip().isReady()))));
+
+	} 
 
 	@Override
 	protected void draw(Graphics2D g, WindowData windowData) {
@@ -70,73 +101,22 @@ public class ServerLobbyScreen extends AbstractScreen
 		g.setColor(Color.BLACK);
 		g.drawRect(serverX, serverY, windowData.getWidth()-(serverX + endWidth), windowData.getHeight()-(serverY+endHeight));
 
-		BufferedImage buff = ImageModification.createBlankBufferedImage(windowData.getWidth()-(serverX + endWidth), windowData.getHeight()-(serverY+endHeight));
-
-		Graphics2D gBuff = buff.createGraphics();
-
-		GuiUtil.applyRenderingHints(gBuff, gui);
-
-		gBuff.setFont(gBuff.getFont().deriveFont(14f));
-		gBuff.setColor(Color.WHITE);
+		DoubleReturn<BufferedImage, Integer> chat = GameUIHelper.getChatMessagesImage(windowData.getWidth()-(serverX + endWidth), windowData.getHeight()-(serverY+endHeight),
+				gui, Color.WHITE, Color.RED, 14, -1, scrollOffset);
 		
-		int totalYTrans = 0;
-		for (ChatMessage c : gui.getMessages()) {
-			int x = 0;
-			int subIndex = 0;
-			int endIndex = c.getMessage().length();
-			
-			ArrayList<String> lines = new ArrayList<String>();
-
-			while (subIndex < endIndex) {
-				Rectangle r = GuiMath.getStringBounds(gBuff, c.getMessage().substring(subIndex, endIndex), 0, 0);
-				if (r.width >= buff.getWidth() - 20) {
-					endIndex = (int)((buff.getWidth()-20)/(double)r.width * (endIndex-subIndex));
-					r = GuiMath.getStringBounds(gBuff, c.getMessage().substring(subIndex, endIndex), 0, 0);
-					while (r.width >= buff.getWidth() - 20) {
-						endIndex--;
-						r = GuiMath.getStringBounds(gBuff, c.getMessage().substring(subIndex, endIndex), 0, 0);
-					}
-				}
-				/*
-				while (r.width >= buff.getWidth() - 20) {
-					if (r.width/2 >= buff.getWidth()-20 && subIndex > 0) {
-						subIndex*=2;
-					} else {
-						subIndex++;
-					}
-					
-				}*/
-
-				totalYTrans += r.height + 2;
-				
-				lines.add(c.getMessage().substring(subIndex, endIndex));
-
-				subIndex = endIndex;
-				endIndex = c.getMessage().length();
-			}
-			
-			for (int i = lines.size()-1;i>=0;i--) {
-				String str = lines.get(i);
-				
-				Rectangle r = GuiMath.getStringBounds(gBuff, str, 0, 0);
-				
-				gBuff.setFont(gBuff.getFont().deriveFont(14f));
-				gBuff.translate(0, -(r.height + 2));
-				GuiUtil.drawString(gBuff, str, CenterMode.LEFT, x + 10, (buff.getHeight()-(r.height + 2))+r.height/2);
-			}
-
-			if (totalYTrans > buff.getHeight()) {
-				break;
-			}
+		scrollOffset -= windowData.getMouseWheel()*5;
+		if (scrollOffset < 0) {
+			scrollOffset = 0;
+		}
+		if (scrollOffset > chat.b) {
+			scrollOffset = chat.b;
 		}
 
-		gBuff.dispose();
-
-		g.drawImage(buff, null, serverX, serverY);
+		g.drawImage(chat.a, null, serverX, serverY);
 	}
 
 	@Override
 	protected void cleanup() {
-		gui.getNetworkManger().sendGoodbye();
+		//gui.getNetworkManger().sendGoodbye();
 	}
 }

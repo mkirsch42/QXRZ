@@ -8,14 +8,14 @@ import org.amityregion5.qxrz.server.world.entity.PlayerEntity;
 import org.amityregion5.qxrz.server.world.vector2d.Vector2D;
 
 public class SpecialMovement {
-	private String type;
+	private SpecialMovements type;
 	private Landscape la;
 	private int timeused;
 	private static final int TELEPORTTIME = 8;
 	private static final int DASHTIME = 6;
 	private static final int ROLLTIME = 4;
 	
-	public SpecialMovement(String t, World wo)
+	public SpecialMovement(SpecialMovements t, World wo)
 	{
 		type = t;
 		la = wo.getLandscape();
@@ -83,7 +83,7 @@ public class SpecialMovement {
 		}	
 	}
 	
-	public String getType()
+	public SpecialMovements getType()
 	{
 		return type;
 	}

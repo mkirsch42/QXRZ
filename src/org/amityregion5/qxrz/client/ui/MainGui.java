@@ -15,13 +15,17 @@ import javax.swing.WindowConstants;
 
 import org.amityregion5.qxrz.client.net.ClientNetworkManager;
 import org.amityregion5.qxrz.client.settings.Settings;
+import org.amityregion5.qxrz.client.ui.screen.GameScreen;
 import org.amityregion5.qxrz.client.ui.screen.IScreen;
 import org.amityregion5.qxrz.client.ui.screen.LoadingScreen;
+import org.amityregion5.qxrz.client.ui.screen.ServerLobbyScreen;
 import org.amityregion5.qxrz.common.asset.AssetManager;
 import org.amityregion5.qxrz.common.net.AbstractNetworkNode;
 import org.amityregion5.qxrz.common.net.ChatMessage;
+import org.amityregion5.qxrz.common.net.Goodbye;
 import org.amityregion5.qxrz.common.net.NetEventListener;
 import org.amityregion5.qxrz.common.net.NetworkNode;
+import org.amityregion5.qxrz.common.ui.LobbyInformationPacket;
 import org.amityregion5.qxrz.common.ui.NetworkDrawablePacket;
 
 public class MainGui
@@ -39,8 +43,10 @@ public class MainGui
 	private List<AbstractNetworkNode> queryInfo;
 	private List<ChatMessage> messages;
 	private NetworkDrawablePacket ndp;
+	private LobbyInformationPacket lip;
 	private int frameID;
 	private Settings settings;
+	private MainGui instance;
 
 	private Thread renderThread;
 
@@ -56,6 +62,7 @@ public class MainGui
 	public MainGui(ClientNetworkManager manager)
 	{
 		setNetworkManager(manager);
+		instance = this;
 		setUsername(System.getProperty("user.name"));
 
 		this.queryInfo = new ArrayList<AbstractNetworkNode>();
@@ -272,6 +279,11 @@ public class MainGui
 				} else if (payload instanceof NetworkDrawablePacket)
 				{
 					ndp = (NetworkDrawablePacket) payload;
+					if (currentScreen instanceof ServerLobbyScreen) {
+						setCurrentScreen(new GameScreen(currentScreen, instance));
+					}
+				} else if (payload instanceof LobbyInformationPacket) {
+					lip = (LobbyInformationPacket)payload;
 				} else if (payload instanceof Goodbye)
 				{
 					System.err.println("YOU HAVE BEEN KICKED");
@@ -284,7 +296,7 @@ public class MainGui
 	}
 
 	/**
-	 * @return the queryInfo
+	 * @return the queryInfoØ
 	 */
 	public List<AbstractNetworkNode> getQueryInfo()
 	{
@@ -347,4 +359,12 @@ public class MainGui
 	public void setSize(int width, int height) {
 		frame.setSize(width, height);
 	}
+
+	/**
+	 * @return the lip
+	 */
+	public LobbyInformationPacket getLip() {
+		return lip;
+	}
+	
 }

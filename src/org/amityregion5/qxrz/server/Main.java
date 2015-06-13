@@ -7,30 +7,40 @@ import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 
 import org.amityregion5.qxrz.common.control.NetworkInputData;
+import org.amityregion5.qxrz.common.game.ChangeClassPacket;
+import org.amityregion5.qxrz.common.game.ReadyPacket;
 import org.amityregion5.qxrz.common.net.AbstractNetworkNode;
 import org.amityregion5.qxrz.common.net.ChatMessage;
 import org.amityregion5.qxrz.common.net.Goodbye;
 import org.amityregion5.qxrz.common.net.NetEventListener;
 import org.amityregion5.qxrz.common.net.NetworkNode;
+import org.amityregion5.qxrz.common.ui.LobbyInformationPacket;
 import org.amityregion5.qxrz.server.net.ServerNetworkManager;
 import org.amityregion5.qxrz.server.ui.MainGui;
 import org.amityregion5.qxrz.server.util.ColorUtil;
 import org.amityregion5.qxrz.server.util.TextParseHelper;
 import org.amityregion5.qxrz.server.world.DebugDraw;
 import org.amityregion5.qxrz.server.world.gameplay.GameModes;
-import org.amityregion5.qxrz.server.world.gameplay.Pickup;
 import org.amityregion5.qxrz.server.world.gameplay.Player;
+import org.amityregion5.qxrz.server.world.gameplay.SpecialMovement;
+import org.amityregion5.qxrz.server.world.gameplay.SpecialMovements;
 import org.amityregion5.qxrz.server.world.gameplay.Team;
 
 //github.com/mkirsch42/QXRZ.gitimport org.amityregion5.qxrz.common.net.ChatMessage;
 
 public final class Main {
 	private static Game g;
+	private static ServerNetworkManager netManager;
+	private static MainGui gui;
+	private static GameState gs;
+	private static String s;
 
 	public static void main(String[] args) throws Exception {
 		Logger.getGlobal().setLevel(Level.OFF);
 
-		String s = (String) JOptionPane.showInputDialog(null,
+		gs = GameState.LOBBY;
+
+		s = (String) JOptionPane.showInputDialog(null,
 				"Enter Server name", "Server Name Query",
 				JOptionPane.PLAIN_MESSAGE, null, null, System.getProperty("user.name") + "'s server");
 
@@ -38,15 +48,70 @@ public final class Main {
 			return;
 		}
 
-		ServerNetworkManager netManager = new ServerNetworkManager(s, 8000);
-		MainGui gui = new MainGui(netManager, g);
+		netManager = new ServerNetworkManager(s, 8000);
+		gui = new MainGui(netManager, g);
 		// TODO maybe all the manager stuff should be created within the GUI
+
+		attachEventListener();
+
+		netManager.setAllowConnections(true);
+		netManager.start();
+
+		g = new Game(netManager, GameModes.LASTMAN); // TODO game needs access to network, too...
+		// TODO server panel should show actual IP, not 0.0.0.0
+		if (DebugConstants.DEBUG_GUI) {
+			Game.debug = DebugDraw.setup(g.getWorld());
+		}
+
+		
+		double nsPerUpdate = 1000000000.0 / DebugConstants.DEBUG_FPS;
+
+		double then = System.nanoTime();
+		double unprocessed = 0;
+		boolean shouldRender = false;
+		while (GameState.LOBBY == gs)
+		{
+			double now = System.nanoTime();
+			unprocessed += (now - then) / nsPerUpdate;
+			then = now;
+			// update
+			while (unprocessed >= 1)
+			{
+				unprocessed--;
+				shouldRender = true;
+			}
+
+			if (shouldRender)
+			{
+				doLobbyUpdate();
+				shouldRender = false;
+			}
+			else{try{Thread.sleep(1);} catch (InterruptedException e){}}
+		}
+		// new MainGui().show();
+
+		//gui.show();
+		//g.run();
+	}
+	
+	private static void doLobbyUpdate() {
+		for (NetworkNode n : g.getPlayers().keySet()) {
+			Player p  = g.getPlayers().get(n);
+			try {
+				n.send(new LobbyInformationPacket(p.getSpecMove().getType(), p.isReady()));
+			} catch (Exception e) {e.printStackTrace();}
+		}
+	}
+	
+	
+	private static void attachEventListener() {
 		netManager.attachEventListener(new NetEventListener() {
 			@Override
 			public void newNode(AbstractNetworkNode c) {
+				gui.addClient((NetworkNode) c);
 				Player p = new Player(g.getWorld(), c.getName());
 				g.addPlayer((NetworkNode) c, p);
-				gui.addClient((NetworkNode) c);
+				
 				try
 				{
 					((NetworkNode)c).send(new ChatMessage("Welcome to " + s).fromServer());
@@ -67,11 +132,39 @@ public final class Main {
 
 			@Override
 			public void dataReceived(NetworkNode c, Serializable netObj) {
-				if (netObj instanceof NetworkInputData) {
-					Player from = g.findPlayer(c);
-					from.input((NetworkInputData) netObj);
-					// System.out.println((NetworkInputData)netObj);
-				} else if (netObj instanceof Goodbye) {
+				if (gs == GameState.LOBBY) {
+					if (netObj instanceof ReadyPacket) {
+						g.findPlayer(c).setReady(((ReadyPacket)netObj).isReady());
+						if (g.allPlayersReady()) {
+							gs = GameState.INGAME;
+							new Thread(g, "Server Game Thread").start();
+						}
+					} else if (netObj instanceof ChangeClassPacket) {
+						ChangeClassPacket ccp = (ChangeClassPacket)netObj;
+						Player p = g.findPlayer(c);
+						int ordinal = p.getSpecMove().getType().ordinal();
+						if (ccp.isRight()) {
+							ordinal++;
+							if (ordinal >= SpecialMovements.values().length) {
+								ordinal = 0;
+							}
+						} else {
+							ordinal--;
+							if (ordinal < 0) {
+								ordinal = SpecialMovements.values().length-1;
+							}
+						}
+						p.setSpecMove(new SpecialMovement(SpecialMovements.values()[ordinal], g.getWorld()));
+					}
+				}
+				if (gs == GameState.INGAME) {
+					if (netObj instanceof NetworkInputData) {
+						Player from = g.findPlayer(c);
+						from.input((NetworkInputData) netObj);
+						// System.out.println((NetworkInputData)netObj);
+					}
+				}
+				if (netObj instanceof Goodbye) {
 					// also stop drawing player and stuff
 					g.removePlayer(c);
 					netManager.removeClient(c);
@@ -85,7 +178,7 @@ public final class Main {
 				} else if (netObj instanceof ChatMessage) {
 					// echo it back out
 					String msg = ((ChatMessage)netObj).getMessage();
-					if(msg.charAt(0)=='/')
+					if(msg.charAt(0)=='/' && gs == GameState.INGAME)
 					{
 						if(msg.toLowerCase().startsWith("/leave"))
 						{
@@ -118,7 +211,7 @@ public final class Main {
 						}
 						if(msg.toLowerCase().startsWith("/ff"))
 						{
-							
+
 							String[] args = msg.substring(3).split(" ");
 							if(args.length==1)
 							{
@@ -156,22 +249,5 @@ public final class Main {
 				}
 			}
 		});
-
-		netManager.start();
-
-		// new MainGui().show();
-
-		//gui.show();
-		g = new Game(netManager, GameModes.LASTMAN); // TODO game needs access to network, too...
-		// TODO server panel should show actual IP, not 0.0.0.0
-		if (DebugConstants.DEBUG_GUI) {
-			Game.debug = DebugDraw.setup(g.getWorld());
-		}
-		Pickup pe = new Pickup("ps", 10, 500, 0, 3000);
-		g.getWorld().add(pe.getEntity());
-		pe = new Pickup(17, 0, 1000, 5000);
-		g.getWorld().add(pe.getEntity());
-		g.run();
 	}
-
 }

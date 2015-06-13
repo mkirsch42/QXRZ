@@ -48,6 +48,10 @@ public class AssetManager
 			imageAssets.put("tutAnim", new AnimatedImageContainer(new BufferedImage[] {
 					null
 			}, 10*60));
+			
+			imageAssets.put("mvmt/dash", new ImageContainer(ImageIO.read(FileUtil.getURLOfResource(Main.class, "/projectiles/arrow.png"))));
+			imageAssets.put("mvmt/roll", new ImageContainer(ImageIO.read(FileUtil.getURLOfResource(Main.class, "/projectiles/rocket.png"))));
+			imageAssets.put("mvmt/tele", new ImageContainer(ImageIO.read(FileUtil.getURLOfResource(Main.class, "/projectiles/bullet.png"))));
 		}
 		catch (IOException e)
 		{

@@ -259,4 +259,12 @@ public class Game implements Runnable
 			}
 		}
 	}
+	
+	public boolean allPlayersReady() {
+		return players.values().stream().parallel().allMatch((p)->p.isReady());
+	}
+	
+	public HashMap<NetworkNode, Player> getPlayers() {
+		return players;
+	}
 }

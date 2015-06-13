@@ -23,6 +23,7 @@ public class ServerNetworkManager extends AbstractNetworkManager
 
 	private Logger l = Logger.getGlobal();
 	private AbstractNetworkNode info;
+	private boolean allowConnections;
 
 	/**
 	 * To construct a server, pass in a name and a port to listen on
@@ -121,7 +122,7 @@ public class ServerNetworkManager extends AbstractNetworkManager
 				NetworkObject netObj = (NetworkObject) inStream.recvObject();
 				NetworkNode recvClient = new NetworkNode(outStream,
 						(InetSocketAddress) inStream.getPacket()
-								.getSocketAddress());
+						.getSocketAddress());
 				boolean foundClient = false;
 
 				l.info("#" + netObj.getPacketNumber() + " "
@@ -132,10 +133,12 @@ public class ServerNetworkManager extends AbstractNetworkManager
 				{
 					l.info("Query received!");
 					// System.out.println("query");
-					recvClient.send(info);
+					if (allowConnections) {
+						recvClient.send(info);
+					}
 				} else
 				{
-					if (netObj.getPayload() instanceof Hello)
+					if (allowConnections && netObj.getPayload() instanceof Hello)
 					{
 						recvClient.setName(((Hello) netObj.getPayload())
 								.getName());
@@ -151,8 +154,7 @@ public class ServerNetworkManager extends AbstractNetworkManager
 							break;
 						}
 					}
-
-					if (!foundClient)
+					if (!foundClient && allowConnections)
 					{
 						synchronized (clients)
 						{
@@ -196,9 +198,17 @@ public class ServerNetworkManager extends AbstractNetworkManager
 	{
 		return clients;
 	}
-	
+
 	public String getServerName()
 	{
 		return info.getName();
+	}
+	
+	public boolean isAllowConnections() {
+		return allowConnections;
+	}
+	
+	public void setAllowConnections(boolean allowConnections) {
+		this.allowConnections = allowConnections;
 	}
 }

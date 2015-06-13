@@ -33,12 +33,11 @@ public class ServerSelectionScreen extends AbstractScreen {
 		super(previous, gui);
 		refreshServerList();
 
-		elements.add(new ElementImageRectangle((w) -> {
-			return new Point(w.getWidth() - 100, 50);
-		}, (w) -> {
-			return new Point(50, 50);
-		}, Colors.CLEAR, Colors.CLEAR, "icons/refreshDark",
-		(w) -> refreshServerList(), gui));
+		elements.add(new ElementImageRectangle(
+				(w) -> {return new Point(w.getWidth() - 100, 50);}, 
+				(w) -> {return new Point(50, 50);}, 
+				Colors.CLEAR, Colors.CLEAR, "icons/refreshDark",
+				(w) -> refreshServerList(), gui));
 
 		elements.add(new ElementRectangle((w) -> {
 			return new Point(50, 50);
@@ -92,7 +91,8 @@ public class ServerSelectionScreen extends AbstractScreen {
 			try {
 				gui.getNetworkManger().connect(ipBox.getName(), 8000);
 				if (gui.getNetworkManger().isConnected()) {
-					gui.setCurrentScreen(new GameScreen(this, gui));
+					//gui.setCurrentScreen(new GameScreen(this, gui));
+					gui.setCurrentScreen(new ServerLobbyScreen(this, gui));
 				}
 				// gui.setCurrentScreen(new ServerLobbyScreen(this,
 				// gui));
@@ -195,7 +195,8 @@ public class ServerSelectionScreen extends AbstractScreen {
 									gui.getQueryInfo().get(i).getAddress())) {
 								// gui.setCurrentScreen(new
 								// ServerLobbyScreen(this, gui));
-								gui.setCurrentScreen(new GameScreen(this, gui));
+								//gui.setCurrentScreen(new GameScreen(this, gui));
+								gui.setCurrentScreen(new ServerLobbyScreen(this, gui));
 							}
 						} catch (SocketException e) {
 							e.printStackTrace();

@@ -28,6 +28,8 @@ public class Player {
 	private int score;
 	private boolean specmoving;
 	private NetworkInputData downs;
+	private boolean ready;
+
 	//constructors
 	public Player(int forceId)
 	{
@@ -66,20 +68,20 @@ public class Player {
 		this(spawn, parent, n);
 		pupgr = u;
 	}
-	
+
 	public void joinTeam(Team t)
 	{
 		t.join(this);
 		team = t;
 	}
-	
+
 	public void leaveTeam()
 	{
 		if(team!=null)
 			team.leave(this);
 		team = null;
 	}
-	
+
 	public boolean damaged(Bullet b) //tests if a given bullet hits player and acts accordingly
 	{
 		if(w.getGame().getGM().oneLife && dead)
@@ -95,7 +97,7 @@ public class Player {
 		if(b.getFriendlyFirePlayer()==id)
 			return false;
 		if (b.getEntity().getHitbox().intersects(entity.getHitbox()))
-		 health -= b.getDamage();
+			health -= b.getDamage();
 		dead();
 		if (isDead()) {b.getSource().getGameModel().addScore();} //gives player a point
 		//w.win(w.getGame().getGM());
@@ -111,7 +113,7 @@ public class Player {
 		dead();
 		return true;
 	}
-	
+
 	public Color getColor()
 	{
 		if(team==null)
@@ -120,7 +122,7 @@ public class Player {
 		}
 		return team.getColor();
 	}
-	
+
 	public boolean dead() //tests for death
 	{
 		if (!(health <= 0))	
@@ -128,7 +130,7 @@ public class Player {
 			return false;
 		}
 		//respawn code to add later
-		
+
 		dead = true;
 		w.say(name + " died");
 		respawn(!w.getGame().getGM().oneLife);
@@ -156,13 +158,13 @@ public class Player {
 	{
 		if (!(u.getType().equals(null)))
 		{
-		pupgr = u;
-		switch (u.getType())
-		{
+			pupgr = u;
+			switch (u.getType())
+			{
 			case "maxclips": 	guns[equipped].upMaxClips();
 			case "rof":		 	guns[equipped].upROF();
 			case "cmax":		guns[equipped].upCMax();
-		}
+			}
 		}
 		else {};
 	}
@@ -186,7 +188,7 @@ public class Player {
 			}
 			else if(getEquipped().getType().equals(WeaponTypes.FIREGUN.text))
 			{
-				
+
 			}
 			else
 			{
@@ -208,7 +210,12 @@ public class Player {
 	public void setSpecMove(SpecialMovement sm)
 	{
 		psmove = sm;
-		
+	}
+	public SpecialMovement getSpecMove() {
+		if (psmove == null) {
+			setSpecMove(new SpecialMovement(SpecialMovements.DASH, getParent()));
+		}
+		return psmove;
 	}
 	public void useSpecMove() 
 	{
@@ -216,9 +223,15 @@ public class Player {
 		{
 			switch (psmove.getType())
 			{
-			case "roll":	psmove.roll(entity, (int) System.currentTimeMillis());
-			case "tele":	psmove.teleport(entity, (int) System.currentTimeMillis());
-			case "dash":	psmove.dash(entity, (int) System.currentTimeMillis());
+			case ROLL:	
+				psmove.roll(entity, (int) System.currentTimeMillis());
+				break;
+			case TELEPORT:	
+				psmove.teleport(entity, (int) System.currentTimeMillis());
+				break;
+			case DASH:	
+				psmove.dash(entity, (int) System.currentTimeMillis());
+				break;
 			}
 		}
 		else {}
@@ -246,6 +259,9 @@ public class Player {
 			Vector2D v = new Vector2D(nid.getMouseX(), nid.getMouseY()).subtract(entity.getPos());
 			stab(v);
 		}
+		if (nid.get(NetworkInputMasks.SPACE)) {
+			useSpecMove();
+		}
 		pickingUp = nid.get(NetworkInputMasks.E);
 		downs = nid;
 	}
@@ -269,12 +285,12 @@ public class Player {
 	{
 		return name;
 	}
-	
+
 	public Team getTeam()
 	{
 		return team;
 	}
-	
+
 	public boolean pickup(Pickup p)
 	{
 		if(isDead())
@@ -331,7 +347,7 @@ public class Player {
 	{
 		return speed;
 	}
-	
+
 	public World getParent()
 	{
 		return w;
@@ -348,7 +364,7 @@ public class Player {
 	{
 		return guns[equipped];
 	}
-	
+
 	private void stab(Vector2D v)
 	{		
 		Bullet b = new Bullet(entity.getPos(), v, true);
@@ -358,7 +374,7 @@ public class Player {
 		b.setSource(entity);
 		b.getEntity().update(1,w);
 	}
-	
+
 	public String getNT()
 	{
 		if(getEquipped().getType().equals(WeaponTypes.KNIFE.text))
@@ -405,5 +421,11 @@ public class Player {
 	public boolean isSpecMoving()
 	{
 		return specmoving;
+	}
+	public void setReady(boolean ready) {
+		this.ready = ready;
+	}
+	public boolean isReady() {
+		return ready;
 	}
 }
