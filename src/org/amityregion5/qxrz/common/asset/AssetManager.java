@@ -51,9 +51,9 @@ public class AssetManager
 					null
 			}, 10*60));
 			
-			imageAssets.put("mvmt/dash", new ImageContainer(ImageIO.read(FileUtil.getURLOfResource(Main.class, "/projectiles/arrow.png"))));
-			imageAssets.put("mvmt/roll", new ImageContainer(ImageIO.read(FileUtil.getURLOfResource(Main.class, "/projectiles/rocket.png"))));
-			imageAssets.put("mvmt/tele", new ImageContainer(ImageIO.read(FileUtil.getURLOfResource(Main.class, "/projectiles/bullet.png"))));
+			imageAssets.put("mvmt/dash", new ImageContainer(ImageIO.read(FileUtil.getURLOfResource(Main.class, "/icons/Dash.png"))));
+			imageAssets.put("mvmt/roll", new ImageContainer(ImageIO.read(FileUtil.getURLOfResource(Main.class, "/icons/Roll.png"))));
+			imageAssets.put("mvmt/tele", new ImageContainer(ImageIO.read(FileUtil.getURLOfResource(Main.class, "/icons/Teleport.png"))));
 			imageAssets.put("building/1", new ImageContainer(ImageIO.read(FileUtil.getURLOfResource(Main.class, "/icons/Building.png"))));
 		}
 		catch (IOException e)
