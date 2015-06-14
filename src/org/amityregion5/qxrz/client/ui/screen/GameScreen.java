@@ -258,6 +258,17 @@ public class GameScreen extends AbstractScreen {
 			GuiUtil.drawString(g, client.getAmmo() + " + " + client.getTotalAmmo(), CenterMode.LEFT, x + 10, y + 10 + 14*4);
 		}
 	}
+	
+	@Override
+	public void onScreenChange(boolean leaving) {
+		if (leaving) {
+			AudioHelper.stop(AssetManager.getAudioAssets("test/BHT")[0].getMaster());
+			AudioHelper.setPercentVolume(AssetManager.getAudioAssets("test/BHT")[0].getMaster(), 1);
+		} else {
+			AudioHelper.setPercentVolume(AssetManager.getAudioAssets("test/BHT")[0].getMaster(), 0.6);
+			AudioHelper.play(AssetManager.getAudioAssets("test/BHT")[0].getMaster(), true);
+		}
+	}
 
 	@Override
 	protected void cleanup() {
