@@ -87,6 +87,10 @@ public class GameScreen extends AbstractScreen {
 
 	private void drawGame(Graphics2D g, WindowData windowData) {
 		if (gui.getNetworkDrawablePacket() != null) {
+			
+			g.drawImage(AssetManager.getImageAssets(WorldManager.getWorld(gui.getNetworkDrawablePacket().getCurrentWorld()).getBackgroundAsset())[0].getImage(gui.getFrameID()),
+					0, 0, windowData.getWidth(), windowData.getHeight(), null);
+			
 			if (gui.getNetworkDrawablePacket().getClientIndex() != -1) {
 				NetworkDrawableEntity player = gui.getNetworkDrawablePacket().getDrawables().get(gui.getNetworkDrawablePacket().getClientIndex());
 				vp.xCenter = player.getBox().getCenterX();
