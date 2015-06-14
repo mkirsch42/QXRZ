@@ -1,5 +1,6 @@
 package org.amityregion5.qxrz.server.world.gameplay;
 
+import org.amityregion5.qxrz.common.audio.AudioMessage;
 import org.amityregion5.qxrz.server.DebugConstants;
 
 public class Weapon {
@@ -17,12 +18,14 @@ public class Weapon {
 	private int firecooldown;
 	private boolean reloading;
 	private boolean[] ups = new boolean[3];
+	private Player parent;
+	
 	//constructors
-	public Weapon()
+	public Weapon(Player parent)
 	{
-		this("kn");
+		this("kn", parent);
 	}
-	public Weapon(String pick)
+	public Weapon(String pick, Player parent)
 	{
 		for(WeaponTypes w : WeaponTypes.values())
 		{
@@ -43,6 +46,7 @@ public class Weapon {
 		reloading = false;
 		recooldown = retime;
 		firecooldown = 0;
+		this.parent = parent;
 	}
 	
 	public void update()
@@ -97,6 +101,7 @@ public class Weapon {
 		}
 		reloading = false;
 		recooldown = retime;
+		parent.getParent().addSound(new AudioMessage(parent.getEntity().getPos().toIntPoint(), "weaponswitch", true));
 		if(reserve<=cmaxammo-ccamount)
 		{
 			ccamount += reserve;

@@ -15,7 +15,7 @@ public class Player {
 	private int id;
 	private int health;
 	private int speed;
-	private Weapon[] guns = {new Weapon("ps"), new Weapon()};
+	private Weapon[] guns = {new Weapon("ps", this), new Weapon(this)};
 	private int equipped; //index for currently equipped weapon
 	private Upgrade pupgr; //player upgrade
 	private SpecialMovement psmove; //player special movement
@@ -38,7 +38,7 @@ public class Player {
 	public Player(World parent, String n) //creates a newly spawned player
 	{
 		id = lastId++;
-		guns[0] = new Weapon("ps");
+		guns[0] = new Weapon("ps", this);
 		health = 100;
 		speed = 600;
 		entity = new PlayerEntity(this);
@@ -54,7 +54,7 @@ public class Player {
 	}
 	public Player(PlayerEntity spawn, World parent, String n) //spawned at a given entity
 	{
-		guns[0] = new Weapon();
+		guns[0] = new Weapon(this);
 		health = 100;
 		speed = 600;
 		entity = spawn;
@@ -150,8 +150,8 @@ public class Player {
 		w.removeEntity(entity);
 		entity = new PlayerEntity(this);
 		w.add(entity);
-		guns[0] = new Weapon("ps");
-		guns[1] = new Weapon();
+		guns[0] = new Weapon("ps",this);
+		guns[1] = new Weapon(this);
 		equipped = 0;
 	}
 	public void setWepUpgrade(Upgrade u) //sets weapon upgrades from a given upgrade pickup
@@ -192,7 +192,7 @@ public class Player {
 			}
 			else
 			{
-				Bullet b = new Bullet(entity.getPos(), v, guns[equipped]);
+				Bullet b = new Bullet(entity.getPos(), v, guns[equipped], entity);
 				if(team != null)
 					b.setFriendlyFireTeam(team);
 				b.setFriendlyFirePlayer(this);
@@ -252,6 +252,7 @@ public class Player {
 		if(nid.get(NetworkInputMasks.Q) && !downs.get(NetworkInputMasks.Q))
 		{
 			equipped = (~equipped) & 1; //bc why not
+			getParent().addSound(new AudioMessage(getEntity().getPos().toIntPoint(), "weaponswitch", true));
 		}
 		if(nid.get(NetworkInputMasks.M2) && !downs.get(NetworkInputMasks.M2))
 		{
@@ -332,7 +333,7 @@ public class Player {
 		}
 		else if(pickingUp)
 		{
-			guns[equipped] = new Weapon(wep);
+			guns[equipped] = new Weapon(wep, this);
 			guns[equipped].setAmmo(p.getAmmoCount());
 		}
 		else
@@ -366,7 +367,7 @@ public class Player {
 
 	private void stab(Vector2D v)
 	{		
-		Bullet b = new Bullet(entity.getPos(), v, true);
+		Bullet b = new Bullet(entity.getPos(), v, true, entity);
 		if(team != null)
 			b.setFriendlyFireTeam(team);
 		b.setFriendlyFirePlayer(this);
@@ -399,7 +400,7 @@ public class Player {
 	}
 	public void equipWep(String string)
 	{
-		guns[equipped] = new Weapon(string);
+		guns[equipped] = new Weapon(string, this);
 
 	}
 	public boolean isFlipped()

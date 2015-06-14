@@ -11,35 +11,35 @@ public final class SpecialWeapons
 	{
 		Team team = p.getTeam();
 		PlayerEntity entity = p.getEntity();
-		Bullet b = new Bullet(entity.getPos(), new Vector2D(v.angle()).multiply(v.length()), p.getEquipped());
+		Bullet b = new Bullet(entity.getPos(), new Vector2D(v.angle()).multiply(v.length()), p.getEquipped(), entity);
 		if(team != null)
 			b.setFriendlyFireTeam(team);
 		b.setFriendlyFirePlayer(p);
 		b.setSource(entity);
 		w.add(b.getEntity());
 
-		b = new Bullet(entity.getPos(), new Vector2D(v.angle()+0.1).multiply(v.length()), p.getEquipped());
+		b = new Bullet(entity.getPos(), new Vector2D(v.angle()+0.1).multiply(v.length()), p.getEquipped(), entity);
 		if(team != null)
 			b.setFriendlyFireTeam(team);
 		b.setFriendlyFirePlayer(p);
 		b.setSource(entity);
 		w.add(b.getEntity());
 		
-		b = new Bullet(entity.getPos(), new Vector2D(v.angle()-0.1).multiply(v.length()), p.getEquipped());
+		b = new Bullet(entity.getPos(), new Vector2D(v.angle()-0.1).multiply(v.length()), p.getEquipped(), entity);
 		if(team != null)
 			b.setFriendlyFireTeam(team);
 		b.setFriendlyFirePlayer(p);
 		b.setSource(entity);
 		w.add(b.getEntity());
 		
-		b = new Bullet(entity.getPos(), new Vector2D(v.angle()+0.15).multiply(v.length()), p.getEquipped());
+		b = new Bullet(entity.getPos(), new Vector2D(v.angle()+0.15).multiply(v.length()), p.getEquipped(), entity);
 		if(team != null)
 			b.setFriendlyFireTeam(team);
 		b.setFriendlyFirePlayer(p);
 		b.setSource(entity);
 		w.add(b.getEntity());
 		
-		b = new Bullet(entity.getPos(), new Vector2D(v.angle()-0.15).multiply(v.length()), p.getEquipped());
+		b = new Bullet(entity.getPos(), new Vector2D(v.angle()-0.15).multiply(v.length()), p.getEquipped(), entity);
 		if(team != null)
 			b.setFriendlyFireTeam(team);
 		b.setFriendlyFirePlayer(p);
@@ -51,7 +51,7 @@ public final class SpecialWeapons
 	{
 		Team team = p.getTeam();
 		PlayerEntity entity = p.getEntity();
-		Bullet b = new Bullet(entity.getPos(), new Vector2D(v.angle()).multiply(v.length()), p.getEquipped());
+		Bullet b = new Bullet(entity.getPos(), new Vector2D(v.angle()).multiply(v.length()), p.getEquipped(), entity);
 		if(team != null)
 			b.setFriendlyFireTeam(team);
 		b.setFriendlyFirePlayer(p);

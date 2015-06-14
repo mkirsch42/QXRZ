@@ -13,21 +13,21 @@ public class Bullet {
 	private int sourceId = -1;
 	private int speed;
 	//constructors
-	public Bullet()
+	public Bullet(PlayerEntity source)
 	{
-		this(new Vector2D(), new Vector2D(), new Weapon("ps"));
+		this(new Vector2D(), new Vector2D(), new Weapon("ps", source.getGameModel()), source);
 	}
-	public Bullet(Weapon wep)
+	public Bullet(Weapon wep, PlayerEntity source)
 	{
-		this(new Vector2D(), new Vector2D(), wep);
+		this(new Vector2D(), new Vector2D(), wep, source);
 		damage = wep.getDamage();
 		type = wep.getType();
 		speed = wep.getSpeed();
 		entity = new ProjectileEntity(new Vector2D(), new Vector2D(), this);
 	}
-	public Bullet(Vector2D pos, Vector2D vel, boolean isKnife)
+	public Bullet(Vector2D pos, Vector2D vel, boolean isKnife, PlayerEntity source)
 	{
-		this(pos, vel, new Weapon("ps"));
+		this(pos, vel, new Weapon("ps", source.getGameModel()), source);
 		if(isKnife)
 		{
 			damage = 50;
@@ -36,7 +36,7 @@ public class Bullet {
 			entity = new ProjectileEntity(pos, new Vector2D(vel.angle()).multiply(speed), this);
 		}
 	}
-	public Bullet(Vector2D pos, Vector2D vel, Weapon wep)
+	public Bullet(Vector2D pos, Vector2D vel, Weapon wep, PlayerEntity source)
 	{
 		damage = wep.getDamage();
 		type = wep.getType();
