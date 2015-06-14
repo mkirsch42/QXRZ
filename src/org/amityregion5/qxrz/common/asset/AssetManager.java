@@ -55,6 +55,12 @@ public class AssetManager
 			imageAssets.put("mvmt/roll", new ImageContainer(ImageIO.read(FileUtil.getURLOfResource(Main.class, "/icons/Roll.png"))));
 			imageAssets.put("mvmt/tele", new ImageContainer(ImageIO.read(FileUtil.getURLOfResource(Main.class, "/icons/Teleport.png"))));
 			imageAssets.put("building/1", new ImageContainer(ImageIO.read(FileUtil.getURLOfResource(Main.class, "/icons/Building.png"))));
+			for (int i=1;i<=12;i++) {
+				String assName = "/projectiles/explosion/explosion_" + (i<10 ? "0" + i : i) + ".png";
+				imageAssets.put("explosion/" + i,
+						new ImageContainer(ImageIO.read(FileUtil.getURLOfResource(Main.class,
+								assName))));
+			}
 		}
 		catch (IOException e)
 		{
@@ -103,6 +109,9 @@ public class AssetManager
 	}
 	
 	private static String regexify(String str) {
+		if (str == null) {
+			return "";
+		}
 		String finalString = "";
 		
 		String[] split = str.split(Pattern.quote("**"));

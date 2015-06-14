@@ -69,7 +69,9 @@ public class ExplosionEntity extends GameEntity
 	@Override
 	public NetworkDrawableEntity getNDE()
 	{
-		return new NetworkDrawableEntity(new NetworkDrawableObject[] {new NetworkDrawableObject("icons/refreshDark", getHitbox().getAABB())}, getHitbox().getAABB());
+		return new NetworkDrawableEntity(new NetworkDrawableObject[] {
+				new NetworkDrawableObject("explosion/" + Math.min((r*12)/MAXRADIUS, 12), getHitbox().getAABB())},
+				getHitbox().getAABB());
 	}
 
 }
