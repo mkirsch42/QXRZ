@@ -7,6 +7,7 @@ import org.amityregion5.qxrz.common.audio.AudioMessage;
 import org.amityregion5.qxrz.common.control.NetworkInputData;
 import org.amityregion5.qxrz.common.control.NetworkInputMasks;
 import org.amityregion5.qxrz.server.world.World;
+import org.amityregion5.qxrz.server.world.entity.ExplosionEntity;
 import org.amityregion5.qxrz.server.world.entity.PlayerEntity;
 import org.amityregion5.qxrz.server.world.vector2d.Vector2D;
 
@@ -198,7 +199,12 @@ public class Player {
 				b.setFriendlyFirePlayer(this);
 				b.setSource(entity);
 				if (guns[equipped].getEnumType() == WeaponTypes.ROCKETGUN) {
-					b.getEntity().setOnHitCallback(()->w.addSound(new AudioMessage(b.getEntity().getPos().toIntPoint(), "explode", true)));
+					b.getEntity().setOnHitCallback(()->{
+						int x=b.getEntity().getPos().toIntPoint().x;
+						int y=b.getEntity().getPos().toIntPoint().y;
+						w.addSound(new AudioMessage(b.getEntity().getPos().toIntPoint(), "explode", true));
+						w.add(new ExplosionEntity(x,y));
+					});
 				}
 				w.add(b.getEntity());
 			}
@@ -430,5 +436,20 @@ public class Player {
 	}
 	public NetworkInputData getDowns() {
 		return downs;
+	}
+	public boolean explosion(int dmg)
+	{
+		if(w.getGame().getGM().oneLife && dead)
+		{
+			return false;
+		}
+		if (this.isSpecMoving())
+		{
+			return false;
+		}
+		health -= dmg;
+		dead();
+		return true;
+		// TODO: move backwards
 	}
 }

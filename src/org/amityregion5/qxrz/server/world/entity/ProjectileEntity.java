@@ -1,11 +1,13 @@
 package org.amityregion5.qxrz.server.world.entity;
 
 import java.awt.Rectangle;
+import java.util.ArrayList;
 
 import org.amityregion5.qxrz.common.ui.NetworkDrawableEntity;
 import org.amityregion5.qxrz.common.ui.NetworkDrawableObject;
 import org.amityregion5.qxrz.server.world.World;
 import org.amityregion5.qxrz.server.world.gameplay.Bullet;
+import org.amityregion5.qxrz.server.world.gameplay.WeaponTypes;
 import org.amityregion5.qxrz.server.world.vector2d.Vector2D;
 
 public class ProjectileEntity extends GameEntity
@@ -30,19 +32,22 @@ public class ProjectileEntity extends GameEntity
 
 	public boolean update(double tSinceUpdate, World w)
 	{
-		if (gameModel.getType().equals("fl")) {
+		if (gameModel.getType().equals(WeaponTypes.FIREGUN.text)) {
 			setVel(getVel().multiply(0.9));
 			if (getVel().round().equals(new Vector2D())) {
 				return true;
 				//gameModel.getSource().getGameModel().getParent().removeEntity(this);
 			}
 		}
-		PlayerEntity e = checkPlayerCollisions(vel.multiply(tSinceUpdate), w, gameModel.getFriendlyFirePlayer());
+		ArrayList<PlayerEntity> e = checkPlayerCollisions(vel.multiply(tSinceUpdate), w, gameModel.getFriendlyFirePlayer());
 		if(e==null)
 			return super.update(tSinceUpdate, w);
-		//System.out.println("ProjectileEntity #" + getId() + " collided with Entity #" + e.getId());
 		boolean ret = super.update(tSinceUpdate, w);
-		return ((PlayerEntity)e).getGameModel().damaged(gameModel) || ret;
+		for(PlayerEntity pe : e)
+		{
+			ret = ret | pe.getGameModel().damaged(gameModel);
+		}
+		return ret;
 	}
 	
 	@Override

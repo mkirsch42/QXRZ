@@ -2,6 +2,7 @@ package org.amityregion5.qxrz.server.world.entity;
 
 import java.awt.geom.Path2D;
 import java.awt.geom.Rectangle2D;
+import java.util.ArrayList;
 
 import org.amityregion5.qxrz.common.ui.NetworkDrawableEntity;
 import org.amityregion5.qxrz.server.DebugConstants;
@@ -117,7 +118,7 @@ public abstract class GameEntity implements Hitboxed
 		return o;
 	}
 	
-	public PlayerEntity checkPlayerCollisions(Vector2D v, World surroundings, int ignoreId)
+	public ArrayList<PlayerEntity> checkPlayerCollisions(Vector2D v, World surroundings, int ignoreId)
 	{
 		Vector2D bak = pos;
 		Path2D.Double path = new Path2D.Double();
@@ -145,7 +146,7 @@ public abstract class GameEntity implements Hitboxed
 		path.append(getHitbox().getAABB(), false);
 		if (DebugConstants.DEBUG_PATH)
 			DebugDraw.buffer.add(path);
-		PlayerEntity o = surroundings.checkPlayerCollisions(new ShapeHitbox(path),ignoreId);
+		ArrayList<PlayerEntity> o = surroundings.checkPlayerCollisions(new ShapeHitbox(path),ignoreId);
 		pos = bak;
 		return o;
 	}

@@ -1,6 +1,7 @@
 package org.amityregion5.qxrz.server.world.entity;
 
 import java.awt.Rectangle;
+import java.util.ArrayList;
 
 import org.amityregion5.qxrz.common.ui.NetworkDrawableEntity;
 import org.amityregion5.qxrz.common.ui.NetworkDrawableObject;
@@ -24,14 +25,18 @@ public class PickupEntity extends GameEntity
 	
 	public boolean update(double tSinceUpdate, World w)
 	{
-		PlayerEntity e = checkPlayerCollisions(vel, w, -1);
+		boolean ret = false;
+		ArrayList<PlayerEntity> e = checkPlayerCollisions(vel, w, -1);
 		if(e!=null)
 		{
-			if(parent.isOnePickup())
-				return e.getGameModel().pickup(parent);
-			e.getGameModel().pickup(parent);
+			for(PlayerEntity pe : e)
+			{
+				if(parent.isOnePickup())
+					ret = ret | pe.getGameModel().pickup(parent);
+				pe.getGameModel().pickup(parent);
+			}
 		}
-		return false;
+		return ret;
 	}
 	
 	@Override
