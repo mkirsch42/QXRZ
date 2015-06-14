@@ -32,7 +32,7 @@ public class ProjectileEntity extends GameEntity
 	{
 		if (gameModel.getType().equals("fl")) {
 			setVel(getVel().multiply(0.9));
-			if (getVel().equals(new Vector2D())) {
+			if (getVel().round().equals(new Vector2D())) {
 				gameModel.getSource().getGameModel().getParent().removeEntity(this);
 			}
 		}
