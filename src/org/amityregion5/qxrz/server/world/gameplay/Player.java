@@ -322,6 +322,7 @@ public class Player {
 		String wep = p.getWeaponId();
 		if(guns[0]!=null && guns[0].getType().equals(wep))
 		{
+			System.out.println("Adding ammo to gun 0");
 			if(!guns[0].addAmmo(p.getAmmoCount()))
 				return false;
 		}
