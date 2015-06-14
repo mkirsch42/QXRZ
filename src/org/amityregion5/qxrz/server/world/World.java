@@ -140,8 +140,9 @@ public class World
 		net.sendObject(new ChatMessage(msg).fromServer());
 	}
 
-	public PlayerEntity checkPlayerCollisions(ShapeHitbox shapeHitbox, int id)
+	public ArrayList<PlayerEntity> checkPlayerCollisions(Hitbox shapeHitbox, int id)
 	{
+		ArrayList<PlayerEntity> collisions = new ArrayList<PlayerEntity>();
 		for(GameEntity ge : new ArrayList<GameEntity>(entities))
 		{
 			if(!(ge instanceof PlayerEntity))
@@ -151,10 +152,13 @@ public class World
 			PlayerEntity e = (PlayerEntity)ge;
 			if(shapeHitbox.intersects(e.getHitbox()) && id!=e.getGameModel().getId())
 			{
-				return e;
+				collisions.add(e);
 			}
 		}
-		return null;
+		if(collisions.size()==0)
+			// Hack fix to keep support for older code
+			return null;
+		return collisions;
 	}
 
 	public Rectangle getBounds()

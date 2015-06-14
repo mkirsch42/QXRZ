@@ -2,7 +2,7 @@ package org.amityregion5.qxrz.server.world.gameplay;
 
 public enum WeaponTypes {
     SHOTGUN(	"sg", "Shotgun", 			8, 		3, 	16, 3,	2,	6, 		5000,	false,	"weapons/shotgun",		"shotgun"),
-    FIREGUN(	"fl", "Flamethrower", 		200, 	1, 	0, 	6,	0,	35,		5000,	true,	"weapons/flamethrower",	"flameloop"),
+    FIREGUN(	"fl", "Flamethrower", 		100, 	2, 	0, 	6,	0,	35,		5000,	true,	"weapons/flamethrower",	"flameloop"),
     REVOLVER(	"ps", "Revolver", 			6, 		3, 	6, 	10,	30,	10,		5000,	false,	"weapons/revolver",		"revolvershot"),
     RIFLE(		"as", "Assult Rifle", 		12,		3,	24, 9,	2,	7, 		5000,	false,	"weapons/rifle",		"revolvershot"),
     ARROWGUN(	"bo", "Bow", 				1, 		6, 	5, 	1,	2,	100, 	5000,	false,	"weapons/bow",			"arrow"),
