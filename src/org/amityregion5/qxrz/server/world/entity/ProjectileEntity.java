@@ -33,7 +33,8 @@ public class ProjectileEntity extends GameEntity
 		if (gameModel.getType().equals("fl")) {
 			setVel(getVel().multiply(0.9));
 			if (getVel().round().equals(new Vector2D())) {
-				gameModel.getSource().getGameModel().getParent().removeEntity(this);
+				return true;
+				//gameModel.getSource().getGameModel().getParent().removeEntity(this);
 			}
 		}
 		PlayerEntity e = checkPlayerCollisions(vel.multiply(tSinceUpdate), w, gameModel.getFriendlyFirePlayer());
