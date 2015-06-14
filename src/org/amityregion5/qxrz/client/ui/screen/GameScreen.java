@@ -18,6 +18,7 @@ import org.amityregion5.qxrz.client.ui.util.GameUIHelper;
 import org.amityregion5.qxrz.client.ui.util.GuiMath;
 import org.amityregion5.qxrz.client.ui.util.GuiUtil;
 import org.amityregion5.qxrz.common.asset.AssetManager;
+import org.amityregion5.qxrz.common.asset.ImageContainer;
 import org.amityregion5.qxrz.common.audio.AudioHelper;
 import org.amityregion5.qxrz.common.audio.AudioMessage;
 import org.amityregion5.qxrz.common.control.NetworkInputData;
@@ -88,8 +89,12 @@ public class GameScreen extends AbstractScreen {
 	private void drawGame(Graphics2D g, WindowData windowData) {
 		if (gui.getNetworkDrawablePacket() != null) {
 			
-			g.drawImage(AssetManager.getImageAssets(WorldManager.getWorld(gui.getNetworkDrawablePacket().getCurrentWorld()).getBackgroundAsset())[0].getImage(gui.getFrameID()),
-					0, 0, windowData.getWidth(), windowData.getHeight(), null);
+			ImageContainer[] containers = AssetManager.getImageAssets(WorldManager.getWorld(gui.getNetworkDrawablePacket().getCurrentWorld()).getBackgroundAsset());
+			
+			if (containers != null && containers.length > 0) {
+				g.drawImage(containers[0].getImage(gui.getFrameID()),
+						0, 0, windowData.getWidth(), windowData.getHeight(), null);
+			}
 			
 			if (gui.getNetworkDrawablePacket().getClientIndex() != -1) {
 				NetworkDrawableEntity player = gui.getNetworkDrawablePacket().getDrawables().get(gui.getNetworkDrawablePacket().getClientIndex());
