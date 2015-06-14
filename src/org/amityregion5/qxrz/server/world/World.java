@@ -28,6 +28,7 @@ public class World
 	private ServerNetworkManager net;
 	private Game g;
 	private Rectangle bounds;
+	private String backgroundAsset;
 	
 	public World()
 	{
@@ -207,5 +208,13 @@ public class World
 		} while (checkEntityCollisions(p.getEntity().getHitbox(), p.getEntity().getId())!=null || l.checkCollisions(p.getEntity().getHitbox())!=null);
 		//System.out.println("new pickup at " + p.getEntity().getPos());
 		add(p.getEntity());
+	}
+	
+	public void setBackgroundAsset(String backgroundAsset) {
+		this.backgroundAsset = backgroundAsset;
+	}
+	
+	public String getBackgroundAsset() {
+		return backgroundAsset;
 	}
 }

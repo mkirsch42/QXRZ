@@ -32,6 +32,8 @@ public class WorldManager {
 			//defaultWorld.add(new Pickup("fl", 100, 500, 0, 3000).getEntity());
 			//defaultWorld.add(new Pickup("ro", 200, 500, 0, 3000).getEntity());
 			defaultWorld.add(new Pickup(17, 0, 1000, 5000).getEntity());
+			
+			defaultWorld.setBackgroundAsset("weapons/flamethrower");
 
 			createBorder(defaultWorld, 2500, 1500, 1500);
 		}
