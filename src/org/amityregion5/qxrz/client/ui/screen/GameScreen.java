@@ -94,7 +94,7 @@ public class GameScreen extends AbstractScreen {
 			}
 
 			for (Obstacle o : WorldManager.getWorld(gui.getNetworkDrawablePacket().getCurrentWorld()).getLandscape().getObstacles()) {
-				GameUIHelper.draw(g, o.getNDE(), vp, windowData, gui, true);
+				GameUIHelper.drawObstacle(g, o.getNDE(), vp, windowData, gui, true);
 			}
 
 			for(int i=0;i<gui.getNetworkDrawablePacket().getDrawables().size();i++)

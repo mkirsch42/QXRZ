@@ -30,6 +30,12 @@ public class ProjectileEntity extends GameEntity
 
 	public boolean update(double tSinceUpdate, World w)
 	{
+		if (gameModel.getType().equals("fl")) {
+			setVel(getVel().multiply(0.9));
+			if (getVel().equals(new Vector2D())) {
+				gameModel.getSource().getGameModel().getParent().removeEntity(this);
+			}
+		}
 		PlayerEntity e = checkPlayerCollisions(vel.multiply(tSinceUpdate), w, gameModel.getFriendlyFirePlayer());
 		if(e==null)
 			return super.update(tSinceUpdate, w);
@@ -55,6 +61,9 @@ public class ProjectileEntity extends GameEntity
 		if(gameModel.getType().equals("bo"))
 		{
 			asset = "projectiles/arrow";
+		}
+		if(gameModel.getType().equals("fl")) {
+			asset = "projectiles/fire";
 		}
 		return new NetworkDrawableEntity(new NetworkDrawableObject[] {new NetworkDrawableObject(asset, getHitbox().getAABB()).rotate(vel.angle())}, getHitbox().getAABB());
 	}

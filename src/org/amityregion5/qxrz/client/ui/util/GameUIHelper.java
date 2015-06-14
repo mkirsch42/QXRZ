@@ -66,6 +66,12 @@ public class GameUIHelper {
 		//drawAABB(g, nde.getBox(), vp, d);
 	}
 
+	public static void drawObstacle(Graphics2D g, NetworkDrawableEntity nde,
+			Viewport vp, WindowData windowData, MainGui gui, boolean b) {
+		draw(g, nde, vp, windowData, gui, b);
+	}
+
+
 	private static void drawNT(Graphics2D g, String nt, float fontSize, Color ntColor, boolean isItalicized, double x, double y, Viewport vp,
 			WindowData d) {
 		// Do math to determine drawing points

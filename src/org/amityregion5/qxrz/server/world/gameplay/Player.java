@@ -188,7 +188,7 @@ public class Player {
 			}
 			else if(getEquipped().getType().equals(WeaponTypes.FIREGUN.text))
 			{
-
+				SpecialWeapons.firegun(w, this, v);
 			}
 			else
 			{
