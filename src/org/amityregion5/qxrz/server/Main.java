@@ -15,6 +15,7 @@ import org.amityregion5.qxrz.common.net.Goodbye;
 import org.amityregion5.qxrz.common.net.NetEventListener;
 import org.amityregion5.qxrz.common.net.NetworkNode;
 import org.amityregion5.qxrz.common.ui.LobbyInformationPacket;
+import org.amityregion5.qxrz.common.world.Worlds;
 import org.amityregion5.qxrz.server.net.ServerNetworkManager;
 import org.amityregion5.qxrz.server.ui.MainGui;
 import org.amityregion5.qxrz.server.util.ColorUtil;
@@ -55,7 +56,14 @@ public final class Main {
 				return;
 			}
 		}
+		
+		Worlds world = (Worlds)JOptionPane.showInputDialog(null, "Choose World", "Choose World",
+				JOptionPane.QUESTION_MESSAGE, null, Worlds.values(), Worlds.DEBUG);
 
+		if (world == null) {
+			return;
+		}
+		
 		netManager = new ServerNetworkManager(s, 8000);
 		gui = new MainGui(netManager, g);
 		// TODO maybe all the manager stuff should be created within the GUI
@@ -65,7 +73,7 @@ public final class Main {
 		netManager.setAllowConnections(false);
 		netManager.start();
 
-		g = new Game(netManager, GameModes.LASTMAN, this); // TODO game needs access to network, too...
+		g = new Game(netManager, GameModes.LASTMAN, this, world); // TODO game needs access to network, too...
 		// TODO server panel should show actual IP, not 0.0.0.0
 		if (DebugConstants.DEBUG_GUI) {
 			Game.debug = DebugDraw.setup(g.getWorld());

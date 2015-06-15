@@ -18,7 +18,7 @@ Pronounced kew ecks ar zed
 ### Sounds
 - Soundtrack/background music
 - Action sounds (gun firing, movement, explosions)
-- Fix dropped soudns
+- Fix dropped sounds
 
 ### Gameplay
 - Player classes (selection at beginning; information on each)

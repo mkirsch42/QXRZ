@@ -12,4 +12,15 @@ public class Upgrade {
 	{
 		return type;
 	}
+	public boolean equals(Object obj)
+	{
+		if ((!(obj instanceof Upgrade)) || obj.equals(null))
+			return false;
+		else
+		{
+			if (type.equals(((Upgrade) obj).getType()))
+					return true;
+			return false;
+		}
+	}
 }

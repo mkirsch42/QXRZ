@@ -8,6 +8,7 @@ public class SpecialMovement {
 	private SpecialMovements type;
 	//private Landscape la;
 	private long timeused;
+	private long cooldownTime;
 	private long cooldownUse;
 	
 	private static final int TELEPORT_LEN = 10;
@@ -40,6 +41,7 @@ public class SpecialMovement {
 				timeused++;
 				if (timeused >= DASH_LEN) {
 					timeused = 0;
+					cooldownTime = DASH_COOLDOWN;
 					cooldownUse = call + DASH_COOLDOWN;
 				}
 			}
@@ -58,6 +60,7 @@ public class SpecialMovement {
 				timeused++;
 				if (timeused >= ROLL_LEN) {
 					timeused = 0;
+					cooldownTime = ROLL_COOLDOWN;
 					cooldownUse = call + ROLL_COOLDOWN;
 				}
 			}
@@ -75,6 +78,7 @@ public class SpecialMovement {
 				timeused++;
 				if (timeused >= TELEPORT_LEN) {
 					timeused = 0;
+					cooldownTime = TELEPORT_COOLDOWN;
 					cooldownUse = call + TELEPORT_COOLDOWN;
 				}
 			}
@@ -96,5 +100,12 @@ public class SpecialMovement {
 	public long getTimeUsed()
 	{
 		return timeused;
+	}
+
+	public double getPercentCooldown() {
+		if (System.currentTimeMillis() > cooldownUse) {
+			return 1;
+		}
+		return (cooldownUse - System.currentTimeMillis())/((double)cooldownTime);
 	}
 }

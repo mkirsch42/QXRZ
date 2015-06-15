@@ -3,6 +3,8 @@ package org.amityregion5.qxrz.common.ui;
 import java.awt.Color;
 import java.awt.geom.Rectangle2D;
 
+import org.amityregion5.qxrz.server.world.gameplay.SpecialMovements;
+
 public class NetworkDrawablePlayer extends NetworkDrawableEntity {
 	private static final long serialVersionUID = 3015573524048481189L;
 	private String nametag = "";
@@ -12,6 +14,8 @@ public class NetworkDrawablePlayer extends NetworkDrawableEntity {
 	private int ammo;
 	private int totalAmmo;
 	private int health, maxHealth;
+	private SpecialMovements movementType;
+	private double percentCooldown;
 	
 	public NetworkDrawablePlayer(NetworkDrawableObject[] drawables, Rectangle2D box) {
 		super(drawables, box);
@@ -114,4 +118,34 @@ public class NetworkDrawablePlayer extends NetworkDrawableEntity {
 	public int getMaxHealth() {
 		return maxHealth;
 	}
+
+	/**
+	 * @return the movementType
+	 */
+	public SpecialMovements getMovementType() {
+		return movementType;
+	}
+
+	/**
+	 * @param movementType the movementType to set
+	 */
+	public void setMovementType(SpecialMovements movementType) {
+		this.movementType = movementType;
+	}
+
+	/**
+	 * @return the percentCooldown
+	 */
+	public double getPercentCooldown() {
+		return percentCooldown;
+	}
+
+	/**
+	 * @param percentCooldown the percentCooldown to set
+	 */
+	public void setPercentCooldown(double percentCooldown) {
+		this.percentCooldown = percentCooldown;
+	}
+	
+	
 }
