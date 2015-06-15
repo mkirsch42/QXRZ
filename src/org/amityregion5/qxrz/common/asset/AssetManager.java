@@ -48,8 +48,16 @@ public class AssetManager
 			imageAssets.put("projectiles/fire", new ImageContainer(ImageIO.read(FileUtil.getURLOfResource(Main.class, "/projectiles/Fireball.png"))));
 			imageAssets.put("icons/healthPack", new ImageContainer(ImageIO.read(FileUtil.getURLOfResource(Main.class, "/icons/health.png"))));
 			imageAssets.put("tutAnim", new AnimatedImageContainer(new BufferedImage[] {
+					ImageIO.read(FileUtil.getURLOfResource(Main.class, "/tut/Mainmenu.png")),
+					ImageIO.read(FileUtil.getURLOfResource(Main.class, "/tut/Selection.png")),
+					ImageIO.read(FileUtil.getURLOfResource(Main.class, "/tut/Selection.png")),
+					ImageIO.read(FileUtil.getURLOfResource(Main.class, "/tut/Lobby.png")),
+					ImageIO.read(FileUtil.getURLOfResource(Main.class, "/tut/Lobby.png")),
+					ImageIO.read(FileUtil.getURLOfResource(Main.class, "/tut/Ingame.png")),
+					ImageIO.read(FileUtil.getURLOfResource(Main.class, "/tut/Ingame.png")),
+					ImageIO.read(FileUtil.getURLOfResource(Main.class, "/tut/Ingame.png")),
 					null
-			}, 10*60));
+			}, 3*60));
 			
 			imageAssets.put("mvmt/dash", new ImageContainer(ImageIO.read(FileUtil.getURLOfResource(Main.class, "/icons/Dash.png"))));
 			imageAssets.put("mvmt/roll", new ImageContainer(ImageIO.read(FileUtil.getURLOfResource(Main.class, "/icons/Roll.png"))));
