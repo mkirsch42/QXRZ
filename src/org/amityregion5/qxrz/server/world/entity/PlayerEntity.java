@@ -288,6 +288,8 @@ public class PlayerEntity extends GameEntity
 		player.setTotalAmmo(parent.getEquipped().getReserve());
 		player.setHealth(parent.getHealth());
 		player.setMaxHealth(100); //TODO: REMOVE MAGIC NUMBER
+		player.setMovementType(parent.getSpecMove().getType());
+		player.setPercentCooldown(parent.getSpecMove().getPercentCooldown());
 		
 		if(parent.getTeam()==null){
 			player.setItalics(true);

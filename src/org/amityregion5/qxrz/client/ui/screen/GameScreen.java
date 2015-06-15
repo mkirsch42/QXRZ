@@ -88,14 +88,14 @@ public class GameScreen extends AbstractScreen {
 
 	private void drawGame(Graphics2D g, WindowData windowData) {
 		if (gui.getNetworkDrawablePacket() != null) {
-			
+
 			ImageContainer[] containers = AssetManager.getImageAssets(WorldManager.getWorld(gui.getNetworkDrawablePacket().getCurrentWorld()).getBackgroundAsset());
-			
+
 			if (containers != null && containers.length > 0) {
 				g.drawImage(containers[0].getImage(gui.getFrameID()),
 						0, 0, windowData.getWidth(), windowData.getHeight(), null);
 			}
-			
+
 			if (gui.getNetworkDrawablePacket().getClientIndex() != -1) {
 				NetworkDrawableEntity player = gui.getNetworkDrawablePacket().getDrawables().get(gui.getNetworkDrawablePacket().getClientIndex());
 				vp.xCenter = player.getBox().getCenterX();
@@ -265,9 +265,18 @@ public class GameScreen extends AbstractScreen {
 			g.setColor(Color.WHITE);
 			GuiUtil.drawString(g, client.getGun(), CenterMode.LEFT, x + 10, y + 10 + 14*3);
 			GuiUtil.drawString(g, client.getAmmo() + " + " + client.getTotalAmmo(), CenterMode.LEFT, x + 10, y + 10 + 14*4);
+
+			BufferedImage i = AssetManager.getImageAssets(client.getMovementType().getAssetName())[0].getImage(gui.getFrameID());
+			g.drawImage(i, x + 10, y + 75, 65, 65, null);
+
+			int h = (int) (65*client.getPercentCooldown());
+			if (h < 65) {
+				g.setColor(new Color(0,0,0,0.5f));
+				g.fillRect(x + 10, y + 75 + h, 65, 65 - h);
+			}
 		}
 	}
-	
+
 	@Override
 	public void onScreenChange(boolean leaving) {
 		if (leaving) {
