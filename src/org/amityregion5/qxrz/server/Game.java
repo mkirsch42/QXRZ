@@ -35,7 +35,7 @@ public class Game implements Runnable
 	private boolean friendlyfire = false;
 	private Main m;
 	private int renderCounter = 0;
-	private static final int renderSendPacket = 3;
+	private static final int renderSendPacket = 2;
 
 	public Game(ServerNetworkManager n, GameModes gm, Main main, Worlds sw)
 	{
