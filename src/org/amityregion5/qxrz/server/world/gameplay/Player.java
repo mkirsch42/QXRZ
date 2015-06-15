@@ -397,8 +397,8 @@ public class Player {
 		Random r = new Random();
 		do
 		{
-			Vector2D newPos = new Vector2D(r.nextInt((int)w.getBounds().getWidth())+(int)w.getBounds().getMinX(),
-					r.nextInt((int)w.getBounds().getHeight())+(int)w.getBounds().getMinY());
+			Vector2D newPos = new Vector2D(r.nextInt((int)w.getBounds().getWidth())+(int)w.getBounds().getX(),
+					r.nextInt((int)w.getBounds().getHeight())+(int)w.getBounds().getY());
 			entity = new PlayerEntity(newPos, this);
 		} while(w.getLandscape().checkCollisions(entity.getHitbox())!=null);
 		w.add(entity);

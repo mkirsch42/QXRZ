@@ -39,7 +39,6 @@ public class WorldManager {
 		}
 		{
 			danWorld = new World();
-
 			
 			createBorder(danWorld, 2500, 1500, 1500);
 		}
