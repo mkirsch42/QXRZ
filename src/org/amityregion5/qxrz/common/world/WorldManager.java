@@ -13,6 +13,8 @@ public class WorldManager {
 
 	private static World defaultWorld;
 	private static World danWorld;
+	private static World sergeiWorld;
+	private static World arenaWorld;
 
 	static {
 		{
@@ -40,7 +42,31 @@ public class WorldManager {
 		{
 			danWorld = new World();
 			
-			createBorder(danWorld, 2500, 1500, 1500);
+			createBorder(danWorld, 5000, 2500, 2500);
+			danWorld.addObstacle(new Obstacle(new RectangleHitbox(new Rectangle(1000,1000,4500,4000)), "building/1"));
+			danWorld.addObstacle(new Obstacle(new RectangleHitbox(new Rectangle(1000,2000,4500,0)), "building/1"));
+			danWorld.addObstacle(new Obstacle(new RectangleHitbox(new Rectangle(1000,2000,0,4500)), "building/1"));
+			danWorld.addObstacle(new Obstacle(new RectangleHitbox(new Rectangle(1000,2000,0,0)), "building/1"));
+			
+		}
+		{
+		arenaWorld = new World();
+		
+		createBorder(arenaWorld, 5000, 2500, 2500);
+		}
+		{
+			sergeiWorld = new World();
+			
+			createBorder(sergeiWorld, 5000, 2500, 2500);
+			sergeiWorld.addObstacle(new Obstacle(new RectangleHitbox(new Rectangle(500,500,4800,4800)), "tree/1"));
+			sergeiWorld.addObstacle(new Obstacle(new RectangleHitbox(new Rectangle(500,500,800,-800)), "tree/1"));
+			sergeiWorld.addObstacle(new Obstacle(new RectangleHitbox(new Rectangle(500,500,-4800,-4800)), "rock/1"));
+			sergeiWorld.addObstacle(new Obstacle(new RectangleHitbox(new Rectangle(500,500,-800,800)), "rock/1"));
+			sergeiWorld.addObstacle(new Obstacle(new RectangleHitbox(new Rectangle(500,500,2500,2000)), "tree/1"));
+			sergeiWorld.addObstacle(new Obstacle(new RectangleHitbox(new Rectangle(500,500,2500,-2000)), "tree/1"));
+			sergeiWorld.addObstacle(new Obstacle(new RectangleHitbox(new Rectangle(500,500,-500,-2000)), "rock/1"));
+			sergeiWorld.addObstacle(new Obstacle(new RectangleHitbox(new Rectangle(500,500,-2000,500)), "rock/1"));
+			
 		}
 	}
 
@@ -56,6 +82,12 @@ public class WorldManager {
 	public static World getWorld(Worlds world) {
 		if (world == Worlds.DAN_WORLD) {
 			return danWorld;
+		}
+		else if (world == Worlds.SERGEI_WORLD) {
+			return danWorld;
+		}
+		else if (world == Worlds.ARENA_WORLD) {
+			return arenaWorld;
 		}
 		return defaultWorld;
 	}

@@ -55,6 +55,8 @@ public class AssetManager
 			imageAssets.put("mvmt/roll", new ImageContainer(ImageIO.read(FileUtil.getURLOfResource(Main.class, "/icons/Roll.png"))));
 			imageAssets.put("mvmt/tele", new ImageContainer(ImageIO.read(FileUtil.getURLOfResource(Main.class, "/icons/Teleport.png"))));
 			imageAssets.put("building/1", new ImageContainer(ImageIO.read(FileUtil.getURLOfResource(Main.class, "/icons/Building.png"))));
+			imageAssets.put("tree/1", new ImageContainer(ImageIO.read(FileUtil.getURLOfResource(Main.class, "/icons/Rock.png"))));
+			imageAssets.put("rock/1", new ImageContainer(ImageIO.read(FileUtil.getURLOfResource(Main.class, "/icons/Tree.png"))));
 			for (int i=1;i<=12;i++) {
 				String assName = "/projectiles/explosion/explosion_" + (i<10 ? "0" + i : i) + ".png";
 				imageAssets.put("explosion/" + i,
