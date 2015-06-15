@@ -40,12 +40,12 @@ public class WorldManager {
 		{
 			danWorld = new World();
 
-			danWorld.addObstacle(new Obstacle(new RectangleHitbox(new Rectangle(1000,500,400,400)), "building/1"));
-			danWorld.addObstacle(new Obstacle(new RectangleHitbox(new Rectangle(1000,500,400,400)), "building/1"));
-			danWorld.addObstacle(new Obstacle(new RectangleHitbox(new Rectangle(1000,500,400,400)), "building/1"));
-			danWorld.addObstacle(new Obstacle(new RectangleHitbox(new Rectangle(1000,500,400,400)), "building/1"));
-			danWorld.addObstacle(new Obstacle(new RectangleHitbox(new Rectangle(2000,1500,500,1000)), "--AABB--"));
-			danWorld.addObstacle(new Obstacle(new RectangleHitbox(new Rectangle(1500,2900+2*Game.GAME_UNIT,2000,500)), "--AABB--"));
+			//danWorld.addObstacle(new Obstacle(new RectangleHitbox(new Rectangle(1000,500,400,400)), "building/1"));
+			//danWorld.addObstacle(new Obstacle(new RectangleHitbox(new Rectangle(1000,500,400,400)), "building/1"));
+			//danWorld.addObstacle(new Obstacle(new RectangleHitbox(new Rectangle(1000,500,400,400)), "building/1"));
+			//danWorld.addObstacle(new Obstacle(new RectangleHitbox(new Rectangle(1000,500,400,400)), "building/1"));
+			//danWorld.addObstacle(new Obstacle(new RectangleHitbox(new Rectangle(2000,1500,500,1000)), "--AABB--"));
+			//danWorld.addObstacle(new Obstacle(new RectangleHitbox(new Rectangle(1500,2900+2*Game.GAME_UNIT,2000,500)), "--AABB--"));
 
 			createBorder(danWorld, 10000, 10000, 10000);
 		}

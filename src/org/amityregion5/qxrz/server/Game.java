@@ -42,7 +42,8 @@ public class Game implements Runnable
 		net = n;
 		m = main;
 		// Create world and add test objects
-		w = WorldManager.getWorld(sw);
+		world = sw;
+		w = WorldManager.getWorld(world);
 		w.attachNetworkManager(net);
 		w.attachParent(this);
 		mode = gm;
