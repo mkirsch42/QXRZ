@@ -16,12 +16,12 @@ import org.amityregion5.qxrz.client.ui.screen.WindowData;
  */
 public class ElementSwitcharooney<T> extends ElementRectangle
 {
-	
+
 	private Supplier<T[]> items;
 	private Consumer<T> onChange;
 	private int index;
 	private String name;
-	
+
 	/**
 	 * @param topLeftFunction
 	 * @param widthHeightFunction
@@ -38,59 +38,66 @@ public class ElementSwitcharooney<T> extends ElementRectangle
 			float sizeOrPadding, Supplier<Color> text, String name,
 			Supplier<T[]> supplies)
 	{
-		super(topLeftFunction, widthHeightFunction, background, border, sizeOrPadding,
-				text, null, null);
+		super(topLeftFunction, widthHeightFunction, background, border,
+				sizeOrPadding, text, null, null);
 		this.items = supplies;
 		this.name = name;
 	}
-	
-	public static <T> ElementSwitcharooney<T> createSwitharroney(Function<WindowData, Point> topLeftFunction,
+
+	public static <T> ElementSwitcharooney<T> createSwitharroney(
+			Function<WindowData, Point> topLeftFunction,
 			Function<WindowData, Point> widthHeightFunction,
 			Supplier<Color> background, Supplier<Color> border,
 			float sizeOrPadding, Supplier<Color> text, String name,
-			Supplier<T[]> supplies, Consumer<T> onChange, T starting) {
-		ElementSwitcharooney<T> es = new ElementSwitcharooney<T>(topLeftFunction, widthHeightFunction, background, border, sizeOrPadding, text, name, supplies);
-		
+			Supplier<T[]> supplies, Consumer<T> onChange, T starting)
+	{
+		ElementSwitcharooney<T> es = new ElementSwitcharooney<T>(
+				topLeftFunction, widthHeightFunction, background, border,
+				sizeOrPadding, text, name, supplies);
+
 		es.setName(es::fullName);
 		es.setOnChange(onChange);
 		es.setClickListener(es::onClick);
 		es.index = Arrays.asList(supplies.get()).indexOf(starting);
-		
+
 		return es;
 	}
-	
+
 	public void setOnChange(Consumer<T> onChange)
 	{
 		this.onChange = onChange;
 	}
-	
+
 	public Supplier<T[]> getItems()
 	{
 		return items;
 	}
-	
+
 	private String indexName()
 	{
 		indexify();
 		return items.get()[index].toString();
 	}
-	
+
 	private String fullName()
 	{
 		return name + ": " + indexName();
 	}
-	
-	private void onClick(WindowData d) {
+
+	private void onClick(WindowData d)
+	{
 		index++;
 		indexify();
 		onChange.accept(items.get()[index]);
 	}
-	
-	private void indexify() {
+
+	private void indexify()
+	{
 		index %= items.get().length;
 	}
-	
-	protected void draw(Graphics2D g, WindowData windowData) {
+
+	protected void draw(Graphics2D g, WindowData windowData)
+	{
 		indexify();
 		super.draw(g, windowData);
 	}

@@ -5,7 +5,8 @@ import java.awt.geom.Rectangle2D;
 
 import org.amityregion5.qxrz.server.world.gameplay.SpecialMovements;
 
-public class NetworkDrawablePlayer extends NetworkDrawableEntity {
+public class NetworkDrawablePlayer extends NetworkDrawableEntity
+{
 	private static final long serialVersionUID = 3015573524048481189L;
 	private String nametag = "";
 	private Color ntColor;
@@ -16,136 +17,167 @@ public class NetworkDrawablePlayer extends NetworkDrawableEntity {
 	private int health, maxHealth;
 	private SpecialMovements movementType;
 	private double percentCooldown;
-	
-	public NetworkDrawablePlayer(NetworkDrawableObject[] drawables, Rectangle2D box) {
+
+	public NetworkDrawablePlayer(NetworkDrawableObject[] drawables,
+			Rectangle2D box)
+	{
 		super(drawables, box);
 	}
 
 	/**
 	 * @return the nametag
 	 */
-	public String getNametag() {
+	public String getNametag()
+	{
 		return nametag;
 	}
 
 	/**
-	 * @param nametag the nametag to set
+	 * @param nametag
+	 *            the nametag to set
 	 */
-	public void setNametag(String nametag) {
+	public void setNametag(String nametag)
+	{
 		this.nametag = nametag;
 	}
 
 	/**
 	 * @return the ntColor
 	 */
-	public Color getNameColor() {
+	public Color getNameColor()
+	{
 		return ntColor;
 	}
 
 	/**
-	 * @param ntColor the ntColor to set
+	 * @param ntColor
+	 *            the ntColor to set
 	 */
-	public void setNameColor(Color ntColor) {
+	public void setNameColor(Color ntColor)
+	{
 		this.ntColor = ntColor;
 	}
 
 	/**
 	 * @return the ntItalics
 	 */
-	public boolean isItalics() {
+	public boolean isItalics()
+	{
 		return ntItalics;
 	}
 
 	/**
-	 * @param ntItalics the ntItalics to set
+	 * @param ntItalics
+	 *            the ntItalics to set
 	 */
-	public void setItalics(boolean ntItalics) {
+	public void setItalics(boolean ntItalics)
+	{
 		this.ntItalics = ntItalics;
 	}
 
 	/**
 	 * @return the gun
 	 */
-	public String getGun() {
+	public String getGun()
+	{
 		return gun;
 	}
 
 	/**
-	 * @param gun the gun to set
+	 * @param gun
+	 *            the gun to set
 	 */
-	public void setGun(String gun) {
+	public void setGun(String gun)
+	{
 		this.gun = gun;
 	}
 
 	/**
 	 * @return the ammo
 	 */
-	public int getAmmo() {
+	public int getAmmo()
+	{
 		return ammo;
 	}
 
 	/**
-	 * @param ammo the ammo to set
+	 * @param ammo
+	 *            the ammo to set
 	 */
-	public void setAmmo(int ammo) {
+	public void setAmmo(int ammo)
+	{
 		this.ammo = ammo;
 	}
 
 	/**
 	 * @return the totalAmmo
 	 */
-	public int getTotalAmmo() {
+	public int getTotalAmmo()
+	{
 		return totalAmmo;
 	}
 
 	/**
-	 * @param totalAmmo the totalAmmo to set
+	 * @param totalAmmo
+	 *            the totalAmmo to set
 	 */
-	public void setTotalAmmo(int totalAmmo) {
+	public void setTotalAmmo(int totalAmmo)
+	{
 		this.totalAmmo = totalAmmo;
 	}
-	public void setHealth(int health) {
+
+	public void setHealth(int health)
+	{
 		this.health = health;
 	}
-	public int getHealth() {
+
+	public int getHealth()
+	{
 		return health;
 	}
-	
-	public void setMaxHealth(int maxHealth) {
+
+	public void setMaxHealth(int maxHealth)
+	{
 		this.maxHealth = maxHealth;
 	}
-	
-	public int getMaxHealth() {
+
+	public int getMaxHealth()
+	{
 		return maxHealth;
 	}
 
 	/**
 	 * @return the movementType
 	 */
-	public SpecialMovements getMovementType() {
+	public SpecialMovements getMovementType()
+	{
 		return movementType;
 	}
 
 	/**
-	 * @param movementType the movementType to set
+	 * @param movementType
+	 *            the movementType to set
 	 */
-	public void setMovementType(SpecialMovements movementType) {
+	public void setMovementType(SpecialMovements movementType)
+	{
 		this.movementType = movementType;
 	}
 
 	/**
 	 * @return the percentCooldown
 	 */
-	public double getPercentCooldown() {
+	public double getPercentCooldown()
+	{
 		return percentCooldown;
 	}
 
 	/**
-	 * @param percentCooldown the percentCooldown to set
+	 * @param percentCooldown
+	 *            the percentCooldown to set
 	 */
-	public void setPercentCooldown(double percentCooldown) {
+	public void setPercentCooldown(double percentCooldown)
+	{
 		this.percentCooldown = percentCooldown;
 	}
-	
-	
+
 }

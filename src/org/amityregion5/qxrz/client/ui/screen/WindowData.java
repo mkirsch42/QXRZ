@@ -8,32 +8,38 @@ import java.util.List;
  */
 public class WindowData
 {
-	//Width of window
+	// Width of window
 	private int width;
-	//Height of window
+	// Height of window
 	private int height;
-	//List of keys that are down
+	// List of keys that are down
 	private List<KeyEvent> keysDown;
-	//List of mouse buttons that are down
+	// List of mouse buttons that are down
 	private List<Integer> miceDown;
-	//Mouse X Coordinate
+	// Mouse X Coordinate
 	private int mouseX;
-	//Mouse Y Coordinate
+	// Mouse Y Coordinate
 	private int mouseY;
 	private int mouseWheel;
-	
+
 	/**
-	 * @param width the width of the screen
-	 * @param height the height of the screen
-	 * @param keysDown a list of keys that are down
-	 * @param miceDown a list of mouse buttons that are down
-	 * @param mouseX the mouse X coordinate
-	 * @param mouseY the mouse Y coordinate
+	 * @param width
+	 *            the width of the screen
+	 * @param height
+	 *            the height of the screen
+	 * @param keysDown
+	 *            a list of keys that are down
+	 * @param miceDown
+	 *            a list of mouse buttons that are down
+	 * @param mouseX
+	 *            the mouse X coordinate
+	 * @param mouseY
+	 *            the mouse Y coordinate
 	 */
 	public WindowData(int width, int height, List<KeyEvent> keysDown,
 			List<Integer> miceDown, int mouseX, int mouseY, int mouseWheel)
 	{
-		//Set variables
+		// Set variables
 		this.width = width;
 		this.height = height;
 		this.keysDown = keysDown;
@@ -42,6 +48,7 @@ public class WindowData
 		this.mouseY = mouseY;
 		this.mouseWheel = mouseWheel;
 	}
+
 	/**
 	 * @return the width
 	 */
@@ -49,13 +56,16 @@ public class WindowData
 	{
 		return width;
 	}
+
 	/**
-	 * @param width the width to set
+	 * @param width
+	 *            the width to set
 	 */
 	public void setWidth(int width)
 	{
 		this.width = width;
 	}
+
 	/**
 	 * @return the height
 	 */
@@ -63,13 +73,16 @@ public class WindowData
 	{
 		return height;
 	}
+
 	/**
-	 * @param height the height to set
+	 * @param height
+	 *            the height to set
 	 */
 	public void setHeight(int height)
 	{
 		this.height = height;
 	}
+
 	/**
 	 * @return the keysDown
 	 */
@@ -77,13 +90,16 @@ public class WindowData
 	{
 		return keysDown;
 	}
+
 	/**
-	 * @param keysDown the keysDown to set
+	 * @param keysDown
+	 *            the keysDown to set
 	 */
 	public void setKeysDown(List<KeyEvent> keysDown)
 	{
 		this.keysDown = keysDown;
 	}
+
 	/**
 	 * @return the miceDown
 	 */
@@ -91,13 +107,16 @@ public class WindowData
 	{
 		return miceDown;
 	}
+
 	/**
-	 * @param miceDown the miceDown to set
+	 * @param miceDown
+	 *            the miceDown to set
 	 */
 	public void setMiceDown(List<Integer> miceDown)
 	{
 		this.miceDown = miceDown;
 	}
+
 	/**
 	 * @return the mouseX
 	 */
@@ -105,13 +124,16 @@ public class WindowData
 	{
 		return mouseX;
 	}
+
 	/**
-	 * @param mouseX the mouseX to set
+	 * @param mouseX
+	 *            the mouseX to set
 	 */
 	public void setMouseX(int mouseX)
 	{
 		this.mouseX = mouseX;
 	}
+
 	/**
 	 * @return the mouseY
 	 */
@@ -119,17 +141,23 @@ public class WindowData
 	{
 		return mouseY;
 	}
+
 	/**
-	 * @param mouseY the mouseY to set
+	 * @param mouseY
+	 *            the mouseY to set
 	 */
 	public void setMouseY(int mouseY)
 	{
 		this.mouseY = mouseY;
 	}
-	public int getMouseWheel() {
+
+	public int getMouseWheel()
+	{
 		return mouseWheel;
 	}
-	public void setMouseWheel(int mouseWheel) {
+
+	public void setMouseWheel(int mouseWheel)
+	{
 		this.mouseWheel = mouseWheel;
 	}
 }

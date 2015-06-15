@@ -13,25 +13,27 @@ public class UDPInputStream
 	private DatagramPacket packet;
 	private byte[] buf;
 	private Logger l = Logger.getGlobal();
-	
+
 	public UDPInputStream(DatagramSocket ds) throws Exception
 	{
 		sock = ds;
 		buf = new byte[NetworkObject.BUFFER_SIZE];
 		packet = new DatagramPacket(buf, buf.length);
 	}
-	
+
 	public DatagramPacket getPacket()
 	{
 		return packet;
 	}
-	
-	public NetworkObject recvObject() throws IOException, ClassNotFoundException
+
+	public NetworkObject recvObject() throws IOException,
+			ClassNotFoundException
 	{
 		l.info("listening " + sock.getLocalPort());
 		sock.receive(packet);
 		l.info("Data received");
-		ByteArrayInputStream byteStream = new ByteArrayInputStream(buf, 0, packet.getLength());
+		ByteArrayInputStream byteStream = new ByteArrayInputStream(buf, 0,
+				packet.getLength());
 		ObjectInputStream outStream = new ObjectInputStream(byteStream);
 		return (NetworkObject) outStream.readObject();
 	}
@@ -40,6 +42,5 @@ public class UDPInputStream
 	{
 		return sock;
 	}
-
 
 }

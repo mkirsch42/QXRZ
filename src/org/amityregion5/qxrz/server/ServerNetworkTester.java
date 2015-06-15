@@ -10,9 +10,10 @@ public class ServerNetworkTester
 {
 	public static void main(String[] args) throws Exception
 	{
-		ServerNetworkManager manager = new ServerNetworkManager("test server", 8000);
+		ServerNetworkManager manager = new ServerNetworkManager("test server",
+				8000);
 		Logger.getGlobal().setLevel(Level.OFF);
-		
+
 		System.out.println(InetAddress.getLocalHost());
 		manager.start();
 	}

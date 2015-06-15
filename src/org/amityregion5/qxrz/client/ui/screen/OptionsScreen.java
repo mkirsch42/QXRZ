@@ -14,7 +14,8 @@ import org.amityregion5.qxrz.client.ui.element.ElementSwitcharooney;
 public class OptionsScreen extends AbstractScreen
 {
 
-	public OptionsScreen(IScreen s, MainGui gui) {
+	public OptionsScreen(IScreen s, MainGui gui) 
+	{
 		super(s, gui);
 		
 		elements.add(new ElementRectangle((w) -> {return new Point(50, 50);},
@@ -88,7 +89,8 @@ public class OptionsScreen extends AbstractScreen
 	}
 
 	@Override
-	protected void draw(Graphics2D g, WindowData windowData) {
+	protected void draw(Graphics2D g, WindowData windowData) 
+	{
 		g.setColor(Color.BLACK);
 		g.fillRect(0, 0, windowData.getWidth(), windowData.getHeight());
 	}

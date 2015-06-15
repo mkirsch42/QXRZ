@@ -12,7 +12,7 @@ public class Pickup
 	private long lastPickup;
 	private boolean onePickup = false;
 	private Upgrade u;
-	
+
 	public Pickup(String wep, int count, int x, int y, int ms)
 	{
 		entity = new PickupEntity(x, y, this);
@@ -21,7 +21,7 @@ public class Pickup
 		timeout = ms;
 		lastPickup = -1;
 	}
-	
+
 	public Pickup(int healthCount, int x, int y, int ms)
 	{
 		weaponId = "<3";
@@ -30,6 +30,7 @@ public class Pickup
 		timeout = ms;
 		lastPickup = -1;
 	}
+
 	public Pickup(Upgrade u, int x, int y, int ms)
 	{
 		weaponId = "WU";
@@ -37,16 +38,17 @@ public class Pickup
 		entity = new PickupEntity(x, y, this);
 		timeout = ms;
 	}
+
 	public int getAmmoCount()
 	{
 		return ammoCount;
 	}
-	
+
 	public String getWeaponId()
 	{
 		return weaponId;
 	}
-	
+
 	public PickupEntity getEntity()
 	{
 		return entity;
@@ -54,7 +56,7 @@ public class Pickup
 
 	public boolean canPickup()
 	{
-		return System.currentTimeMillis()-lastPickup>timeout;
+		return System.currentTimeMillis() - lastPickup > timeout;
 	}
 
 	public void pickup()
@@ -66,25 +68,25 @@ public class Pickup
 	{
 		onePickup = true;
 	}
-	
+
 	public boolean isOnePickup()
 	{
 		return onePickup;
 	}
-	
+
 	public String getAsset()
 	{
-		if(!canPickup())
+		if (!canPickup())
 		{
 			return "icons/refreshDark";
 		}
-		if(isHealth())
+		if (isHealth())
 		{
 			return "icons/healthPack";
 		}
-		for(WeaponTypes t : WeaponTypes.values())
+		for (WeaponTypes t : WeaponTypes.values())
 		{
-			if(t.text.equals(weaponId))
+			if (t.text.equals(weaponId))
 			{
 				return t.asset;
 			}
@@ -96,10 +98,12 @@ public class Pickup
 	{
 		return weaponId.equals("<3");
 	}
+
 	public boolean isWepUpgrade()
 	{
 		return weaponId.equals("WU");
 	}
+
 	public Upgrade getUp()
 	{
 		return u;

@@ -125,7 +125,7 @@ public class ClientNetworkManager extends AbstractNetworkManager
 	 * Connect to a server
 	 * 
 	 * @param host
-	 *            Address of the server 
+	 *            Address of the server
 	 * @param port
 	 *            Port to connect to
 	 * @throws SocketException
@@ -174,7 +174,8 @@ public class ClientNetworkManager extends AbstractNetworkManager
 				// Reply to Broadcast query from server!
 				if (netObj.getPayload() instanceof AbstractNetworkNode)
 				{
-					AbstractNetworkNode info = (AbstractNetworkNode) netObj.getPayload();
+					AbstractNetworkNode info = (AbstractNetworkNode) netObj
+							.getPayload();
 					info.setAddress((InetSocketAddress) inStream.getPacket()
 							.getSocketAddress());
 					callback.newNode(info);
@@ -187,8 +188,9 @@ public class ClientNetworkManager extends AbstractNetworkManager
 				 */
 				if (server != null)
 				{
-//					System.out.println(netObj.getPacketNumber() + "/" + server.getReceivedPacketCount());
-//					System.out.println(netObj.getPayload().getClass().getSimpleName());
+					// System.out.println(netObj.getPacketNumber() + "/" +
+					// server.getReceivedPacketCount());
+					// System.out.println(netObj.getPayload().getClass().getSimpleName());
 					runHelper(server, netObj);
 				}
 
@@ -198,22 +200,24 @@ public class ClientNetworkManager extends AbstractNetworkManager
 			}
 		}
 	}
-	
-	
+
 	public void close()
 	{
 		running = false;
 	}
-	
-	public boolean isConnected() {
+
+	public boolean isConnected()
+	{
 		return isConnected;
 	}
-	
-	public String getUsername() {
+
+	public String getUsername()
+	{
 		return username;
 	}
-	
-	public void setUsername(String username) {
+
+	public void setUsername(String username)
+	{
 		this.username = username;
 	}
 }

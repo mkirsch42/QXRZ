@@ -8,15 +8,15 @@ import org.amityregion5.qxrz.server.world.vector2d.Vector2D;
 
 public class Obstacle implements Hitboxed
 {
-	
+
 	Hitbox hb;
 	private String assName;
-	
+
 	public Hitbox getHitbox()
 	{
 		return hb;
 	}
-	
+
 	public Obstacle(Hitbox h, String assetName)
 	{
 		hb = h;
@@ -27,8 +27,12 @@ public class Obstacle implements Hitboxed
 	{
 		return new Vector2D();
 	}
-	
-	public NetworkDrawableEntity getNDE() {
-		return new NetworkDrawableEntity(new NetworkDrawableObject[] {new NetworkDrawableObject(assName, getHitbox().getAABB())}, getHitbox().getAABB());
+
+	public NetworkDrawableEntity getNDE()
+	{
+		return new NetworkDrawableEntity(
+				new NetworkDrawableObject[] { new NetworkDrawableObject(
+						assName, getHitbox().getAABB()) }, getHitbox()
+						.getAABB());
 	}
 }

@@ -8,7 +8,8 @@ import java.util.Iterator;
 import org.amityregion5.qxrz.common.audio.AudioMessage;
 import org.amityregion5.qxrz.common.world.Worlds;
 
-public class NetworkDrawablePacket implements Serializable, Iterable<NetworkDrawableEntity>
+public class NetworkDrawablePacket implements Serializable,
+		Iterable<NetworkDrawableEntity>
 {
 
 	/**
@@ -20,7 +21,7 @@ public class NetworkDrawablePacket implements Serializable, Iterable<NetworkDraw
 	private ArrayList<AudioMessage> playables;
 	private int clientIndex;
 	private Worlds currentWorld;
-	
+
 	public NetworkDrawablePacket()
 	{
 		drawables = new ArrayList<NetworkDrawableEntity>();
@@ -31,32 +32,34 @@ public class NetworkDrawablePacket implements Serializable, Iterable<NetworkDraw
 	{
 		drawables.add(ndo);
 	}
-	
+
 	public void add(AudioMessage a)
 	{
 		playables.add(a);
 	}
-	
+
 	public void setClientIndex(int cid)
 	{
 		clientIndex = cid;
 	}
-	
+
 	public NetworkDrawablePlayer getClientObject()
 	{
-		return (drawables.get(clientIndex) instanceof NetworkDrawablePlayer ? (NetworkDrawablePlayer)drawables.get(clientIndex) : null);
+		return (drawables.get(clientIndex) instanceof NetworkDrawablePlayer ? (NetworkDrawablePlayer) drawables
+				.get(clientIndex) : null);
 	}
-	
+
 	public int getClientIndex()
 	{
 		return clientIndex;
 	}
-	
+
 	public Point getClientLocation()
 	{
-		return new Point((int)getClientObject().getBox().getCenterX(), (int)getClientObject().getBox().getCenterY());
+		return new Point((int) getClientObject().getBox().getCenterX(),
+				(int) getClientObject().getBox().getCenterY());
 	}
-	
+
 	public ArrayList<NetworkDrawableEntity> getDrawables()
 	{
 		return drawables;
@@ -66,22 +69,25 @@ public class NetworkDrawablePacket implements Serializable, Iterable<NetworkDraw
 	{
 		return playables;
 	}
-	
+
 	@Override
 	public Iterator<NetworkDrawableEntity> iterator()
 	{
 		return drawables.iterator();
 	}
-	
-	public void setCurrentWorld(Worlds currentWorld) {
+
+	public void setCurrentWorld(Worlds currentWorld)
+	{
 		this.currentWorld = currentWorld;
 	}
-	
-	public Worlds getCurrentWorld() {
+
+	public Worlds getCurrentWorld()
+	{
 		return currentWorld;
 	}
 
-	public void setPlayables(ArrayList<AudioMessage> sounds) {
+	public void setPlayables(ArrayList<AudioMessage> sounds)
+	{
 		playables = sounds;
 	}
 }

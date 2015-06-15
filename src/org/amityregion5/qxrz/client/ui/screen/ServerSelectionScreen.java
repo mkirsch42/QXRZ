@@ -17,7 +17,8 @@ import org.amityregion5.qxrz.common.asset.AssetManager;
 import org.amityregion5.qxrz.common.audio.AudioHelper;
 import org.amityregion5.qxrz.common.util.Colors;
 
-public class ServerSelectionScreen extends AbstractScreen {
+public class ServerSelectionScreen extends AbstractScreen 
+{
 	private ElementTextBox ipBox, portBox;
 	private int selectedServer, lastMouseButtonsDown;
 
@@ -29,7 +30,8 @@ public class ServerSelectionScreen extends AbstractScreen {
 	 * @param gui
 	 *            the MainGui object
 	 */
-	public ServerSelectionScreen(IScreen previous, MainGui gui) {
+	public ServerSelectionScreen(IScreen previous, MainGui gui) 
+	{
 		super(previous, gui);
 		refreshServerList();
 

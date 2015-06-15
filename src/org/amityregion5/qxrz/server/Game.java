@@ -89,8 +89,7 @@ public class Game implements Runnable
 			{
 				render();
 				shouldRender = false;
-			}
-			else
+			} else
 			{
 				try
 				{
@@ -229,7 +228,7 @@ public class Game implements Runnable
 		if (winner != null)
 		{
 			net.sendObject(new ChatMessage(winner.getName() + " won")
-			.fromServer());
+					.fromServer());
 			m.returnToLobby();
 
 			for (NetworkNode n : players.keySet())
@@ -243,8 +242,9 @@ public class Game implements Runnable
 				&& (int) (Math.random() * DebugConstants.DROPCHANCEPERUPDATE) == 1)
 		{
 			w.drop();
-		} 
-		if (players.isEmpty()){
+		}
+		if (players.isEmpty())
+		{
 			m.returnToLobby();
 		}
 
@@ -255,13 +255,15 @@ public class Game implements Runnable
 		debug.draw();
 
 		renderCounter++;
-		if (renderCounter >= renderSendPacket) {
+		if (renderCounter >= renderSendPacket)
+		{
 			renderCounter = 0;
 			NetworkDrawablePacket ndp = w.constructDrawablePacket();
 			ndp.setCurrentWorld(world);
 			for (NetworkNode node : players.keySet())
 			{
-				int index = w.getEntities().indexOf(players.get(node).getEntity());
+				int index = w.getEntities().indexOf(
+						players.get(node).getEntity());
 				ndp.setClientIndex(index);
 				try
 				{
@@ -275,11 +277,14 @@ public class Game implements Runnable
 		}
 	}
 
-	public boolean allPlayersReady() {
-		return players.values().stream().parallel().allMatch((p)->p.isReady());
+	public boolean allPlayersReady()
+	{
+		return players.values().stream().parallel()
+				.allMatch((p) -> p.isReady());
 	}
 
-	public HashMap<NetworkNode, Player> getPlayers() {
+	public HashMap<NetworkNode, Player> getPlayers()
+	{
 		return players;
 	}
 }

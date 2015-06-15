@@ -9,33 +9,33 @@ public class ShapeHitbox extends Hitbox
 {
 
 	Shape bounds;
-	
+
 	public ShapeHitbox(Shape s)
 	{
 		bounds = s;
 	}
-	
+
 	@Override
 	public void debugDraw(Graphics2D g)
 	{
-		g.draw(bounds);		
+		g.draw(bounds);
 	}
-	
+
 	public Shape getBounds()
 	{
 		return bounds;
 	}
-	
+
 	@Override
 	public boolean intersects(Hitbox h2)
 	{
 		// TODO get rid of this and stop being hitboxist
-		if(!(h2 instanceof RectangleHitbox))
+		if (!(h2 instanceof RectangleHitbox))
 		{
 			return false;
 		}
 		// Cast and use built in functions to check intersection
-		RectangleHitbox rhb = (RectangleHitbox)h2;
+		RectangleHitbox rhb = (RectangleHitbox) h2;
 		return bounds.intersects(rhb.getBounds());
 	}
 
@@ -47,10 +47,9 @@ public class ShapeHitbox extends Hitbox
 	}
 
 	@Override
-	public Rectangle2D getAABB() {
+	public Rectangle2D getAABB()
+	{
 		return bounds.getBounds2D();
 	}
 
-	
-	
 }

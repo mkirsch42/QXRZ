@@ -19,13 +19,13 @@ public abstract class GameEntity implements Hitboxed
 	protected Vector2D pos;
 	protected Vector2D vel;
 	private int id;
-	private static int lastId=0;
-	
+	private static int lastId = 0;
+
 	public GameEntity()
 	{
 		id = lastId++;
 	}
-	
+
 	public boolean update(double tSinceUpdate, World w)
 	{
 		Landscape surroundings = w.getLandscape();
@@ -33,15 +33,14 @@ public abstract class GameEntity implements Hitboxed
 		Obstacle o = checkCollisions(vel.multiply(tSinceUpdate), surroundings);
 		if (o != null)
 		{
-			//System.out.println("Entity #" + id + " collided");
+			// System.out.println("Entity #" + id + " collided");
 			if (DebugConstants.DEBUG_PATH)
 			{
 				DebugDraw.buffer.add(((RectangleHitbox) o.getHitbox())
 						.getBounds());
 			}
 			return collide(o, w, vel.multiply(tSinceUpdate));
-		}
-		else
+		} else
 		{
 			pos = pos.add(vel.multiply(tSinceUpdate));
 		}
@@ -49,7 +48,7 @@ public abstract class GameEntity implements Hitboxed
 		Game.debug.pos(pos);
 		return false;
 	}
-	
+
 	protected abstract boolean collide(Hitboxed h, World w, Vector2D v);
 
 	public Obstacle checkCollisions(Vector2D v, Landscape surroundings)
@@ -113,12 +112,14 @@ public abstract class GameEntity implements Hitboxed
 		path.append(getHitbox().getAABB(), false);
 		if (DebugConstants.DEBUG_PATH)
 			DebugDraw.buffer.add(path);
-		GameEntity o = surroundings.checkEntityCollisions(new ShapeHitbox(path),id);
+		GameEntity o = surroundings.checkEntityCollisions(
+				new ShapeHitbox(path), id);
 		pos = bak;
 		return o;
 	}
-	
-	public ArrayList<PlayerEntity> checkPlayerCollisions(Vector2D v, World surroundings, int ignoreId)
+
+	public ArrayList<PlayerEntity> checkPlayerCollisions(Vector2D v,
+			World surroundings, int ignoreId)
 	{
 		Vector2D bak = pos;
 		Path2D.Double path = new Path2D.Double();
@@ -146,42 +147,47 @@ public abstract class GameEntity implements Hitboxed
 		path.append(getHitbox().getAABB(), false);
 		if (DebugConstants.DEBUG_PATH)
 			DebugDraw.buffer.add(path);
-		ArrayList<PlayerEntity> o = surroundings.checkPlayerCollisions(new ShapeHitbox(path),ignoreId);
+		ArrayList<PlayerEntity> o = surroundings.checkPlayerCollisions(
+				new ShapeHitbox(path), ignoreId);
 		pos = bak;
 		return o;
 	}
-	
+
 	public Vector2D getPos()
 	{
 		return pos;
 	}
-	
+
 	public Vector2D getVel()
 	{
 		return vel;
 	}
-	
+
 	public int getId()
 	{
 		return id;
 	}
-	
+
 	public boolean equals(Object o)
 	{
-		if(!(o instanceof GameEntity))
+		if (!(o instanceof GameEntity))
 		{
 			return false;
 		}
-		return ((GameEntity)o).getId() == id;
+		return ((GameEntity) o).getId() == id;
 	}
-	
-	public void remove(){}
-	
-	public void setPos(Vector2D pos) {
+
+	public void remove()
+	{
+	}
+
+	public void setPos(Vector2D pos)
+	{
 		this.pos = pos;
 	}
-	
-	public void setVel(Vector2D vel) {
+
+	public void setVel(Vector2D vel)
+	{
 		this.vel = vel;
 	}
 

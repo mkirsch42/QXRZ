@@ -14,7 +14,8 @@ import org.amityregion5.qxrz.client.ui.util.CenterMode;
 import org.amityregion5.qxrz.client.ui.util.GuiMath;
 import org.amityregion5.qxrz.client.ui.util.GuiUtil;
 
-public class ElementTextBox extends ElementRectangle {
+public class ElementTextBox extends ElementRectangle
+{
 
 	private String text = "";
 	private HashMap<KeyEvent, Integer> cooldownKeys = new HashMap<KeyEvent, Integer>();
@@ -28,7 +29,8 @@ public class ElementTextBox extends ElementRectangle {
 	private ElementTextBox(Function<WindowData, Point> topLeftFunction,
 			Function<WindowData, Point> widthHeightFunction, Color background,
 			Color border, float sizeOrPadding, Color text,
-			Predicate<Integer> characterPredicate) {
+			Predicate<Integer> characterPredicate)
+	{
 		super(topLeftFunction, widthHeightFunction, background, border,
 				sizeOrPadding, text, "");
 		this.charPred = characterPredicate;
@@ -38,7 +40,8 @@ public class ElementTextBox extends ElementRectangle {
 			Function<WindowData, Point> topLeftFunction,
 			Function<WindowData, Point> widthHeightFunction, Color background,
 			Color border, float sizeOrPadding, Color text,
-			Predicate<Integer> characterPredicate) {
+			Predicate<Integer> characterPredicate)
+	{
 		return createTextBox(topLeftFunction, widthHeightFunction, background,
 				border, sizeOrPadding, text, "", characterPredicate);
 	}
@@ -47,7 +50,8 @@ public class ElementTextBox extends ElementRectangle {
 			Function<WindowData, Point> topLeftFunction,
 			Function<WindowData, Point> widthHeightFunction, Color background,
 			Color border, float sizeOrPadding, Color text, String defaultText,
-			Predicate<Integer> characterPredicate) {
+			Predicate<Integer> characterPredicate)
+	{
 		ElementTextBox box = new ElementTextBox(topLeftFunction,
 				widthHeightFunction, background, border, sizeOrPadding, text,
 				characterPredicate);
@@ -61,17 +65,20 @@ public class ElementTextBox extends ElementRectangle {
 		return box;
 	}
 
-	public void setOnTextChangeCallback(Runnable onTextChangeCallback) {
+	public void setOnTextChangeCallback(Runnable onTextChangeCallback)
+	{
 		this.onTextChangeCallback = onTextChangeCallback;
 		onTextChangeCallback.run();
 	}
 
-	public void setOnEnterCallback(Runnable onEnterCallback) {
+	public void setOnEnterCallback(Runnable onEnterCallback)
+	{
 		this.onEnterCallback = onEnterCallback;
 	}
 
 	@Override
-	protected void draw(Graphics2D g, WindowData windowData) {
+	protected void draw(Graphics2D g, WindowData windowData)
+	{
 		// Set the latest window data
 		wData = windowData;
 
@@ -84,9 +91,11 @@ public class ElementTextBox extends ElementRectangle {
 		g.drawRect(getX(), getY(), getWidth(), getHeight());
 
 		// Set font size
-		if (sizeOrPadding > 0) {
+		if (sizeOrPadding > 0)
+		{
 			g.setFont(g.getFont().deriveFont(sizeOrPadding));
-		} else {
+		} else
+		{
 			GuiUtil.scaleFont(name.get(), new Rectangle2D.Double(getX()
 					- sizeOrPadding, getY() - sizeOrPadding, getWidth()
 					+ sizeOrPadding, getHeight() + sizeOrPadding), g);
@@ -100,59 +109,72 @@ public class ElementTextBox extends ElementRectangle {
 		cooldownKeys.keySet().removeIf((k) -> cooldownKeys.get(k) <= 0);
 		cooldownKeys.replaceAll((k, i) -> i - 1);
 
-		if (cursorFlipTime <= 0) {
+		if (cursorFlipTime <= 0)
+		{
 			cursorVisible = !cursorVisible;
 			cursorFlipTime = cooldownClearTime;
 		}
 		cursorFlipTime--;
 
-		if (selected && cursorVisible) {
+		if (selected && cursorVisible)
+		{
 			Rectangle b = GuiMath.getStringBounds(g, text, 0, 0);
 			GuiUtil.drawString(g, "|", CenterMode.LEFT, (int) (b.getWidth()
 					+ getX() + 10), getY() + getHeight() / 2);
 		}
 	}
 
-	public String getString() {
+	public String getString()
+	{
 		return text/* + (selected && cursorVisible ? "|" : "") */;
 	}
 
 	@Override
-	public void setName(String name) {
+	public void setName(String name)
+	{
 		text = name;
 	}
 
-	protected void onClickOn(WindowData d) {
+	protected void onClickOn(WindowData d)
+	{
 		selected = true;
 	}
 
-	protected void onClickOff(WindowData d) {
+	protected void onClickOff(WindowData d)
+	{
 		selected = false;
 	}
 
-	protected void whileKeyDown(WindowData d) {
-		if (selected) {
+	protected void whileKeyDown(WindowData d)
+	{
+		if (selected)
+		{
 			d.getKeysDown()
 					.stream()
 					.sequential()
 					.filter((key) -> !cooldownKeys.containsKey(key))
 					.forEach(
-							(key) -> {
+							(key) ->
+							{
 								if (key.getKeyCode() == KeyEvent.VK_ENTER
 										&& onEnterCallback != null)
 									onEnterCallback.run();
-								if (!GuiUtil.isTextCharacter(key)) {
+								if (!GuiUtil.isTextCharacter(key))
+								{
 									return;
 								}
 								cooldownKeys.put(key, cooldownClearTime);
 								if (key.getKeyCode() == KeyEvent.VK_BACK_SPACE
-										&& text.length() >= 1) {
+										&& text.length() >= 1)
+								{
 									text = text.substring(0, text.length() - 1);
 									return;
 								}
-								if (charPred.test((int) key.getKeyChar())) {
+								if (charPred.test((int) key.getKeyChar()))
+								{
 									text += key.getKeyChar();
-									if (onTextChangeCallback != null) {
+									if (onTextChangeCallback != null)
+									{
 										onTextChangeCallback.run();
 									}
 								}
@@ -160,7 +182,8 @@ public class ElementTextBox extends ElementRectangle {
 		}
 	}
 
-	public boolean isSelected() {
+	public boolean isSelected()
+	{
 		return selected;
 	}
 }

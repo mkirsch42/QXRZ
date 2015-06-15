@@ -9,23 +9,23 @@ public class Landscape
 {
 
 	ArrayList<Obstacle> obstacles;
-	
+
 	public Landscape()
 	{
 		obstacles = new ArrayList<Obstacle>();
 	}
-	
+
 	public void add(Obstacle o)
 	{
 		obstacles.add(o);
 	}
-	
+
 	public Obstacle checkCollisions(Hitbox e)
 	{
 		// Check each obstacle for collision
-		for(Obstacle o : obstacles)
+		for (Obstacle o : obstacles)
 		{
-			if(o.getHitbox().intersects(e))
+			if (o.getHitbox().intersects(e))
 			{
 				return o;
 			}
@@ -41,7 +41,8 @@ public class Landscape
 		}
 	}
 
-	public List<Obstacle> getObstacles() {
+	public List<Obstacle> getObstacles()
+	{
 		return obstacles;
 	}
 }

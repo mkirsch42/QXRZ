@@ -45,7 +45,7 @@ public class ServerNetworkManager extends AbstractNetworkManager
 			{
 				synchronized (clients)
 				{
-					for(int i = 0; i < clients.size(); i ++)
+					for (int i = 0; i < clients.size(); i++)
 					{
 						removeClient(i);
 					}
@@ -62,7 +62,7 @@ public class ServerNetworkManager extends AbstractNetworkManager
 	 */
 	public boolean sendObject(Serializable obj)
 	{
-		for (int i = 0; i < clients.size(); i ++)
+		for (int i = 0; i < clients.size(); i++)
 		{
 			NetworkNode c = clients.get(i);
 			try
@@ -114,7 +114,7 @@ public class ServerNetworkManager extends AbstractNetworkManager
 				NetworkObject netObj = (NetworkObject) inStream.recvObject();
 				NetworkNode recvClient = new NetworkNode(outStream,
 						(InetSocketAddress) inStream.getPacket()
-						.getSocketAddress());
+								.getSocketAddress());
 				boolean foundClient = false;
 
 				l.info("#" + netObj.getPacketNumber() + " "
@@ -125,17 +125,19 @@ public class ServerNetworkManager extends AbstractNetworkManager
 				{
 					l.info("Query received!");
 					// System.out.println("query " + allowConnections);
-					if (allowConnections) {
+					if (allowConnections)
+					{
 						recvClient.send(info);
 					}
 				} else
 				{
-					if (allowConnections && netObj.getPayload() instanceof Hello)
+					if (allowConnections
+							&& netObj.getPayload() instanceof Hello)
 					{
 						recvClient.setName(((Hello) netObj.getPayload())
 								.getName());
 					}
-					for (int i = 0; i < clients.size(); i ++)
+					for (int i = 0; i < clients.size(); i++)
 					{
 						NetworkNode c = clients.get(i);
 						if (c.equals(recvClient))
@@ -195,12 +197,14 @@ public class ServerNetworkManager extends AbstractNetworkManager
 	{
 		return info.getName();
 	}
-	
-	public boolean isAllowConnections() {
+
+	public boolean isAllowConnections()
+	{
 		return allowConnections;
 	}
-	
-	public void setAllowConnections(boolean allowConnections) {
+
+	public void setAllowConnections(boolean allowConnections)
+	{
 		this.allowConnections = allowConnections;
 	}
 }

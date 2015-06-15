@@ -55,7 +55,8 @@ public abstract class AbstractNetworkManager extends Thread
 	 * Use this function to attach your callback function to the method. If you
 	 * don't do this, you will not be able to receive data.
 	 * 
-	 * @param listener callbacks
+	 * @param listener
+	 *            callbacks
 	 */
 	public void attachEventListener(NetEventListener listener)
 	{
@@ -89,7 +90,8 @@ public abstract class AbstractNetworkManager extends Thread
 		if (netObj.getPacketNumber() <= node.getReceivedPacketCount())
 		{
 			// should this fail silently?
-//			throw new IOException("Out-of-order or duplicate packet received.");
+			// throw new
+			// IOException("Out-of-order or duplicate packet received.");
 		}
 
 		// We received an in-order packet!
@@ -98,7 +100,7 @@ public abstract class AbstractNetworkManager extends Thread
 		// {
 		// return;
 		// }
-		if(callback == null)
+		if (callback == null)
 		{
 			return;
 		}

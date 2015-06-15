@@ -24,9 +24,9 @@ public class CompoundHitbox extends Hitbox
 	@Override
 	public boolean intersects(Hitbox h2)
 	{
-		for(Hitbox h : hbs)
+		for (Hitbox h : hbs)
 		{
-			if(h.intersects(h2))
+			if (h.intersects(h2))
 			{
 				return true;
 			}
@@ -51,15 +51,30 @@ public class CompoundHitbox extends Hitbox
 	}
 
 	@Override
-	public Rectangle2D getAABB() {
-		return hbs.stream().map((h)->h.getAABB())
+	public Rectangle2D getAABB()
+	{
+		return hbs
+				.stream()
+				.map((h) -> h.getAABB())
 				.reduce(hbs.get(0).getAABB(),
-						(c, n)->{return new Rectangle2D.Double(Math.min(c.getX(), n.getX()),Math.min(c.getY(), n.getY()),
-								Math.max(c.getMaxX(), n.getMaxX()) - Math.min(c.getX(), n.getX()), 
-								Math.max(c.getMaxY(), n.getMaxY()) - Math.min(c.getY(), n.getY()));},
-						(c, n)->{return new Rectangle2D.Double(Math.min(c.getX(), n.getX()),Math.min(c.getY(), n.getY()),
-								Math.max(c.getMaxX(), n.getMaxX()) - Math.min(c.getX(), n.getX()), 
-								Math.max(c.getMaxY(), n.getMaxY()) - Math.min(c.getY(), n.getY()));});
+						(c, n) ->
+						{
+							return new Rectangle2D.Double(Math.min(c.getX(),
+									n.getX()), Math.min(c.getY(), n.getY()),
+									Math.max(c.getMaxX(), n.getMaxX())
+											- Math.min(c.getX(), n.getX()),
+									Math.max(c.getMaxY(), n.getMaxY())
+											- Math.min(c.getY(), n.getY()));
+						},
+						(c, n) ->
+						{
+							return new Rectangle2D.Double(Math.min(c.getX(),
+									n.getX()), Math.min(c.getY(), n.getY()),
+									Math.max(c.getMaxX(), n.getMaxX())
+											- Math.min(c.getX(), n.getX()),
+									Math.max(c.getMaxY(), n.getMaxY())
+											- Math.min(c.getY(), n.getY()));
+						});
 	}
 
 }

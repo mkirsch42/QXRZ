@@ -1,5 +1,6 @@
 package org.amityregion5.qxrz.server;
 
-public enum GameState {
+public enum GameState
+{
 	LOBBY, INGAME;
 }

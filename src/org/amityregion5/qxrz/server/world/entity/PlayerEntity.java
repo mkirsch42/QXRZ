@@ -21,25 +21,25 @@ public class PlayerEntity extends GameEntity
 {
 
 	private Vector2D inputVel = new Vector2D();
-	
-	//private int updateStackSize = 0;
-	
+
+	// private int updateStackSize = 0;
+
 	private Player parent;
-	
+
 	private String asset = "players/1/walk";
 	private String standing = "players/1/stand";
 
 	public final static int PLAYER_SIZE = 400;
-	
+
 	public PlayerEntity(Player p) // creates player vector
 	{
 		super();
 		pos = new Vector2D(0, 0);
 		vel = new Vector2D(0, 0);
 		parent = p;
-		//pos = new Vector2D(1500, 2500);
-		//pos = new Vector2D(0,0);
-		//vel = new Vector2D(200, 100).multiply(DebugConstants.PATH_LEN);
+		// pos = new Vector2D(1500, 2500);
+		// pos = new Vector2D(0,0);
+		// vel = new Vector2D(200, 100).multiply(DebugConstants.PATH_LEN);
 	}
 
 	public PlayerEntity(Vector2D spawn, Player p)
@@ -49,58 +49,58 @@ public class PlayerEntity extends GameEntity
 		vel = new Vector2D(0, 0);
 		parent = p;
 	}
-	
+
 	public boolean update(double tSinceUpdate, World w)
 	{
-		if(parent.isDead() && w.getGame().getGM().oneLife)
+		if (parent.isDead() && w.getGame().getGM().oneLife)
 		{
 			vel = inputVel;
-			pos = pos.add(vel.multiply(tSinceUpdate*2));
+			pos = pos.add(vel.multiply(tSinceUpdate * 2));
 			return false;
 		}
 		parent.getEquipped().update();
-		//updateStackSize++;
+		// updateStackSize++;
 		boolean ret = super.update(tSinceUpdate, w);
-		//updateStackSize--;
-		//if(updateStackSize==0)
+		// updateStackSize--;
+		// if(updateStackSize==0)
 		{
 			vel = inputVel;
 		}
 		return ret;
 	}
-	
+
 	public boolean input(NetworkInputData nid)
 	{
 		int vX = 0;
 		int vY = 0;
-		if(nid.get(NetworkInputMasks.W))
+		if (nid.get(NetworkInputMasks.W))
 		{
 			vY = -100;
 		}
-		if(nid.get(NetworkInputMasks.S))
+		if (nid.get(NetworkInputMasks.S))
 		{
 			vY = 100;
 		}
-		if(nid.get(NetworkInputMasks.A))
+		if (nid.get(NetworkInputMasks.A))
 		{
 			vX = -100;
 		}
-		if(nid.get(NetworkInputMasks.D))
+		if (nid.get(NetworkInputMasks.D))
 		{
 			vX = 100;
 		}
-		if(vX==0 && vY==0)
+		if (vX == 0 && vY == 0)
 		{
 			inputVel = new Vector2D();
-		}
-		else
+		} else
 		{
-			inputVel = new Vector2D(new Vector2D(vX, vY).angle()).multiply(parent.getSpeed());
+			inputVel = new Vector2D(new Vector2D(vX, vY).angle())
+					.multiply(parent.getSpeed());
 		}
 		vel = inputVel;
 		return false;
 	}
-	
+
 	public RectangleHitbox getHitbox()
 	{
 		// Create 2x2 square around player
@@ -164,10 +164,9 @@ public class PlayerEntity extends GameEntity
 			// System.out.println("Yes you can!");
 
 		}
-		/*if (v.length() < 2 * Game.GAME_UNIT)
-		{
-			return new Vector2D();
-		}*/
+		/*
+		 * if (v.length() < 2 * Game.GAME_UNIT) { return new Vector2D(); }
+		 */
 		Vector2D pathTemp = v.multiply(0.5);
 		double accuracy = pathTemp.length() * 0.5;
 		while (accuracy > Game.GAME_UNIT)
@@ -178,30 +177,27 @@ public class PlayerEntity extends GameEntity
 				{
 					checkCollisions(pathTemp, l);
 				}
-				//Vector2D b = pos;
-				//pos = pos.add(pathTemp);
-				//if (getHitbox().intersects(h.getHitbox()))
-				//if(l.checkCollisions(getHitbox())!=null)
-				if(checkCollisions(pathTemp, l)!=null)
+				// Vector2D b = pos;
+				// pos = pos.add(pathTemp);
+				// if (getHitbox().intersects(h.getHitbox()))
+				// if(l.checkCollisions(getHitbox())!=null)
+				if (checkCollisions(pathTemp, l) != null)
 				{
 					pathTemp = pathTemp.add(new Vector2D(v.angle())
 							.multiply(accuracy));
-				}
-				else
+				} else
 				{
 					pathTemp = pathTemp.subtract(new Vector2D(v.angle())
 							.multiply(accuracy));
 				}
-				//pos = b;
-			}
-			else
+				// pos = b;
+			} else
 			{
 				if (!unCollide && checkCollisions(pathTemp, l) != null)
 				{
 					pathTemp = pathTemp.subtract(new Vector2D(v.angle())
 							.multiply(accuracy));
-				}
-				else
+				} else
 				{
 					pathTemp = pathTemp.add(new Vector2D(v.angle())
 							.multiply(accuracy));
@@ -227,34 +223,29 @@ public class PlayerEntity extends GameEntity
 		}
 		v = v.subtract(pathTemp);
 		pos = pos.add(pathTemp);
-		//while (getHitbox().intersects(h.getHitbox()))
-		while(!h.getHitbox().canGetNormal(getHitbox()) || getHitbox().intersects(h.getHitbox()))
+		// while (getHitbox().intersects(h.getHitbox()))
+		while (!h.getHitbox().canGetNormal(getHitbox())
+				|| getHitbox().intersects(h.getHitbox()))
 		{
 			if (unCollide)
 			{
 				Vector2D t = new Vector2D(v.angle()).multiply(Game.GAME_UNIT);
 				v = v.subtract(t);
 				pos = pos.add(t);
-			}
-			else
+			} else
 			{
 				Vector2D t = new Vector2D(v.angle()).multiply(Game.GAME_UNIT);
 				v = v.add(t);
 				pos = pos.subtract(t);
 			}
 		}
-		/*if (unCollide)
-		{
-			Vector2D t = new Vector2D(v.angle()).multiply(Game.GAME_UNIT);
-			v = v.subtract(t);
-			pos = pos.add(t);
-		}
-		else
-		{
-			Vector2D t = new Vector2D(v.angle()).multiply(Game.GAME_UNIT);
-			v = v.add(t);
-			pos = pos.subtract(t);
-		}*/
+		/*
+		 * if (unCollide) { Vector2D t = new
+		 * Vector2D(v.angle()).multiply(Game.GAME_UNIT); v = v.subtract(t); pos
+		 * = pos.add(t); } else { Vector2D t = new
+		 * Vector2D(v.angle()).multiply(Game.GAME_UNIT); v = v.add(t); pos =
+		 * pos.subtract(t); }
+		 */
 		return v;
 	}
 
@@ -262,38 +253,52 @@ public class PlayerEntity extends GameEntity
 	{
 		return parent;
 	}
-	
+
 	@Override
-	public NetworkDrawableEntity getNDE() {
-		if(parent.isDead() && parent.getParent().getGame().getGM().oneLife)
+	public NetworkDrawableEntity getNDE()
+	{
+		if (parent.isDead() && parent.getParent().getGame().getGM().oneLife)
 		{
-			return new NetworkDrawableEntity(new NetworkDrawableObject[]{},getHitbox().getAABB());
+			return new NetworkDrawableEntity(new NetworkDrawableObject[] {},
+					getHitbox().getAABB());
 		}
-		
-		NetworkDrawableObject playerNDO = new NetworkDrawableObject((vel.equals(new Vector2D()) ? standing : asset), getHitbox().getAABB());
-		if(parent.isFlipped())
+
+		NetworkDrawableObject playerNDO = new NetworkDrawableObject(
+				(vel.equals(new Vector2D()) ? standing : asset), getHitbox()
+						.getAABB());
+		if (parent.isFlipped())
 		{
 			playerNDO.flipH();
 		}
 		Rectangle2D r2d = getHitbox().getAABB();
-		NetworkDrawableObject gun = new NetworkDrawableObject(WeaponTypes.getTypeFromString(parent.getEquipped().getType()).asset, new Rectangle2D.Double(r2d.getCenterX() - PLAYER_SIZE/4.0, r2d.getCenterY() - PLAYER_SIZE/4.0, PLAYER_SIZE/2.0, PLAYER_SIZE/2.0)).rotate(parent.rotatedAngle());
-		double aRef = parent.rotatedAngle()%(Math.PI*2);
-		if (Math.abs(aRef) > Math.PI/2) {
+		NetworkDrawableObject gun = new NetworkDrawableObject(
+				WeaponTypes.getTypeFromString(parent.getEquipped().getType()).asset,
+				new Rectangle2D.Double(r2d.getCenterX() - PLAYER_SIZE / 4.0,
+						r2d.getCenterY() - PLAYER_SIZE / 4.0,
+						PLAYER_SIZE / 2.0, PLAYER_SIZE / 2.0)).rotate(parent
+				.rotatedAngle());
+		double aRef = parent.rotatedAngle() % (Math.PI * 2);
+		if (Math.abs(aRef) > Math.PI / 2)
+		{
 			gun.flipV();
 		}
-		NetworkDrawablePlayer player= new NetworkDrawablePlayer(new NetworkDrawableObject[] {playerNDO, gun}, getHitbox().getAABB());
+		NetworkDrawablePlayer player = new NetworkDrawablePlayer(
+				new NetworkDrawableObject[] { playerNDO, gun }, getHitbox()
+						.getAABB());
 		player.setNametag(parent.getName());
 		player.setAmmo(parent.getEquipped().getInClip());
 		player.setGun(parent.getEquipped().getEnumType().fullName);
 		player.setTotalAmmo(parent.getEquipped().getReserve());
 		player.setHealth(parent.getHealth());
-		player.setMaxHealth(100); //TODO: REMOVE MAGIC NUMBER
+		player.setMaxHealth(100); // TODO: REMOVE MAGIC NUMBER
 		player.setMovementType(parent.getSpecMove().getType());
 		player.setPercentCooldown(parent.getSpecMove().getPercentCooldown());
-		
-		if(parent.getTeam()==null){
+
+		if (parent.getTeam() == null)
+		{
 			player.setItalics(true);
-		}else {
+		} else
+		{
 			player.setNameColor(parent.getTeam().getColor());
 		}
 		return player;

@@ -7,22 +7,27 @@ import org.amityregion5.qxrz.client.ui.util.CenterMode;
 import org.amityregion5.qxrz.client.ui.util.GuiUtil;
 
 /**
- * A simple loading screen (Lightweight due to the fact that it doesnt extend AbstractScreen)
-  */
+ * A simple loading screen (Lightweight due to the fact that it doesnt extend
+ * AbstractScreen)
+ */
 public class LoadingScreen implements IScreen
 {
 
 	@Override
 	public void drawScreen(Graphics2D g, WindowData windowData)
 	{
-		//Fill background with black
+		// Fill background with black
 		g.setColor(Color.BLACK);
 		g.fillRect(0, 0, windowData.getWidth(), windowData.getHeight());
-		
-		//Write the text "Loading" in big letters on the screen
+
+		// Write the text "Loading" in big letters on the screen
 		g.setColor(Color.WHITE);
-		GuiUtil.scaleFont("Loading", new Rectangle(10,10,windowData.getWidth()-20, windowData.getHeight()-20), g);
-		GuiUtil.drawString(g, "Loading", CenterMode.CENTER, windowData.getWidth()/2, windowData.getHeight()/2);
+		GuiUtil.scaleFont(
+				"Loading",
+				new Rectangle(10, 10, windowData.getWidth() - 20, windowData
+						.getHeight() - 20), g);
+		GuiUtil.drawString(g, "Loading", CenterMode.CENTER,
+				windowData.getWidth() / 2, windowData.getHeight() / 2);
 	}
 
 	@Override
@@ -38,9 +43,12 @@ public class LoadingScreen implements IScreen
 	}
 
 	@Override
-	public void onGameClose() {}
+	public void onGameClose()
+	{
+	}
 
 	@Override
-	public void onScreenChange(boolean leaving) {
+	public void onScreenChange(boolean leaving)
+	{
 	}
 }

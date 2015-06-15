@@ -11,7 +11,7 @@ public class ChatMessage implements Serializable
 	private InetSocketAddress from;
 	private boolean fromServer;
 	private long timestamp;
-	
+
 	// For clients
 	/**
 	 * Constructs a ChatMessage
@@ -38,10 +38,10 @@ public class ChatMessage implements Serializable
 		message = m;
 		setFrom(addr);
 	}
-	
 
 	/**
 	 * Return the message
+	 * 
 	 * @return message itself
 	 */
 	public String getMessage()
@@ -59,24 +59,24 @@ public class ChatMessage implements Serializable
 		from = f;
 		return this;
 	}
-	
+
 	public boolean isFromServer()
 	{
 		return fromServer;
 	}
-	
+
 	public ChatMessage fromServer()
 	{
 		fromServer = true;
 		return this;
 	}
-	
+
 	public ChatMessage setTimestamp()
 	{
 		timestamp = System.currentTimeMillis();
 		return this;
 	}
-	
+
 	public long getTimestamp()
 	{
 		return timestamp;

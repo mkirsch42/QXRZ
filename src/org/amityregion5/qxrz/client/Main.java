@@ -25,8 +25,9 @@ public class Main
 		{
 			manager.start();
 			manager.broadcastQuery();
-			
-			if (args.length > 0) {
+
+			if (args.length > 0)
+			{
 				manager.setUsername(args[0]);
 			}
 
@@ -36,24 +37,24 @@ public class Main
 			Runtime.getRuntime().addShutdownHook(new Thread(() ->
 			{
 				System.out.println("Start Shutdown Hook");
-				//Clean up gui stuff
-				gui.closeGame();
+				// Clean up gui stuff
+					gui.closeGame();
 
-				// manager.close();
-			}, "Shutdown Hook thread"));
+					// manager.close();
+				}, "Shutdown Hook thread"));
 
 			AssetManager.loadAssets();
-			
+
 			Settings settings = new Settings();
 			settings.save();
 			gui.setSettings(settings);
 			gui.setSize(settings.getWidth(), settings.getHeight());
-			
+
 			gui.setCursor();
 		}
 
 		// Set the screen to the main menu screen
 		gui.setCurrentScreen(new MainMenuScreen(gui));
-		
+
 	}
 }

@@ -4,17 +4,19 @@ import java.io.Serializable;
 
 import org.amityregion5.qxrz.server.world.gameplay.SpecialMovements;
 
-public class LobbyInformationPacket implements Serializable{
+public class LobbyInformationPacket implements Serializable
+{
 	private static final long serialVersionUID = 6499520811837167014L;
-	
+
 	private SpecialMovements playerClass;
 	private boolean isReady;
-	
+
 	/**
 	 * @param playerClass
 	 * @param isReady
 	 */
-	public LobbyInformationPacket(SpecialMovements playerClass, boolean isReady) {
+	public LobbyInformationPacket(SpecialMovements playerClass, boolean isReady)
+	{
 		this.playerClass = playerClass;
 		this.isReady = isReady;
 	}
@@ -22,30 +24,35 @@ public class LobbyInformationPacket implements Serializable{
 	/**
 	 * @return the playerClass
 	 */
-	public SpecialMovements getPlayerClass() {
+	public SpecialMovements getPlayerClass()
+	{
 		return playerClass;
 	}
 
 	/**
-	 * @param playerClass the playerClass to set
+	 * @param playerClass
+	 *            the playerClass to set
 	 */
-	public void setPlayerClass(SpecialMovements playerClass) {
+	public void setPlayerClass(SpecialMovements playerClass)
+	{
 		this.playerClass = playerClass;
 	}
 
 	/**
 	 * @return the isReady
 	 */
-	public boolean isReady() {
+	public boolean isReady()
+	{
 		return isReady;
 	}
 
 	/**
-	 * @param isReady the isReady to set
+	 * @param isReady
+	 *            the isReady to set
 	 */
-	public void setReady(boolean isReady) {
+	public void setReady(boolean isReady)
+	{
 		this.isReady = isReady;
 	}
-	
-	
+
 }

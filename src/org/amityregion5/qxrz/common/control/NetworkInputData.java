@@ -10,49 +10,57 @@ public class NetworkInputData implements Serializable
 	 */
 	private static final long serialVersionUID = 1377930683051446611L;
 
-	
 	private BitSet inputsDown;
 	private double mouseX;
 	private double mouseY;
-	
+
 	public NetworkInputData()
 	{
-		//WASD, <>, [M1], R, [Space]
+		// WASD, <>, [M1], R, [Space]
 		inputsDown = new BitSet(9);
 	}
-	
-	public void set(NetworkInputMasks inputMask, boolean value) {
+
+	public void set(NetworkInputMasks inputMask, boolean value)
+	{
 		inputsDown.set(inputMask.getMaskIndex(), value);
 	}
-	
-	public boolean get(NetworkInputMasks inputMask) {
+
+	public boolean get(NetworkInputMasks inputMask)
+	{
 		return inputsDown.get(inputMask.getMaskIndex());
 	}
-	
-	public double getMouseX() {
+
+	public double getMouseX()
+	{
 		return mouseX;
 	}
-	
-	public double getMouseY() {
+
+	public double getMouseY()
+	{
 		return mouseY;
 	}
-	
-	public void setMouseX(double x) {
+
+	public void setMouseX(double x)
+	{
 		this.mouseX = x;
 	}
-	public void setMouseY(double mouseY) {
+
+	public void setMouseY(double mouseY)
+	{
 		this.mouseY = mouseY;
 	}
+
 	public int getNumDown()
 	{
 		return inputsDown.cardinality();
 	}
+
 	public String toString()
 	{
 		String str = "NID {";
-		for(NetworkInputMasks nim : NetworkInputMasks.values())
+		for (NetworkInputMasks nim : NetworkInputMasks.values())
 		{
-			if(get(nim))
+			if (get(nim))
 			{
 				str += nim.toString() + " ";
 			}

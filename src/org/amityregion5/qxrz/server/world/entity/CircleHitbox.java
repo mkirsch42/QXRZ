@@ -13,30 +13,31 @@ public class CircleHitbox extends Hitbox
 	int cX;
 	int cY;
 	int radius;
-	
+
 	public CircleHitbox(int x, int y, int r)
 	{
 		cX = x;
 		cY = y;
 		radius = r;
 	}
-	
+
 	public Ellipse2D getBounds()
 	{
-		return new Ellipse2D.Double(cX-radius, cY-radius, 2*radius, 2*radius);
+		return new Ellipse2D.Double(cX - radius, cY - radius, 2 * radius,
+				2 * radius);
 	}
-	
+
 	@Override
 	public void debugDraw(Graphics2D g)
 	{
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
 	public boolean intersects(Hitbox h2)
 	{
-		return h2.intersects(new RectangleHitbox((Rectangle)getAABB()));
+		return h2.intersects(new RectangleHitbox((Rectangle) getAABB()));
 	}
 
 	@Override
@@ -49,8 +50,7 @@ public class CircleHitbox extends Hitbox
 	@Override
 	public Rectangle2D getAABB()
 	{
-		return new Rectangle(cX-radius, cY-radius, 2*radius, 2*radius);
+		return new Rectangle(cX - radius, cY - radius, 2 * radius, 2 * radius);
 	}
 
-	
 }

@@ -50,8 +50,7 @@ public class RTable
 			{
 				hos.setBackground(c1);
 				ipnum.setBackground(c2);
-			}
-			else
+			} else
 			{
 				hos.setBackground(c2);
 				ipnum.setBackground(c1);

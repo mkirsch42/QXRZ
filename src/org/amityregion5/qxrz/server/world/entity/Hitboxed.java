@@ -4,5 +4,5 @@ public interface Hitboxed
 {
 
 	Hitbox getHitbox();
-	
+
 }
