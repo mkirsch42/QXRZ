@@ -157,14 +157,17 @@ public class Player {
 	}
 	public void setWepUpgrade(Upgrade u) //sets weapon upgrades from a given upgrade pickup
 	{
-		if (!(u.getType().equals(null)))
+		if (!(u.equals(null)))
 		{
-			pupgr = u;
-			switch (u.getType())
+			if (pupgr.equals(null) || !pupgr.equals(u))
 			{
-			case "maxclips": 	guns[equipped].upMaxClips();
-			case "rof":		 	guns[equipped].upROF();
-			case "cmax":		guns[equipped].upCMax();
+				pupgr = u;
+				switch (u.getType())
+				{
+				case "maxclips": 	guns[equipped].upMaxClips();
+				case "rof":		 	guns[equipped].upROF();
+				case "cmax":		guns[equipped].upCMax();
+				}
 			}
 		}
 		else {};
