@@ -37,12 +37,12 @@ public class Game implements Runnable
 	private int renderCounter = 0;
 	private static final int renderSendPacket = 3;
 
-	public Game(ServerNetworkManager n, GameModes gm, Main main)
+	public Game(ServerNetworkManager n, GameModes gm, Main main, Worlds sw)
 	{
 		net = n;
 		m = main;
 		// Create world and add test objects
-		w = WorldManager.getWorld(Worlds.DEBUG);
+		w = WorldManager.getWorld(sw);
 		w.attachNetworkManager(net);
 		w.attachParent(this);
 		mode = gm;
