@@ -49,7 +49,7 @@ Pronounced kew ecks ar zed
 - SPACE - Special movement (?)
 
 ## Needed assets
-- Health pack
+- <del>Health pack</del>
 
 ## Authors
 - Eli Baum
