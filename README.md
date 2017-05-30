@@ -3,7 +3,8 @@ Pronounced kew ecks ar zed
 
 ## TODO
 
-[Full spec](https://drive.google.com/file/d/0B-XTOcM1I4MJSEV4dHliN0xsWms/view?usp=sharing)
+[Full spec broken link](https://drive.google.com/file/d/0B-XTOcM1I4MJSEV4dHliN0xsWms/view?usp=sharing)
+[Full spec fixed link](https://docs.google.com/document/d/10nX7PkkDJfn8TZ_obmUKFx0FI7rWn6pSondpgmthmR8/edit?usp=sharing)
 
 *Bonus*
 
